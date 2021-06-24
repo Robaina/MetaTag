@@ -13,12 +13,12 @@ OBJETIVE:
 "The final objective of this project is to analyze how the microbial communities are structured by guilds, groups of taxa using the same resources in a similar way. This will require determination of the taxonomic composition of guilds and of their changes in space and time."
 
 "In the present project we will take a different approach. Instead of focusing on groups of taxa
-collaborating with each other, we will center on groups of taxa defined as guilds (see below), whose
+collaborating with each other, we will focus on groups of taxa defined as guilds (see below), whose
 members presumably compete with each other."
 
 GUILDS: "Root (1967) defined guilds as ‘‘a group of species that exploit the same class of environmental resources in a similar way. This term groups together species, without regard to taxonomic position, that overlap significantly in their niche requirements”
 
-TRAIT: Hability to acquire a required resource (such as nitrogen)
+TRAIT: ability to acquire a required resource (such as nitrogen)
 
 "The set of species that acquire a resource in a similar way, e.g. nitrogen acquisition through nitrogen fixation, constitute a GUILD"
 
@@ -47,58 +47,58 @@ PROCEDURE:
 WPs
 ----
 
-WP1: Portable sequencing and analysis: MinION + SqueezeMeta on a cruiseship (Tamames, all PIs)
+WP1: Portable sequencing and analysis: MinION + SqueezeMeta on a cruise ship (Tamames, all PIs)
 
 WP2: Microdiversity within guilds (Tamames, Pedrós)
 
 WP3. Structure and function of prokaryotic guilds (Pedrós, all PIs)
      Identifying general principles in the way guilds are organized.
-     
+
      "Then, it is easy to list the possible ecological roles of a taxon (the guilds in which it
-      participates) and to infer its ecological similarity to others 
+      participates) and to infer its ecological similarity to others
       (comparing the respective guilds)."
-      
+
       Key theoretical questions:
       1. Do all guilds show a structure of a few abundant and many rare species? Does this
          structure change with different types of resources, environments or through time?
          [NOTE: perhaps due to cooperation in another function)
-         
-     2. Do the different members of a guild predominate under different environmental 
+
+     2. Do the different members of a guild predominate under different environmental
         conditions or do a few always dominate the guild?
-        
+
      3. Do guilds with more members provide higher stability to the community?
-     
-     4. Is functional redundancy a common feature in marine microbial systems? Are there      
-        traits/environments in which it is more important? "We will measure a degree of 
-        competitive exclusion" between members of the guild: in how many instances members 
+
+     4. Is functional redundancy a common feature in marine microbial systems? Are there
+        traits/environments in which it is more important? "We will measure a degree of
+        competitive exclusion" between members of the guild: in how many instances members
         of the guild show co-exclusive patterns
-        
-     5. Can we define “superguilds” that is, groups of organisms sharing the same guild in 
-        different traits? E.g. Are PR-containing taxa usually found to degrade 
+
+     5. Can we define “superguilds” that is, groups of organisms sharing the same guild in
+        different traits? E.g. Are PR-containing taxa usually found to degrade
         polysaccharides and use dissolved organic phosphorus?
-        
+
         [NOTE: What about finding putative nested sets of taxa that share the same strategy
         for various resources. That would be like a subguild w.r.t to multiple functions]
-        
+
      6. How particular members of a guild respond to environmental conditions?
-     
+
 WP4: Common methodology for metagenomic analyses and careful annotation of marker genes. (Jose & Tamames)
 
       Devoted to annotation of key marker genes that will define the guilds.
-      
+
       Co-assembly + contig binning, proposing to reconstruct GEMs to infer reponse to
       environmental conditions.
 
 
 WP5: Guilds with different TonB-dependent transporters (Jose, all PIs)
      Such as hability to import polysaccharides via TonB transporters in Flavobacteriia.
-     
-     Are TonB-dependent transporters specific or promiscous? (Connected to deep sea carbon 
+
+     Are TonB-dependent transporters specific or promiscous? (Connected to deep sea carbon
      pool perhaps)
-     
+
      [NOTE] What about cooperation in communities, where taxa specialize in producing a TonB
       transporter for a specific substrate or group of related substrates. Then process
-      carbon and excrete a common carbon source that all can import. 
+      carbon and excrete a common carbon source that all can import.
 
       In this manner, the communitiy is robust against stochastic variation of carbon sources
       and yet each taxa doesn't waste energy producing a complete array of transporters.
@@ -120,8 +120,6 @@ WP6: Photoheterotrophic guilds (Jose, all PIs)
      Perhaps there is a functional link there.
 
 
-
-
 QUESTIONS:
 ---------
 
@@ -137,9 +135,21 @@ Also, they may "compete" with respect to CO2, H2S and Light, but cooperate w.r.t
 
 Focusing on a single trait to evaluate guild dynamics is thus insufficient.
 
-4. How will SqueezeMeta deal with the issue of wrong function annotation, particuarly when 
-   used on site, without internet connection? 
-   
+4. How will SqueezeMeta deal with the issue of wrong function annotation, particuarly when
+   used on site, without internet connection?
+
 5. Regarding orthologs and paralogs, how can we tell  them apart by comparing sequences? are orthologs always more similar between them than paralogs?
 
-6. Are Gram+ and Gram- bacteria equally represented in marine environments? Thinking of double membrane and TonB transpoters. What about archaea?
+6. Are Gram+ and Gram- bacteria equally represented in marine environments? Thinking of double membrane and TonB transporters. What about archaea?
+
+
+FIRST MEETING
+-------------
+
+Pfam, what is it, exactly?
+Automatize, Jose's method
+HMM vs Blast, blast does't work for non-model species
+Predict genes for which automatic annotation is more prone to error?
+      Number of domains
+      Genetic context
+      Pfam available
