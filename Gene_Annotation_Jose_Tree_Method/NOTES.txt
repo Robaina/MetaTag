@@ -1,0 +1,36 @@
+Scripts:
+
+1. primero lanzas el que empieza por loop, que llamará al otro
+
+2. es un rollo también porque está paralelizado con ruffus
+
+3. además, quita las ramas largas dos veces,  lo hice así para asegurarme de quitar todas las ramas largas, que tienen 2x la distancia más larga entre cada par de secuencias en el árbol de referencia
+
+
+
+Method:
+
+0. We want to find (i.e., annotate) peptides in metaT or metaG (environmental) data. We want to annotate both, function and taxonomy. To this end, we focus on a single gene/protein at a time, such as rhodopsin.
+
+Problems we want to solve:
+a) short sequencces cannot create reliable phylo-tree
+b) PFAM's HMM fails to recognize short sequences too.
+
+1. Create (rhodopsin) peptide database using PFAM's HMM model to search for peptides in marine prokaryotic genomes which are curated (complete or nearly complete peptide sequences). Here also include environmental database peptides that are found with HMM model.
+
+2. Blast metaT or metaG (environmental, short) peptides against the gene-specific database reconstructed in (1). Retrieve matched (long, nearly complete) peptides in the gene-specific database above predefined identity and bitscore thresholds. Remove duplicates.
+
+3. Reconstruct a maximum likelyhood tree (IQ-TREE or fasttree) using the (rhodopsin)-specific sequences retrieves in (2)
+
+4. Place (align) short reads on to the phylo-tree reconstructed in (3). In this manner, we can i) quantify peptides in each taxa and ii) remove peptides that are too far away because probably not rhodopsins.
+
+NOTE: The purpose of the step in (2) is to reduce the size of the tree generated with reference sequences generated in (1)
+
+
+Questions:
+----------
+
+1. Phylogenetic placement of short reads on a reference tree (such as the one built from PFAM's HMM found peptides in reference database) which is supposed to contain only peptides of the gene of interest. Then what is the source of error that motivates removing long branches because probably they are not rhodopsins?
+
+2. After asking Jose, he says that he selects some sequences in the tree and conducts a Blastp against GeneBank of the sequences to certify that these are rhodopsins... which brings me to questions to my mind: a) what about the sequences that aren't selected? and b) isn't Blastp prone to the same errors, such as the issue with Paralogs (similar sequence, totally different function). 
+
