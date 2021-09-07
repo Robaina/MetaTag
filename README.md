@@ -1,3 +1,3 @@
-# Modeling microbial interactions between guilds of traits
+# TRAITS
 
-Go to Modeling_Interactions.ipynb for a description
+Shared repository of project TRAITS
