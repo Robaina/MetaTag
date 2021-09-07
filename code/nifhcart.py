@@ -1,6 +1,8 @@
 """
 Classify nifH sequences in clusters based on CART model,
 CART model from: https://sfamjournals.onlinelibrary.wiley.com/doi/10.1111/1758-2229.12455
+
+Usage: python3 nifhcart.py input_fasta [output_fasta]
 """
 
 import os
