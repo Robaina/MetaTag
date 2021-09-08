@@ -1,24 +1,18 @@
  #!/usr/bin/env python
 # https://github.com/hyattpd/prodigal/wiki
-#
+# It runs prodigal on a set of nucleotide sequences in a folder. 
+# Needs ruffus.
+# Best if the sequences are cleaned with clean.py.
+# Run this one first and then reformatlabel.py to modify the labels.
 
 import os, subprocess
 
 global pathorigin, pathresults, nsequences
 
 
-pathorigin="/usr/gonzalez/prodigal/filesMARgenomesCompleteSept2020/"
-pathorigin="/usr/gonzalez/prodigal/filesMARgenomesPartialSept2020/"
-pathorigin="/usr/gonzalez/cleangenomes/genomes/"
 pathorigin="./files/"
-#pathorigin="/usr/gonzalez/simo/acroporaassemblies/nucl/"
-#pathorigin="/usr/gonzalez/metagenomes/taragenes/catalog/"
 
 pathresults="./results/"
-#pathresults="/usr/gonzalez/prodigal/results/"
-#pathresults="/usr/gonzalez/metagenomes/taragenes/results/"
-
-
 
 
 cmd = ["ls -1 "+pathorigin+" | wc -l"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
