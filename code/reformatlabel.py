@@ -1,23 +1,17 @@
 #!/usr/bin/env python
-#
+# Run this one after loopparallel.py.
+# It mofidied the labels to have the name of the file, followed by two "_", then the
+# contig number, peptide number, gene start, gene end and orientation.
 
 import os, subprocess
 from Bio import SeqIO
 from Bio.Seq import Seq
 
-pathtonucleotide="/usr/gonzalez/cleangenomes/genomes/"
 pathtonucleotide="./files/"
-#pathtonucleotide="/usr/gonzalez/paoli2021/files/"
-#pathtonucleotide="/usr/gonzalez/metagenomes/taragenes/catalog/"
 
-pathresults="/usr/gonzalez/prodigal/results/"
 pathresults="./results/"
-#pathresults="/usr/gonzalez/prodigal/results/"
-#pathresults="/usr/gonzalez/metagenomes/taragenes/results/"
 
 pathresultsformatted="./a/"
-#pathresultsformatted="/usr/gonzalez/prodigal/a/"
-#pathresultsformatted="/usr/gonzalez/metagenomes/taragenes/catalogaa/"
 
 
 cmd = ["rm -r "+pathresultsformatted]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
