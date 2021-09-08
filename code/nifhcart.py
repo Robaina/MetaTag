@@ -19,9 +19,9 @@ def getnifHclusterID(seq: list) -> str:
     correct for alignment displacement (mind 0-indexing in python)
     """
     CART = {
-        193: ['F', 'W', 'Y'],
-        133: ['A', 'D', 'I'],
-        137: ['L', 'M', 'W']
+        193: ['F', 'W', 'Y'], # 108 + 85
+        102: ['A', 'D', 'I'], # 48 + 54
+        106: ['L', 'M', 'W']  # 52 + 54
     }
     aa_pos = list(CART.keys())
     if len(seq) < max(aa_pos):
