@@ -4,6 +4,8 @@
 
 import os, re, subprocess, time
 
+work_dir = '/usr/gonzalez'
+
 nmultiprocess=5
 
 regexlbl = re.compile('[^a-zA-Z0-9]')
@@ -18,10 +20,13 @@ if question=="":
 question=question[0]
 question=int(question)
 
-cmd = ["rm -r /usr/gonzalez/cleangenomes/newfiles"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-cmd = ["mkdir /usr/gonzalez/cleangenomes/newfiles"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+newfiles_dir = os.path.join(work_dir, 'cleangenomes', 'newfiles')
+if os.path.isdir(newfiles_dir):
+	cmd = [f"rm -r {newfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
-path="/usr/gonzalez/cleangenomes/files/"
+cmd = [f"mkdir {newfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+
+path = os.path.join(work_dir, 'cleangenomes', 'files')
 dirList=os.listdir(path)
 for fname in dirList:
 	print (fname)
@@ -42,20 +47,21 @@ for fname in dirList:
 		newname=newname.replace("__","_")
 	newname=newname[0].upper()+newname[1:]
 
-	print ("cp "+path+fname+" /usr/gonzalez/cleangenomes/newfiles/"+newname+".fasta")
-	cmd = ["cp "+path+fname+" /usr/gonzalez/cleangenomes/newfiles/"+newname+".fasta"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	print ("cp " + path + fname + " " + newfiles_dir + newname + ".fasta")
+	cmd = ["cp " + path + fname + " " + newfiles_dir + newname + ".fasta"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 time.sleep(2)
 
-cmd = ["rm -r /usr/gonzalez/cleangenomes/cleanfiles"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-cmd = ["mkdir /usr/gonzalez/cleangenomes/cleanfiles"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cleanfiles_dir = os.path.join(work_dir, 'cleangenomes', 'cleanfiles')
+cmd = [f"rm -r {cleanfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = [f"mkdir {cleanfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
 from ruffus import *
 
 def reformatfile(fname, question):
-	path="/usr/gonzalez/cleangenomes/newfiles/"
+	# path="/usr/gonzalez/cleangenomes/newfiles/"
 
-	filetowrite = open("/usr/gonzalez/cleangenomes/cleanfiles/"+fname, "w")
-	handle = open(path+"/"+fname, "r")
+	filetowrite = open(os.path.join(cleanfiles_dir, fname), "w")
+	handle = open(os.path.join(newfiles_dir, fname), "r")
 	j=0
 	for i in SeqIO.parse(handle, "fasta"):
 		j+=1
@@ -77,16 +83,16 @@ def reformatfile(fname, question):
 	filetowrite.close()
 
 def fnames():
-	path="/usr/gonzalez/cleangenomes/newfiles/"
+	# path="/usr/gonzalez/cleangenomes/newfiles/"
 	files=[]
-	dirList=os.listdir(path)
+	dirList=os.listdir(newfiles_dir)
 	for fname in dirList:
-		files.append(path+fname)
+		files.append(os.path.join(newfiles_dir, fname))
 
 	parameters=[[0 for i in range(3)] for j in range(len(files))]
 	for d1 in range(len(files)):
 		parameters[d1][0]= files[d1]
-		parameters[d1][1]= files[d1].replace(path,"/usr/gonzalez/cleangenomes/cleanfiles/")
+		parameters[d1][1]= files[d1].replace(newfiles_dir, cleanfiles_dir)
 		parameters[d1][2]= str(d1+1)
 
 	for job_parameters in parameters:
@@ -94,14 +100,14 @@ def fnames():
 
 @files(fnames)
 def parallel_task(input_file, output_file, i):
-	print (i+" "+input_file.replace("/usr/gonzalez/cleangenomes/newfiles/",""))
-	fname=input_file.replace("/usr/gonzalez/cleangenomes/newfiles/","")
+	print (i+" "+input_file.replace(newfiles_dir,""))
+	fname=input_file.replace(newfiles_dir,"")
 	reformatfile(fname, question)
 	
 
 pipeline_run([parallel_task], verbose=2, multiprocess=nmultiprocess)
 
-cmd = ["rm -r /usr/gonzalez/cleangenomes/newfiles"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = [f"rm -r {newfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
-print("Files saved in /usr/gonzalez/cleangenomes/cleanfiles/")
+print(f"Files saved in {cleanfiles_dir}")
 print ("I'm done!")
