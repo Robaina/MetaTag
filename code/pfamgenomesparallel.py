@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-#
+# Runs hmmer on set of peptide sequences in a folder. 
+# It can run all tigrfams (TIGRFAMs_15.0_HMM), all pfams (Pfam-A.hmm) or single pfams or tigrfams, or a combination in a single file.
+# It can run also a tailored hmm with a given evalue. 
 
 import os, subprocess, sys
 from Bio import SeqIO
@@ -10,25 +12,11 @@ global ppath, nsequences
 
 ###########################################################################################################################
 
-ppath="/usr/gonzalez/prodigal/aMARgenomesPartialSept2020/"
-ppath="/usr/gonzalez/prodigal/aMARgenomesCompleteSept2020/"
-#ppath="/usr/gonzalez/prodigal/aTARA/"
-#ppath="/home/gonzalez/hmmer/aAcidiferrobacteraceae/"
-#ppath="/usr/gonzalez/paoli2021/a/"
-#ppath="/home/gonzalez/hmmer/files/"
-#ppath="/usr/gonzalez/metagenomes/refseq/"
-ppath="/home/gonzalez/hmmer/envision/"
-#ppath="/usr/gonzalez/metagenomes/MarPeptides/"
+ppath="./files/"
 
-pathtonucleotides="/usr/gonzalez/prodigal/filesMARgenomesPartialSept2020/"
-#pathtonucleotides="/usr/gonzalez/simo/acroporaassemblies/nucl/"
-pathtonucleotides="/usr/gonzalez/prodigal/filesMARgenomesCompleteSept2020/"
-#pathtonucleotides="/usr/gonzalez/prodigal/filesAcidiferrobacteraceae/"
-#pathtonucleotides="/usr/gonzalez/paoli2021/files/"
-#pathtonucleotides="/home/gonzalez/hmmer/files/"
-#pathtonucleotides="/home/gonzalez/hmmer/genomesnt/"
+pathtonucleotides="./genomesnt/"
 
-lengthnucleotides=20000 #1E7
+lengthnucleotides=20000
 
 pfammodel="TIGR01287"  # NifH
 evalue="1E-90"
@@ -614,7 +602,7 @@ cmd = ["rm *.tar.gz"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subproc
 #'''
 cmd = ["cp /usr/gonzalez/hmmer/results.fasta ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
-os.system("python /home/gonzalez/send_email.py")
+
 print ()
 print ("I'm done!")
 exit()
