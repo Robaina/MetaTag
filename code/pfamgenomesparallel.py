@@ -11,6 +11,7 @@ global ppath, nsequences
 
 
 ###########################################################################################################################
+work_dir = '/usr/gonzalez'
 
 ppath="./files/"
 
@@ -185,37 +186,37 @@ else:
 print ("Wait!")
 
 if question=="y":
-	cmd = ["rm -r /usr/gonzalez/hmmer/results"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["mkdir /usr/gonzalez/hmmer/results"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["rm -r /usr/gonzalez/hmmer/results2"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["mkdir /usr/gonzalez/hmmer/results2"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["rm -r /usr/gonzalez/hmmer/resultspep"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["mkdir /usr/gonzalez/hmmer/resultspep"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"rm -r {work_dir}/hmmer/results"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"mkdir {work_dir}/hmmer/results"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"rm -r {work_dir}/hmmer/results2"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"mkdir {work_dir}/hmmer/results2"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"rm -r {work_dir}/hmmer/resultspep"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"mkdir {work_dir}/hmmer/resultspep"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
-cmd = ["rm -r /usr/gonzalez/hmmer/resultsgenes"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = [f"rm -r {work_dir}/hmmer/resultsgenes"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 if question3=="y":
-	cmd = ["mkdir /usr/gonzalez/hmmer/resultsgenes"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"mkdir {work_dir}/hmmer/resultsgenes"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
 cmd = ["rm -r ./resultsgenomes"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 if question4=="y":
 	cmd = ["mkdir ./resultsgenomes"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
-cmd = ["rm -r /usr/gonzalez/hmmer/resultsnucleotides"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = [f"rm -r {work_dir}/hmmer/resultsnucleotides"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 if question2=="y":
-	cmd = ["mkdir /usr/gonzalez/hmmer/resultsnucleotides"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"mkdir {work_dir}/hmmer/resultsnucleotides"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	#cmd = ["rm -r ./resultspos"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	#cmd = ["mkdir ./resultspos"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 else:
-	dirList=os.listdir("/usr/gonzalez/hmmer/results/")
+	dirList=os.listdir(f"{work_dir}/hmmer/results/")
 	for fname in dirList:
-		if os.path.getsize("/usr/gonzalez/hmmer/results/"+fname)==0:
-			cmd = ["rm /usr/gonzalez/hmmer/results/"+fname]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+		if os.path.getsize(f"{work_dir}/hmmer/results/"+fname)==0:
+			cmd = [f"rm {work_dir}/hmmer/results/"+fname]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 #'''
 cmd = ["rm *.hmm"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()	
 cmd = ["rm *.h3?"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 #'''
 if pfammodel=="TIGRFAMs_15.0_HMM":
-	cmd = ["cp /usr/gonzalez/hmmer/TIGRFAMs_15.0_HMM.tar.gz ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"cp {work_dir}/hmmer/TIGRFAMs_15.0_HMM.tar.gz ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
 	cmd = ["tar -zxvf TIGRFAMs_15.0_HMM.tar.gz"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
@@ -225,12 +226,12 @@ if pfammodel=="TIGRFAMs_15.0_HMM":
 	print (out.decode('ascii'), err.decode('ascii'))
 
 elif pfammodel=="Pfam-A.hmm":
-	print ("cp /usr/gonzalez/hmmer/Pfam-A.hmm .")
-	cmd = ["cp /usr/gonzalez/hmmer/Pfam-A.hmm ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	print (f"cp {work_dir}/hmmer/Pfam-A.hmm .")
+	cmd = [f"cp {work_dir}/hmmer/Pfam-A.hmm ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
 	
 elif pfammodel.startswith("TIGR"):
-	cmd = ["cp /usr/gonzalez/hmmer/TIGRFAMs_15.0_HMM.tar.gz ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"cp {work_dir}/hmmer/TIGRFAMs_15.0_HMM.tar.gz ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
 	cmd = ["tar -zxvf TIGRFAMs_15.0_HMM.tar.gz"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
@@ -243,11 +244,11 @@ elif pfammodel.startswith("TIGR"):
 	cmd = ["rm TIGRFAMs_15.0_HMM.tar.gz"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
 elif pfammodel.startswith("PF"):
-	cmd = ["grep -m 1 '"+pfammodel+"' /usr/gonzalez/hmmer/Pfam-A.hmm"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = ["grep -m 1 '"+pfammodel+f"' {work_dir}/hmmer/Pfam-A.hmm"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
 	result=out.decode('ascii')[3:].strip()
-	print ("hmmfetch /usr/gonzalez/hmmer/Pfam-A.hmm "+result+" > "+pfammodel)
-	cmd = ["hmmfetch /usr/gonzalez/hmmer/Pfam-A.hmm "+result+" > "+pfammodel]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	print (f"hmmfetch {work_dir}/hmmer/Pfam-A.hmm "+result+" > "+pfammodel)
+	cmd = [f"hmmfetch {work_dir}/hmmer/Pfam-A.hmm "+result+" > "+pfammodel]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
 	cmd = ["grep -m 1 'DESC  ' "+pfammodel]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
@@ -263,11 +264,11 @@ elif pfammodel=="pfams.txt":
 		line=line[:7].strip()
 		if len(line)>0:
 			if not(line.startswith("#")):
-				cmd = ["grep -m 1 '"+line+"' /usr/gonzalez/hmmer/Pfam-A.hmm"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+				cmd = ["grep -m 1 '"+line+f"' {work_dir}/hmmer/Pfam-A.hmm"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 				print (out.decode('ascii'), err.decode('ascii'))
 				result=out.decode('ascii')[3:].strip()
-				print ("hmmfetch /usr/gonzalez/hmmer/Pfam-A.hmm "+result+" >> pfams")
-				cmd = ["hmmfetch /usr/gonzalez/hmmer/Pfam-A.hmm "+result+" >> pfams"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+				print (f"hmmfetch {work_dir}/hmmer/Pfam-A.hmm "+result+" >> pfams")
+				cmd = [f"hmmfetch {work_dir}/hmmer/Pfam-A.hmm "+result+" >> pfams"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 				print (out.decode('ascii'), err.decode('ascii'))
 				
 		else:
@@ -281,7 +282,7 @@ elif pfammodel=="pfams.txt":
 	pfammodel="pfams"
 	
 else:
-	cmd = ["cp /usr/gonzalez/hmmer/"+pfammodel+" ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"cp {work_dir}/hmmer/"+pfammodel+" ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
 #'''
 if len(sys.argv)==1:
@@ -311,7 +312,7 @@ print("")
 
 def retrievedesc(output_file):
 	towrite=""
-	filetoread = open("/usr/gonzalez/hmmer/results/"+output_file, "r")
+	filetoread = open(f"{work_dir}/hmmer/results/"+output_file, "r")
 	lblpeptides=[]
 	mhmmacc=[]
 	for line in filetoread:
@@ -329,11 +330,11 @@ def retrievedesc(output_file):
 	
 	nhits=0
 	if len(towrite)>0:
-		filetowrite = open("/usr/gonzalez/hmmer/results2/"+output_file, "w")
+		filetowrite = open(f"{work_dir}/hmmer/results2/"+output_file, "w")
 		filetowrite.write(towrite)
 		filetowrite.close()
 		
-		filetowrite = open("/usr/gonzalez/hmmer/resultspep/"+output_file[:output_file.find(".")]+".fasta", "w")
+		filetowrite = open(f"{work_dir}/hmmer/resultspep/"+output_file[:output_file.find(".")]+".fasta", "w")
 		handle = open(ppath+output_file[:output_file.find(".")]+".fasta", "r")		
 		for xx in SeqIO.parse(handle, "fasta"):
 			if str(xx.name) in lblpeptides:
@@ -379,21 +380,21 @@ if question=="y":
 			
 			if gatheringscore==1:
 				if int(nsequences)==1:
-					print ("hmmscan --tblout /usr/gonzalez/hmmer/results/"+output_file+" -o /dev/null --cut_ga "+pfammodel+" "+input_file)
-					cmd = ["hmmscan --tblout /usr/gonzalez/hmmer/results/"+output_file+" -o /dev/null --cut_ga "+pfammodel+" "+input_file]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+					print (f"hmmscan --tblout {work_dir}/hmmer/results/"+output_file+" -o /dev/null --cut_ga "+pfammodel+" "+input_file)
+					cmd = [f"hmmscan --tblout {work_dir}/hmmer/results/"+output_file+" -o /dev/null --cut_ga "+pfammodel+" "+input_file]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 					print (out.decode('ascii'), err.decode('ascii'))
 				else:
-					print ("hmmscan --tblout /usr/gonzalez/hmmer/results/"+output_file+" -o /dev/null --cut_ga --cpu 1 "+pfammodel+" "+input_file)
-					cmd = ["hmmscan --tblout /usr/gonzalez/hmmer/results/"+output_file+" -o /dev/null --cut_ga --cpu 1 "+pfammodel+" "+input_file]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+					print (f"hmmscan --tblout {work_dir}/hmmer/results/"+output_file+" -o /dev/null --cut_ga --cpu 1 "+pfammodel+" "+input_file)
+					cmd = [f"hmmscan --tblout {work_dir}/hmmer/results/"+output_file+" -o /dev/null --cut_ga --cpu 1 "+pfammodel+" "+input_file]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 					print (out.decode('ascii'), err.decode('ascii'))
 			else:
 				if int(nsequences)==1:
-					print ("hmmscan --tblout /usr/gonzalez/hmmer/results/"+output_file+" -o /dev/null -E "+evalue+" "+pfammodel+" "+input_file)
-					cmd = ["hmmscan --tblout /usr/gonzalez/hmmer/results/"+output_file+" -o /dev/null -E "+evalue+" "+pfammodel+" "+input_file]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+					print (f"hmmscan --tblout {work_dir}/hmmer/results/"+output_file+" -o /dev/null -E "+evalue+" "+pfammodel+" "+input_file)
+					cmd = [f"hmmscan --tblout {work_dir}/hmmer/results/"+output_file+" -o /dev/null -E "+evalue+" "+pfammodel+" "+input_file]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 					print (out.decode('ascii'), err.decode('ascii'))			
 				else:
-					print ("hmmscan --tblout /usr/gonzalez/hmmer/results/"+output_file+" -o /dev/null -E "+evalue+" --cpu 1 "+pfammodel+" "+input_file)
-					cmd = ["hmmscan --tblout /usr/gonzalez/hmmer/results/"+output_file+" -o /dev/null -E "+evalue+" --cpu 1 "+pfammodel+" "+input_file]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+					print (f"hmmscan --tblout {work_dir}/hmmer/results/"+output_file+" -o /dev/null -E "+evalue+" --cpu 1 "+pfammodel+" "+input_file)
+					cmd = [f"hmmscan --tblout {work_dir}/hmmer/results/"+output_file+" -o /dev/null -E "+evalue+" --cpu 1 "+pfammodel+" "+input_file]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 					print (out.decode('ascii'), err.decode('ascii'))
 
 			nhits=retrievedesc(output_file)
@@ -402,13 +403,13 @@ if question=="y":
 
 	pipeline_run([parallel_task], verbose=1, multiprocess=x)
 
-filetowrite = open("/usr/gonzalez/hmmer/results.fasta", "w")
-filetowriteother = open("/usr/gonzalez/hmmer/resultsother.fasta", "w")
+filetowrite = open(f"{work_dir}/hmmer/results.fasta", "w")
+filetowriteother = open(f"{work_dir}/hmmer/resultsother.fasta", "w")
 
 filetowritetemp = open("temp.txt", "w")
 filetowritetemp.write("Genome\tNo. peptides\t"+pfammodel+"\n")
 
-dirList=os.listdir("/usr/gonzalez/hmmer/results/")
+dirList=os.listdir(f"{work_dir}/hmmer/results/")
 ffiles=[]
 for fname in dirList:
 	ffiles.append(fname[:fname.find(".")])
@@ -419,7 +420,7 @@ genomehits=0
 for x in range(len(ffiles)):
 	print (str(x+1)+"/"+str(len(ffiles))+"     "+ffiles[x])
 	filetowritetemp.write(ffiles[x]+"\t")
-	filetoread = open("/usr/gonzalez/hmmer/results/"+ffiles[x]+".txt", "r")
+	filetoread = open(f"{work_dir}/hmmer/results/"+ffiles[x]+".txt", "r")
 	hits=[]
 	hitstigrfam=[]
 	evalue=[]
@@ -462,7 +463,7 @@ for x in range(len(ffiles)):
 	for i in range(len(hits)):
 		if question3=="n":
 			break
-		filetowrite2 = open("/usr/gonzalez/hmmer/resultsgenes/"+ffiles[x]+".fasta", "a")
+		filetowrite2 = open(f"{work_dir}/hmmer/resultsgenes/"+ffiles[x]+".fasta", "a")
 		a=hits[i][2+hits[i].find("__"):]
 		contig=int(a.split("_")[0])
 
@@ -502,7 +503,7 @@ for x in range(len(ffiles)):
 	for i in range(len(hits)):
 		if question2=="n":
 			break
-		filetowrite2 = open("/usr/gonzalez/hmmer/resultsnucleotides/"+ffiles[x]+"_"+str(i+1)+".fasta", "w")
+		filetowrite2 = open(f"{work_dir}/hmmer/resultsnucleotides/"+ffiles[x]+"_"+str(i+1)+".fasta", "w")
 		a=hits[i][hits[i].find("__")+2:]
 		
 		#print ("a: "+a)
@@ -563,7 +564,7 @@ filetowritetemp.close()
 filetowriteother.close()
 filetowrite.close()
 
-dirList=os.listdir("/usr/gonzalez/hmmer/results2/")
+dirList=os.listdir(f"{work_dir}/hmmer/results2/")
 ffiles=[]
 for fname in dirList:
 	ffiles.append(fname)
@@ -573,11 +574,11 @@ ffiles.sort()
 filetowrite = open("results.txt", "w")
 
 for x in range(len(ffiles)):
-	s = open("/usr/gonzalez/hmmer/results2/"+ffiles[x], 'r').read()
+	s = open(f"{work_dir}/hmmer/results2/"+ffiles[x], 'r').read()
 	filetowrite.write(s+20*"-"+"\n")
 filetowrite.close()
 
-cmd = ["grep -c '^>' /usr/gonzalez/hmmer/results.fasta"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = [f"grep -c '^>' {work_dir}/hmmer/results.fasta"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 print(); print ("HMM model: "+pfammodel); print (str(int(out.decode('ascii')))+" hits.")
 print (str(genomehits)+" sequences with at least one hit.")
 '''
@@ -600,7 +601,7 @@ cmd = ["rm pfams"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess
 cmd = ["rm "+pfammodel]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 cmd = ["rm *.tar.gz"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 #'''
-cmd = ["cp /usr/gonzalez/hmmer/results.fasta ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = [f"cp {work_dir}/hmmer/results.fasta ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
 
 print ()

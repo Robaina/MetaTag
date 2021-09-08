@@ -9,6 +9,7 @@ import os, subprocess
 
 global pathorigin, pathresults, nsequences
 
+work_dir = '/usr/gonzalez'
 
 pathorigin="./files/"
 
@@ -60,14 +61,14 @@ def parallel_task(input_file, output_file, i):
 	print (i+"/"+nsequences+" "+input_file.replace(pathorigin,"").replace(".fasta",""))
 	fname=input_file.replace(pathorigin,"")
 	if x=="y":
-		cmd = ["prodigal -q -p meta -i "+pathorigin+fname+" -o /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".gbk -a /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".faa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+		cmd = ["prodigal -q -p meta -i "+pathorigin+fname+f" -o {work_dir}/prodigal/"+fname.replace(".fasta","")+f".gbk -a {work_dir}/prodigal/"+fname.replace(".fasta","")+".faa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 		print (out.decode('ascii'), err.decode('ascii'))
 		#pass
 	else:
-		cmd = ["prodigal -q -i "+pathorigin+fname+" -o /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".gbk -a /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".faa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+		cmd = ["prodigal -q -i "+pathorigin+fname+f" -o {work_dir}/prodigal/"+fname.replace(".fasta","")+f".gbk -a {work_dir}/prodigal/"+fname.replace(".fasta","")+".faa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
-	cmd = ["mv /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".faa "+pathresults+fname.replace(".fasta","")+".aa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["rm /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".gbk"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"mv {work_dir}/prodigal/"+fname.replace(".fasta","")+".faa "+pathresults+fname.replace(".fasta","")+".aa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"rm {work_dir}/prodigal/"+fname.replace(".fasta","")+".gbk"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	
 
 pipeline_run([parallel_task], verbose=1, multiprocess=xx)

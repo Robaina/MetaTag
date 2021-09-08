@@ -7,6 +7,8 @@ import os, subprocess
 from Bio import SeqIO
 from Bio.Seq import Seq
 
+work_dir = '/usr/gonzalez'
+
 pathtonucleotide="./files/"
 
 pathresults="./results/"
@@ -20,9 +22,9 @@ cmd = ["mkdir "+pathresultsformatted]; pipe = subprocess.Popen(cmd, shell = True
 question=input("CDS too? ")
 question=question.lower()[0]
 
-cmd = ["rm -r /usr/gonzalez/prodigal/anucleotides"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = [f"rm -r {work_dir}/prodigal/anucleotides"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 if question=="y":
-	cmd = ["mkdir /usr/gonzalez/prodigal/anucleotides"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"mkdir {work_dir}/prodigal/anucleotides"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
 dirList=os.listdir(pathresults)
 filenumber=0
@@ -87,7 +89,7 @@ for fname in dirList:
 	filetowrite.close()
 
 	if question=="y":
-		filetowrite = open("/usr/gonzalez/prodigal/anucleotides/"+fname.replace(".aa","")+".fasta", "w")
+		filetowrite = open(f"{work_dir}/prodigal/anucleotides/"+fname.replace(".aa","")+".fasta", "w")
 		for i in range(len(mcontig)):
 			handle = open(pathtonucleotide+fname.replace(".aa",".fasta"), "r")
 			for x in SeqIO.parse(handle, "fasta"):
