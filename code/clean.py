@@ -2,12 +2,19 @@
 # Cleans fasta sequences in folder.
 # To run other programs, better if you choose option 3.
 
+
+"""
+NOTES (Semidán):
+
+{work_dir}/cleangenomes/files: required to parse input files
+
+"""
+
 import os, re, subprocess, time
 from Bio import SeqIO
-# from ruffus import *
 import ruffus
 
-work_dir = '/usr/gonzalez'
+work_dir = '/home/robaina'
 
 nmultiprocess = 5
 
@@ -44,16 +51,16 @@ for fname in dirList:
 	print (newname)
 
 	#newname=newname.replace(".","_")
-	while newname.find("__")!=-1:
+	while newname.find("__") != -1:
 		newname=newname.replace("__","_")
-	newname=newname[0].upper()+newname[1:]
+	newname=newname[0].upper() + newname[1:]
 
 	print ("cp " + path + fname + " " + newfiles_dir + newname + ".fasta")
-	cmd = ["cp " + path + fname + " " + newfiles_dir + newname + ".fasta"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = [f"cp {os.path.join(path, fname)} {os.path.join(newfiles_dir, newname)}.fasta"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 time.sleep(2)
 
 cleanfiles_dir = os.path.join(work_dir, 'cleangenomes', 'cleanfiles')
-cmd = [f"rm -r {cleanfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+# cmd = [f"rm -r {cleanfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 cmd = [f"mkdir {cleanfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
 
