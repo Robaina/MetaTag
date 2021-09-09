@@ -14,6 +14,8 @@ import os, re, subprocess, time
 from Bio import SeqIO
 import ruffus
 
+global work_dir
+
 work_dir = '/home/robaina'
 
 nmultiprocess = 5
@@ -66,8 +68,10 @@ cmd = [f"mkdir {cleanfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, st
 
 def reformatfile(fname, question):
 	# path="/usr/gonzalez/cleangenomes/newfiles/"
-
-	filetowrite = open(os.path.join(cleanfiles_dir, fname), "w")
+	cleanfiles_dir = '/home/robaina/cleangenomes/newfiles'
+	print('path_clean_hola', os.path.join(cleanfiles_dir, fname))
+	#filetowrite = open(os.path.join(cleanfiles_dir, fname), "w")
+	filetowrite = open('/home/robaina/cleangenomes/newfiles' + fname)
 	handle = open(os.path.join(newfiles_dir, fname), "r")
 	j=0
 	for i in SeqIO.parse(handle, "fasta"):
