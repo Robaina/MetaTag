@@ -3,18 +3,19 @@
 # To run other programs, better if you choose option 3.
 
 import os, re, subprocess, time
+from Bio import SeqIO
+# from ruffus import *
+import ruffus
 
 work_dir = '/usr/gonzalez'
 
-nmultiprocess=5
+nmultiprocess = 5
 
 regexlbl = re.compile('[^a-zA-Z0-9]')
 regexseq = re.compile('[^A-Z]')
 
-from Bio import SeqIO
-
 question = input("Should I change labels for file name followed by a numbers (1) or leave as is (2) or just numbers (3)? (enter if 3) ")
-question=question.strip()
+question = question.strip()
 if question=="":
 	question="3"
 question=question[0]
@@ -55,7 +56,6 @@ cleanfiles_dir = os.path.join(work_dir, 'cleangenomes', 'cleanfiles')
 cmd = [f"rm -r {cleanfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 cmd = [f"mkdir {cleanfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
-from ruffus import *
 
 def reformatfile(fname, question):
 	# path="/usr/gonzalez/cleangenomes/newfiles/"
@@ -98,14 +98,14 @@ def fnames():
 	for job_parameters in parameters:
 		yield job_parameters
 
-@files(fnames)
+@ruffus.files(fnames)
 def parallel_task(input_file, output_file, i):
 	print (i+" "+input_file.replace(newfiles_dir,""))
 	fname=input_file.replace(newfiles_dir,"")
 	reformatfile(fname, question)
 	
 
-pipeline_run([parallel_task], verbose=2, multiprocess=nmultiprocess)
+ruffus.pipeline_run([parallel_task], verbose=2, multiprocess=nmultiprocess)
 
 cmd = [f"rm -r {newfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
