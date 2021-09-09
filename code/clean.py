@@ -67,12 +67,12 @@ cmd = [f"mkdir {cleanfiles_dir}"]; pipe = subprocess.Popen(cmd, shell = True, st
 
 
 def reformatfile(fname, question):
-	# path="/usr/gonzalez/cleangenomes/newfiles/"
-	cleanfiles_dir = '/home/robaina/cleangenomes/cleanfiles'
-	print('path_clean_hola', os.path.join(cleanfiles_dir, fname))
+	newfiles_dir = "/usr/robaina/cleangenomes/newfiles/"
+	cleanfiles_dir = '/home/robaina/cleangenomes/cleanfiles/'
+	print('path_clean_rufus_hola', os.path.join(cleanfiles_dir, fname))
 	#filetowrite = open(os.path.join(cleanfiles_dir, fname), "w")
-	filetowrite = open('/home/robaina/cleangenomes/newfiles' + fname)
-	handle = open(os.path.join(newfiles_dir, fname), "r")
+	filetowrite = open('/home/robaina/cleangenomes/cleanfiles' + fname)
+	handle = open(newfiles_dir + fname, "r")
 	j=0
 	for i in SeqIO.parse(handle, "fasta"):
 		j+=1
@@ -95,6 +95,8 @@ def reformatfile(fname, question):
 
 def fnames():
 	# path="/usr/gonzalez/cleangenomes/newfiles/"
+	newfiles_dir = "/home/robaina/cleangenomes/newfiles/"
+	cleanfiles_dir = '/home/robaina/cleangenomes/cleanfiles/'
 	files=[]
 	dirList=os.listdir(newfiles_dir)
 	for fname in dirList:
@@ -111,6 +113,7 @@ def fnames():
 
 @ruffus.files(fnames)
 def parallel_task(input_file, output_file, i):
+	newfiles_dir = "/usr/robaina/cleangenomes/newfiles/"
 	print (i+" "+input_file.replace(newfiles_dir,""))
 	fname=input_file.replace(newfiles_dir,"")
 	reformatfile(fname, question)
