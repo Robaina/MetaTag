@@ -7,11 +7,11 @@ import os, subprocess
 from Bio import SeqIO
 from Bio.Seq import Seq
 
-work_dir = '/usr/gonzalez'
+work_dir = '/home/robaina'
 
-pathresults = ''
+pathresults = '/home/robaina/cleangenomes/results/'
 
-pathtonucleotide = ''
+pathtonucleotide = '/home/robaina/cleangenomes/cleanfiles/'
 
 pathresultsformatted="./a/"
 
