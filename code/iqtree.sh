@@ -19,6 +19,6 @@ iqtree -s alignment.phylip -st AA -nt AUTO -m TEST -bb 1000
 
 
 
-python itol.py
+python itoliqtree.py
 
 
