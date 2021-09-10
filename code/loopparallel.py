@@ -5,6 +5,31 @@
 # Best if the sequences are cleaned with clean.py.
 # Run this one first and then reformatlabel.py to modify the labels.
 
+"""
+NOTE (Semidan)
+This script runs prodigal on a set of nucleotide sequences in a directory to translate them to
+peptide sequences.
+
+I understand that this script is run within cleangenomes directory, so it accesses 'files' within.
+
+REQUIRES directory prodigal
+
+ASKS:
+-----
+
+1. Default is genome sequence. Metagenome sequences? (yes, no)
+2. How many processors?
+
+OUTPUTS:
+-------
+1. Directory 'results'
+
+
+Dependencies:
+
+1. Prodigal (installed in conda base: conda activate)
+"""
+
 import os, subprocess
 
 global pathorigin, pathresults, nsequences
@@ -60,14 +85,14 @@ def parallel_task(input_file, output_file, i):
 	print (i+"/"+nsequences+" "+input_file.replace(pathorigin,"").replace(".fasta",""))
 	fname=input_file.replace(pathorigin,"")
 	if x=="y":
-		cmd = ["prodigal -q -p meta -i "+pathorigin+fname+" -o /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".gbk -a /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".faa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+		cmd = ["prodigal -q -p meta -i "+pathorigin+fname+" -o /home/robaina/prodigal/"+fname.replace(".fasta","")+".gbk -a /home/robaina/prodigal/"+fname.replace(".fasta","")+".faa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 		print (out.decode('ascii'), err.decode('ascii'))
 		#pass
 	else:
-		cmd = ["prodigal -q -i "+pathorigin+fname+" -o /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".gbk -a /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".faa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+		cmd = ["prodigal -q -i "+pathorigin+fname+" -o /home/robaina/prodigal/"+fname.replace(".fasta","")+".gbk -a /home/robaina/prodigal/"+fname.replace(".fasta","")+".faa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
-	cmd = ["mv /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".faa "+pathresults+fname.replace(".fasta","")+".aa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["rm /usr/gonzalez/prodigal/"+fname.replace(".fasta","")+".gbk"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = ["mv /home/robaina/prodigal/"+fname.replace(".fasta","")+".faa "+pathresults+fname.replace(".fasta","")+".aa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = ["rm /home/robaina/prodigal/"+fname.replace(".fasta","")+".gbk"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	
 
 pipeline_run([parallel_task], verbose=1, multiprocess=xx)
