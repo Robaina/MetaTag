@@ -15,5 +15,5 @@ fasttree alignment.phylip > tree.txt
 #fasttree -gtr -nt sequencestrimmed.phylip > tree_file 
 
 
-python itol.py
+python itolfasttree.py
 
