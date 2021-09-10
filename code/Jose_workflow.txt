@@ -1,0 +1,16 @@
+Jose's workflow 
+--------------
+
+1. Run clean.py (reformat labels)
+2. Run loopparallel.py (prodigal)
+3. Run reformatlabel.py (makes long labels)
+
+
+TESTING:
+--------
+
+1. clean.py works
+2. loopparallel.py works
+3. reformatlabel.py works
+4. pfamgenomesparallel.py works
+
