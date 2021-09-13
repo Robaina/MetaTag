@@ -1,5 +1,12 @@
 #!/usr/bin/env python
-#
+
+
+"""
+NOTES (Semidán)
+
+Run this script after running iqtree to make iTOL (tree visualization) - compatible input file
+
+"""
 
 import re, os
 from Bio import SeqIO

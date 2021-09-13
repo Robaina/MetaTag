@@ -1,5 +1,19 @@
 #!/usr/bin/env python
 
+"""
+NOTES (Semidán)
+
+Differences wrt 0MusclePep.py
+
+1. Adds step to apply Trimal on sequences.fasta.aln
+   Trimal removes regions where alignment is poor in multiple-alignment files (muscl).
+   This procedure have been shown to improve accuracy in downline analyses (phylo reconstrution)
+
+Basically, the  two scripts can be merge into a single module/function with an option to choose
+whether to include trimal or not.
+
+"""
+
 import subprocess, re, os
 from Bio import SeqIO
 from Bio import AlignIO
@@ -101,7 +115,9 @@ output_handle.close()
 input_handle.close()
 
 print ("Launching trimAl...")
-cmd = ["trimal -in sequences.fasta.aln -fasta -automated1 -resoverlap 0.55 -seqoverlap 60 -out alignment.fasta -htmlout output.html"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = ["trimal -in sequences.fasta.aln -fasta -automated1 -resoverlap 0.55 -seqoverlap 60 -out alignment.fasta -htmlout output.html"]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait(); out, err = pipe.communicate()
 print (out.decode('ascii'), err.decode('ascii'))
 
 input_handle = open("alignment.fasta", "r")
