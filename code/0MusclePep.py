@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+"""
+NOTES (Semidan)
+
+Runs muscle: multiple sequence alignment
+"""
+
 import subprocess, re, os
 from Bio import SeqIO
 from Bio import AlignIO
