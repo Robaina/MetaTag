@@ -7,13 +7,31 @@ more accurately than one could achieve with a database like ReqSeq.
 How? First, we create a database of sequences for our gene of interest (GOI). These sequences are obtained via pfam/tigr
 running a hmmer search.
 
+Workflow:
+
+1. Get peptides database, clean sequences and/or tags
+2. Filter GOI-specific peptide sequences via HMMs (pfam or tigrfam)
+3. Align GOI-specific sequences (.phylip file)
+4. Reconstruct GOI-specific phylogenetic tree
+5. Place environmental (translated) short reads onto phylogenetic tree
 
 Jose's workflow 
 --------------
 
-1. Run clean.py (reformat labels)
-2. Run loopparallel.py (prodigal)
-3. Run reformatlabel.py (makes long labels)
+1. Run clean.py [Clean DNA sequences and reformat labels]
+
+2. Run loopparallel.py [Translate DNA sequences into peptides with prodigal]
+
+3. Run reformatlabel.py [Edit peptide labels in fasta file to include meta]
+
+3. Run 0MusclePep.py [Get multiple peptide alignments ".phylip" file]
+
+4. Run fasttree or iqtree in bash [Get phylogenetic tree, requires .phylip file]
+
+5. Run papara ij bash [Place environmental short reads (translated?) onto tree]
+
+
+4. Placement with papara
 
 
 TESTING:
