@@ -1,3 +1,13 @@
+General idea
+-------------
+
+We will create a tree to place environmental short reads on,so we can assign both function and taxonomy to these reads
+more accurately than one could achieve with a database like ReqSeq.
+
+How? First, we create a database of sequences for our gene of interest (GOI). These sequences are obtained via pfam/tigr
+running a hmmer search.
+
+
 Jose's workflow 
 --------------
 
