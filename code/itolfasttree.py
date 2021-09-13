@@ -1,5 +1,11 @@
 #!/usr/bin/env python
-#
+
+"""
+NOTES (Semidán)
+
+Run this script after running fasttree to make iTOL (tree visualization) - compatible input file
+
+"""
 
 import re
 from Bio import SeqIO
