@@ -24,15 +24,17 @@ Scripts:
 
 3. Run reformatlabel.py [Edit peptide labels in fasta file to include meta]
 
-4. Run 0MusclePep.py [Get multiple peptide alignments ".phylip" file]
+4. Run pfamgenomesparallel.py [Make peptide-specific database using hmm model]
 
-5. Run fasttree or iqtree in bash [Get phylogenetic tree, requires .phylip file]
+5. Run 0MusclePep.py [Get multiple peptide alignments ".phylip" file]
 
-6. Run papara in bash [Place environmental short reads (translated?) onto tree]
+6. Run fasttree or iqtree in bash [Get phylogenetic tree, requires .phylip file]
 
-7. Placement with papara
+7. Run papara in bash [Place environmental short reads (translated?) onto tree]
 
-8. Visualization (iTOL): itolfasttree.py, itoliqtree.py
+8. Placement with papara
+
+9. Visualization (iTOL): itolfasttree.py, itoliqtree.py
 
 
 TESTING:
