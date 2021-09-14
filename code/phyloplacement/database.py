@@ -5,6 +5,17 @@ Functions to preprocess sequence data
 from .utils import terminalExecute
 
 
+def removeDuplicates():
+    """
+    Remove sequences in fasta files with repeated labels
+    or sequences.
+
+    NOTES:
+
+    script: joinseqs.py
+    """
+    pass
+
 def reformatFileName():
     """
     Checks if file name format is legal
