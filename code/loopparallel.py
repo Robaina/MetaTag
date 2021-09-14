@@ -40,16 +40,34 @@ pathorigin="./files/"
 pathresults="./results/"
 
 
-cmd = ["ls -1 "+pathorigin+" | wc -l"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = ["ls -1 "+pathorigin+" | wc -l"]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
 print (out.decode('ascii'), err.decode('ascii'))
-nsequences=out.decode('ascii').strip()
-print ("Number of sequences: "+nsequences)
 
-cmd = ["rm *.gbk"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-cmd = ["rm *.faa"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+nsequences = out.decode('ascii').strip()
+print ("Number of sequences: " + nsequences)
 
-cmd = ["rm -r "+pathresults]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-cmd = ["mkdir "+pathresults]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = ["rm *.gbk"]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
+
+cmd = ["rm *.faa"]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
+
+cmd = ["rm -r "+pathresults]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
+
+cmd = ["mkdir "+pathresults]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
 
 print ()
 x = input("Default is genome sequence. Metagenome sequences? ")
