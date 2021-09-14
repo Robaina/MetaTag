@@ -618,13 +618,30 @@ filetoread.close()
 filetowrite.close()
 '''
 #'''
-cmd = ["rm *.h3?"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-cmd = ["rm pfams"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-cmd = ["rm "+pfammodel]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-cmd = ["rm *.tar.gz"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-#'''
-cmd = ["cp /home/robaina/hmmer/results.fasta ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = ["rm *.h3?"]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
 
+cmd = ["rm pfams"]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
+
+cmd = ["rm "+pfammodel]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
+
+cmd = ["rm *.tar.gz"]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
+
+cmd = ["cp /home/robaina/hmmer/results.fasta ."]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
 
 print ()
 print ("I'm done!")
