@@ -32,5 +32,5 @@ def reformatTreeForiTOL(input_tree: str, tree_algorithm: str) -> None:
         reformatIQTreeForiTOL(input_tree)
     else:
         raise ValueError(
-            'Tree algorithm not found. Valid algorithm are: iqtree and fasttree'
+            'Tree algorithm not found. Valid algorithms are: iqtree and fasttree'
             )
