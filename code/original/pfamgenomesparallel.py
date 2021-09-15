@@ -59,7 +59,11 @@ if len(sys.argv)>1:
 	
 ###########################################################################################################################
 
-cmd = ["ls -1 "+ppath+" | wc -l"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+cmd = ["ls -1 "+ppath+" | wc -l"]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
+
 print (err.decode('ascii'))
 nsequences=out.decode('ascii').strip()
 print ("Number of sequences: "+nsequences)
