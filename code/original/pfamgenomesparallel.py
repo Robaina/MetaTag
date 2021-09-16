@@ -8,6 +8,10 @@ NOTE (Semidan)
 
 This script runs hmmer on a set of peptide sequences located in a directory named 'files'
 
+NOTES:
+
+hmmsearch more efficient for searching many sequences: http://cryptogenomicon.org/hmmscan-vs-hmmsearch-speed-the-numerology.html
+
 USAGE:
 -----
 
@@ -18,10 +22,21 @@ REQUIRES:
 
 1. Make directory 'hmmer'
 
+2. A results directory within cleangenomes directory containing peptide sequences
+
+3. Appears to require nucleotide sequences even when directly using peptides
+
+4. '/home/robaina/cleangenomes/results/Marref_V6.fasta'
+   fasta instead of faa extension for peptide sequences to be queried
+
 OUTPUT:
 -------
 
 1. Creates several directories and files within 'hmmer' directory
+
+resultspep: produces a fasta file with queried peptide sequences, however it adds repeatidly the name of the TIGR model.
+
+2. Creates a empty results.fasta in the root directory from within the script is called
 
 Dependencies:
 
@@ -49,13 +64,13 @@ evalue="1E-90"
 if len(sys.argv)>1:
 	pfammodel=sys.argv[1].strip()
 	
-	question="y"
-	question1="y"
-	question2="n"
-	question3="n"
-	question4="n"
+	question="y"  # Should I start over and remove results folders?
+	question1="y" # Gathering score?
+	question2="n" # Retrieve contigs with hits?
+	question3="n" # Retrieve gene hits?
+	question4="n" # Retrieve genome if there are hits?
 	
-	x=20
+	x=8 # Number of cores (x is overwriten later on by another variable)
 	
 ###########################################################################################################################
 
@@ -211,24 +226,61 @@ else:
 
 print ("Wait!")
 
-if question=="y":
-	cmd = ["rm -r /home/robaina/hmmer/results"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["mkdir /home/robaina/hmmer/results"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["rm -r /home/robaina/hmmer/results2"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["mkdir /home/robaina/hmmer/results2"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["rm -r /home/robaina/hmmer/resultspep"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-	cmd = ["mkdir /home/robaina/hmmer/resultspep"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+if question=="y": # "Should I start over and remove results folders? "
+	cmd = ["rm -r /home/robaina/hmmer/results"]
+	pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	p_status = pipe.wait()
+	out, err = pipe.communicate()
 
-cmd = ["rm -r /home/robaina/hmmer/resultsgenes"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-if question3=="y":
-	cmd = ["mkdir /home/robaina/hmmer/resultsgenes"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = ["mkdir /home/robaina/hmmer/results"]
+	pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	p_status = pipe.wait()
+	out, err = pipe.communicate()
 
+	cmd = ["rm -r /home/robaina/hmmer/results2"]
+	pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	p_status = pipe.wait()
+	out, err = pipe.communicate()
+
+	cmd = ["mkdir /home/robaina/hmmer/results2"]
+	pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	p_status = pipe.wait()
+	out, err = pipe.communicate()
+
+	cmd = ["rm -r /home/robaina/hmmer/resultspep"]
+	pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	p_status = pipe.wait()
+	out, err = pipe.communicate()
+
+	cmd = ["mkdir /home/robaina/hmmer/resultspep"]
+	pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	p_status = pipe.wait()
+	out, err = pipe.communicate()
+
+
+# Remove directory "resultsgenes"
+cmd = ["rm -r /home/robaina/hmmer/resultsgenes"]
+pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p_status = pipe.wait()
+out, err = pipe.communicate()
+
+
+if question3=="y": # Retrieve gene hits?
+	cmd = ["mkdir /home/robaina/hmmer/resultsgenes"]
+	pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	p_status = pipe.wait()
+	out, err = pipe.communicate()
+
+# Remove resultsgenomes dir
 cmd = ["rm -r ./resultsgenomes"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-if question4=="y":
+
+
+if question4=="y":  # Retrieve genome if there are hits?
 	cmd = ["mkdir ./resultsgenomes"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
 cmd = ["rm -r /home/robaina/hmmer/resultsnucleotides"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
-if question2=="y":
+
+if question2=="y":  # Retrieve contigs with hits?
 	cmd = ["mkdir /home/robaina/hmmer/resultsnucleotides"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	#cmd = ["rm -r ./resultspos"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	#cmd = ["mkdir ./resultspos"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
@@ -236,10 +288,15 @@ else:
 	dirList=os.listdir("/home/robaina/hmmer/results/")
 	for fname in dirList:
 		if os.path.getsize("/home/robaina/hmmer/results/"+fname)==0:
-			cmd = ["rm /home/robaina/hmmer/results/"+fname]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+			cmd = ["rm /home/robaina/hmmer/results/"+fname]
+			pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			p_status = pipe.wait()
+			out, err = pipe.communicate()
+
 #'''
 cmd = ["rm *.hmm"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()	
 cmd = ["rm *.h3?"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+
 #'''
 if pfammodel=="TIGRFAMs_15.0_HMM":
 	cmd = ["cp /home/robaina/hmmer/TIGRFAMs_15.0_HMM.tar.gz ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
@@ -256,7 +313,7 @@ elif pfammodel=="Pfam-A.hmm":
 	cmd = ["cp /home/robaina/hmmer/Pfam-A.hmm ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
 	
-elif pfammodel.startswith("TIGR"):
+elif pfammodel.startswith("TIGR"):  # This prevents calling single TIGR model as argument of the script
 	cmd = ["cp /home/robaina/hmmer/TIGRFAMs_15.0_HMM.tar.gz ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
 	cmd = ["tar -zxvf TIGRFAMs_15.0_HMM.tar.gz"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
@@ -308,7 +365,10 @@ elif pfammodel=="pfams.txt":
 	pfammodel="pfams"
 	
 else:
-	cmd = ["cp /home/robaina/hmmer/"+pfammodel+" ."]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
+	cmd = ["cp /home/robaina/hmmer/"+pfammodel+" ."]
+	pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	p_status = pipe.wait()
+	out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
 #'''
 if len(sys.argv)==1:
@@ -341,7 +401,7 @@ def retrievedesc(output_file):
 	filetoread = open("/home/robaina/hmmer/results/"+output_file, "r")
 	lblpeptides=[]
 	mhmmacc=[]
-	for line in filetoread:
+	for line in filetoread:  # This is parsing hmmscan output (better done in pandas)
 		line=line.strip()
 		if not(line.startswith("#")) and len(line)>0:
 			seqid=line[line.find(" "):].strip(); seqid=seqid[seqid.find(" "):].strip(); seqid=seqid[:seqid.find(" ")].strip()
@@ -404,6 +464,8 @@ if question=="y":
 
 		if os.path.getsize(input_file)>0:
 			
+			# hmmscan parameters:   --cut_ga : use profile's GA gathering cutoffs to set all thresholding
+
 			if gatheringscore==1:
 				if int(nsequences)==1:
 					print ("hmmscan --tblout /home/robaina/hmmer/results/"+output_file+" -o /dev/null --cut_ga "+pfammodel+" "+input_file)
@@ -464,7 +526,7 @@ for x in range(len(ffiles)):
 	if len(hits)>0:
 		genomehits+=1
 
-	handle = open(pathtonucleotides+ffiles[x]+".fasta", "r")
+	handle = open(pathtonucleotides+ffiles[x]+".fasta", "r")  # Why is this needed when starting by peptide sequences?
 	j=0; npeptides=0
 	for xx in SeqIO.parse(handle, "fasta"):
 		act=0
