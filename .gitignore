@@ -1,8 +1,14 @@
+# Directories
 tests/
 Gene_Annotation_Jose_Tree_Method/
 .ipynb_checkpoints/
+code/test.ipynb
+data/nxr
+
+# Files
 Notes.txt
 Graph_Example.pptx
-code/test.ipynb
+
+# File types
 *.sqlite
 *.pyc
