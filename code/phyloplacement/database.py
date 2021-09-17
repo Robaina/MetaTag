@@ -91,7 +91,9 @@ def removeDuplicatesFromFastaByID(input_fasta: str,
     with open(output_fasta, 'w') as out_handle: 
          SeqIO.write(records, out_handle, 'fasta')
 
-def removeDuplicatesFromFasta(input_fasta: str, output_fasta: str = None) -> None:
+def removeDuplicatesFromFasta(input_fasta: str,
+                              output_fasta: str = None,
+                              output_duplicates: bool = False) -> None:
     """
     Removes duplicate entries (either by sequence or ID) from fasta.
     """
@@ -109,14 +111,17 @@ def removeDuplicatesFromFasta(input_fasta: str, output_fasta: str = None) -> Non
 
 def runHMMER(hmm_model: str, input_fasta: str,
              output_file: str = None,
-             method: str = 'hmmsearch') -> None:
+             method: str = 'hmmsearch',
+             n_processes: int = None) -> None:
     """
     Simple CLI wrapper to run hmmsearch or hmmscan
     Requires hmmer installed and accessible
     """
+    if n_processes is None:
+        n_processes = ''
     if output_file is None:
         output_file = setDefaultOutputPath(input_fasta, '_hmmer_hits', '.txt')
-    cmd_str = (f'{method} --cut_ga --tblout {output_file} '
+    cmd_str = (f'{method} --cut_ga --tblout {output_file} --cpu {n_processes} '
                f'{hmm_model} {input_fasta}')
     terminalExecute(cmd_str, suppress_output=True)
 
@@ -155,7 +160,8 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
     """
     
     basename, ext = os.path.splitext(input_fasta)
-    hmmer_output = f'{basename}.txt'
+    hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
+    hmmer_output = f'{basename}_{hmm_name}.txt'
 
     runHMMER(hmm_model=hmm_model,
              input_fasta=input_fasta,
