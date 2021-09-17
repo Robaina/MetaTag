@@ -24,5 +24,3 @@ if __name__ == '__main__':
                      input_fasta=input_fasta_no_dup,
                      output_fasta=None,
                      method='hmmsearch')
-
-# ValueError: The ID or alternative IDs of Hit 'WP_113256187.1_MMP09508687' exists in this QueryResult
