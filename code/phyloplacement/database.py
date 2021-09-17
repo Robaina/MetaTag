@@ -3,12 +3,11 @@ Functions to preprocess sequence data
 """
 
 import os
-from posixpath import basename
 import pandas as pd
 from collections import defaultdict
 from Bio import SearchIO, SeqIO
 
-from .utils import terminalExecute
+from .utils import terminalExecute, setDefaultOutputPath
 
 
 # def removeDuplicates():
@@ -75,6 +74,39 @@ from .utils import terminalExecute
 #     """
 #     pass
 
+
+def removeDuplicatesFromFastaByID(input_fasta: str,
+                                  output_fasta: str = None) -> None:
+    """
+    Remove entries with duplicated IDs from fasta.
+    """
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
+    seen_ids = set()
+    records = []
+    for record in SeqIO.parse(input_fasta, "fasta"):  
+        if record.id not in seen_ids:
+            seen_ids.add(record.id)
+            records.append(record)
+    with open(output_fasta, 'w') as out_handle: 
+         SeqIO.write(records, out_handle, 'fasta')
+
+def removeDuplicatesFromFasta(input_fasta: str, output_fasta: str = None) -> None:
+    """
+    Removes duplicate entries (either by sequence or ID) from fasta.
+    """
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
+    seen_seqs, seen_ids = set(), set()
+    records = []
+    for record in SeqIO.parse(input_fasta, "fasta"):  
+        if (record.seq not in seen_seqs) and (record.id not in seen_ids):
+            seen_seqs.add(record.seq)
+            seen_ids.add(record.id)
+            records.append(record)
+    with open(output_fasta, 'w') as out_handle: 
+         SeqIO.write(records, out_handle, 'fasta')
+
 def runHMMER(hmm_model: str, input_fasta: str,
              output_file: str = None,
              method: str = 'hmmsearch') -> None:
@@ -83,8 +115,7 @@ def runHMMER(hmm_model: str, input_fasta: str,
     Requires hmmer installed and accessible
     """
     if output_file is None:
-        basename, ext = os.path.splitext(input_fasta)
-        output_file = f'{basename}_hmmer_hits.txt'
+        output_file = setDefaultOutputPath(input_fasta, '_hmmer_hits', '.txt')
     cmd_str = (f'{method} --cut_ga --tblout {output_file} '
                f'{hmm_model} {input_fasta}')
     terminalExecute(cmd_str, suppress_output=True)
@@ -108,8 +139,7 @@ def filterFASTAbyIDs(input_fasta: str, record_ids: list,
     Filter records in fasta file matching provided IDs
     """
     if output_fasta is None:
-        basename, ext = os.path.splitext(input_fasta)
-        output_fasta = f'{basename}_filtered{ext}'
+       output_fasta = setDefaultOutputPath(input_fasta, '_fitered')
     hit_records = [record for record in SeqIO.parse(input_fasta, 'fasta')
                    if record.id in set(record_ids)]
     with open(output_fasta, 'w') as out_handle: 
