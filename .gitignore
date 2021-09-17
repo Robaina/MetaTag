@@ -1,8 +1,8 @@
-Viajes/
-Tests/
+tests/
 Gene_Annotation_Jose_Tree_Method/
 .ipynb_checkpoints/
 Notes.txt
 Graph_Example.pptx
 code/test.ipynb
 *.sqlite
+*.pyc
