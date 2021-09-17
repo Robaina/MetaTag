@@ -70,6 +70,7 @@ for i in SeqIO.parse(handle, "fasta"):
 			minseqlenght =len(i.seq)
 			lblminseqlenght=str(i.description)
 		totallength+=len(i.seq)
+		
 	else:
 		print ("Removing "+str(i.name))
 		print (regex3.sub("", str(i.seq).upper()))
