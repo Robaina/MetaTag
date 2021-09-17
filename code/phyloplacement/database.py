@@ -96,6 +96,7 @@ def removeDuplicatesFromFasta(input_fasta: str,
                               output_duplicates: bool = False) -> None:
     """
     Removes duplicate entries (either by sequence or ID) from fasta.
+    TODO: implement output_duplicates
     """
     if output_fasta is None:
         output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
@@ -108,6 +109,14 @@ def removeDuplicatesFromFasta(input_fasta: str,
             records.append(record)
     with open(output_fasta, 'w') as out_handle: 
          SeqIO.write(records, out_handle, 'fasta')
+
+def filterFastaBySequenceLength(input_fasta: str, minLength: int,
+                                output_fasta: str = None, maxLength: int = None) -> None:
+    """
+    Filter sequences by length in fasta file
+    TODO: well, all of it.
+    """
+    pass
 
 def runHMMER(hmm_model: str, input_fasta: str,
              output_file: str = None,
@@ -172,4 +181,3 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
 
     filterFASTAbyIDs(input_fasta, record_ids=hmmer_hits.id.values,
                      output_fasta=output_fasta)
-
