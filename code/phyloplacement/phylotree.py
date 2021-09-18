@@ -64,7 +64,9 @@ def runTrimal(input_aln: str, output_aln: str = None) -> None:
 def convertFastaAlnToPhylip(input_fasta_aln: str,
                             output_file: str = None) -> None:
     """
-    Convert alignments in Fasta to Phylip
+    Convert alignments in Fasta to Phylip.
+    Note: id labels in phylip format are restricted to 10 characters.
+          This restriction may caused repeated truncated labels.
     """
     if output_file is None:
         output_file = setDefaultOutputPath(input_fasta_aln, extension='phylip')
@@ -72,16 +74,54 @@ def convertFastaAlnToPhylip(input_fasta_aln: str,
         alignments = AlignIO.parse(input_handle, 'fasta')
         AlignIO.write(alignments, output_handle, 'phylip')
 
-def runFastTree(input_phylip: str, output_file: str = None,
-                nucleotides: bool = False) -> None:
+def runFastTree(input_algns: str, output_file: str = None,
+                nucleotides: bool = False,
+                additional_args: str = None) -> None:
     """
-    Simple CLI wrapper to fasttree
+    Simple CLI wrapper to fasttree.
+    fasttree accepts multiple alignments in fasta or phylip formats
+
+    additional_args: a string containing additional parameters and
+                    parameter values to be passed to fasttree
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_phylip, tag='_tree', extension='txt')
+        output_file = setDefaultOutputPath(input_algns, tag='_fasttree', extension='.newick')
     if nucleotides:
         nt_str = '-gtr -nt'
     else:
         nt_str = ''
-    cmd_str = f'fasttree {nt_str} {input_phylip} > {output_file}'
+    if additional_args is None:
+        additional_args = ''
+    cmd_str = f'fasttree {nt_str} {input_algns} {additional_args} > {output_file}'
+    terminalExecute(cmd_str, suppress_output=False)
+
+def runIqTree(input_algns: str, output_file: str = None,
+              nucleotides: bool = False, n_processes: int = None,
+              substitution_model: str = 'TEST',
+              bootstrap_replicates: int = 1000,
+              additional_args: str = None) -> None:
+    """
+    Simple CLI wrapper to iqtree.
+    iqtree accepts multiple alignments in fasta or phylip formats.
+
+    additional_args: a string containing additional parameters and
+                     parameter values to be passed to iqtree
+
+    output: iqtree outputs several files in the input directory,
+            apparently, currently there is no way to change this behaviour
+            from within iqtree
+    """
+    # use -pre to specify prefix for all output files
+    if output_file is None:
+        output_file = setDefaultOutputPath(input_algns, tag='_iqtree', extension='.txt')
+    if nucleotides:
+        seq_type = 'DNA'
+    else:
+        seq_type = 'AA'
+    if n_processes is None:
+        n_processes = 'AUTO'
+    if additional_args is None:
+        additional_args = ''
+    cmd_str = (f'iqtree -s {input_algns} -st {seq_type} -nt {n_processes} '
+               f'-m {substitution_model} -bb {bootstrap_replicates} {additional_args}')
     terminalExecute(cmd_str, suppress_output=False)
