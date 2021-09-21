@@ -38,6 +38,30 @@ def placeReadsOntoTree():
     """
     pass
 
+def runMAFFT(input_fasta: str, output_file: str = None,
+             n_threads: int = -1, parallel: bool = True,
+             additional_args: str = None) -> None:
+    """
+    Simple CLI wrapper to mafft
+    
+    Manual: https://mafft.cbrc.jp/alignment/software/manual/manual.html
+    
+    CLI examples:
+    mafft --globalpair --thread n in > out
+    mafft --localpair --thread n in > out
+    mafft --large --globalpair --thread n in > out
+    """
+    if output_file is None:
+        output_file = setDefaultOutputPath(input_fasta, extension='.fasta.aln')
+    if parallel:
+        thread_str = f'--thread {n_threads}'
+    else:
+        thread_str = ''
+    if additional_args is None:
+        additional_args = ''
+    cmd_str = f'mafft {thread_str} {additional_args} {input_fasta} > {output_file}'
+    terminalExecute(cmd_str, suppress_output=False)
+
 def runMuscle(input_fasta: str, output_file: str = None,
               maxiters: int = None) -> None:
     """

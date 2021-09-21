@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # conda activate traits
 
+import pyfastx
 from phyloplacement.database import filterFASTAByHMM, removeDuplicatesFromFasta
 from phyloplacement.phylotree import (runMuscle, runTrimal,
                                       convertFastaAlnToPhylip, runFastTree,
@@ -32,4 +33,13 @@ if __name__ == '__main__':
     
     # runFastTree(input_algns='data/nxr/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln')
 
-    runIqTree(input_algns='data/nxr/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln')
+    # runIqTree(input_algns='data/nxr/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln')
+    
+    """
+    Large (36800) database with Molybdopterin.hmm. 
+    Reduced to 17300 with cd-hit (default params)
+
+    Very small (1268) database with TIGR015180 for narG
+    """
+    fa = pyfastx.Fasta('/home/robaina/Documents/TRAITS/data/nxr/mardb_proteins_V6_TIGR015180.1.fasta')
+    print(fa.keys())
