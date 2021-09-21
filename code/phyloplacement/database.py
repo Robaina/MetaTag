@@ -132,6 +132,15 @@ def filterFastaBySequenceLength(input_fasta: str, minLength: int = 0,
             record_obj = fa[record_id]
             fp.write(record_obj.raw)
 
+def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
+    """
+    Merge input fasta files into a single fast
+    """
+    if output_fasta is None:
+        output_fasta = os.path.join(input_fastas_dir, 'merged.fasta')
+    cmd_str = f'awk 1 *.fasta > {output_fasta}'
+    terminalExecute(cmd_str, suppress_output=False)
+
 def runHMMER(hmm_model: str, input_fasta: str,
              output_file: str = None,
              method: str = 'hmmsearch',
