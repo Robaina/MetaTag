@@ -2,7 +2,7 @@
 # conda activate traits
 
 import pyfastx
-from phyloplacement.database import filterFASTAByHMM, removeDuplicatesFromFasta
+from phyloplacement.database import filterFASTAByHMM, removeDuplicatesFromFasta, filterFastaBySequenceLength
 from phyloplacement.phylotree import (runMuscle, runTrimal,
                                       convertFastaAlnToPhylip, runFastTree,
                                       runIqTree)
@@ -11,8 +11,7 @@ if __name__ == '__main__':
         
     # hmm = 'data/hmms/narGTIGR01580.1.HMM'
     # input_fasta = '/home/robaina/Documents/MAR_database/mardb_proteins_V6.faa'
-    # input_fasta = '/usr/gonzalez/metagenomes/MarPeptides/mardb_proteins_V6.fasta'
-    # input_fasta_no_dup = '/usr/gonzalez/metagenomes/MarPeptides/mardb_proteins_V6_no_duplicates.fasta'
+    input_fasta_no_dup = '/home/robaina/Documents/MAR_database/mardb_proteins_V6_no_duplicates.fasta'
     
     # removeDuplicatesFromFasta(input_fasta, output_fasta=input_fasta_no_dup)
 
@@ -41,5 +40,11 @@ if __name__ == '__main__':
 
     Very small (1268) database with TIGR015180 for narG
     """
-    fa = pyfastx.Fasta('/home/robaina/Documents/TRAITS/data/nxr/mardb_proteins_V6_TIGR015180.1.fasta')
-    print(fa.keys())
+
+    # filterFastaBySequenceLength(input_fasta=input_fasta_no_dup, minLength=100)
+    
+    
+    
+    # fa = pyfastx.Fasta('/home/robaina/Documents/TRAITS/data/nxr/mardb_proteins_V6_TIGR015180.1.fasta')
+    # ids = fa.keys()
+    # ids.filter
