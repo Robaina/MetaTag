@@ -12,3 +12,10 @@ Graph_Example.pptx
 # File types
 *.sqlite
 *.pyc
+*.bionj
+*.ckp.gz
+*.log
+*.mldist
+*.model.gz
+*.nex
+*.iqtree
