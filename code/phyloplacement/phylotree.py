@@ -3,8 +3,9 @@ Functions to perform multiple alignment of peptide sequences
 and phylogenetic tree reconstruction
 """
 
+import os
+import shutil
 from Bio import AlignIO
-
 from .utils import terminalExecute, setDefaultOutputPath
 
 
@@ -119,7 +120,9 @@ def runFastTree(input_algns: str, output_file: str = None,
     cmd_str = f'fasttree {nt_str} {input_algns} {additional_args} > {output_file}'
     terminalExecute(cmd_str, suppress_output=False)
 
-def runIqTree(input_algns: str, output_file: str = None,
+def runIqTree(input_algns: str, output_dir: str = None,
+              output_prefix: str = None,
+              keep_recovery_files: bool = False,
               nucleotides: bool = False, n_processes: int = None,
               substitution_model: str = 'TEST',
               bootstrap_replicates: int = 1000,
@@ -135,9 +138,46 @@ def runIqTree(input_algns: str, output_file: str = None,
             apparently, currently there is no way to change this behaviour
             from within iqtree
     """
-    # use -pre to specify prefix for all output files
-    if output_file is None:
-        output_file = setDefaultOutputPath(input_algns, tag='_iqtree', extension='.txt')
+    def removeAuxiliaryOutput(output_prefix):
+        """
+        Redirect iqtree default output to directory
+        """
+        output_exts = [
+            'bionj', 'ckp.gz', 'contree', 'iqtree', 'log',
+            'model.gz', 'splits.nex', 'treefile'
+        ]
+        output_files = [output_prefix + ext for ext in output_exts]
+        # input_dir = os.path.dirname(input_algns)
+        # input_file = os.path.basename(input_algns)
+        # output_files = os.listdir(output_dir)
+        print(output_files)
+        # treefile = [file for file in output_files if '.treefile' in file][0]
+        # contreefile = [file for file in output_files if '.contree' in file]
+        # shutil.move(os.path.join(input_dir, treefile),
+        #             os.path.join(output_dir, treefile))
+        # if contreefile:
+        #     contreefile = contreefile[0]
+        #     # shutil.move(os.path.join(input_dir, contreefile),
+        #     #             os.path.join(output_dir, contreefile))
+        #     output_files.remove(contreefile)
+        # # output_files.remove(input_file)
+        # output_files.remove(treefile)
+        # if not keep_recovery_files:
+        #     for file in output_files:
+        #         shutil.move(os.path.join(input_dir, file),
+        #                     os.path.join(output_dir, file))
+        # else:
+        for file in output_files:
+            try:
+                os.remove(os.path.join(output_dir, file))
+            except:
+                pass
+
+    if output_prefix is None:
+        input_file = os.path.basename(input_algns)
+        output_prefix_str = f'-pre {os.path.join(output_dir, input_file)}'
+    else:
+        output_prefix_str = f'-pre {os.path.join(output_dir, output_prefix)}'
     if nucleotides:
         seq_type = 'DNA'
     else:
@@ -147,5 +187,9 @@ def runIqTree(input_algns: str, output_file: str = None,
     if additional_args is None:
         additional_args = ''
     cmd_str = (f'iqtree -s {input_algns} -st {seq_type} -nt {n_processes} '
-               f'-m {substitution_model} -bb {bootstrap_replicates} {additional_args}')
+               f'-m {substitution_model} -bb {bootstrap_replicates} {output_prefix_str} {additional_args}')
     terminalExecute(cmd_str, suppress_output=False)
+    if not keep_recovery_files:
+        output_dir = os.path.abspath(output_dir)
+        removeAuxiliaryOutput(output_prefix, keep_recovery_files)
+    

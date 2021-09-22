@@ -12,7 +12,7 @@ if __name__ == '__main__':
         
     # hmm = 'data/hmms/narGTIGR01580.1.HMM'
     # input_fasta = '/home/robaina/Documents/MAR_database/mardb_proteins_V6.faa'
-    input_fasta_no_dup = '/home/robaina/Documents/MAR_database/mardb_proteins_V6_no_duplicates.fasta'
+    # input_fasta_no_dup = '/home/robaina/Documents/MAR_database/mardb_proteins_V6_no_duplicates.fasta'
     
     # removeDuplicatesFromFasta(input_fasta, output_fasta=input_fasta_no_dup)
 
@@ -49,5 +49,11 @@ if __name__ == '__main__':
     # fa = pyfastx.Fasta('/home/robaina/Documents/TRAITS/data/nxr/mardb_proteins_V6_TIGR015180.1.fasta')
     # ids = fa.keys()
     # ids.filter
+
+
+    runIqTree(input_algns='data/iqtest/iqtest.fasta.aln',
+              keep_recovery_files=False,
+              output_dir='data/nxr',
+              output_prefix='hola')
 
 
