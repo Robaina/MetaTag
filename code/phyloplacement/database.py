@@ -76,6 +76,11 @@ from .utils import terminalExecute, setDefaultOutputPath
 #     pass
 
 
+def  findDuplicatedSequences(input_fasta: str, output_file: str) -> None:
+    """
+    Finds entries with duplicated sequences in Fasta filepython
+    """
+
 def removeDuplicatesFromFastaByID(input_fasta: str,
                                   output_fasta: str = None) -> None:
     """
@@ -174,13 +179,17 @@ def runCDHIT(input_fasta: str, output_fasta: str = None,
              additional_args: str = None) -> None:
     """
     Simple CLI wrapper to cd-hit to obain representative sequences
+    CD-HIT may be used to remove duplicated sequences (keeps one representatie)
+    with parameters -c 1 -t 1. However, it does require lots of RAM to store sequences,
+    cannot run on Aquifex.
+
     """
     if output_fasta is None:
        output_fasta = setDefaultOutputPath(input_fasta, '_cdhit')
     if additional_args is None:
         additional_args = ''
     cmd_str = f'cd-hit -i {input_fasta} -o {output_fasta} {additional_args}'
-    terminalExecute(cmd_str, suppress_output=True)
+    terminalExecute(cmd_str, suppress_output=False)
 
 def filterFASTAbyIDs(input_fasta: str, record_ids: list,
                      output_fasta: str = None) -> None:
