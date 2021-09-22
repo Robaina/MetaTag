@@ -134,50 +134,32 @@ def runIqTree(input_algns: str, output_dir: str = None,
     additional_args: a string containing additional parameters and
                      parameter values to be passed to iqtree
 
-    output: iqtree outputs several files in the input directory,
-            apparently, currently there is no way to change this behaviour
-            from within iqtree
+    output: iqtree outputs several files
     """
     def removeAuxiliaryOutput(output_prefix):
         """
-        Redirect iqtree default output to directory
+        Removes iqtree auxiliary output files
         """
         output_exts = [
-            'bionj', 'ckp.gz', 'contree', 'iqtree', 'log',
-            'model.gz', 'splits.nex', 'treefile'
+            '.bionj', '.ckp.gz', '.contree', '.iqtree', '.log',
+            '.model.gz', '.splits.nex', '.treefile', '.mldist'
         ]
         output_files = [output_prefix + ext for ext in output_exts]
-        # input_dir = os.path.dirname(input_algns)
-        # input_file = os.path.basename(input_algns)
-        # output_files = os.listdir(output_dir)
-        print(output_files)
-        # treefile = [file for file in output_files if '.treefile' in file][0]
-        # contreefile = [file for file in output_files if '.contree' in file]
-        # shutil.move(os.path.join(input_dir, treefile),
-        #             os.path.join(output_dir, treefile))
-        # if contreefile:
-        #     contreefile = contreefile[0]
-        #     # shutil.move(os.path.join(input_dir, contreefile),
-        #     #             os.path.join(output_dir, contreefile))
-        #     output_files.remove(contreefile)
-        # # output_files.remove(input_file)
-        # output_files.remove(treefile)
-        # if not keep_recovery_files:
-        #     for file in output_files:
-        #         shutil.move(os.path.join(input_dir, file),
-        #                     os.path.join(output_dir, file))
-        # else:
-        for file in output_files:
-            try:
-                os.remove(os.path.join(output_dir, file))
-            except:
-                pass
+        for file_path in output_files:
+            if ('iqtree' not in file_path) and ('contree' not in file_path):
+                os.remove(file_path)
 
+    if output_dir is None:
+        output_dir = os.path.dirname(input_algns)
+    else:
+        output_dir = os.path.abspath(output_dir)
     if output_prefix is None:
         input_file = os.path.basename(input_algns)
-        output_prefix_str = f'-pre {os.path.join(output_dir, input_file)}'
+        output_prefix = os.path.join(output_dir, input_file)
+        output_prefix_str = f'-pre {output_prefix}'
     else:
-        output_prefix_str = f'-pre {os.path.join(output_dir, output_prefix)}'
+        output_prefix = os.path.join(output_dir, output_prefix)
+        output_prefix_str = f'-pre {output_prefix}'
     if nucleotides:
         seq_type = 'DNA'
     else:
@@ -190,6 +172,5 @@ def runIqTree(input_algns: str, output_dir: str = None,
                f'-m {substitution_model} -bb {bootstrap_replicates} {output_prefix_str} {additional_args}')
     terminalExecute(cmd_str, suppress_output=False)
     if not keep_recovery_files:
-        output_dir = os.path.abspath(output_dir)
-        removeAuxiliaryOutput(output_prefix, keep_recovery_files)
+        removeAuxiliaryOutput(output_prefix)
     
