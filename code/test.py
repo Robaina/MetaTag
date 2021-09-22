@@ -2,7 +2,8 @@
 # conda activate traits
 
 import pyfastx
-from phyloplacement.database import filterFASTAByHMM, removeDuplicatesFromFasta, filterFastaBySequenceLength
+from phyloplacement.database import (filterFASTAByHMM, removeDuplicatesFromFasta,
+                                     filterFastaBySequenceLength, runCDHIT)
 from phyloplacement.phylotree import (runMuscle, runTrimal,
                                       convertFastaAlnToPhylip, runFastTree,
                                       runIqTree)
@@ -48,3 +49,5 @@ if __name__ == '__main__':
     # fa = pyfastx.Fasta('/home/robaina/Documents/TRAITS/data/nxr/mardb_proteins_V6_TIGR015180.1.fasta')
     # ids = fa.keys()
     # ids.filter
+
+
