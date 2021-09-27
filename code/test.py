@@ -49,11 +49,17 @@ if __name__ == '__main__':
     # fa = pyfastx.Fasta('/home/robaina/Documents/TRAITS/data/nxr/mardb_proteins_V6_TIGR015180.1.fasta')
     # ids = fa.keys()
     # ids.filter
+     
+    # runMuscle(input_fasta='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta')
 
 
-    runIqTree(input_algns='data/iqtest/iqtest.fasta.aln',
+    runTrimal(input_aln='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln',
+              output_aln='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln')
+
+    runIqTree(input_algns='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln',
               keep_recovery_files=False,
-              output_dir='data/nxr',
-              output_prefix='hola')
+              output_dir='data/nxr/kitzinger2021',
+              output_prefix=None)
+    
 
 
