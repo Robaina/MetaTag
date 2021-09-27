@@ -4,6 +4,8 @@ and phylogenetic tree reconstruction
 """
 
 import os
+import shutil
+import tempfile
 from Bio import AlignIO
 from .utils import terminalExecute, setDefaultOutputPath
 
@@ -172,30 +174,48 @@ def runIqTree(input_algns: str, output_dir: str = None,
     if not keep_recovery_files:
         removeAuxiliaryOutput(output_prefix)
 
-def pruneTreeOutliers(input_newick: str, output_dir: str = None,
-                      output_prefix: str = None,
-                      input_aln: str = None) -> None: 
+def runTreeShrink(input_tree: str, input_aln: str,
+                  output_dir: str = None,
+                  additional_args: str = None) -> None: 
     """
     Run treeshrink to remove tree branch outliers. 
-    Optionally remove outliers from MSA file too.
-
+    Remove outliers from MSA file too.
+    Tree file must be of newick format.
     see run_treeshrink.py  -h for help
-
-    NOTE: treeshrink requires input directory with subdirectories
-          containing input tree and msa files. It will output files
-          to a created subdrectory with the same name within the output
-          directory...
     """
-    if input_aln is not None:
-        aln_str = f'-a '
+    if output_dir is None:
+        output_dir = os.path.dirname(input_tree)
+    if additional_args is not None:
+        args_str = additional_args
     else:
-        aln_str = ''
-    if output_prefix is not None:
-        prefix_str = f'-O {output_prefix}'
-    else:
-        prefix_str = ''
-    cmd_str = (
-        f'run_treeshrink.py -t {input_newick} -m per-gene '
-        f'-o {output_dir} {prefix_str}'
-               )
+        args_str = ''
+    out_tree = setDefaultOutputPath(input_tree, tag='_shrink')
+    out_aln = setDefaultOutputPath(input_aln, tag='_shrink')
+
+    # Handle treeshrink input/output requirements (temp/tree/input.tree)
+    with tempfile.TemporaryDirectory() as temp_out_dir, \
+         tempfile.TemporaryDirectory() as parent_in_temp, \
+         tempfile.TemporaryDirectory(dir=parent_in_temp.name) as temp_in_dir:
+
+        temp_tree_dir = os.path.basename(temp_in_dir.name)
+        shutil.move(input_tree, os.path.join(temp_in_dir, "input.tree"))
+        shutil.move(input_aln, os.path.join(temp_in_dir, "input.fasta.aln"))
+
+        tree_shrink_cmd_str = (
+            f'run_treeshrink.py -i {temp_in_dir} -m per-gene '
+            '-t input.tree -a input.fasta.aln '
+            f'-o {temp_out_dir} -O output {args_str}'
+                )
+        terminalExecute(tree_shrink_cmd_str, suppress_output=True)
+
+        shutil.move(
+            os.path.join(temp_out_dir, temp_tree_dir, "output.tree"),
+            os.path.join(output_dir, out_tree)
+        )
+        shutil.move(
+            os.path.join(temp_out_dir, temp_tree_dir, "output.fasta.aln"),
+            os.path.join(output_dir, out_aln)
+            )
+
+        
     
