@@ -43,9 +43,6 @@ if __name__ == '__main__':
     """
 
     # filterFastaBySequenceLength(input_fasta=input_fasta_no_dup, minLength=100)
-    
-    
-    
     # fa = pyfastx.Fasta('/home/robaina/Documents/TRAITS/data/nxr/mardb_proteins_V6_TIGR015180.1.fasta')
     # ids = fa.keys()
     # ids.filter
@@ -63,3 +60,16 @@ if __name__ == '__main__':
     
 
 
+# Run hmmsearch to get gene-specific sequences
+
+# Run cd-hit to remove uninformative sequences
+
+# Run MSA software: mafft (parallel), or muscle (single thread)
+
+# Run fasttree or iqtree to get newick tree file
+
+# Prun tree (and MSA if desired) of outlier branches: treshrink
+
+# Visualize tree with empress tree-plot (html)
+
+# Do placement of short reads on tree
