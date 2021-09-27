@@ -76,11 +76,6 @@ from .utils import terminalExecute, setDefaultOutputPath
 #     pass
 
 
-def  findDuplicatedSequences(input_fasta: str, output_file: str) -> None:
-    """
-    Finds entries with duplicated sequences in Fasta filepython
-    """
-
 def removeDuplicatesFromFastaByID(input_fasta: str,
                                   output_fasta: str = None) -> None:
     """

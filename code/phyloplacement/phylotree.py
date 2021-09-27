@@ -43,7 +43,7 @@ def runMAFFT(input_fasta: str, output_file: str = None,
              n_threads: int = -1, parallel: bool = True,
              additional_args: str = None) -> None:
     """
-    Simple CLI wrapper to mafft
+    Simple CLI wrapper to mafft (MSA)
     
     Manual: https://mafft.cbrc.jp/alignment/software/manual/manual.html
     
@@ -66,7 +66,7 @@ def runMAFFT(input_fasta: str, output_file: str = None,
 def runMuscle(input_fasta: str, output_file: str = None,
               maxiters: int = None) -> None:
     """
-    Simple CLI wrapper to muscle
+    Simple CLI wrapper to muscle (MSA)
     """
     if output_file is None:
         output_file = setDefaultOutputPath(input_fasta, extension='.fasta.aln')
@@ -140,14 +140,13 @@ def runIqTree(input_algns: str, output_dir: str = None,
         """
         Removes iqtree auxiliary output files
         """
-        output_exts = [
-            '.bionj', '.ckp.gz', '.contree', '.iqtree', '.log',
-            '.model.gz', '.splits.nex', '.treefile', '.mldist'
+        exts_to_remove = [
+            '.bionj', '.ckp.gz', '.iqtree', '.log',
+            '.model.gz', '.splits.nex', '.mldist'
         ]
-        output_files = [output_prefix + ext for ext in output_exts]
-        for file_path in output_files:
-            if ('iqtree' not in file_path) and ('contree' not in file_path):
-                os.remove(file_path)
+        files_to_remove = [output_prefix + ext for ext in exts_to_remove]
+        for file_path in files_to_remove:
+            os.remove(file_path)
 
     if output_dir is None:
         output_dir = os.path.dirname(input_algns)
