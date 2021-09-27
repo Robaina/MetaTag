@@ -4,7 +4,6 @@ and phylogenetic tree reconstruction
 """
 
 import os
-import shutil
 from Bio import AlignIO
 from .utils import terminalExecute, setDefaultOutputPath
 
@@ -172,4 +171,31 @@ def runIqTree(input_algns: str, output_dir: str = None,
     terminalExecute(cmd_str, suppress_output=False)
     if not keep_recovery_files:
         removeAuxiliaryOutput(output_prefix)
+
+def pruneTreeOutliers(input_newick: str, output_dir: str = None,
+                      output_prefix: str = None,
+                      input_aln: str = None) -> None: 
+    """
+    Run treeshrink to remove tree branch outliers. 
+    Optionally remove outliers from MSA file too.
+
+    see run_treeshrink.py  -h for help
+
+    NOTE: treeshrink requires input directory with subdirectories
+          containing input tree and msa files. It will output files
+          to a created subdrectory with the same name within the output
+          directory...
+    """
+    if input_aln is not None:
+        aln_str = f'-a '
+    else:
+        aln_str = ''
+    if output_prefix is not None:
+        prefix_str = f'-O {output_prefix}'
+    else:
+        prefix_str = ''
+    cmd_str = (
+        f'run_treeshrink.py -t {input_newick} -m per-gene '
+        f'-o {output_dir} {prefix_str}'
+               )
     
