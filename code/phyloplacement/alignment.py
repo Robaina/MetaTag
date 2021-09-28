@@ -50,20 +50,20 @@ def runTrimal(input_aln: str, output_aln: str = None) -> None:
 
 def runHMMalign(input_hmm: str, input_aln: str,
                 input_seqs: str, 
-                output_aln: str = None,
+                output_aln_seqs: str = None,
                 additional_args: str = None) -> None:
     """
     Simple CLI wrapper to hmmalign
     Align short read query sequences to reference MSA
     """
-    if output_aln is None:
-        output_aln = setDefaultOutputPath(input_seqs, '_hmm', extension='.aln')
+    if output_aln_seqs is None:
+        output_aln_seqs = setDefaultOutputPath(input_seqs, '_hmm', extension='.aln')
     if additional_args is not None:
         args_str = additional_args
     else:
         args_str = ''
     cmd_str = (
-        f'hmmalign -o {output_aln} --mapali {input_aln} --trim '
+        f'hmmalign -o {output_aln_seqs} --mapali {input_aln} --trim '
         f'--informat FASTA {args_str} {input_hmm} {input_seqs}'
         )
     terminalExecute(cmd_str, suppress_output=True)
@@ -89,3 +89,15 @@ def convertFastaAlnToPhylip(input_fasta_aln: str,
     with open(input_fasta_aln, 'r') as input_handle, open(output_file, 'w') as output_handle:
         alignments = AlignIO.parse(input_handle, 'fasta')
         AlignIO.write(alignments, output_handle, 'phylip')
+
+def convertStockholmToFasta(input_stockholm: str,
+                            output_fasta: str = None) -> None:
+    """
+    Convert alignment file in Stockholm format to fasta
+    """
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_stockholm,
+                                            extension='.fasta')
+    with open(output_fasta, 'w') as fasta_file:
+        align = AlignIO.read(input_stockholm, 'stockholm')
+        print(align.format('fasta'), file=fasta_file)

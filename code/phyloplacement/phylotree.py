@@ -8,7 +8,7 @@ import shutil
 import tempfile
 from .utils import terminalExecute, setDefaultOutputPath
 from .database import runHMMbuild
-from .alignment import runHMMalign
+from .alignment import runHMMalign, convertStockholmToFasta
 
 
 def alignPeptides():
@@ -32,7 +32,7 @@ def getPhyloTree():
     pass
 
 def placeReadsOntoTree(input_tree: str, input_aln: str,
-                       input_seqs: str,
+                       input_query: str,
                        query_already_aligned: bool = False,
                        output_file: str = None) -> None:
     """
@@ -43,22 +43,31 @@ def placeReadsOntoTree(input_tree: str, input_aln: str,
     Runs hmmbuild, hmmalign, epa-ng
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_seqs, tag='_placement',
+        output_file = setDefaultOutputPath(input_query, tag='_placement',
                                            extension='.jplace')
     if not query_already_aligned:
-
+         
+        output_hmm = '/home/robaina/Documents/TRAITS/out.hmm'
         runHMMbuild(input_aln=input_aln,
-                    output_hmm='',
+                    output_hmm=output_hmm,
                     additional_args=None)
-                    
+        
+        output_aln_seqs = '/home/robaina/Documents/TRAITS/aln_query.stk'
         runHMMalign(input_aln=input_aln,
-                    input_hmm='',
-                    input_seqs=input_seqs,
-                    output_aln='',
+                    input_hmm=output_hmm,
+                    input_seqs=input_query,
+                    output_aln_seqs=output_aln_seqs,
                     additional_args=None)
-
-    runEPAng(input_tree='', input_aln='',
-             input_query='', output_dir='',
+        
+        input_aln_query = '/home/robaina/Documents/TRAITS'
+        convertStockholmToFasta(input_stockholm=output_aln_seqs,
+                                output_fasta=input_aln_query)
+    else:
+        input_aln_query = input_query
+    
+    output_dir = '/home/robaina/Documents/TRAITS'
+    runEPAng(input_tree=input_tree, input_aln=input_aln,
+             input_query=input_aln_query, output_dir=output_dir,
              n_threads=None, additional_args=None)
 
 def runFastTree(input_algns: str, output_file: str = None,
