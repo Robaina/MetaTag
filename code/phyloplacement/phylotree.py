@@ -176,6 +176,7 @@ def runIqTree(input_algns: str, output_dir: str = None,
 
 def runTreeShrink(input_tree: str, input_aln: str,
                   output_dir: str = None,
+                  output_deleted_nodes: bool = False,
                   additional_args: str = None) -> None: 
     """
     Run treeshrink to remove tree branch outliers. 
@@ -185,37 +186,48 @@ def runTreeShrink(input_tree: str, input_aln: str,
     """
     if output_dir is None:
         output_dir = os.path.dirname(input_tree)
+    else:
+        output_dir = os.path.abspath(output_dir)
     if additional_args is not None:
         args_str = additional_args
     else:
         args_str = ''
-    out_tree = setDefaultOutputPath(input_tree, tag='_shrink')
-    out_aln = setDefaultOutputPath(input_aln, tag='_shrink')
+    
+    out_tree = setDefaultOutputPath(input_tree, tag='_shrink', only_filename=True)
+    out_aln = setDefaultOutputPath(input_aln, tag='_shrink', only_filename=True)
 
     # Handle treeshrink input/output requirements (temp/tree/input.tree)
     with tempfile.TemporaryDirectory() as temp_out_dir, \
          tempfile.TemporaryDirectory() as parent_in_temp, \
-         tempfile.TemporaryDirectory(dir=parent_in_temp.name) as temp_in_dir:
+         tempfile.TemporaryDirectory(dir=parent_in_temp) as temp_in_dir:
 
-        temp_tree_dir = os.path.basename(temp_in_dir.name)
-        shutil.move(input_tree, os.path.join(temp_in_dir, "input.tree"))
-        shutil.move(input_aln, os.path.join(temp_in_dir, "input.fasta.aln"))
-
+        temp_tree_dir = os.path.basename(temp_in_dir)
+        shutil.copy(input_tree, os.path.join(temp_in_dir, "input.tree"))
+        shutil.copy(input_aln, os.path.join(temp_in_dir, "input.aln"))
+        
         tree_shrink_cmd_str = (
-            f'run_treeshrink.py -i {temp_in_dir} -m per-gene '
-            '-t input.tree -a input.fasta.aln '
+            f'run_treeshrink.py -i {parent_in_temp} -m per-gene '
+            '-t input.tree -a input.aln '
             f'-o {temp_out_dir} -O output {args_str}'
                 )
-        terminalExecute(tree_shrink_cmd_str, suppress_output=True)
+        terminalExecute(tree_shrink_cmd_str, suppress_output=False)
 
         shutil.move(
             os.path.join(temp_out_dir, temp_tree_dir, "output.tree"),
             os.path.join(output_dir, out_tree)
         )
         shutil.move(
-            os.path.join(temp_out_dir, temp_tree_dir, "output.fasta.aln"),
+            os.path.join(temp_out_dir, temp_tree_dir, "output.aln"),
             os.path.join(output_dir, out_aln)
             )
+        if output_deleted_nodes:
+            out_txt = setDefaultOutputPath(input_aln, tag='_shrink_deleted',
+                                           extension='.txt', only_filename=True)
+            shutil.move(
+                os.path.join(temp_out_dir, temp_tree_dir, "output.txt"),
+                os.path.join(output_dir, out_txt)
+            )
+
 
         
     

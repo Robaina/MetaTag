@@ -6,7 +6,7 @@ from phyloplacement.database import (filterFASTAByHMM, removeDuplicatesFromFasta
                                      filterFastaBySequenceLength, runCDHIT)
 from phyloplacement.phylotree import (runMuscle, runTrimal,
                                       convertFastaAlnToPhylip, runFastTree,
-                                      runIqTree)
+                                      runIqTree, runTreeShrink)
 
 if __name__ == '__main__':
         
@@ -50,13 +50,18 @@ if __name__ == '__main__':
     # runMuscle(input_fasta='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta')
 
 
-    runTrimal(input_aln='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln',
-              output_aln='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln')
+    # runTrimal(input_aln='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln',
+    #           output_aln='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln')
 
-    runIqTree(input_algns='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln',
-              keep_recovery_files=False,
-              output_dir='data/nxr/kitzinger2021',
-              output_prefix=None)
+    # runIqTree(input_algns='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln',
+    #           keep_recovery_files=False,
+    #           output_dir='data/nxr/kitzinger2021',
+    #           output_prefix=None)
+
+    runTreeShrink(input_tree='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink/tree/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln.treefile',
+                  input_aln='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink/tree/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln',
+                  output_dir='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output',
+                  output_deleted_nodes=True)
     
 
 

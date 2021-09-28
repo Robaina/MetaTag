@@ -22,13 +22,19 @@ def deleteTemporaryFiles(dir_path: str) -> None:
         os.remove(os.path.join(dir_path, fname))
 
 def setDefaultOutputPath(input_path: str, tag: str = None,
-                         extension: str = None) -> str:
+                         extension: str = None,
+                         only_filename: bool = False) -> str:
     """
     Get default path to outputfile
     """
-    basename, ext = os.path.splitext(input_path)
+    basename = os.path.basename(input_path)
+    dirname = os.path.dirname(input_path)
+    fname, ext = os.path.splitext(basename)
     if extension is None:
         extension = ext
     if tag is None:
         tag = ''
-    return f'{basename}{tag}{extension}'
+    if only_filename:
+        return f'{fname}{tag}{extension}'
+    else:
+        return f'{os.path.join(dirname, basename)}{tag}{extension}'
