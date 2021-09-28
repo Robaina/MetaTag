@@ -40,53 +40,6 @@ def placeReadsOntoTree():
     """
     pass
 
-def runMAFFT(input_fasta: str, output_file: str = None,
-             n_threads: int = -1, parallel: bool = True,
-             additional_args: str = None) -> None:
-    """
-    Simple CLI wrapper to mafft (MSA)
-    
-    Manual: https://mafft.cbrc.jp/alignment/software/manual/manual.html
-    
-    CLI examples:
-    mafft --globalpair --thread n in > out
-    mafft --localpair --thread n in > out
-    mafft --large --globalpair --thread n in > out
-    """
-    if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta, extension='.fasta.aln')
-    if parallel:
-        thread_str = f'--thread {n_threads}'
-    else:
-        thread_str = ''
-    if additional_args is None:
-        additional_args = ''
-    cmd_str = f'mafft {thread_str} {additional_args} {input_fasta} > {output_file}'
-    terminalExecute(cmd_str, suppress_output=False)
-
-def runMuscle(input_fasta: str, output_file: str = None,
-              maxiters: int = None) -> None:
-    """
-    Simple CLI wrapper to muscle (MSA)
-    """
-    if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta, extension='.fasta.aln')
-    if maxiters is None:
-        maxiters = 2
-    cmd_str = f'muscle -in {input_fasta} -out {output_file} -maxiters {maxiters}'
-    terminalExecute(cmd_str, suppress_output=False)
-
-def runTrimal(input_aln: str, output_aln: str = None) -> None:
-    """
-    Simple CLI wrapper to trimal
-    TODO: all
-    """
-    if output_aln is None:
-        output_aln = setDefaultOutputPath(input_aln, '_trimal')
-    cmd_str = (f'trimal -in {input_aln} -out {output_aln} -fasta -automated1 '
-               f'-resoverlap 0.55 -seqoverlap 60 -htmlout trimal.html')
-    terminalExecute(cmd_str, suppress_output=False)
-
 def convertFastaAlnToPhylip(input_fasta_aln: str,
                             output_file: str = None) -> None:
     """
@@ -205,12 +158,12 @@ def runTreeShrink(input_tree: str, input_aln: str,
         shutil.copy(input_tree, os.path.join(temp_in_dir, "input.tree"))
         shutil.copy(input_aln, os.path.join(temp_in_dir, "input.aln"))
         
-        tree_shrink_cmd_str = (
+        cmd_str = (
             f'run_treeshrink.py -i {parent_in_temp} -m per-gene '
             '-t input.tree -a input.aln '
             f'-o {temp_out_dir} -O output {args_str}'
                 )
-        terminalExecute(tree_shrink_cmd_str, suppress_output=False)
+        terminalExecute(cmd_str, suppress_output=False)
 
         shutil.move(
             os.path.join(temp_out_dir, temp_tree_dir, "output.tree"),
@@ -227,6 +180,46 @@ def runTreeShrink(input_tree: str, input_aln: str,
                 os.path.join(temp_out_dir, temp_tree_dir, "output.txt"),
                 os.path.join(output_dir, out_txt)
             )
+
+def runPapara() -> None:
+    """
+    Simple CLI wrapper to Papara
+    papara -t tree.nwk -s alignment.phy -q query-seqs.fasta -r -n combined-aln (name of output alignment)
+    
+    -r 	Prevent PaPaRa from adding gaps in the reference alignment
+
+    '-j <num threads>'
+
+    Seems like EPA-NG is better, quicker and developed by same tema that made Papara..
+    """
+    pass
+
+def runEPAng(input_tree: str, input_aln: str, input_query: str,
+             model: str = None, output_dir: str = None,
+             n_threads: int = None,
+             additional_args: str = None) -> None:
+    """
+    Simple CLI wrapper to EPA-ng
+    See epa-ng -h for additional parameters
+    """
+    if model is None:
+        model = 'GTR+G'
+    if output_dir is None:
+        output_dir = os.path.dirname(input_tree)
+    else:
+        output_dir = os.path.abspath(output_dir)
+    if n_threads is None:
+        n_threads = os.cpu_count() - 1
+    if additional_args is not None:
+        args_str = additional_args
+    else:
+        args_str = ''
+
+    cmd_str = (
+        f'epa-ng --ref-msa {input_aln} --tree {input_tree} --query {input_query} '
+        f'--model {model} --threads {n_threads} --outdir {output_dir} {args_str}'
+        )
+    terminalExecute(cmd_str, suppress_output=False)
 
 
         
