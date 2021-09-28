@@ -6,8 +6,9 @@ and phylogenetic tree reconstruction
 import os
 import shutil
 import tempfile
-from Bio import AlignIO
 from .utils import terminalExecute, setDefaultOutputPath
+from .database import runHMMbuild
+from .alignment import runHMMalign
 
 
 def alignPeptides():
@@ -30,28 +31,35 @@ def getPhyloTree():
     """
     pass
 
-def placeReadsOntoTree():
+def placeReadsOntoTree(input_tree: str, input_aln: str,
+                       input_seqs: str,
+                       query_already_aligned: bool = False,
+                       output_file: str = None) -> None:
     """
     Performs short read placement onto phylogenetic tree
 
     NOTES:
 
-    Runs papara
-    """
-    pass
-
-def convertFastaAlnToPhylip(input_fasta_aln: str,
-                            output_file: str = None) -> None:
-    """
-    Convert alignments in Fasta to Phylip.
-    Note: id labels in phylip format are restricted to 10 characters.
-          This restriction may caused repeated truncated labels.
+    Runs hmmbuild, hmmalign, epa-ng
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta_aln, extension='phylip')
-    with open(input_fasta_aln, 'r') as input_handle, open(output_file, 'w') as output_handle:
-        alignments = AlignIO.parse(input_handle, 'fasta')
-        AlignIO.write(alignments, output_handle, 'phylip')
+        output_file = setDefaultOutputPath(input_seqs, tag='_placement',
+                                           extension='.jplace')
+    if not query_already_aligned:
+
+        runHMMbuild(input_aln=input_aln,
+                    output_hmm='',
+                    additional_args=None)
+                    
+        runHMMalign(input_aln=input_aln,
+                    input_hmm='',
+                    input_seqs=input_seqs,
+                    output_aln='',
+                    additional_args=None)
+
+    runEPAng(input_tree='', input_aln='',
+             input_query='', output_dir='',
+             n_threads=None, additional_args=None)
 
 def runFastTree(input_algns: str, output_file: str = None,
                 nucleotides: bool = False,
@@ -64,7 +72,8 @@ def runFastTree(input_algns: str, output_file: str = None,
                     parameter values to be passed to fasttree
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_algns, tag='_fasttree', extension='.newick')
+        output_file = setDefaultOutputPath(input_algns, tag='_fasttree',
+                                           extension='.newick')
     if nucleotides:
         nt_str = '-gtr -nt'
     else:
@@ -194,13 +203,18 @@ def runPapara() -> None:
     """
     pass
 
-def runEPAng(input_tree: str, input_aln: str, input_query: str,
+def runEPAng(input_tree: str, input_aln: str, input_aln_query: str,
              model: str = None, output_dir: str = None,
              n_threads: int = None,
              additional_args: str = None) -> None:
     """
     Simple CLI wrapper to EPA-ng
     See epa-ng -h for additional parameters
+
+    input_tree: newick format
+    input_aln: fasta format
+    input_aln_query: fasta format (sequences must be alignned to reference 
+    msa fasta and have the same length as the reference msa alignment)
     """
     if model is None:
         model = 'GTR+G'
@@ -216,7 +230,7 @@ def runEPAng(input_tree: str, input_aln: str, input_query: str,
         args_str = ''
 
     cmd_str = (
-        f'epa-ng --ref-msa {input_aln} --tree {input_tree} --query {input_query} '
+        f'epa-ng --ref-msa {input_aln} --tree {input_tree} --query {input_aln_query} '
         f'--model {model} --threads {n_threads} --outdir {output_dir} {args_str}'
         )
     terminalExecute(cmd_str, suppress_output=False)

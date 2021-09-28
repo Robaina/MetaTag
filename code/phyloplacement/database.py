@@ -141,12 +141,12 @@ def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
     cmd_str = f'awk 1 *.fasta > {output_fasta}'
     terminalExecute(cmd_str, suppress_output=False)
 
-def runHMMER(hmm_model: str, input_fasta: str,
+def runHMMsearch(hmm_model: str, input_fasta: str,
              output_file: str = None,
              method: str = 'hmmsearch',
              n_processes: int = None) -> None:
     """
-    Simple CLI wrapper to run hmmsearch or hmmscan
+    Simple CLI wrapper to hmmsearch or hmmscan
     Requires hmmer installed and accessible
     """
     if n_processes is None:
@@ -157,7 +157,22 @@ def runHMMER(hmm_model: str, input_fasta: str,
                f'{hmm_model} {input_fasta}')
     terminalExecute(cmd_str, suppress_output=False)
 
-def parseHMMERoutput(hmmer_output: str) -> pd.DataFrame:
+def runHMMbuild(input_aln: str, output_hmm: str = None,
+                additional_args: str = None) -> None:
+    """
+    Simple CLI wrapper to hmmbuild (build HMM profile from MSA file)
+    additional args: see hmmbuild -h
+    """
+    if output_hmm is None:
+        output_hmm = setDefaultOutputPath(input_aln, extension='.hmm')
+    if additional_args is not None:
+        args_str = additional_args
+    else:
+        args_str = ''
+    cmd_str = f'hmmbuild {args_str} {output_hmm} {input_aln}'
+    terminalExecute(cmd_str, suppress_output=False)
+
+def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
     """
     Parse hmmsearch or hmmscan summary table output file
     """
@@ -220,12 +235,12 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
     hmmer_output = f'{basename}_{hmm_name}.txt'
     
     # print('Running Hmmer...')
-    # runHMMER(hmm_model=hmm_model,
+    # runHMMsearch(hmm_model=hmm_model,
     #          input_fasta=input_fasta,
     #          output_file=hmmer_output,
     #          method=method)
     print('Parsing Hmmer output file...')
-    hmmer_hits = parseHMMERoutput(hmmer_output)
+    hmmer_hits = parseHMMsearchOutput(hmmer_output)
     print('Filtering Fasta...')
     filterFASTAbyIDs(input_fasta, record_ids=hmmer_hits.id.values,
                      output_fasta=output_fasta)
