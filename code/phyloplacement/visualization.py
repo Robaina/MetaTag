@@ -56,3 +56,10 @@ def plotTreeInBrowser(input_tree: str, output_dir: str = None,
     webbrowser.open_new_tab(os.path.join(
         output_dir, 'empress.html'
     ))
+
+def runGappa() -> None:
+    """
+    Visualization of jplace files (EPA-ng)
+    gappa: https://github.com/lczech/gappa
+    """
+    pass
