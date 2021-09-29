@@ -2,12 +2,12 @@
 # conda activate traits
 
 from phyloplacement.database import (filterFASTAByHMM, removeDuplicatesFromFasta,
-                                     filterFastaBySequenceLength, runCDHIT)
+                                     filterFastaBySequenceLength, runCDHIT, reIndexFASTA)
 
-from phyloplacement.alignment import (runMuscle, runMAFFT, runTrimal)
+from phyloplacement.alignment import (runMuscle, runMAFFT, runTrimal, convertFastaAlnToPhylip)
 
 from phyloplacement.phylotree import (runFastTree, runEPAng,
-                                      runIqTree, runTreeShrink)
+                                      runIqTree, runPapara, runTreeShrink)
 
 from phyloplacement.visualization import plotTreeInBrowser
 
@@ -63,14 +63,14 @@ if __name__ == '__main__':
 
     # ******************************************************************************************
 
-    runTreeShrink(input_tree='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink/tree/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln.treefile',
-                  input_aln='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink/tree/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln',
-                  output_dir='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output',
-                  output_deleted_nodes=True,
-                  additional_args='--force --centroid -q 0.05')
+    # runTreeShrink(input_tree='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink/tree/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln.treefile',
+    #               input_aln='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink/tree/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln',
+    #               output_dir='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output',
+    #               output_deleted_nodes=True,
+    #               additional_args='--force --centroid -q 0.05')
 
-    plotTreeInBrowser(input_tree='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln_shrink.treefile',
-                      output_dir='/home/robaina/Documents/TRAITS/data/nxr/tree-viz')
+    # plotTreeInBrowser(input_tree='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln_shrink.treefile',
+    #                   output_dir='/home/robaina/Documents/TRAITS/data/nxr/tree-viz')
     
     
     # runEPAng(input_aln='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal_shrink.aln',
@@ -79,6 +79,21 @@ if __name__ == '__main__':
     #          output_dir='/home/robaina/Documents/TRAITS/data/nxr/epang',
     #          n_threads=None,
     #          additional_args='--redo')
+
+
+    # Have to run this after obtaining tigrfam database fasta.
+    reIndexFASTA(input_fasta='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta',
+                 output_dir=None)
+
+    convertFastaAlnToPhylip(input_fasta_aln='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal_shrink.aln',
+                            output_file='alignment.phy')
+
+    runPapara(tree_nwk='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln_shrink.treefile',
+              msa_phy='alignment.phy',
+              query_fasta='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta')
+
+
+
 
 # Run hmmsearch to get gene-specific sequences
 

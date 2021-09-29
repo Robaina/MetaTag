@@ -11,6 +11,8 @@ from .database import runHMMbuild
 from .alignment import runHMMalign, convertStockholmToFasta
 
 
+path_to_papara_exec = '/home/robaina/Software/papara'
+
 def alignPeptides():
     """
     Perform multiple alignment on a set of peptides
@@ -199,7 +201,10 @@ def runTreeShrink(input_tree: str, input_aln: str,
                 os.path.join(output_dir, out_txt)
             )
 
-def runPapara() -> None:
+def runPapara(tree_nwk: str, msa_phy: str,
+              query_fasta: str, n_threads: int = None,
+              output_file: str = None,
+              additional_args: str = None) -> None:
     """
     Simple CLI wrapper to Papara
     papara -t tree.nwk -s alignment.phy -q query-seqs.fasta -r -n combined-aln (name of output alignment)
@@ -211,8 +216,23 @@ def runPapara() -> None:
     Run Papara to do query alignment to reference MSA and tree (required for EPA-ng)
     Alignment could be done with hmmalign or muscle as well, but these tools don't 
     consider the tree during alignment (would this be a justified improvement over hmmalign?)
+
+    cd /home/robaina/Software/papara
+    ./papara (to run papara)
     """
-    pass
+    if n_threads is None:
+        n_threads = os.cpu_count() - 1
+    if additional_args is not None:
+        args_str = additional_args
+    else:
+        args_str = ''
+
+    cmd_str = (
+        f'{os.path.join(path_to_papara_exec, "papara")} -t {tree_nwk} '
+        f'-s {msa_phy} -q {query_fasta} -j {n_threads} -n aln'
+        f'-r {args_str}'
+        )
+    terminalExecute(cmd_str, suppress_output=False)
 
 def runEPAng(input_tree: str, input_aln: str, input_aln_query: str,
              model: str = None, output_dir: str = None,
