@@ -208,7 +208,9 @@ def runPapara() -> None:
 
     '-j <num threads>'
 
-    Seems like EPA-NG is better, quicker and developed by same tema that made Papara..
+    Run Papara to do query alignment to reference MSA and tree (required for EPA-ng)
+    Alignment could be done with hmmalign or muscle as well, but these tools don't 
+    consider the tree during alignment (would this be a justified improvement over hmmalign?)
     """
     pass
 
