@@ -224,6 +224,8 @@ def runEPAng(input_tree: str, input_aln: str, input_aln_query: str,
     input_aln: fasta format
     input_aln_query: fasta format (sequences must be alignned to reference 
     msa fasta and have the same length as the reference msa alignment)
+
+    TODO: model parameters must be the same employed to make reference tree.
     """
     if model is None:
         model = 'GTR+G'
