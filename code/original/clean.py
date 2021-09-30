@@ -112,7 +112,7 @@ def reformatfile(fname, question):
 			print (j)
 			print (fname)
 			print ("No sequence data. I'm leaving.")
-			exit()
+			exit()  # Why is this necessary?
 	handle.close()
 	filetowrite.close()
 
@@ -123,11 +123,11 @@ def fnames():
 	for fname in dirList:
 		files.append(path+fname)
 
-	parameters=[[0 for i in range(3)] for j in range(len(files))]
+	parameters=[[0 for i in range(3)] for j in range(len(files))]  # Ruffus
 	for d1 in range(len(files)):
 		parameters[d1][0]= files[d1]
 		parameters[d1][1]= files[d1].replace(path,"/home/robaina/cleangenomes/cleanfiles/")
-		parameters[d1][2]= str(d1+1)
+		parameters[d1][2]= str(d1+1) # Ruffus
 
 	for job_parameters in parameters:
 		yield job_parameters
@@ -139,7 +139,7 @@ def parallel_task(input_file, output_file, i):
 	reformatfile(fname, question)
 	
 
-pipeline_run([parallel_task], verbose=2, multiprocess=nmultiprocess)
+pipeline_run([parallel_task], verbose=2, multiprocess=nmultiprocess) # Ruffus
 
 cmd = ["rm -r /home/robaina/cleangenomes/newfiles"]
 pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

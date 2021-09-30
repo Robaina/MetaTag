@@ -1,0 +1,8 @@
+clean.py
+
+110		filetowrite.write(regexseq.sub("", str(i.seq).upper())+"\n")  # Write sequence, only keep uppercase letters
+		if len(regexseq.sub("", str(i.seq).upper()))==0: # Leave program if a record has no sequence data
+			print (j)
+			print (fname)
+			print ("No sequence data. I'm leaving.")
+			exit()  # Why is this necessary?

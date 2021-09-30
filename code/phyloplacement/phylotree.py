@@ -43,6 +43,8 @@ def placeReadsOntoTree(input_tree: str, input_aln: str,
     NOTES:
 
     Runs hmmbuild, hmmalign, epa-ng
+
+    workflow: https://github.com/Pbdas/epa-ng/wiki/Full-Stack-Example
     """
     if output_file is None:
         output_file = setDefaultOutputPath(input_query, tag='_placement',
@@ -246,6 +248,8 @@ def runEPAng(input_tree: str, input_aln: str, input_aln_query: str,
     input_aln: fasta format
     input_aln_query: fasta format (sequences must be alignned to reference 
     msa fasta and have the same length as the reference msa alignment)
+
+    epa-ng: https://github.com/Pbdas/epa-ng
 
     TODO: model parameters must be the same employed to make reference tree.
     """
