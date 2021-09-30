@@ -42,6 +42,7 @@ def plotTreeInBrowser(input_tree: str, output_dir: str = None,
     Runs empress tree-plot
     input_tree: tree in newick format
     feature_metadata: path to tsv file containing feature metadata
+    empress: https://github.com/biocore/empress
     """
     if output_dir is None:
         output_dir = os.path.join(

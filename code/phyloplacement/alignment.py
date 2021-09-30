@@ -30,6 +30,7 @@ def runMuscle(input_fasta: str, output_file: str = None,
               maxiters: int = None) -> None:
     """
     Simple CLI wrapper to muscle (MSA)
+    muscle: https://www.drive5.com/muscle/manual/output_formats.html
     """
     if output_file is None:
         output_file = setDefaultOutputPath(input_fasta, extension='.fasta.aln')

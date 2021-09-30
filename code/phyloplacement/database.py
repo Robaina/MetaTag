@@ -170,7 +170,6 @@ def reIndexFASTA(input_fasta: str, output_dir: str = None):
 
     saveToPickleFile(id_dict, output_dict)
 
-
 def runHMMsearch(hmm_model: str, input_fasta: str,
              output_file: str = None,
              method: str = 'hmmsearch',
