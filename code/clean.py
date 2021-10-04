@@ -11,7 +11,7 @@ import re
 import shutil
 import pyfastx
 
-from .utils import saveToPickleFile, setDefaultOutputPath
+from phyloplacement.utils import saveToPickleFile, setDefaultOutputPath
 
 upper_lower_digits = re.compile('[^a-zA-Z0-9]')
 upper_case_letters = re.compile('[^A-Z]')
@@ -65,7 +65,7 @@ def cleanFilePath(file_name: str) -> None:
 
 def assertPeptideSequenceIsLegit(record_seq) -> str:
     """
-    Assert peptide sequence only contains upper case letters
+    Assert peptide sequence is legit
     """
     return upper_case_letters.sub('', record_seq.upper())
 
@@ -124,3 +124,37 @@ def pipe_line(fasta_path: str, id_type: int,
     
     reformatFASTAfile(fasta_file=clean_fasta_path,
                       id_type=id_type, output_file=output_file)
+
+
+if __name__ == '__main__':
+
+    """
+    python3 modify_fasta.py path/to/fasta [path/to/dir/] id_type
+
+    id_type:
+      1: Only numbers
+      2: Long description
+      3: File name + number
+    """
+
+    fasta_path = sys.argv[1]
+    id_type = int(sys.argv[2])
+    fasta_dir = os.path.dirname(fasta_path)
+
+    # type_answer = int(input(
+    #     ('Should I change labels for file name followed '
+    #     'by a numbers (1) or leave as is (2) or just '
+    #     'numbers (3)?')))
+
+    path_is_directory = os.path.isdir(fasta_path)
+
+    if path_is_directory:
+        file_names = os.listdir(fasta_path)
+        
+        for file_name in file_names:
+            fasta_path = os.path.join(fasta_dir, file_name)
+            pipe_line(fasta_path, id_type=id_type)
+    else:
+        pipe_line(fasta_path, id_type=id_type)
+
+    print('I am done!')

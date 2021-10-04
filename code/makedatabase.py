@@ -15,11 +15,21 @@ from phyloplacement.phylotree import runIqTree, runPapara, runHMMalign, runEPAng
 # input_fasta = data_dir / 'mardb_proteins_V6_no_duplicates.fasta'
 # Do Hmmer search and filtering
 
-nxr_data = Path('/home/robaina/Documents/TRAITS/data/nxr/')
-nxr_fasta = nxr_data / 'mardb_proteins_V6_TIGR015180_1.fasta'
-nxr_fasta_reduced = nxr_data / "data_reduced.fasta"
+nxr_data = Path('/home/robaina/Documents/TRAITS/data/nxr/test_data/')
+# nxr_fasta = nxr_data / 'mardb_proteins_V6_TIGR015180_1.fasta'
+# nxr_fasta_reduced = nxr_data / "data_reduced.fasta"
 
-# Reduce redundancy of database
+# Preprocessing
+"""
+1) Assert correct sequence format for downstream analysis
+2) Reduce redundancy: remove duplicates, get representatives with cd-hit
+3) Relabel entries with temporary ids to avoid donwstream conflicts
+"""
+
+# 1) Assert  correct format
+
+
+# 2) Reduce redundancy of database
 # runCDHIT(
 #     input_fasta=nxr_fasta,
 #     output_fasta=str(nxr_data / 'data_reduced.fasta'),
@@ -29,47 +39,57 @@ nxr_fasta_reduced = nxr_data / "data_reduced.fasta"
 # print(f'Original database size: {len(pyfastx.Fasta(str(nxr_fasta)))}')
 # print(f'Reduced database size: {len(pyfastx.Fasta(str(nxr_fasta_reduced)))}')
 
-# # Assign numbers to sequence labels for data processing
+# Assign numbers to reference sequence labels for data processing
 # reIndexFASTA(
 #     input_fasta=str(nxr_fasta_reduced),
-#     output_dir=str(nxr_data)
+#     output_dir=str(nxr_data),
+#     prefix='ref_'
 #     )
 
-# # MSA on reduced database
+# MSA on reduced database
 # runMuscle(
-#     input_fasta=str(nxr_data / 'data_reduced_short_ids.fasta'),
+#     input_fasta=str(nxr_data / 'data_reduced_short_ids_modified.fasta'),
 #     output_file=None
 # )
 
 # Trimal
-# runTrimal(
-#     input_aln=str(nxr_data / 'data_reduced_short_ids.fasta.fasta.aln'),
-#     output_aln=str(nxr_data / 'data_reduced_short_ids.fasta.fasta.aln')
-# )
+runTrimal(
+    input_aln=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln'),
+    output_aln=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln')
+)
 
-# convertFastaAlnToPhylip(
-#     input_fasta_aln=str(nxr_data / 'data_reduced_short_ids.fasta.fasta.aln'),
-#     output_file=None
-# )
+convertFastaAlnToPhylip(
+    input_fasta_aln=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln'),
+    output_file=str(nxr_data / 'data_reduced_short_ids_modified.phylip')
+)
 
-# # Make tree
-# runIqTree(
-#     input_algns=str(nxr_data / 'data_reduced_short_ids.fasta.fasta.aln'),
-#     output_dir=str(nxr_data),
-#     output_prefix=None,
-#     keep_recovery_files=False,
-#     substitution_model='TEST',
+# Make tree
+runIqTree(
+    input_algns=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln'),
+    output_dir=str(nxr_data),
+    output_prefix=None,
+    keep_recovery_files=False,
+    substitution_model='TEST',
+    additional_args=None
+)
+
+# Align query sequences with Papara 
+# runPapara(
+#     tree_nwk=str(nxr_data / 'data_reduced_short_ids.fasta.fasta.aln.contree'),
+#     msa_phy=str(nxr_data / 'data_reduced_short_ids.fasta.fasta.aln.phylip'),
+#     query_fasta=str(nxr_data / 'Nxr_kitzinger_2021_short_ids_modified.fasta'),
+#     output_file=None,
 #     additional_args=None
 # )
 
-# Align query sequences with Papara 
-runPapara(
-    tree_nwk=str(nxr_data / 'data_reduced_short_ids.fasta.fasta.aln.treefile'),
-    msa_phy=str(nxr_data / 'data_reduced_short_ids.fasta.fasta.aln.phylip'),
-    query_fasta='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta',
-    output_file=None,
-    additional_args=None
-)
+# runPapara(
+#     tree_nwk='/home/robaina/Documents/TRAITS/data/papara_test/alignment.phylip.contree',
+#     msa_phy='/home/robaina/Documents/TRAITS/data/papara_test/alignment.phylip',
+#     query_fasta='/home/robaina/Documents/TRAITS/data/papara_test/sequencesLongLabels.fasta',
+#     output_file=None,
+#     n_threads=None,
+#     additional_args=None
+# )
 
 # Build HMM profile out of reference MSA
 # runHMMbuild(
