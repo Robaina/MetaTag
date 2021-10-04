@@ -17,7 +17,7 @@ upper_lower_digits = re.compile('[^a-zA-Z0-9]')
 upper_case_letters = re.compile('[^A-Z]')
 
 
-def reIndexFASTA(input_fasta: str,
+def relabelRecordsInFASTA(input_fasta: str,
                  output_dir: str = None,
                  prefix: str = None):
     """

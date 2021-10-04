@@ -1,23 +1,20 @@
 """
 Tools to preprocess sequence databases
 
-1. Parse and clean file paths
-2. Parse and reformat sequence labels and assert sequences are in right format
+1. Remove illegal characters from peptide sequences
+2. Remove illegal symbols from file paths
+3. Relabel fasta records and make dictionary with old labels
 """
 
 import os
-import sys
 import re
 import shutil
 import pyfastx
 
 from .utils import saveToPickleFile, setDefaultOutputPath
 
-upper_lower_digits = re.compile('[^a-zA-Z0-9]')
-upper_case_letters = re.compile('[^A-Z]')
 
-
-def reIndexFASTA(input_fasta: str,
+def relabelRecordsInFASTA(input_fasta: str,
                  output_dir: str = None,
                  prefix: str = None):
     """
@@ -42,50 +39,38 @@ def reIndexFASTA(input_fasta: str,
     output_fasta = f'{os.path.join(output_dir, fasta_file)}'
     output_dict = f'{os.path.join(output_dir, dict_file)}'
     
-    fa = pyfastx.Fasta(input_fasta)
-    new_ids = map(lambda n: f'{prefix_str}{n}', range(len(fa)))
-    id_dict = {}
+    fasta = pyfastx.Fasta(input_fasta)
+    new_ids = map(lambda n: f'{prefix_str}{n}', range(len(fasta)))
+    id_dict = dict()
     with open(output_fasta, 'w') as outfasta:
-        for record_id, new_id in zip(fa.keys(), new_ids):
+        for record_id, new_id in zip(fasta.keys(), new_ids):
             id_dict[new_id] = record_id
-            seq = fa[record_id]
+            seq = fasta[record_id]
             outfasta.write(seq.raw.replace(seq.description, f'{new_id}'))
-
     saveToPickleFile(id_dict, output_dict)
 
-def cleanFilePath(file_name: str) -> None:
+def reformatFilePath(file_name: str) -> None:
     """
-    Asserts file path has correct format
+    Remove illegal symbols from file path
     """
+    upper_lower_digits = re.compile('[^a-zA-Z0-9]')
     fdir = os.path.dirname(file_name)
     fname, ext = os.path.splitext(os.path.basename(file_name))
     clean_fname = upper_lower_digits.sub(
         '_', fname).replace('__', '_').strip('_')
     return os.path.join(fdir, f'{clean_fname}{ext}')
 
-def assertPeptideSequenceIsLegit(record_seq) -> str:
+def reformatPeptideSequence(record_seq) -> str:
     """
     Assert peptide sequence only contains upper case letters
     """
+    upper_case_letters = re.compile('[^A-Z]')
     return upper_case_letters.sub('', record_seq.upper())
 
-def modifyRecordID(record_name: str, record_number: int,
-                   id_type: int,
-                   file_name: str = None) -> str:
+def reformatSequencesInFASTA(fasta_file: str,
+                             output_file: str = None) -> None:
     """
-    id_type: '1: number', '2: description', '3: filename_number'
-    """
-    if id_type == 1:
-        return record_number
-    elif id_type == 2:
-        return record_name
-    else:
-        return f'{file_name}_{record_number}'
-
-def reformatFASTAfile(fasta_file: str, id_type: int,
-                      output_file: str = None) -> None:
-    """
-    Reformat FASTA file ok.
+    Remove illegal characters from peptide sequences
     """
     dirname = os.path.dirname(fasta_file)
     basename = os.path.basename(fasta_file)
@@ -98,29 +83,22 @@ def reformatFASTAfile(fasta_file: str, id_type: int,
 
     fasta = pyfastx.Fasta(fasta_file, build_index=False, full_name=True)
     with open(output_file, 'w') as outfile:
-        n = 0
         for record_name, record_seq in fasta:
-            n += 1
-            record_id = modifyRecordID(record_name,
-                                       record_number=n,
-                                       id_type=id_type,
-                                       file_name=fname)
-            record_seq = assertPeptideSequenceIsLegit(record_seq)
-
-            outfile.write(f'>{record_id}\n{record_seq}\n')
+            record_seq = reformatPeptideSequence(record_seq)
+            outfile.write(f'>{record_name}\n{record_seq}\n')
 
 def pipe_line(fasta_path: str, id_type: int,
               output_file = None) -> None:
     """
-    Pipeline!!
+    Pipeline to clean sequences and path to fasta file
     """
     def is_legit_path(fasta_path, legit_fasta_path):
         return fasta_path == legit_fasta_path
             
-    clean_fasta_path = cleanFilePath(fasta_path)
+    clean_fasta_path = reformatFilePath(fasta_path)
 
     if not is_legit_path(fasta_path, clean_fasta_path):
         shutil.move(fasta_path, clean_fasta_path)
     
-    reformatFASTAfile(fasta_file=clean_fasta_path,
-                      id_type=id_type, output_file=output_file)
+    reformatSequencesInFASTA(fasta_file=clean_fasta_path,
+                             output_file=output_file)
