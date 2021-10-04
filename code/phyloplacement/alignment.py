@@ -41,7 +41,9 @@ def runMuscle(input_fasta: str, output_file: str = None,
     output phylip and fasta.aln
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta, extension='.fasta.aln')
+        output_file = setDefaultOutputPath(input_fasta,
+                                           extension='.fasta.aln',
+                                           only_filename=True)
     if maxiters is None:
         maxiters = 2
     cmd_str = f'muscle -in {input_fasta} -out {output_file} -maxiters {maxiters}'
@@ -50,6 +52,8 @@ def runMuscle(input_fasta: str, output_file: str = None,
 def runTrimal(input_aln: str, output_aln: str = None) -> None:
     """
     Simple CLI wrapper to trimal
+
+    I/O in phylip as well: https://vicfero.github.io/trimal/
     """
     if output_aln is None:
         output_aln = setDefaultOutputPath(input_aln, '_trimal')

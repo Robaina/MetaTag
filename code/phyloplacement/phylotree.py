@@ -223,9 +223,15 @@ def runPapara(tree_nwk: str, msa_phy: str,
 
     cd /home/robaina/Software/papara
     ./papara (to run papara)
+
+    There seems to be a problem with enabling multithreading in papara when run as a static
+    executable. It looks like it has to be enable during compilation (but compilation currently not working):
+    https://stackoverflow.com/questions/19618926/thread-doesnt-work-with-an-error-enable-multithreading-to-use-stdthread-ope
     """
-    if n_threads is None:
-        n_threads = os.cpu_count() - 1
+    if n_threads is not None:
+        threads_str = f'-j {n_threads}'
+    else:
+        threads_str = ''
     if additional_args is not None:
         args_str = additional_args
     else:
@@ -233,7 +239,7 @@ def runPapara(tree_nwk: str, msa_phy: str,
 
     cmd_str = (
         f'{os.path.join(path_to_papara_exec, "papara")} -t {tree_nwk} '
-        f'-s {msa_phy} -q {query_fasta} -j {n_threads} -n aln '
+        f'-s {msa_phy} -q {query_fasta} {threads_str} -n aln '
         f'-r {args_str} -a'
         )
     terminalExecute(cmd_str, suppress_output=False)
