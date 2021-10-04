@@ -2,7 +2,7 @@
 # conda activate traits
 
 from phyloplacement.database import (filterFASTAByHMM, removeDuplicatesFromFasta,
-                                     filterFastaBySequenceLength, runCDHIT, reIndexFASTA)
+                                     filterFastaBySequenceLength, runCDHIT, relabelRecordsInFASTA)
 
 from phyloplacement.alignment import (runMuscle, runMAFFT, runTrimal, convertFastaAlnToPhylip)
 
@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
 
     # Have to run this after obtaining tigrfam database fasta.
-    # reIndexFASTA(input_fasta='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta',
+    # relabelRecordsInFASTA(input_fasta='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta',
     #              output_dir=None)
 
     # convertFastaAlnToPhylip(input_fasta_aln='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal_shrink.aln',

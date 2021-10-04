@@ -2,10 +2,9 @@
 # conda activate traits
 
 from pathlib import Path
-import pyfastx
 
 from phyloplacement.utils import readFromPickleFile
-from phyloplacement.preprocessing import reIndexFASTA
+from phyloplacement.preprocessing import relabelRecordsInFASTA
 from phyloplacement.database import runCDHIT, runHMMbuild
 from phyloplacement.alignment import runMuscle, convertFastaAlnToPhylip, splitReferenceFromQueryAlignments, runTrimal
 from phyloplacement.phylotree import runIqTree, runPapara, runHMMalign, runEPAng
@@ -17,7 +16,7 @@ from phyloplacement.phylotree import runIqTree, runPapara, runHMMalign, runEPAng
 
 nxr_data = Path('/home/robaina/Documents/TRAITS/data/nxr/test_data/')
 # nxr_fasta = nxr_data / 'mardb_proteins_V6_TIGR015180_1.fasta'
-# nxr_fasta_reduced = nxr_data / "data_reduced.fasta"
+nxr_fasta_reduced = nxr_data / "data_reduced.fasta"
 
 # Preprocessing
 """
@@ -40,9 +39,9 @@ nxr_data = Path('/home/robaina/Documents/TRAITS/data/nxr/test_data/')
 # print(f'Reduced database size: {len(pyfastx.Fasta(str(nxr_fasta_reduced)))}')
 
 # Assign numbers to reference sequence labels for data processing
-# reIndexFASTA(
-#     input_fasta=str(nxr_fasta_reduced),
-#     output_dir=str(nxr_data),
+# relabelRecordsInFASTA(
+#     input_fasta='/home/robaina/Documents/TRAITS/data/nxr/test_data/data_reduced.fasta', #str(nxr_fasta_reduced),
+#     output_dir='/home/robaina/Documents/TRAITS/', #str(nxr_data),
 #     prefix='ref_'
 #     )
 
@@ -53,25 +52,25 @@ nxr_data = Path('/home/robaina/Documents/TRAITS/data/nxr/test_data/')
 # )
 
 # Trimal
-runTrimal(
-    input_aln=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln'),
-    output_aln=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln')
-)
+# runTrimal(
+#     input_aln=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln'),
+#     output_aln=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln')
+# )
 
-convertFastaAlnToPhylip(
-    input_fasta_aln=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln'),
-    output_file=str(nxr_data / 'data_reduced_short_ids_modified.phylip')
-)
+# convertFastaAlnToPhylip(
+#     input_fasta_aln=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln'),
+#     output_file=str(nxr_data / 'data_reduced_short_ids_modified.phylip')
+# )
 
-# Make tree
-runIqTree(
-    input_algns=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln'),
-    output_dir=str(nxr_data),
-    output_prefix=None,
-    keep_recovery_files=False,
-    substitution_model='TEST',
-    additional_args=None
-)
+# # Make tree
+# runIqTree(
+#     input_algns=str(nxr_data / 'data_reduced_short_ids_modified.fasta.aln'),
+#     output_dir=str(nxr_data),
+#     output_prefix=None,
+#     keep_recovery_files=False,
+#     substitution_model='TEST',
+#     additional_args=None
+# )
 
 # Align query sequences with Papara 
 # runPapara(
@@ -108,7 +107,6 @@ runIqTree(
 #     )
 
 # ref_dict = readFromPickleFile('/home/robaina/Documents/TRAITS/data/nxr/data_reduced_id_dict.pickle')
-# ref_ids = set([str(k) for k in ref_dict.keys()])
 
 # splitReferenceFromQueryAlignments(
 #     ref_query_msa='/home/robaina/Documents/TRAITS/data/nxr/Nxr_kitzinger_2021_ref_aln.fasta.aln',
