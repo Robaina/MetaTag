@@ -1,11 +1,5 @@
 #!/usr/bin/env python
 
-"""
-NOTES (Semidan)
-
-Runs muscle: multiple sequence alignment
-"""
-
 import subprocess, re, os
 from Bio import SeqIO
 from Bio import AlignIO
@@ -33,7 +27,7 @@ j=0
 minseqlenght=1E6; maxseqlentgh=1; totallength=0
 for i in SeqIO.parse(handle, "fasta"):
 
-	#if len(str(i.seq))>=350-100 and len(str(i.seq))<=350+100 and len(regex2.sub("", str(i.seq).upper()))==len(str(i.seq)) and str(i.seq)[0]=="M":
+	#if len(str(i.seq))>=560-100 and len(str(i.seq))<=560+100 and len(regex2.sub("", str(i.seq).upper()))==len(str(i.seq)) and str(i.seq)[0]=="M":
 	#if len(str(i.seq))>=400-100 and len(str(i.seq))<=400+100:
 	#if len(regex2.sub("", str(i.seq).upper()))==len(str(i.seq)) and str(i.seq)[0]=="M":
 	#if len(regex2.sub("", str(i.seq).upper()))==len(str(i.seq)):
@@ -83,8 +77,8 @@ print()#; input(str(numberofsequeces)+" total sequences. ")
 lennumberofsequeces=len(str(numberofsequeces))
 print (lennumberofsequeces)
 
-print(); q=input("Large dataset? ")
-#q="no"
+print()#; q=input("Large dataset? ")
+q="no"
 q=q.lower()[0]
 
 cmd = ["rm *.html"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()

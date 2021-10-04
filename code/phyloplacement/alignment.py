@@ -1,3 +1,9 @@
+"""
+Tools to perform multiple sequence alignments
+"""
+
+import os
+import pyfastx
 from Bio import AlignIO
 from .utils import terminalExecute, setDefaultOutputPath
 
@@ -31,6 +37,8 @@ def runMuscle(input_fasta: str, output_file: str = None,
     """
     Simple CLI wrapper to muscle (MSA)
     muscle: https://www.drive5.com/muscle/manual/output_formats.html
+
+    output phylip and fasta.aln
     """
     if output_file is None:
         output_file = setDefaultOutputPath(input_fasta, extension='.fasta.aln')
@@ -67,7 +75,7 @@ def runHMMalign(input_hmm: str, input_aln: str,
         f'hmmalign -o {output_aln_seqs} --mapali {input_aln} --trim '
         f'--informat FASTA {args_str} {input_hmm} {input_seqs}'
         )
-    terminalExecute(cmd_str, suppress_output=True)
+    terminalExecute(cmd_str, suppress_output=False)
 
 def alignShortReadsToReferenceMSA() -> None:
     """
@@ -86,10 +94,12 @@ def convertFastaAlnToPhylip(input_fasta_aln: str,
           This restriction may caused repeated truncated labels.
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta_aln, extension='phylip')
+        output_file = setDefaultOutputPath(input_fasta_aln, extension='.phylip')
     with open(input_fasta_aln, 'r') as input_handle, open(output_file, 'w') as output_handle:
         alignments = AlignIO.parse(input_handle, 'fasta')
         AlignIO.write(alignments, output_handle, 'phylip')
+        # records = SeqIO.parse(input_handle, 'fasta')
+        # SeqIO.write(records, output_handle, 'phylip')
 
 def convertStockholmToFasta(input_stockholm: str,
                             output_fasta: str = None) -> None:
@@ -102,3 +112,26 @@ def convertStockholmToFasta(input_stockholm: str,
     with open(output_fasta, 'w') as fasta_file:
         align = AlignIO.read(input_stockholm, 'stockholm')
         print(align.format('fasta'), file=fasta_file)
+
+def splitReferenceFromQueryAlignments(ref_query_msa: str,
+                                      ref_ids: set,
+                                      out_dir: str = None) -> None:
+    """
+    Separate reference sequences from query sequences in msa fasta file
+    """
+    if out_dir is None:
+        out_dir = os.path.dirname(ref_query_msa)
+    out_ref_msa = setDefaultOutputPath(ref_query_msa, tag='_ref_fraction')
+    out_query_msa = setDefaultOutputPath(ref_query_msa, tag='_query_fraction')
+    
+    fasta = pyfastx.Fasta(ref_query_msa, build_index=False, full_name=True)
+    with open(out_ref_msa, 'w') as outref, open(out_query_msa, 'w') as outquery:
+        for record_name, record_seq in fasta:
+            if record_name in ref_ids:
+                outref.write(f'>{record_name}\n{record_seq}\n')
+            else:
+                outquery.write(f'>{record_name}\n{record_seq}\n')
+
+    
+
+ 
