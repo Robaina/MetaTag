@@ -1,5 +1,8 @@
 """
-Functions to preprocess sequence data
+Tools to create peptide-specific sequence databases
+
+1. Implement hmmr
+2. Filter fasta files based on query sequences
 """
 
 import os
@@ -8,8 +11,7 @@ from collections import defaultdict
 from Bio import SearchIO, SeqIO
 import pyfastx
 
-from .utils import terminalExecute, setDefaultOutputPath, saveToPickleFile
-
+from .utils import terminalExecute, setDefaultOutputPath
 
 # def removeDuplicates():
 #     """
@@ -140,35 +142,6 @@ def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
         output_fasta = os.path.join(input_fastas_dir, 'merged.fasta')
     cmd_str = f'awk 1 *.fasta > {output_fasta}'
     terminalExecute(cmd_str, suppress_output=False)
-
-def reIndexFASTA(input_fasta: str, output_dir: str = None):
-    """
-    Change record ids for numbers and store then in a dictionary
-    Useful when converting fasta alignments to phylip format 
-    (phylip ids are less than 10 char long)
-    """
-    if output_dir is None:
-        output_dir = os.path.dirname(input_fasta)
-    
-    id_dict = {}
-    fasta_file = setDefaultOutputPath(input_fasta, 
-                                      tag='_short_ids',
-                                      only_filename=True)
-    dict_file = setDefaultOutputPath(input_fasta,
-                                     tag='_id_dict',
-                                     extension='.pickle',
-                                     only_filename=True)
-    output_fasta = f'{os.path.join(output_dir, fasta_file)}'
-    output_dict = f'{os.path.join(output_dir, dict_file)}'
-    
-    fa = pyfastx.Fasta(input_fasta)
-    id_dict = dict(zip(range(len(fa)), fa.keys()))
-    with open(output_fasta, 'w') as fp:
-        for record_id in fa.keys():
-            seq = fa[record_id]
-            fp.write(seq.raw.replace(seq.description, str(seq.id - 1)))
-
-    saveToPickleFile(id_dict, output_dict)
 
 def runHMMsearch(hmm_model: str, input_fasta: str,
              output_file: str = None,

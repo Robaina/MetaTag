@@ -1,12 +1,50 @@
+"""
+Tools to preprocess sequence databases
+
+1. Parse and clean file paths
+2. Parse and reformat sequence labels and assert sequences are in right format
+"""
+
 import os
 import sys
 import re
 import shutil
 import pyfastx
 
+from .utils import saveToPickleFile, setDefaultOutputPath
+
 upper_lower_digits = re.compile('[^a-zA-Z0-9]')
 upper_case_letters = re.compile('[^A-Z]')
 
+
+def reIndexFASTA(input_fasta: str, output_dir: str = None):
+    """
+    Change record ids for numbers and store then in a dictionary
+    Useful when converting fasta alignments to phylip format 
+    (phylip ids are less than 10 char long)
+    """
+    if output_dir is None:
+        output_dir = os.path.dirname(input_fasta)
+    
+    id_dict = {}
+    fasta_file = setDefaultOutputPath(input_fasta, 
+                                      tag='_short_ids',
+                                      only_filename=True)
+    dict_file = setDefaultOutputPath(input_fasta,
+                                     tag='_id_dict',
+                                     extension='.pickle',
+                                     only_filename=True)
+    output_fasta = f'{os.path.join(output_dir, fasta_file)}'
+    output_dict = f'{os.path.join(output_dir, dict_file)}'
+    
+    fa = pyfastx.Fasta(input_fasta)
+    id_dict = dict(zip(range(len(fa)), fa.keys()))
+    with open(output_fasta, 'w') as fp:
+        for record_id in fa.keys():
+            seq = fa[record_id]
+            fp.write(seq.raw.replace(seq.description, str(seq.id - 1)))
+
+    saveToPickleFile(id_dict, output_dict)
 
 def cleanFilePath(file_name: str) -> None:
     """

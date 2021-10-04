@@ -1,6 +1,6 @@
 """
-Functions to perform multiple alignment of peptide sequences 
-and phylogenetic tree reconstruction
+Tools to perform phylogenetic tree reconstructions and
+query sequence placements onto trees
 """
 
 import os
@@ -215,6 +215,8 @@ def runPapara(tree_nwk: str, msa_phy: str,
 
     '-j <num threads>'
 
+    -a: sequences are protein data
+
     Run Papara to do query alignment to reference MSA and tree (required for EPA-ng)
     Alignment could be done with hmmalign or muscle as well, but these tools don't 
     consider the tree during alignment (would this be a justified improvement over hmmalign?)
@@ -231,12 +233,12 @@ def runPapara(tree_nwk: str, msa_phy: str,
 
     cmd_str = (
         f'{os.path.join(path_to_papara_exec, "papara")} -t {tree_nwk} '
-        f'-s {msa_phy} -q {query_fasta} -j {n_threads} -n aln'
-        f'-r {args_str}'
+        f'-s {msa_phy} -q {query_fasta} -j {n_threads} -n aln '
+        f'-r {args_str} -a'
         )
     terminalExecute(cmd_str, suppress_output=False)
 
-def runEPAng(input_tree: str, input_aln: str, input_aln_query: str,
+def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
              model: str = None, output_dir: str = None,
              n_threads: int = None,
              additional_args: str = None) -> None:
@@ -267,7 +269,7 @@ def runEPAng(input_tree: str, input_aln: str, input_aln_query: str,
         args_str = ''
 
     cmd_str = (
-        f'epa-ng --ref-msa {input_aln} --tree {input_tree} --query {input_aln_query} '
+        f'epa-ng --ref-msa {input_aln_ref} --tree {input_tree} --query {input_aln_query} '
         f'--model {model} --threads {n_threads} --outdir {output_dir} {args_str}'
         )
     terminalExecute(cmd_str, suppress_output=False)

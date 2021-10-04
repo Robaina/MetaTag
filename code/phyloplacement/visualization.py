@@ -1,7 +1,8 @@
 """
-Functions to help visualize phylogenetic trees with and
+Tools to visualize phylogenetic trees with and
 without short read placement.
 """
+
 import os
 import webbrowser
 from .utils import terminalExecute

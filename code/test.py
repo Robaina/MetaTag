@@ -82,15 +82,15 @@ if __name__ == '__main__':
 
 
     # Have to run this after obtaining tigrfam database fasta.
-    reIndexFASTA(input_fasta='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta',
-                 output_dir=None)
+    # reIndexFASTA(input_fasta='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta',
+    #              output_dir=None)
 
-    convertFastaAlnToPhylip(input_fasta_aln='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal_shrink.aln',
-                            output_file='alignment.phy')
+    # convertFastaAlnToPhylip(input_fasta_aln='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal_shrink.aln',
+    #                         output_file='alignment.phy')
 
-    runPapara(tree_nwk='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln_shrink.treefile',
-              msa_phy='alignment.phy',
-              query_fasta='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta')
+    # runPapara(tree_nwk='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln_shrink.treefile',
+    #           msa_phy='alignment.phy',
+    #           query_fasta='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta')
 
 
 
