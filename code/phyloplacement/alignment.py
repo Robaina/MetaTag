@@ -52,7 +52,7 @@ def runMuscle(input_fasta: str, output_file: str = None,
 def runTrimal(input_aln: str, output_aln: str = None) -> None:
     """
     Simple CLI wrapper to trimal
-
+  
     I/O in phylip as well: https://vicfero.github.io/trimal/
     """
     if output_aln is None:
