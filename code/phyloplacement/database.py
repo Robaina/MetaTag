@@ -236,11 +236,11 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
     hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
     hmmer_output = f'{basename}_{hmm_name}.txt'
     
-    # print('Running Hmmer...')
-    # runHMMsearch(hmm_model=hmm_model,
-    #          input_fasta=input_fasta,
-    #          output_file=hmmer_output,
-    #          method=method)
+    print('Running Hmmer...')
+    runHMMsearch(hmm_model=hmm_model,
+             input_fasta=input_fasta,
+             output_file=hmmer_output,
+             method=method)
     print('Parsing Hmmer output file...')
     hmmer_hits = parseHMMsearchOutput(hmmer_output)
     print('Filtering Fasta...')

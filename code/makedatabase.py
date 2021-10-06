@@ -1,22 +1,32 @@
 #!/usr/bin/env python
 # conda activate traits
 
+import pyfastx
 from pathlib import Path
 
 from phyloplacement.utils import readFromPickleFile
 from phyloplacement.preprocessing import relabelRecordsInFASTA, reformatSequencesInFASTA
-from phyloplacement.database import runCDHIT, runHMMbuild
+from phyloplacement.database import runCDHIT, runHMMbuild, filterFASTAByHMM
 from phyloplacement.alignment import runMuscle, convertFastaAlnToPhylip, splitReferenceFromQueryAlignments, runTrimal
-from phyloplacement.phylotree import runIqTree, runPapara, runHMMalign, runEPAng
+from phyloplacement.phylotree import runFastTree, runIqTree, runPapara, runHMMalign, runEPAng
 
 
 # data_dir = Path('/home/robaina/Documents/MAR_database/')
 # input_fasta = data_dir / 'mardb_proteins_V6_no_duplicates.fasta'
 # Do Hmmer search and filtering
 
-test_data = Path('/home/robaina/Documents/TRAITS/data/nxr/test_data/')
+test_data = Path('/home/robaina/Documents/TRAITS/tests/')
 # nxr_fasta = test_data / 'mardb_proteins_V6_TIGR015180_1.fasta'
 # nxr_fasta_reduced = test_data / "data_reduced.fasta"
+
+
+# Make peptide-specific database
+# filterFASTAByHMM(
+#     hmm_model='/home/robaina/Documents/tigrfams/hmm_PGAP/TIGR00639.1.HMM',
+#     input_fasta='/home/robaina/Documents/MAR_database/mardb_proteins_V6_no_duplicates.fasta',
+#     output_fasta='/home/robaina/Documents/TRAITS/tests/mardb_TIGR00639.1.fasta'
+# )
+
 
 # Preprocessing
 """
@@ -25,60 +35,66 @@ test_data = Path('/home/robaina/Documents/TRAITS/data/nxr/test_data/')
 3) Relabel entries with temporary ids to avoid donwstream conflicts
 """
 
-# # 1) Reduce redundancy of database
-# runCDHIT(
-#     input_fasta=str(test_data / 'mardb_proteins_V6_TIGR015180_1.fasta'),
-#     output_fasta=str(test_data / 'ref_reduced.fasta'),
-#     additional_args=None
-#     )
-# # # print(f'Original database size: {len(pyfastx.Fasta(str(nxr_fasta)))}')
-# # # print(f'Reduced database size: {len(pyfastx.Fasta(str(nxr_fasta_reduced)))}')
+# 1) Reduce redundancy of database
+runCDHIT(
+    input_fasta=str(test_data / 'mardb_TIGR00639.1.fasta'),
+    output_fasta=str(test_data / 'ref_reduced.fasta'),
+    additional_args='-c 0.99'
+    )
+print(f'Original database size: {len(pyfastx.Fasta(str(test_data / "mardb_TIGR00639.1.fasta")))}')
+print(f'Reduced database size: {len(pyfastx.Fasta(str(test_data / "ref_reduced.fasta")))}')
 
-# # 2) Assert  correct format
-# reformatSequencesInFASTA(
-#     fasta_file=str(test_data / 'ref_reduced.fasta'),
-#     output_file=str(test_data / 'ref_reduced_clean.fasta'),
-# )
+# 2) Assert  correct format
+reformatSequencesInFASTA(
+    fasta_file=str(test_data / 'ref_reduced.fasta'),
+    output_file=str(test_data / 'ref_reduced_clean.fasta'),
+)
 
-# # Assign numbers to reference sequence labels for data processing
-# relabelRecordsInFASTA(
-#     input_fasta=str(test_data / 'ref_reduced_clean.fasta'),
-#     output_dir=str(test_data),
-#     prefix='ref_'
-#     )
+# Assign numbers to reference sequence labels for data processing
+relabelRecordsInFASTA(
+    input_fasta=str(test_data / 'ref_reduced_clean.fasta'),
+    output_dir=str(test_data),
+    prefix='ref_'
+    )
 
-# # MSA on reduced database
-# runMuscle(
-#     input_fasta=str(test_data / 'ref_reduced_clean_short_ids.fasta'),
-#     output_file=str(test_data / 'ref_reduced_modified_short_ids.fasta.aln')
-# )
+# MSA on reduced database
+runMuscle(
+    input_fasta=str(test_data / 'ref_reduced_clean_short_ids.fasta'),
+    output_file=str(test_data / 'ref_alignment.fasta.aln')
+)
 
 # # Trimal
-# runTrimal(
-#     input_aln=str(test_data / 'ref_reduced_modified_short_ids.fasta.aln'),
-#     output_aln=str(test_data / 'ref_alignment.fasta.aln')
-# )
+# # runTrimal(
+# #     input_aln=str(test_data / 'ref_reduced_clean_short_ids.fasta.aln'),
+# #     output_aln=str(test_data / 'ref_alignment.fasta.aln')
+# # )
 
-# convertFastaAlnToPhylip(
-#     input_fasta_aln=str(test_data / 'ref_alignment.fasta.aln'),
-#     output_file=str(test_data / 'ref_alignment.phylip')
-# )
+convertFastaAlnToPhylip(
+    input_fasta_aln=str(test_data / 'ref_alignment.fasta.aln'),
+    output_file=str(test_data / 'ref_alignment.phylip')
+)
 
-# Make tree
-# runIqTree(
-#     input_algns=str(test_data / 'ref_alignment.phylip'),
-#     output_dir=str(test_data),
-#     output_prefix='ref_alignment',
-#     keep_recovery_files=True,
-#     substitution_model='TEST',
-#     additional_args=None
-# )
+# # Make tree
+# # runIqTree(
+# #     input_algns=str(test_data / 'ref_alignment.phylip'),
+# #     output_dir=str(test_data),
+# #     output_prefix='ref_alignment',
+# #     keep_recovery_files=True,
+# #     substitution_model='TEST',
+# #     additional_args=None
+# # )
+
+runFastTree(
+    input_algns=str(test_data / 'ref_alignment.phylip'),
+    output_file=str(test_data / 'ref_alignment.fasttree'),
+    additional_args=None
+)
 
 # Align query sequences with Papara 
 runPapara(
-    tree_nwk=str(test_data / 'ref_alignment.contree'),
+    tree_nwk=str(test_data / 'ref_alignment.fasttree'),
     msa_phy=str(test_data / 'ref_alignment.phylip'),
-    query_fasta=str(test_data / 'Nxr_kitzinger_2021_short_ids_modified.fasta'),
+    query_fasta='/home/robaina/Documents/TRAITS/data/papara_test/sequencesLongLabels.fasta',#str(test_data / 'Nxr_kitzinger_2021_short_ids_modified.fasta'),
     output_file=None,
     additional_args=None
 )
