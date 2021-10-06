@@ -9,6 +9,7 @@ Tools to preprocess sequence databases
 import os
 import re
 import shutil
+from Bio import SeqIO
 import pyfastx
 
 from .utils import saveToPickleFile, setDefaultOutputPath
@@ -39,15 +40,15 @@ def relabelRecordsInFASTA(input_fasta: str,
     output_fasta = f'{os.path.join(output_dir, fasta_file)}'
     output_dict = f'{os.path.join(output_dir, dict_file)}'
     
-    fasta = pyfastx.Fasta(input_fasta, build_index=False, full_name=True)
-    new_ids = map(lambda n: f'{prefix_str}{n}', range(len(fasta)))
+    fasta = SeqIO.parse(input_fasta, 'fasta')
+    # new_ids = map(lambda n: f'{prefix_str}{n}', range(len(fasta)))
+
     id_dict = dict()
     with open(output_fasta, 'w') as outfasta:
-        for record, new_id in zip(fasta, new_ids):
-            name_tag = str(record.name)
-            print(name_tag)
-            id_dict[new_id] = name_tag
-            outfasta.write(record.raw.replace(name_tag, f'{new_id}'))
+        for n, record in enumerate(fasta):
+            new_id = f'{prefix_str}{n}'
+            id_dict[new_id] = record.description
+            outfasta.write(f'>{new_id}\n{record.seq}\n')
     saveToPickleFile(id_dict, output_dict)
 
 def reformatFilePath(file_name: str) -> None:

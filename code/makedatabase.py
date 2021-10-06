@@ -36,26 +36,26 @@ test_data = Path('/home/robaina/Documents/TRAITS/tests/')
 """
 
 # 1) Reduce redundancy of database
-runCDHIT(
-    input_fasta=str(test_data / 'mardb_TIGR00639.1.fasta'),
-    output_fasta=str(test_data / 'ref_reduced.fasta'),
-    additional_args='-c 0.99'
-    )
-print(f'Original database size: {len(pyfastx.Fasta(str(test_data / "mardb_TIGR00639.1.fasta")))}')
-print(f'Reduced database size: {len(pyfastx.Fasta(str(test_data / "ref_reduced.fasta")))}')
+# runCDHIT(
+#     input_fasta=str(test_data / 'mardb_TIGR00639.1.fasta'),
+#     output_fasta=str(test_data / 'ref_reduced.fasta'),
+#     additional_args='-c 0.99'
+#     )
+# print(f'Original database size: {len(pyfastx.Fasta(str(test_data / "mardb_TIGR00639.1.fasta")))}')
+# print(f'Reduced database size: {len(pyfastx.Fasta(str(test_data / "ref_reduced.fasta")))}')
 
 # 2) Assert  correct format
-reformatSequencesInFASTA(
-    fasta_file=str(test_data / 'ref_reduced.fasta'),
-    output_file=str(test_data / 'ref_reduced_clean.fasta'),
-)
+# reformatSequencesInFASTA(
+#     fasta_file=str(test_data / 'ref_reduced.fasta'),
+#     output_file=str(test_data / 'ref_reduced_clean.fasta'),
+# )
 
 # Assign numbers to reference sequence labels for data processing
-relabelRecordsInFASTA(
-    input_fasta=str(test_data / 'ref_reduced_clean.fasta'),
-    output_dir=str(test_data),
-    prefix='ref_'
-    )
+# relabelRecordsInFASTA(
+#     input_fasta=str(test_data / 'ref_reduced_clean.fasta'),
+#     output_dir=str(test_data),
+#     prefix='ref_'
+#     )
 
 # MSA on reduced database
 runMuscle(
@@ -63,26 +63,26 @@ runMuscle(
     output_file=str(test_data / 'ref_alignment.fasta.aln')
 )
 
-# # Trimal
-# # runTrimal(
-# #     input_aln=str(test_data / 'ref_reduced_clean_short_ids.fasta.aln'),
-# #     output_aln=str(test_data / 'ref_alignment.fasta.aln')
-# # )
+# Trimal
+# runTrimal(
+#     input_aln=str(test_data / 'ref_reduced_clean_short_ids.fasta.aln'),
+#     output_aln=str(test_data / 'ref_alignment.fasta.aln')
+# )
 
 convertFastaAlnToPhylip(
     input_fasta_aln=str(test_data / 'ref_alignment.fasta.aln'),
     output_file=str(test_data / 'ref_alignment.phylip')
 )
 
-# # Make tree
-# # runIqTree(
-# #     input_algns=str(test_data / 'ref_alignment.phylip'),
-# #     output_dir=str(test_data),
-# #     output_prefix='ref_alignment',
-# #     keep_recovery_files=True,
-# #     substitution_model='TEST',
-# #     additional_args=None
-# # )
+# # # Make tree
+# # # runIqTree(
+# # #     input_algns=str(test_data / 'ref_alignment.phylip'),
+# # #     output_dir=str(test_data),
+# # #     output_prefix='ref_alignment',
+# # #     keep_recovery_files=True,
+# # #     substitution_model='TEST',
+# # #     additional_args=None
+# # # )
 
 runFastTree(
     input_algns=str(test_data / 'ref_alignment.phylip'),
