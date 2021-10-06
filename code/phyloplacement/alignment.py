@@ -33,7 +33,8 @@ def runMAFFT(input_fasta: str, output_file: str = None,
     terminalExecute(cmd_str, suppress_output=False)
 
 def runMuscle(input_fasta: str, output_file: str = None,
-              maxiters: int = None) -> None:
+              maxiters: int = None,
+              additional_args: str = None) -> None:
     """
     Simple CLI wrapper to muscle (MSA)
     muscle: https://www.drive5.com/muscle/manual/output_formats.html
@@ -46,7 +47,12 @@ def runMuscle(input_fasta: str, output_file: str = None,
                                            only_filename=True)
     if maxiters is None:
         maxiters = 2
-    cmd_str = f'muscle -in {input_fasta} -out {output_file} -maxiters {maxiters}'
+    if additional_args is not None:
+        args_str = additional_args
+    else:
+        args_str = ''
+    cmd_str = (f'muscle -in {input_fasta} -out {output_file} '
+               f'-maxiters {maxiters} {args_str}')
     terminalExecute(cmd_str, suppress_output=False)
 
 def runTrimal(input_aln: str, output_aln: str = None) -> None:
