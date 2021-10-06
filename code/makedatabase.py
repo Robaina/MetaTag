@@ -15,6 +15,18 @@ def countRecords(fasta_file: str) -> None:
     cmd_str = f'grep -c ">" {fasta_file}'
     terminalExecute(cmd_str)
 
+def sliceFasta(input_file, output_file, N):
+    n = 0
+    records = SeqIO.parse(input_file, 'fasta')
+    sliced_records = []
+    for record in records:
+        if n < N:
+            sliced_records.append(record)
+        else:
+            break
+        n += 1
+    SeqIO.write(sliced_records, output_file, 'fasta')
+
 # data_dir = Path('/home/robaina/Documents/MAR_database/')
 # input_fasta = data_dir / 'mardb_proteins_V6_no_duplicates.fasta'
 # Do Hmmer search and filtering
@@ -63,33 +75,45 @@ test_data = Path('/home/robaina/Documents/TRAITS/tests/')
 #     prefix='ref_'
 #     )
 
+# sliceFasta(
+#     input_file=str(test_data / 'ref_reduced_clean_short_ids.fasta'),
+#     output_file=str(test_data / 'ref_toy.fasta'),
+#     N=34
+# )
+
+# sliceFasta(
+#     input_file='/home/robaina/Documents/TRAITS/data/nxr/test_data/Nxr_kitzinger_2021_short_ids_modified.fasta',
+#     output_file=str(test_data / 'query_toy.fasta'),
+#     N=10
+# )
+
 # MSA on reduced database
-# runMuscle(
-#     input_fasta=str(test_data / 'ref_reduced_clean_short_ids.fasta'),
-#     output_file=str(test_data / 'ref_alignment.fasta.aln')
-#     # additional_args='-physout alignment.phylip -phyiout alignment.iphylip'
-# )
+runMuscle(
+    input_fasta=str(test_data / 'ref_toy.fasta'),
+    output_file=str(test_data / 'ref_alignment.fasta.aln')
+    # additional_args='-physout alignment.phylip -phyiout alignment.iphylip'
+)
 
-# # # Trimal
-# # # runTrimal(
-# # #     input_aln=str(test_data / 'ref_reduced_clean_short_ids.fasta.aln'),
-# # #     output_aln=str(test_data / 'ref_alignment.fasta.aln')
+# # Trimal
+# # runTrimal(
+# #     input_aln=str(test_data / 'ref_reduced_clean_short_ids.fasta.aln'),
+# #     output_aln=str(test_data / 'ref_alignment.fasta.aln')
+# # )
+
+convertFastaAlnToPhylip(
+    input_fasta_aln=str(test_data / 'ref_alignment.fasta.aln'),
+    output_file=str(test_data / 'ref_alignment.phylip')
+)
+
+# # # Make tree
+# # # runIqTree(
+# # #     input_algns=str(test_data / 'ref_alignment.phylip'),
+# # #     output_dir=str(test_data),
+# # #     output_prefix='ref_alignment',
+# # #     keep_recovery_files=True,
+# # #     substitution_model='TEST',
+# # #     additional_args=None
 # # # )
-
-# convertFastaAlnToPhylip(
-#     input_fasta_aln=str(test_data / 'ref_alignment.fasta.aln'),
-#     output_file=str(test_data / 'ref_alignment.phylip')
-# )
-
-# # # # Make tree
-# # # # runIqTree(
-# # # #     input_algns=str(test_data / 'ref_alignment.phylip'),
-# # # #     output_dir=str(test_data),
-# # # #     output_prefix='ref_alignment',
-# # # #     keep_recovery_files=True,
-# # # #     substitution_model='TEST',
-# # # #     additional_args=None
-# # # # )
 
 runFastTree(
     input_algns=str(test_data / 'ref_alignment.phylip'),
@@ -98,14 +122,14 @@ runFastTree(
 )
 
 # Align query sequences with Papara 
-# runPapara(
-#     tree_nwk=str(test_data / 'ref_alignment.fasttree'),
-#     msa_phy='/home/robaina/Documents/TRAITS/alignment.phylip',#str(test_data / 'ref_alignment.phylip'),
-#     query_fasta='/home/robaina/Documents/TRAITS/data/nxr/test_data/Nxr_kitzinger_2021_short_ids_modified.fasta',#'/home/robaina/Documents/TRAITS/data/papara_test/sequencesLongLabels.fasta',#str(test_data / 'Nxr_kitzinger_2021_short_ids_modified.fasta'),
-#     output_file=None,
-#     additional_args=None
-# )
-# os.remove('papara_log.aln')
+runPapara(
+    tree_nwk=str(test_data / 'ref_alignment.fasttree'),
+    msa_phy=str(test_data / 'ref_alignment.phylip'),
+    query_fasta=str(test_data / 'query_toy.fasta'),
+    output_file=None,
+    additional_args=None
+)
+os.remove('papara_log.aln')
 
 # # Build HMM profile out of reference MSA
 # runHMMbuild(

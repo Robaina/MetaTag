@@ -62,6 +62,17 @@ def reformatFilePath(file_name: str) -> None:
         '_', fname).replace('__', '_').strip('_')
     return os.path.join(fdir, f'{clean_fname}{ext}')
 
+def isLegitPeptideSequence(record_seq: str) -> bool:
+    """
+    Assert that peptide sequences only contains valid symbols
+    """
+    aas = {
+        'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L',
+        'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y'
+    }
+    seq_symbols = {s for s in record_seq}
+    return seq_symbols.issubset(aas)
+
 def reformatPeptideSequence(record_seq) -> str:
     """
     Assert peptide sequence only contains upper case letters
@@ -86,8 +97,9 @@ def reformatSequencesInFASTA(fasta_file: str,
     fasta = pyfastx.Fasta(fasta_file, build_index=False, full_name=True)
     with open(output_file, 'w') as outfile:
         for record_name, record_seq in fasta:
-            record_seq = reformatPeptideSequence(record_seq)
-            outfile.write(f'>{record_name}\n{record_seq}\n')
+            if isLegitPeptideSequence(record_seq):
+            # record_seq = reformatPeptideSequence(record_seq)
+                outfile.write(f'>{record_name}\n{record_seq}\n')
 
 def pipe_line(fasta_path: str, id_type: int,
               output_file = None) -> None:
