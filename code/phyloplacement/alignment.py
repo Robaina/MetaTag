@@ -100,16 +100,23 @@ def convertFastaAlnToPhylip(input_fasta_aln: str,
                             output_file: str = None) -> None:
     """
     Convert alignments in Fasta to Phylip.
-    Note: id labels in phylip format are restricted to 10 characters.
-          This restriction may caused repeated truncated labels.
     """
     if output_file is None:
         output_file = setDefaultOutputPath(input_fasta_aln, extension='.phylip')
     with open(input_fasta_aln, 'r') as input_handle, open(output_file, 'w') as output_handle:
         alignments = AlignIO.parse(input_handle, 'fasta')
         AlignIO.write(alignments, output_handle, 'phylip')
-        # records = SeqIO.parse(input_handle, 'fasta')
-        # SeqIO.write(records, output_handle, 'phylip')
+
+def convertPhylipToFastaAln(input_phylip: str,
+                            output_file: str = None) -> None:
+    """
+    Convert alignments in Phylip to Fasta format
+    """
+    if output_file is None:
+        output_file = setDefaultOutputPath(input_phylip, extension='.fasta.aln')
+    with open(input_phylip, 'r') as input_handle, open(output_file, 'w') as output_handle:
+        alignments = AlignIO.parse(input_handle, 'phylip')
+        AlignIO.write(alignments, output_handle, 'fasta')
 
 def convertStockholmToFasta(input_stockholm: str,
                             output_fasta: str = None) -> None:

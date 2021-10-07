@@ -41,7 +41,8 @@ def deleteTemporaryFiles(dir_path: str) -> None:
 
 def setDefaultOutputPath(input_path: str, tag: str = None,
                          extension: str = None,
-                         only_filename: bool = False) -> str:
+                         only_filename: bool = False,
+                         only_dirname: bool = False) -> str:
     """
     Get default path to outputfile
     """
@@ -52,7 +53,26 @@ def setDefaultOutputPath(input_path: str, tag: str = None,
         extension = ext
     if tag is None:
         tag = ''
+    default_file = f'{fname}{tag}{extension}'
     if only_filename:
-        return f'{fname}{tag}{extension}'
+        return default_file
+    if only_dirname:
+        return dirname
     else:
-        return f'{os.path.join(dirname, basename)}{tag}{extension}'
+        return os.path.join(dirname, default_file)
+
+def countRecords(fasta_file: str) -> None:
+    cmd_str = f'grep -c ">" {fasta_file}'
+    terminalExecute(cmd_str)
+
+# def sliceFasta(input_file, output_file, N):
+#     n = 0
+#     records = SeqIO.parse(input_file, 'fasta')
+#     sliced_records = []
+#     for record in records:
+#         if n < N:
+#             sliced_records.append(record)
+#         else:
+#             break
+#         n += 1
+#     SeqIO.write(sliced_records, output_file, 'fasta')

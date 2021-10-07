@@ -6,6 +6,8 @@ query sequence placements onto trees
 import os
 import shutil
 import tempfile
+from Bio import Phylo 
+
 from .utils import terminalExecute, setDefaultOutputPath
 from .database import runHMMbuild
 from .alignment import runHMMalign, convertStockholmToFasta
@@ -239,7 +241,7 @@ def runPapara(tree_nwk: str, msa_phy: str,
 
     cmd_str = (
         f'{os.path.join(path_to_papara_exec, "papara")} -t {tree_nwk} '
-        f'-s {msa_phy} -q {query_fasta} {threads_str} -n aln '
+        f'-s {msa_phy} -q {query_fasta} {threads_str} -n phylip '
         f'-r {args_str} -a'
         )
     terminalExecute(cmd_str, suppress_output=False)
@@ -280,6 +282,49 @@ def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
         )
     terminalExecute(cmd_str, suppress_output=False)
 
+def getTreeWithPlacements(input_jplace: str,
+                          output_dir: str = None,
+                          output_prefix: str = None, 
+                          additional_args: str = None) -> None:
+    """
+    Run gappa examine heat-tree to obtain tree with short read placements 
+    in newick format
+    """
+    if output_dir is None:
+        outdir_str = ''
+    else:
+        outdir_str = f'--out-dir {os.path.abspath(output_dir)}'
+    if output_prefix is None:
+        output_prefix_str = f''
+    else:
+        output_prefix_str = f'--file-prefix {output_prefix}'
+    if additional_args is None:
+        args_str = ''
+    else:
+        args_str = additional_args
+
+    cmd_str = (
+        f'gappa examine heat-tree --jplace-path {os.path.abspath(input_jplace)} '
+        f'--write-newick-tree --write-svg-tree '
+        f'{outdir_str} {output_prefix_str} {args_str}'
+        )
+    terminalExecute(cmd_str, suppress_output=False)
+
+def relabelTree(input_newick: str,
+                label_dict: dict,
+                output_file: str = None) -> None: 
+    """
+    Relabel tree leaves 
+    """
+    if output_file is None:
+        output_file = setDefaultOutputPath(
+            input_newick, tag='_relabel'
+        )
+    tree = next(Phylo.parse(input_newick, 'newick'))
+    leaves = tree.get_terminals()
+    for leaf in leaves:
+        leaf.name = label_dict[leaf.name]
+    Phylo.write(tree, output_file, 'newick')
 
         
     

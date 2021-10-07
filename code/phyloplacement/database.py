@@ -231,7 +231,6 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
     sequence database to only contain sequences 
     corresponing to protein of interest
     """
-    
     basename, ext = os.path.splitext(input_fasta)
     hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
     hmmer_output = f'{basename}_{hmm_name}.txt'
