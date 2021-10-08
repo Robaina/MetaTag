@@ -116,3 +116,24 @@ def pipe_line(fasta_path: str, id_type: int,
     
     reformatSequencesInFASTA(fasta_file=clean_fasta_path,
                              output_file=output_file)
+
+def relabelMarDB(label_dict: dict) -> dict:
+
+    db_code_pattern = re.compile('\[mmp_(.*)\]')
+    species_pattern = re.compile('\[(.*?)\]')
+
+    def editMarDBlabel(label: str) -> str:
+        try:
+            species = re.search(
+                species_pattern,
+                re.sub(db_code_pattern, '', label)
+                ).group(1)
+        except:
+            species = 'Undetermined'
+        mar_id = label.split(' ')[0]
+        return f'{mar_id}_{species}'
+
+    return {
+        k: editMarDBlabel(v)
+        for k, v in label_dict.items()
+    }
