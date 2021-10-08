@@ -1,110 +1,49 @@
 #!/usr/bin/env python
 # conda activate traits
 
-from phyloplacement.database import (filterFASTAByHMM, removeDuplicatesFromFasta,
-                                     filterFastaBySequenceLength, runCDHIT, relabelRecordsInFASTA)
+import re
+import pyfastx
+from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath 
 
-from phyloplacement.alignment import (runMuscle, runMAFFT, runTrimal, convertFastaAlnToPhylip)
 
-from phyloplacement.phylotree import (runFastTree, runEPAng,
-                                      runIqTree, runPapara, runTreeShrink)
+db_entry = re.compile('\[mmp_id=(.*)\] ')
 
-from phyloplacement.visualization import plotTreeInBrowser
+def getMarDBentryCode(label: str) -> str:
+    return re.search(db_entry, label).group(1)
+
+
+def getMARDBsequencesByIDs(input_fasta: str, entry_codes: set,
+                        output_fasta: str = None) -> None:
+    """
+    Filter records in mardb fasta file matching provided entry codes
+    """
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fasta, '_fitered')
+    
+    fasta = pyfastx.Fasta(input_fasta, build_index=False, full_name=True)
+    with open(output_fasta, 'w') as outfile:
+        for record_name, record_seq in fasta:
+            entry_code = getMarDBentryCode(record_name)
+            if entry_code in entry_codes:
+                outfile.write(f'>{record_name}\n{record_seq}\n')
 
 if __name__ == '__main__':
-        
-    # hmm = 'data/hmms/narGTIGR01580.1.HMM'
-    # input_fasta = '/home/robaina/Documents/MAR_database/mardb_proteins_V6.faa'
-    # input_fasta_no_dup = '/home/robaina/Documents/MAR_database/mardb_proteins_V6_no_duplicates.fasta'
+
+
+    # Retrieve mardb nucleotide sequences
+    label_dict = readFromPickleFile('/home/robaina/Documents/TRAITS/tests/ref_reduced_clean_id_dict.pickle')
+    nxr_entry_codes = {getMarDBentryCode(v) for v in label_dict.values()}
+
+    getMARDBsequencesByIDs(
+        input_fasta='/home/robaina/Documents/MAR_database/mardb_nucleotides_V6.fna',
+        entry_codes=nxr_entry_codes,
+        output_fasta='/home/robaina/Documents/TRAITS/nxr_nt.fasta'
+    )
     
-    # removeDuplicatesFromFasta(input_fasta, output_fasta=input_fasta_no_dup)
+    print('Done!')
 
-    # filterFASTAByHMM(hmm_model=hmm,
-    #                  input_fasta=input_fasta_no_dup,
-    #                  output_fasta=None,
-    #                  method='hmmsearch')
-  
-    # runMuscle(input_fasta='data/nxr/mardb_proteins_V6_TIGR015180.1.fasta',
-    #           output_file='data/nxr/mardb_proteins_V6_TIGR015180.1.fasta.aln',
-    #           maxiters=None)
 
-    # runTrimal(input_aln='data/nxr/mardb_proteins_V6_TIGR015180.1.fasta.aln',
-    #           output_aln=None)
-
-    # convertFastaAlnToPhylip(input_fasta_aln='data/nxr/mardb_proteins_V6_TIGR015180.1.fasta.aln',
-    #                         output_file='data/nxr/mardb_proteins_V6_TIGR015180.1.phylip')
-    
-    # runFastTree(input_algns='data/nxr/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln')
-
-    # runIqTree(input_algns='data/nxr/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln')
-    
     """
-    Large (36800) database with Molybdopterin.hmm. 
-    Reduced to 17300 with cd-hit (default params)
-
-    Very small (1268) database with TIGR015180 for narG
+    I see after running the script that entry ids are not unique, there are several nt sequences with
+    the same id. How can one then get nt sequences for given mardb protein sequence?
     """
-
-    # filterFastaBySequenceLength(input_fasta=input_fasta_no_dup, minLength=100)
-    # fa = pyfastx.Fasta('/home/robaina/Documents/TRAITS/data/nxr/mardb_proteins_V6_TIGR015180.1.fasta')
-    # ids = fa.keys()
-    # ids.filter
-     
-    # runMuscle(input_fasta='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta')
-
-
-    # runTrimal(input_aln='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln',
-    #           output_aln='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln')
-
-    # runIqTree(input_algns='data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta.aln',
-    #           keep_recovery_files=False,
-    #           output_dir='data/nxr/kitzinger2021',
-    #           output_prefix=None)
-
-    # ******************************************************************************************
-
-    # runTreeShrink(input_tree='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink/tree/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln.treefile',
-    #               input_aln='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink/tree/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln',
-    #               output_dir='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output',
-    #               output_deleted_nodes=True,
-    #               additional_args='--force --centroid -q 0.05')
-
-    # plotTreeInBrowser(input_tree='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln_shrink.treefile',
-    #                   output_dir='/home/robaina/Documents/TRAITS/data/nxr/tree-viz')
-    
-    
-    # runEPAng(input_aln='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal_shrink.aln',
-    #          input_tree='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln_shrink.treefile',
-    #          input_query='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/epang_test.fasta',
-    #          output_dir='/home/robaina/Documents/TRAITS/data/nxr/epang',
-    #          n_threads=None,
-    #          additional_args='--redo')
-
-
-    # Have to run this after obtaining tigrfam database fasta.
-    # relabelRecordsInFASTA(input_fasta='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta',
-    #              output_dir=None)
-
-    # convertFastaAlnToPhylip(input_fasta_aln='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal_shrink.aln',
-    #                         output_file='alignment.phy')
-
-    # runPapara(tree_nwk='/home/robaina/Documents/TRAITS/data/nxr/iqtree_shrink_output/mardb_proteins_V6_TIGR015180.1.fasta_trimal.aln_shrink.treefile',
-    #           msa_phy='alignment.phy',
-    #           query_fasta='/home/robaina/Documents/TRAITS/data/nxr/kitzinger2021/Nxr_kitzinger_2021.fasta')
-
-
-
-
-# Run hmmsearch to get gene-specific sequences
-
-# Run cd-hit to remove uninformative sequences
-
-# Run MSA software: mafft (parallel), or muscle (single thread)
-
-# Run fasttree or iqtree to get newick tree file
-
-# Prun tree (and MSA if desired) of outlier branches: treshrink
-
-# Visualize tree with empress tree-plot (html)
-
-# Do placement of short reads on tree
