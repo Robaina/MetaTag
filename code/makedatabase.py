@@ -60,26 +60,26 @@ work_dir = Path('/home/robaina/Documents/TRAITS/tests/')
 #     output_file=str(work_dir / 'ref_alignment.fasta.aln')
 # )
 
-# # # Trimal
-# # # runTrimal(
-# # #     input_aln=str(test_data / 'ref_reduced_clean_short_ids.fasta.aln'),
-# # #     output_aln=str(test_data / 'ref_alignment.fasta.aln')
-# # # )
+# Trimal
+runTrimal(
+    input_aln=str(work_dir / 'ref_alignment.fasta.aln'),
+    output_aln=str(work_dir / 'ref_alignment_trimal.fasta.aln')
+)
 
-# convertFastaAlnToPhylip(
-#     input_fasta_aln=str(work_dir / 'ref_alignment.fasta.aln'),
-#     output_file=str(work_dir / 'ref_alignment.phylip')
-# )
+convertFastaAlnToPhylip(
+    input_fasta_aln=str(work_dir / 'ref_alignment_trimal.fasta.aln'),
+    output_file=str(work_dir / 'ref_alignment_trimal.phylip')
+)
 
-# # # # Make tree
-# # # # runIqTree(
-# # # #     input_algns=str(test_data / 'ref_alignment.phylip'),
-# # # #     output_dir=str(test_data),
-# # # #     output_prefix='ref_alignment',
-# # # #     keep_recovery_files=True,
-# # # #     substitution_model='TEST',
-# # # #     additional_args=None
-# # # # )
+# Make tree
+runIqTree(
+    input_algns=str(work_dir / 'ref_alignment_trimal.phylip'),
+    output_dir=str(work_dir),
+    output_prefix='ref_alignment',
+    keep_recovery_files=True,
+    substitution_model='TEST',
+    additional_args=None
+)
 
 # runFastTree(
 #     input_algns=str(work_dir / 'ref_alignment.phylip'),
@@ -89,11 +89,16 @@ work_dir = Path('/home/robaina/Documents/TRAITS/tests/')
 
 # Trim tree to remove outlier branches
 runTreeShrink(
-    input_tree='',
-    input_aln='',
-    output_dir='',
+    input_tree=str(work_dir / 'ref_alignment.contree'),
+    input_aln=str(work_dir / 'ref_alignment_trimal.fasta.aln'),
+    output_dir=str(work_dir),
     output_deleted_nodes=True,
     additional_args=None
+)
+
+convertFastaAlnToPhylip(
+    input_fasta_aln=str(work_dir / 'ref_alignment_trimal.fasta_shrink.aln'),
+    output_file=str(work_dir / 'ref_alignment_trimal_shrink.phylip')
 )
 
 # # Preprocess query sequences
@@ -151,11 +156,11 @@ runTreeShrink(
 # )
 
 # Run EPA-ng for placement of short reads
-runEPAng(
-    input_tree=str(work_dir / 'ref_alignment.fasttree'),
-    input_aln_ref=str(work_dir / 'papara_alignment.fasta_ref_fraction.aln'),
-    input_aln_query=str(work_dir/ 'papara_alignment.fasta_query_fraction.aln'),
-    model='JTT', #'LG+I+G4',
-    output_dir=str(work_dir),
-    additional_args='--redo'
-)
+# runEPAng(
+#     input_tree=str(work_dir / 'ref_alignment.fasttree'),
+#     input_aln_ref=str(work_dir / 'papara_alignment.fasta_ref_fraction.aln'),
+#     input_aln_query=str(work_dir/ 'papara_alignment.fasta_query_fraction.aln'),
+#     model='JTT', #'LG+I+G4',
+#     output_dir=str(work_dir),
+#     additional_args='--redo'
+# )
