@@ -11,71 +11,8 @@ from collections import defaultdict
 from Bio import SearchIO, SeqIO
 import pyfastx
 
-from .utils import terminalExecute, setDefaultOutputPath
-
-# def removeDuplicates():
-#     """
-#     Remove sequences in fasta files with repeated labels
-#     or sequences.
-
-#     NOTES:
-
-#     script: joinseqs.py
-#     """
-#     pass
-
-# def reformatFileName():
-#     """
-#     Checks if file name format is legal
-#     and corrects otherwise
-
-
-#     NOTES:
-
-#     script: clean.py
-
-#     1. File names, must contain only upper/lower case letters and digits and '_',
-#     replace anything else (such as a space) by '_'
-
-#     2. Sequences must be only composed of uppercase letters A-Z
-#     """
-#     pass
-
-# def refomatSequencesAndLabels():
-#     """
-#     Checks for inconsistencies in sequence data and
-#     reformat sequence labels
-
-#     NOTES:
-
-#     script: clean.py
-
-#     1. File names, must contain only upper/lower case letters and digits and '_',
-#     replace anything else (such as a space) by '_'
-
-#     2. Sequences must be only composed of uppercase letters A-Z
-#     """
-#     pass
-
-# def reformatProdigalLabels():
-#     """
-#     Reformat prodigal labels and file names
-
-#     NOTES:
-
-#     script: reformatabel.py
-#     """
-#     pass
-
-# def translateDNA():
-#     """
-#     Translate DNA sequences with prodigal
-
-#     NOTES:
-
-#     script: loopparallel.py
-#     """
-#     pass
+import phyloplacement.wrappers as wrappers
+from phyloplacement.utils import terminalExecute, setDefaultOutputPath
 
 
 def removeDuplicatesFromFastaByID(input_fasta: str,
@@ -143,37 +80,6 @@ def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
     cmd_str = f'awk 1 *.fasta > {output_fasta}'
     terminalExecute(cmd_str, suppress_output=False)
 
-def runHMMsearch(hmm_model: str, input_fasta: str,
-             output_file: str = None,
-             method: str = 'hmmsearch',
-             n_processes: int = None) -> None:
-    """
-    Simple CLI wrapper to hmmsearch or hmmscan
-    Requires hmmer installed and accessible
-    """
-    if n_processes is None:
-        n_processes = os.cpu_count() - 1
-    if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta, '_hmmer_hits', '.txt')
-    cmd_str = (f'{method} --cut_ga --tblout {output_file} --cpu {n_processes} '
-               f'{hmm_model} {input_fasta}')
-    terminalExecute(cmd_str, suppress_output=False)
-
-def runHMMbuild(input_aln: str, output_hmm: str = None,
-                additional_args: str = None) -> None:
-    """
-    Simple CLI wrapper to hmmbuild (build HMM profile from MSA file)
-    additional args: see hmmbuild -h
-    """
-    if output_hmm is None:
-        output_hmm = setDefaultOutputPath(input_aln, extension='.hmm')
-    if additional_args is not None:
-        args_str = additional_args
-    else:
-        args_str = ''
-    cmd_str = f'hmmbuild {args_str} {output_hmm} {input_aln}'
-    terminalExecute(cmd_str, suppress_output=False)
-
 def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
     """
     Parse hmmsearch or hmmscan summary table output file
@@ -186,22 +92,6 @@ def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
                 for attrib in attribs:
                     hits[attrib].append(getattr(hit, attrib))
     return pd.DataFrame.from_dict(hits)
-
-def runCDHIT(input_fasta: str, output_fasta: str = None,
-             additional_args: str = None) -> None:
-    """
-    Simple CLI wrapper to cd-hit to obain representative sequences
-    CD-HIT may be used to remove duplicated sequences (keeps one representatie)
-    with parameters -c 1 -t 1. However, it does require lots of RAM to store sequences,
-    cannot run on Aquifex.
-
-    """
-    if output_fasta is None:
-       output_fasta = setDefaultOutputPath(input_fasta, '_cdhit')
-    if additional_args is None:
-        additional_args = ''
-    cmd_str = f'cd-hit -i {input_fasta} -o {output_fasta} {additional_args}'
-    terminalExecute(cmd_str, suppress_output=False)
 
 def filterFASTAbyIDs(input_fasta: str, record_ids: list,
                      output_fasta: str = None) -> None:
@@ -219,8 +109,11 @@ def filterFASTAbyIDs(input_fasta: str, record_ids: list,
     fa = pyfastx.Fasta(input_fasta)
     with open(output_fasta, 'w') as fp:
         for record_id in record_ids:
-            record_obj = fa[record_id]
-            fp.write(record_obj.raw)
+            try:
+                record_obj = fa[record_id]
+                fp.write(record_obj.raw)
+            except:
+                pass
 
 def filterFASTAByHMM(hmm_model: str, input_fasta: str,
                      output_fasta: str = None,
@@ -236,10 +129,12 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
     hmmer_output = f'{basename}_{hmm_name}.txt'
     
     print('Running Hmmer...')
-    runHMMsearch(hmm_model=hmm_model,
-             input_fasta=input_fasta,
-             output_file=hmmer_output,
-             method=method)
+    wrappers.runHMMsearch(
+        hmm_model=hmm_model,
+        input_fasta=input_fasta,
+        output_file=hmmer_output,
+        method=method
+        )
     print('Parsing Hmmer output file...')
     hmmer_hits = parseHMMsearchOutput(hmmer_output)
     print('Filtering Fasta...')
@@ -247,4 +142,4 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
                      output_fasta=output_fasta)
 
     if remove_uninformative:
-        runCDHIT(input_fasta=output_fasta)
+        wrappers.runCDHIT(input_fasta=output_fasta)
