@@ -9,13 +9,39 @@ from .utils import terminalExecute, setDefaultOutputPath
 path_to_papara_exec = '/home/robaina/Software/papara'
 
 
+def runProdigal(input_file: str, output_prefix: str = None,
+                output_dir: str = None,
+                metagenome: bool = False,
+                additional_args: str = None):
+    """
+    Simple CLI wrapper to prodigal
+    """
+    if metagenome:
+        procedure = 'meta'
+    else:
+        procedure = 'single'
+    if output_dir is None:
+        pass
+    if output_prefix is None:
+        pass
+    if additional_args is None:
+        args_str = additional_args
+    else:
+        args_str = ''
+    output_gbk = os.path.join(output_dir, output_prefix, '.gbk')
+    output_fasta = os.path.join(output_dir, output_prefix, '.faa')
+    cmd_str = (
+        f'prodigal -i {input_file} -o {output_gbk} -p {procedure} '
+        f'-a {output_fasta} -q {args_str}'
+        )
+    terminalExecute(cmd_str, suppress_output=False)
+
 def runHMMsearch(hmm_model: str, input_fasta: str,
-             output_file: str = None,
-             method: str = 'hmmsearch',
-             n_processes: int = None) -> None:
+                 output_file: str = None,
+                 method: str = 'hmmsearch',
+                 n_processes: int = None) -> None:
     """
     Simple CLI wrapper to hmmsearch or hmmscan
-    Requires hmmer installed and accessible
     """
     if n_processes is None:
         n_processes = os.cpu_count() - 1

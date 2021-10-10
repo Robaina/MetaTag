@@ -5,7 +5,7 @@ without short read placement.
 
 import os
 import webbrowser
-from .utils import terminalExecute
+from phyloplacement.utils import terminalExecute
 
 
 def reformatIQTreeForiTOL(input_tree: str):
