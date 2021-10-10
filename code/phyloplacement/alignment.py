@@ -10,14 +10,34 @@ import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import terminalExecute, setDefaultOutputPath
 
 
-def alignShortReadsToReferenceMSA() -> None:
+def alignShortReadsToReferenceMSA(ref_msa: str, query: str,
+                                  method: str = 'hmmalign',
+                                  output_file: str = None,
+                                  tree_nwk: str = None,
+                                  additional_args: str = None) -> None:
     """
     Align short read query sequences to reference MSA
-    through the same hmm model employed to reconstruct
-    reference database
     """
-    # wrappers.runHMMalign()
-    pass
+    if method.lower() in 'hmmalign':
+        wrappers.runHMMbuild(input_aln=ref_msa,
+                             output_hmm=output_hmm,
+                             additional_args=None)
+
+        wrappers.runHMMalign(input_aln=ref_msa,
+                             input_hmm=output_hmm,
+                             input_seqs=input_query,
+                             output_aln_seqs=output_aln_seqs,
+                             additional_args=None)
+
+        convertStockholmToFastaAln(input_stockholm=output_aln_seqs,
+                                   output_fasta=input_aln_query)
+    elif method.lower() in 'papara':
+        wrappers.runPapara(tree_nwk='',
+                           msa_phy='',
+                           query_fasta='')
+    else:
+        raise ValueError('Alignment method not implemented')
+        
 
 def convertFastaAlnToPhylip(input_fasta_aln: str,
                             output_file: str = None) -> None:
@@ -41,7 +61,7 @@ def convertPhylipToFastaAln(input_phylip: str,
         alignments = AlignIO.parse(input_handle, 'phylip')
         AlignIO.write(alignments, output_handle, 'fasta')
 
-def convertStockholmToFasta(input_stockholm: str,
+def convertStockholmToFastaAln(input_stockholm: str,
                             output_fasta: str = None) -> None:
     """
     Convert alignment file in Stockholm format to fasta
