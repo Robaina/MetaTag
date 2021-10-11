@@ -64,7 +64,7 @@ def reformatFilePath(file_name: str) -> None:
 
 def isLegitPeptideSequence(record_seq: str) -> bool:
     """
-    Assert that peptide sequences only contains valid symbols
+    Assert that peptide sequence only contains valid symbols
     """
     aas = {
         'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L',
@@ -73,17 +73,26 @@ def isLegitPeptideSequence(record_seq: str) -> bool:
     seq_symbols = {s for s in record_seq}
     return seq_symbols.issubset(aas)
 
-def reformatPeptideSequence(record_seq) -> str:
+def isLegitDNAsequence(record_seq: str) -> bool:
     """
-    Assert peptide sequence only contains upper case letters
+    Assert that DNA sequence only contains valid symbols
     """
-    upper_case_letters = re.compile('[^A-Z]')
-    return upper_case_letters.sub('', record_seq.upper())
+    nts = {'A', 'G', 'T', 'C'}
+    seq_symbols = {s for s in record_seq}
+    return seq_symbols.issubset(nts)
+
+# def reformatPeptideSequence(record_seq) -> str:
+#     """
+#     Assert peptide sequence only contains upper case letters
+#     """
+#     upper_case_letters = re.compile('[^A-Z]')
+#     return upper_case_letters.sub('', record_seq.upper())
 
 def reformatSequencesInFASTA(fasta_file: str,
-                             output_file: str = None) -> None:
+                             output_file: str = None,
+                             is_peptide: bool = True) -> None:
     """
-    Remove illegal characters from peptide sequences
+    Filter out (DNA or peptide) sequences containing illegal characters
     """
     dirname = os.path.dirname(fasta_file)
     basename = os.path.basename(fasta_file)
@@ -93,12 +102,15 @@ def reformatSequencesInFASTA(fasta_file: str,
         output_file = os.path.join(dirname, f'{fname}_modified{ext}')
     else:
         output_file = os.path.abspath(output_file)
+    if is_peptide:
+        isLegitSequence = isLegitPeptideSequence
+    else:
+        isLegitSequence = isLegitDNAsequence
 
     fasta = pyfastx.Fasta(fasta_file, build_index=False, full_name=True)
     with open(output_file, 'w') as outfile:
         for record_name, record_seq in fasta:
-            if isLegitPeptideSequence(record_seq):
-            # record_seq = reformatPeptideSequence(record_seq)
+            if isLegitSequence(record_seq):
                 outfile.write(f'>{record_name}\n{record_seq}\n')
 
 def pipe_line(fasta_path: str, id_type: int,
@@ -116,24 +128,3 @@ def pipe_line(fasta_path: str, id_type: int,
     
     reformatSequencesInFASTA(fasta_file=clean_fasta_path,
                              output_file=output_file)
-
-def relabelMarDB(label_dict: dict) -> dict:
-
-    db_code_pattern = re.compile('\[mmp_(.*)\]')
-    species_pattern = re.compile('\[(.*?)\]')
-
-    def editMarDBlabel(label: str) -> str:
-        try:
-            species = re.search(
-                species_pattern,
-                re.sub(db_code_pattern, '', label)
-                ).group(1)
-        except:
-            species = 'Undetermined'
-        mar_id = label.split(' ')[0]
-        return f'{mar_id}_{species}'
-
-    return {
-        k: editMarDBlabel(v)
-        for k, v in label_dict.items()
-    }
