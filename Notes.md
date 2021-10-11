@@ -20,12 +20,16 @@
 
 # TODO
 
-1. Check/implement sequence preprocessing: e.g., removal of short sequences, trimming...
+1. Think about automatizing short read labelling based on (already labelled) tree placement
 
-2. Implement placement
+2. Python's pathlib much better than os.path to handle paths and files. See this [post](https://medium.com/@ageitgey/python-3-quick-tip-the-easy-way-to-deal-with-file-paths-on-windows-mac-and-linux-11a072b58d5f)
 
-3. Think about automatizing short read labelling based on (already labelled) tree placement
+3. Contree used by Jose, tree best model (sometimes yeast or insect models appear, seems wrong).This is because iqtree is testing different substitution models suring optimization, among which those appear.
 
-4. Python's pathlib much better than os.path to handle paths and files. See this [post](https://medium.com/@ageitgey/python-3-quick-tip-the-easy-way-to-deal-with-file-paths-on-windows-mac-and-linux-11a072b58d5f)
+# Code meeting notes:
 
-5. Contree used by Jose, tree best model (sometimes yeast or insect models appear, seems wrong)
+1. Preprocessing:
+   1.1. Jose clean.py made for DNA seqs, and removes illegal symbols but keeps sequence. This may introduce artifacts (i.e., deletions) in the sequences. I remove these sequences from dataset, also made function to check peptide sequences.
+   1.2. Parallezation of tasks over input files no longer depends on ruffus. Implemented with 
+   multiprocessing Pool instead. Addtional arguments may be passed (**kwargs) 
+   

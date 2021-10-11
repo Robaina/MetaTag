@@ -4,6 +4,8 @@ Functions for general purposes
 
 import os
 import pickle
+from functools import partial
+from multiprocessing import Pool
 
 
 def saveToPickleFile(python_object, path_to_file='object.pkl'):
@@ -60,6 +62,20 @@ def setDefaultOutputPath(input_path: str, tag: str = None,
         return dirname
     else:
         return os.path.join(dirname, default_file)
+
+def parallelizeOverInputFiles(callable, input_dir: str,
+                              n_processes: int = None,
+                              **callable_kwargs) -> None: 
+    """
+    Parallelize callable over a set of input files using a pool 
+    of workers. Callable must accept a file path as first input.
+    Additional callable named arguments may be passed.
+    """
+    if n_processes is None:
+        n_processes = os.cpu_count - 1
+    input_files = os.listdir(input_dir)
+    with Pool(n_processes) as p:
+        p.map(partial(callable, **callable_kwargs), input_files)
 
 def countRecords(fasta_file: str) -> None:
     cmd_str = f'grep -c ">" {fasta_file}'

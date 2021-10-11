@@ -97,11 +97,6 @@ def filterFASTAbyIDs(input_fasta: str, record_ids: list,
                      output_fasta: str = None) -> None:
     """
     Filter records in fasta file matching provided IDs
-    s = fa[seq_id]
-    print(s.name)
-    print(s.description)
-    print(s.seq)
-    print(s.raw)
     """
     if output_fasta is None:
        output_fasta = setDefaultOutputPath(input_fasta, '_fitered')
@@ -140,6 +135,5 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
     print('Filtering Fasta...')
     filterFASTAbyIDs(input_fasta, record_ids=hmmer_hits.id.values,
                      output_fasta=output_fasta)
-
     if remove_uninformative:
         wrappers.runCDHIT(input_fasta=output_fasta)
