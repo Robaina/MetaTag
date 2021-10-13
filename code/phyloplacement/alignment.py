@@ -90,20 +90,27 @@ def convertStockholmToFastaAln(input_stockholm: str,
         print(align.format('fasta'), file=fasta_file)
 
 def splitReferenceFromQueryAlignments(ref_query_msa: str,
-                                      ref_ids: set,
+                                      ref_ids: set = None,
+                                      ref_prefix: str = None,
                                       out_dir: str = None) -> None:
     """
     Separate reference sequences from query sequences in msa fasta file
     """
     if out_dir is None:
         out_dir = os.path.dirname(ref_query_msa)
+    if ref_ids is not None and ref_prefix is None:
+        def is_reference(record_name): return record_name in ref_ids
+    elif ref_ids is None and ref_prefix is not None:
+        def is_reference(record_name): return record_name.startswith(ref_prefix)
+    else:
+        raise ValueError('Provide either set of ref ids or ref prefix')
     out_ref_msa = setDefaultOutputPath(ref_query_msa, tag='_ref_fraction')
     out_query_msa = setDefaultOutputPath(ref_query_msa, tag='_query_fraction')
-    
+
     fasta = pyfastx.Fasta(ref_query_msa, build_index=False, full_name=True)
     with open(out_ref_msa, 'w') as outref, open(out_query_msa, 'w') as outquery:
         for record_name, record_seq in fasta:
-            if record_name in ref_ids:
+            if is_reference(record_name):
                 outref.write(f'>{record_name}\n{record_seq}\n')
             else:
                 outquery.write(f'>{record_name}\n{record_seq}\n')
