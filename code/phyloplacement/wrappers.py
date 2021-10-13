@@ -116,7 +116,9 @@ def runMAFFT(input_fasta: str, output_file: str = None,
     mafft --large --globalpair --thread n in > out
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta, extension='.fasta.aln')
+        output_file = setDefaultOutputPath(input_fasta,
+                                           extension='.fasta.aln',
+                                           only_filename=True)
     if parallel:
         thread_str = f'--thread {n_threads}'
     else:

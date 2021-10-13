@@ -12,7 +12,7 @@ import shutil
 from Bio import SeqIO
 import pyfastx
 
-from .utils import saveToPickleFile, setDefaultOutputPath
+from phyloplacement.utils import saveToPickleFile, setDefaultOutputPath
 
 
 def relabelRecordsInFASTA(input_fasta: str,
@@ -20,8 +20,6 @@ def relabelRecordsInFASTA(input_fasta: str,
                  prefix: str = None):
     """
     Change record ids for numbers and store then in a dictionary
-    Useful when converting fasta alignments to phylip format 
-    (phylip ids are less than 10 char long)
     """
     if output_dir is None:
         output_dir = os.path.dirname(input_fasta)
@@ -42,7 +40,6 @@ def relabelRecordsInFASTA(input_fasta: str,
     
     fasta = SeqIO.parse(input_fasta, 'fasta')
     # new_ids = map(lambda n: f'{prefix_str}{n}', range(len(fasta)))
-
     id_dict = dict()
     with open(output_fasta, 'w') as outfasta:
         for n, record in enumerate(fasta):
@@ -51,7 +48,7 @@ def relabelRecordsInFASTA(input_fasta: str,
             outfasta.write(f'>{new_id}\n{record.seq}\n')
     saveToPickleFile(id_dict, output_dict)
 
-def reformatFilePath(file_name: str) -> None:
+def assertCorrectFilePath(file_name: str) -> None:
     """
     Remove illegal symbols from file path
     """
@@ -81,14 +78,7 @@ def isLegitDNAsequence(record_seq: str) -> bool:
     seq_symbols = {s for s in record_seq}
     return seq_symbols.issubset(nts)
 
-# def reformatPeptideSequence(record_seq) -> str:
-#     """
-#     Assert peptide sequence only contains upper case letters
-#     """
-#     upper_case_letters = re.compile('[^A-Z]')
-#     return upper_case_letters.sub('', record_seq.upper())
-
-def reformatSequencesInFASTA(fasta_file: str,
+def assertCorrectSequenceFormat(fasta_file: str,
                              output_file: str = None,
                              is_peptide: bool = True) -> None:
     """
@@ -121,10 +111,10 @@ def pipe_line(fasta_path: str, id_type: int,
     def is_legit_path(fasta_path, legit_fasta_path):
         return fasta_path == legit_fasta_path
             
-    clean_fasta_path = reformatFilePath(fasta_path)
+    clean_fasta_path = assertCorrectFilePath(fasta_path)
 
     if not is_legit_path(fasta_path, clean_fasta_path):
         shutil.move(fasta_path, clean_fasta_path)
     
-    reformatSequencesInFASTA(fasta_file=clean_fasta_path,
+    assertCorrectSequenceFormat(fasta_file=clean_fasta_path,
                              output_file=output_file)

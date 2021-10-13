@@ -27,7 +27,7 @@ def filterMarDBrecordsbyEntryCodes(input_fasta: str, entry_codes: set,
             if entry_code in entry_codes:
                 outfile.write(f'>{record_name}\n{record_seq}\n')
 
-def getMARdbGenomeByEntryCode(input_fasta: str, entry_code: str,
+def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
                               output_fasta: str = None) -> None:
     """
     Get full or partial genomes with given MARdb entry code.
