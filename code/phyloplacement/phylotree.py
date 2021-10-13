@@ -8,8 +8,51 @@ from Bio import Phylo
 
 from phyloplacement.utils import setDefaultOutputPath
 import phyloplacement.wrappers as wrappers
-from phyloplacement.alignment import alignShortReadsToReferenceMSA, splitReferenceFromQueryAlignments
+from phyloplacement.alignment import alignShortReadsToReferenceMSA
+from phyloplacement.database.manipulation import splitReferenceFromQueryAlignments
 
+def makeTree(ref_aln: str,
+             method: str = 'iqtree',
+             substitution_model: str = 'TEST',
+             output_dir: str = None,
+             additional_args: str = None) -> None:
+    """
+    Infer tree from reference msa. Best substitution model
+    selected by default.
+    """
+    if method.lower() in 'iqtree':
+        wrappers.runIqTree(
+        input_algns=ref_aln,
+        output_dir=output_dir,
+        output_prefix='ref_alignment',
+        keep_recovery_files=True,
+        substitution_model=substitution_model,
+        additional_args=additional_args
+        )
+    elif method.lower() in 'fasttree':   
+        wrappers.runFastTree(
+            input_algns=ref_aln,
+            output_file=os.path.join(output_dir, 'ref_alignment.fasttree'),
+            additional_args=additional_args
+        )
+    else:
+        raise ValueError('Wrong method, enter iqtree or fasttree')
+
+def relabelTree(input_newick: str,
+                label_dict: dict,
+                output_file: str = None) -> None: 
+    """
+    Relabel tree leaves 
+    """
+    if output_file is None:
+        output_file = setDefaultOutputPath(
+            input_newick, tag='_relabel'
+        )
+    tree = next(Phylo.parse(input_newick, 'newick'))
+    leaves = tree.get_terminals()
+    for leaf in leaves:
+        leaf.name = label_dict[leaf.name]
+    Phylo.write(tree, output_file, 'newick')
 
 def placeReadsOntoTree(input_tree: str, 
                        tree_model: str,
@@ -51,19 +94,3 @@ def placeReadsOntoTree(input_tree: str,
         output_dir=output_dir,
         n_threads=None,
         additional_args=None)
-
-def relabelTree(input_newick: str,
-                label_dict: dict,
-                output_file: str = None) -> None: 
-    """
-    Relabel tree leaves 
-    """
-    if output_file is None:
-        output_file = setDefaultOutputPath(
-            input_newick, tag='_relabel'
-        )
-    tree = next(Phylo.parse(input_newick, 'newick'))
-    leaves = tree.get_terminals()
-    for leaf in leaves:
-        leaf.name = label_dict[leaf.name]
-    Phylo.write(tree, output_file, 'newick')
