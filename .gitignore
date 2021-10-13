@@ -4,11 +4,13 @@ Gene_Annotation_Jose_Tree_Method/
 code/test.ipynb
 data/nxr
 picrust2/
+nxr_genomes/
 
 # Files
 Notes.txt
 Graph_Example.pptx
 trimal.html
+run_papara.py
 
 # File types
 *.sqlite

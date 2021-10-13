@@ -32,4 +32,5 @@
    1.1. Jose clean.py made for DNA seqs, and removes illegal symbols but keeps sequence. This may introduce artifacts (i.e., deletions) in the sequences. I remove these sequences from dataset, also made function to check peptide sequences.
    1.2. Parallezation of tasks over input files no longer depends on ruffus. Implemented with 
    multiprocessing Pool instead. Addtional arguments may be passed (**kwargs) 
+   1.3 Working directly from peptides or translating with prodigal?
    

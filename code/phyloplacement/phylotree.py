@@ -10,71 +10,47 @@ from Bio import Phylo
 
 from phyloplacement.utils import setDefaultOutputPath
 import phyloplacement.wrappers as wrappers
-from phyloplacement.alignment import convertStockholmToFastaAln
+from phyloplacement.alignment import alignShortReadsToReferenceMSA, splitReferenceFromQueryAlignments
 
 
-path_to_papara_exec = '/home/robaina/Software/papara'
-
-def alignPeptides():
-    """
-    Perform multiple alignment on a set of peptides
-
-    NOTES:
-
-    script: 0MusclePep.py, 0MusclePepTrimal.py
-    """
-    pass
-
-def getPhyloTree():
-    """
-    Make phylogenetic tree out of peptide multiple aligment data
-
-    NOTES:
-
-    script: fasttree.sh, iqtree.sh
-    """
-    pass
-
-def placeReadsOntoTree(input_tree: str, input_aln: str,
-                       input_query: str,
-                       query_already_aligned: bool = False,
-                       output_file: str = None) -> None:
+def placeReadsOntoTree(input_tree: str, 
+                       tree_model: str,
+                       ref_aln: str,
+                       query_seqs: str,
+                       output_dir: str = None) -> None:
     """
     Performs short read placement onto phylogenetic tree
-
-    NOTES:
-
-    Runs hmmbuild, hmmalign, epa-ng
-
-    workflow: https://github.com/Pbdas/epa-ng/wiki/Full-Stack-Example
+    workflow example: https://github.com/Pbdas/epa-ng/wiki/Full-Stack-Example
     """
-    if output_file is None:
-        output_file = setDefaultOutputPath(input_query, tag='_placement',
-                                           extension='.jplace')
-    if not query_already_aligned:
-         
-        output_hmm = '/home/robaina/Documents/TRAITS/out.hmm'
-        wrappers.runHMMbuild(input_aln=input_aln,
-                    output_hmm=output_hmm,
-                    additional_args=None)
-        
-        output_aln_seqs = '/home/robaina/Documents/TRAITS/aln_query.stk'
-        wrappers.runHMMalign(input_aln=input_aln,
-                    input_hmm=output_hmm,
-                    input_seqs=input_query,
-                    output_aln_seqs=output_aln_seqs,
-                    additional_args=None)
-        
-        input_aln_query = '/home/robaina/Documents/TRAITS'
-        convertStockholmToFastaAln(input_stockholm=output_aln_seqs,
-                                output_fasta=input_aln_query)
-    else:
-        input_aln_query = input_query
-    
-    output_dir = '/home/robaina/Documents/TRAITS'
-    wrappers.runEPAng(input_tree=input_tree, input_aln=input_aln,
-             input_query=input_aln_query, output_dir=output_dir,
-             n_threads=None, additional_args=None)
+    if output_dir is None:
+        output_dir = setDefaultOutputPath(query_seqs, only_dirname=True)
+    ref_query_msa = os.path.join(
+            output_dir, setDefaultOutputPath(query_seqs, extenion='.aln,',
+                                             only_filename=True)
+            ),
+    aln_ref_frac = os.path.splitext(ref_query_msa)[0] + '_ref_fraction.fasta.aln'
+    aln_query_frac = os.path.splitext(ref_query_msa)[0] + '_query_fraction.fasta.aln'
+
+    alignShortReadsToReferenceMSA(
+        ref_msa=ref_aln,
+        query_seqs=query_seqs,
+        method='papara',
+        tree_nwk=input_tree,
+        output_dir=output_dir
+    )
+    splitReferenceFromQueryAlignments(
+        ref_query_msa=ref_query_msa,
+        ref_ids=set(),
+        out_dir=output_dir
+    )
+    wrappers.runEPAng(
+        input_tree=input_tree,
+        input_aln=aln_ref_frac,
+        input_query=aln_query_frac,
+        model=tree_model,
+        output_dir=output_dir,
+        n_threads=None,
+        additional_args=None)
 
 def relabelTree(input_newick: str,
                 label_dict: dict,
@@ -91,6 +67,3 @@ def relabelTree(input_newick: str,
     for leaf in leaves:
         leaf.name = label_dict[leaf.name]
     Phylo.write(tree, output_file, 'newick')
-
-        
-    

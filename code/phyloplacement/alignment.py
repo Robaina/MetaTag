@@ -3,42 +3,58 @@ Tools to perform multiple sequence alignments
 """
 
 import os
+import tempfile
 import pyfastx
 from Bio import AlignIO
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import terminalExecute, setDefaultOutputPath
+from phyloplacement.utils import setDefaultOutputPath
+from phyloplacement.alignment import convertFastaAlnToPhylip, convertPhylipToFastaAln
 
 
-def alignShortReadsToReferenceMSA(ref_msa: str, query: str,
-                                  method: str = 'hmmalign',
-                                  output_file: str = None,
+def alignShortReadsToReferenceMSA(ref_msa: str, query_seqs: str,
+                                  method: str = 'papara',
                                   tree_nwk: str = None,
-                                  additional_args: str = None) -> None:
+                                  output_dir: str = None) -> None:
     """
-    Align short read query sequences to reference MSA
+    Align short read query sequences to reference MSA (fasta format).
+    Outputs fasta msa alignment between query and reference sequences
     """
+    if output_dir is None:
+        output_dir = setDefaultOutputPath(ref_msa, only_dirname=True)
+    output_hmm = os.path.join(
+        output_dir, setDefaultOutputPath(ref_msa, extension='.hmm', only_filename=True)
+        )
+    output_aln_seqs = os.path.join(
+        output_dir, setDefaultOutputPath(query_seqs, extension='.aln',
+                                         only_filename=True)
+    )
+    
     if method.lower() in 'hmmalign':
         wrappers.runHMMbuild(input_aln=ref_msa,
-                             output_hmm=output_hmm,
-                             additional_args=None)
-
-        wrappers.runHMMalign(input_aln=ref_msa,
-                             input_hmm=output_hmm,
-                             input_seqs=input_query,
-                             output_aln_seqs=output_aln_seqs,
-                             additional_args=None)
-
-        convertStockholmToFastaAln(input_stockholm=output_aln_seqs,
-                                   output_fasta=input_aln_query)
+                             output_hmm=output_hmm)
+        
+        with tempfile.TemporaryFile() as tempstock:
+            wrappers.runHMMalign(input_aln=ref_msa,
+                                 input_hmm=output_hmm,
+                                 input_seqs=query_seqs,
+                                 output_aln_seqs=tempstock)
+            convertStockholmToFastaAln(input_stockholm=tempstock,
+                                       output_fasta=output_aln_seqs)
     elif method.lower() in 'papara':
-        wrappers.runPapara(tree_nwk='',
-                           msa_phy='',
-                           query_fasta='')
+        with tempfile.TemporaryFile() as tempphy, \
+             tempfile.TemporaryFile() as tempqueryaln:
+             convertFastaAlnToPhylip(input_fasta_aln=output_aln_seqs,
+                                     output_file=tempphy)
+             wrappers.runPapara(tree_nwk=tree_nwk,
+                                msa_phy=tempphy,
+                                query_fasta=query_seqs,
+                                output_aln=tempqueryaln)
+             convertPhylipToFastaAln(input_phylip=tempqueryaln,
+                                     output_file=output_aln_seqs)
     else:
         raise ValueError('Alignment method not implemented')
         
-
 def convertFastaAlnToPhylip(input_fasta_aln: str,
                             output_file: str = None) -> None:
     """
