@@ -82,7 +82,7 @@ def runHMMalign(input_hmm: str, input_aln: str,
         args_str = ''
     cmd_str = (
         f'hmmalign -o {output_aln_seqs} --mapali {input_aln} --trim '
-        f'--informat FASTA {args_str} {input_hmm} {input_seqs}'
+        f'--informat fasta {args_str} {input_hmm} {input_seqs}'
         )
     terminalExecute(cmd_str, suppress_output=False)
 
@@ -291,45 +291,36 @@ def runTreeShrink(input_tree: str, input_aln: str,
             )
 
 def runPapara(tree_nwk: str, msa_phy: str,
-              query_fasta: str, n_threads: int = None,
-              output_file: str = None,
+              query_fasta: str,
+              output_aln: str = None,
               additional_args: str = None) -> None:
     """
-    Simple CLI wrapper to Papara
-    papara -t tree.nwk -s alignment.phy -q query-seqs.fasta -r -n combined-aln (name of output alignment)
-    
-    -r 	Prevent PaPaRa from adding gaps in the reference alignment
-
-    '-j <num threads>'
-
-    -a: sequences are protein data
+    Simple CLI wrapper to Papara. Output lignment in fasta format
 
     Run Papara to do query alignment to reference MSA and tree (required for EPA-ng)
     Alignment could be done with hmmalign or muscle as well, but these tools don't 
     consider the tree during alignment (would this be a justified improvement over hmmalign?)
 
-    cd /home/robaina/Software/papara
-    ./papara (to run papara)
-
     There seems to be a problem with enabling multithreading in papara when run as a static
     executable. It looks like it has to be enable during compilation (but compilation currently not working):
     https://stackoverflow.com/questions/19618926/thread-doesnt-work-with-an-error-enable-multithreading-to-use-stdthread-ope
     """
-    if n_threads is not None:
-        threads_str = f'-j {n_threads}'
-    else:
-        threads_str = ''
+    if output_aln is None:
+        output_aln = setDefaultOutputPath(query_fasta, tag='_ref_aln',
+                                          extension='.phylip')
     if additional_args is not None:
         args_str = additional_args
     else:
         args_str = ''
-
     cmd_str = (
         f'{os.path.join(path_to_papara_exec, "papara")} -t {tree_nwk} '
-        f'-s {msa_phy} -q {query_fasta} {threads_str} -n phylip '
+        f'-s {msa_phy} -q {query_fasta} -n phylip '
         f'-r {args_str} -a'
         )
-    terminalExecute(cmd_str, suppress_output=False)
+    with tempfile.TemporaryDirectory() as tempdir:
+        terminalExecute(cmd_str, suppress_output=False, work_dir=tempdir)
+        shutil.move(os.path.join(tempdir, 'papara_alignment.phylip'),
+                    output_aln)
 
 def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
              model: str = None, output_dir: str = None,
@@ -338,14 +329,11 @@ def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
     """
     Simple CLI wrapper to EPA-ng
     See epa-ng -h for additional parameters
-
     input_tree: newick format
     input_aln: fasta format
     input_aln_query: fasta format (sequences must be alignned to reference 
     msa fasta and have the same length as the reference msa alignment)
-
     epa-ng: https://github.com/Pbdas/epa-ng
-
     TODO: model parameters must be the same employed to make reference tree.
     """
     if model is None:
