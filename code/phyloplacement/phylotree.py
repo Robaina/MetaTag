@@ -4,8 +4,6 @@ query sequence placements onto trees
 """
 
 import os
-import shutil
-import tempfile
 from Bio import Phylo 
 
 from phyloplacement.utils import setDefaultOutputPath
@@ -17,9 +15,11 @@ def placeReadsOntoTree(input_tree: str,
                        tree_model: str,
                        ref_aln: str,
                        query_seqs: str,
+                       ref_prefix: str = '_ref',
                        output_dir: str = None) -> None:
     """
     Performs short read placement onto phylogenetic tree
+    tree_model: str, either the model name or path to model file output by iqtree
     workflow example: https://github.com/Pbdas/epa-ng/wiki/Full-Stack-Example
     """
     if output_dir is None:
@@ -40,7 +40,7 @@ def placeReadsOntoTree(input_tree: str,
     )
     splitReferenceFromQueryAlignments(
         ref_query_msa=ref_query_msa,
-        ref_ids=set(),
+        ref_prefix=ref_prefix,
         out_dir=output_dir
     )
     wrappers.runEPAng(
