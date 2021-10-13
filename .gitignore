@@ -1,8 +1,7 @@
 # Directories
 Gene_Annotation_Jose_Tree_Method/
 .ipynb_checkpoints/
-code/test.ipynb
-data/nxr
+data/nxr/
 picrust2/
 nxr_genomes/
 
@@ -11,6 +10,7 @@ Notes.txt
 Graph_Example.pptx
 trimal.html
 run_papara.py
+code/test.ipynb
 
 # File types
 *.sqlite
