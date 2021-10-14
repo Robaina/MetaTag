@@ -77,19 +77,3 @@ def parallelizeOverInputFiles(callable,
         n_processes = os.cpu_count - 1
     with Pool(processes=n_processes) as p:
         p.map(partial(callable, **callable_kwargs), input_list)
-
-# def countRecords(fasta_file: str) -> None:
-#     cmd_str = f'grep -c ">" {fasta_file}'
-#     terminalExecute(cmd_str)
-
-# def sliceFasta(input_file, output_file, N):
-#     n = 0
-#     records = SeqIO.parse(input_file, 'fasta')
-#     sliced_records = []
-#     for record in records:
-#         if n < N:
-#             sliced_records.append(record)
-#         else:
-#             break
-#         n += 1
-#     SeqIO.write(sliced_records, output_file, 'fasta')

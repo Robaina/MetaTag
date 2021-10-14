@@ -5,7 +5,7 @@ Simple CLI wrappers to several tools
 import os
 import shutil
 import tempfile
-from .utils import terminalExecute, setDefaultOutputPath
+from phyloplacement.utils import terminalExecute, setDefaultOutputPath
 path_to_papara_exec = '/home/robaina/Software/papara'
 
 
