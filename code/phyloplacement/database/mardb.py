@@ -3,11 +3,14 @@ Tools to process MARdb data
 """
 
 import re
+import os
+import shutil
+import tempfile
 import pyfastx
 from phyloplacement.utils import setDefaultOutputPath, terminalExecute 
 
-
 db_entry = re.compile('\[mmp_id=(.*)\] ')
+only_letters = re.compile('[^A-Z]')
 
 def getMarDBentryCode(label: str) -> str:
     return re.search(db_entry, label).group(1)
@@ -28,27 +31,38 @@ def filterMarDBrecordsbyEntryCodes(input_fasta: str, entry_codes: set,
                 outfile.write(f'>{record_name}\n{record_seq}\n')
 
 def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
-                              output_fasta: str = None) -> None:
+                              output_fasta: str = None,
+                              clean: bool = True) -> None:
     """
     Get full or partial genomes with given MARdb entry code.
-    If more than one record found for entry code (e.g., when dealing
-    with contigs of partial genomes), then all records are merged together
-    into a single fasta file.
+    If clean = True, remove characters which are not letters
     """
     if output_fasta is None:
         output_fasta = setDefaultOutputPath(input_fasta,
                                             tag=f'_genome_{entry_code}',
                                             extension='.fa')
+    
+    def is_empty(fasta_file):
+        with open(fasta_file, 'r') as file:
+            return '>' not in file.read()
+
+    def cleanOutputFasta(output_fasta: str) -> None:
+        with tempfile.TemporaryFile() as tfile, \
+             open(output_fasta, 'r') as file:
+            for line in file:
+                if '>' in line:
+                    line = only_letters.sub('', line)
+                tfile.write(line)
+        shutil.move(tfile, output_fasta)
+
     cmd_str = (
-        f'grep -A1 {entry_code} {input_fasta} | grep -v {entry_code} '
-        '''| tr -d ''' + r"'\n'" + " "
-        f'> {output_fasta}'
+        f'grep -A1 {entry_code} {input_fasta} > {output_fasta}'
     )
     terminalExecute(cmd_str, suppress_output=False)
-    with open(output_fasta, 'r+') as file:
-        content = file.read()
-        file.seek(0)
-        file.write(f'>{entry_code}\n' + content)
+    if clean:
+        cleanOutputFasta(output_fasta)
+    if is_empty(output_fasta):
+        os.remove(output_fasta)
 
 def relabelMarDB(label_dict: dict) -> dict:
     """
@@ -73,3 +87,26 @@ def relabelMarDB(label_dict: dict) -> dict:
         k: editMarDBlabel(v)
         for k, v in label_dict.items()
     }
+
+# def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
+#                               output_fasta: str = None) -> None:
+#     """
+#     Get full or partial genomes with given MARdb entry code.
+#     If more than one record found for entry code (e.g., when dealing
+#     with contigs of partial genomes), then all records are merged together
+#     into a single fasta file.
+#     """
+#     if output_fasta is None:
+#         output_fasta = setDefaultOutputPath(input_fasta,
+#                                             tag=f'_genome_{entry_code}',
+#                                             extension='.fa')
+#     cmd_str = (
+#         f'grep -A1 {entry_code} {input_fasta} | grep -v {entry_code} '
+#         '''| tr -d ''' + r"'\n'" + " "
+#         f'> {output_fasta}'
+#     )
+#     terminalExecute(cmd_str, suppress_output=False)
+#     with open(output_fasta, 'r+') as file:
+#         content = file.read()
+#         file.seek(0)
+#         file.write(f'>{entry_code}\n' + content)
