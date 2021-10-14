@@ -47,13 +47,12 @@ def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
             return '>' not in file.read()
 
     def cleanOutputFasta(output_fasta: str) -> None:
-        with tempfile.TemporaryFile(mode='w') as tfile, \
-             open(output_fasta, 'r') as file:
+        with tempfile.TemporaryFile(mode='w') as tfile, open(output_fasta, 'r') as file:
             for line in file:
                 if '>' in line:
                     line = only_letters.sub('', line)
                 tfile.write(line)
-        shutil.move(tfile.name, output_fasta)
+            shutil.move(tfile.name, output_fasta)
 
     cmd_str = (
         f'grep -A1 {entry_code} {input_fasta} > {output_fasta}'
