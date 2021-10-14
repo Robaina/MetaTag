@@ -197,3 +197,25 @@ def splitReferenceFromQueryAlignments(ref_query_msa: str,
                 outref.write(f'>{record_name}\n{record_seq}\n')
             else:
                 outquery.write(f'>{record_name}\n{record_seq}\n')
+
+def countRecords(fasta_file: str) -> None:
+    """
+    Count records in fasta file
+    """
+    with open(fasta_file, 'r') as file:
+        n_records = sum(
+            [1 for line in file if line.startswith(">")]
+            )
+    return n_records
+
+def sliceFasta(input_file, output_file, N):
+    n = 0
+    records = SeqIO.parse(input_file, 'fasta')
+    sliced_records = []
+    for record in records:
+        if n < N:
+            sliced_records.append(record)
+        else:
+            break
+        n += 1
+    SeqIO.write(sliced_records, output_file, 'fasta')

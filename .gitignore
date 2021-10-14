@@ -6,11 +6,11 @@ picrust2/
 nxr_genomes/
 
 # Files
-Notes.txt
-Graph_Example.pptx
 trimal.html
 run_papara.py
 code/test.ipynb
+test.py
+scripts.py
 
 # File types
 *.sqlite
