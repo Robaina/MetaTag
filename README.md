@@ -8,7 +8,7 @@ Repository of project TRAITS.
 ```
 git clone https://github.com/Robaina/TRAITS.git
 ```
-2. Set conda environment if not already set:
+2. CD to project traits and set conda environment if not already set:
 ```
 conda env create -f environment.yml
 ```
