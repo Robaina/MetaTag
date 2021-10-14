@@ -6,7 +6,8 @@ import os
 import shutil
 import tempfile
 from phyloplacement.utils import terminalExecute, setDefaultOutputPath
-path_to_papara_exec = '/home/robaina/Software/papara'
+
+papara_exec = '/home/robaina/Software/papara/papara'
 
 
 def runProdigal(input_file: str, output_prefix: str = None,
@@ -315,7 +316,7 @@ def runPapara(tree_nwk: str, msa_phy: str,
     else:
         args_str = ''
     cmd_str = (
-        f'{os.path.join(path_to_papara_exec, "papara")} -t {tree_nwk} '
+        f'{papara_exec} -t {tree_nwk} '
         f'-s {msa_phy} -q {query_fasta} -n phylip '
         f'-r {args_str} -a'
         )

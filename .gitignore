@@ -11,6 +11,7 @@ run_papara.py
 code/test.ipynb
 test.py
 scripts.py
+NOTES.md
 
 # File types
 *.sqlite

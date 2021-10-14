@@ -1,40 +1,65 @@
 # TRAITS
 
-Shared repository of project TRAITS
+Repository of project TRAITS.
 
-# NOTES
+---
+## Installation
+1. Fork git repo into local machine (click on fork) and clone, or simply clone main branch with
+```
+git clone https://github.com/Robaina/TRAITS.git
+```
+2. Set conda environment if not already set:
+```
+conda env create -f environment.yml
+```
+3. [Install papara](https://cme.h-its.org/exelixis/web/software/papara/index.html) executable, rename it to "papara" and add path to executable in module wrappers.py:
+```python
+"""
+Simple CLI wrappers to several tools
+"""
 
-## Tree reconstruction
+import os
+import shutil
+import tempfile
+from phyloplacement.utils import terminalExecute, setDefaultOutputPath
 
-1. iqtree took 3 hours to ake a tree while fasttree took 4 minutes with the same input
-   We can handle output files within python, moving them to specified location.
+papara_exec = 'path/to/papara.exe'
+```
+## Obtaining reference tree
 
-2. Both iqtree and fasttree produce unrooted trees.
+1. Preprocess database. Only run once to remove duplicates and sequences containing illegal symbols:
+```
+python3 code/preprocess.py --help
+```
 
-3. May be needed to clean sequence labels of punctuation marks, since 
-   software to do placement seems to complain (https://www.polarmicrobes.org/phylogenetic-placement-revisited/)
+2. Make reference (protein-specific) peptide database. Run to filter origial database by given tigrfam or pfam. Also reduces redundancy of peptide database
+```
+python3 code/makedatabase.py --help
+```
 
-4. Trees are naturally messy because we are using many sequences. Ways to improve this:
-   4.1 Remove uninformative (very similar) sequences: cd-hit
-   4.2 Run trimal
-   4.3 Remove outlier branches: treeshrink or similar
+3. Perform multiple sequence alignment (MSA) on reference database and infer reference tree
+```
+python3 code/buildtree.py --help
+```
+## Curating reference tree
 
-5. Reference peptide database should contain less than 1000 sequences (600 - 800) so manual tree analysis is manageable.
-   CD-hit may be used to reduce database. Is  there a way to reduce it to given maximum number of sequences already implemented in CD-hit?
-   Running Cd-hit with default params reduced nxr database from 1268 seqs to 510 seqs.
+* Remove tree and reference msa outliers
+```
+python3 code/removetreeoutliers.py --help
+```
+* Manual curation and classification of clusters
+
+## Placement of query short reads on reference tree
+
+1. Preprocess query sequences. Remove illegal symbols from nucleotide or peptide sequence (if already translated). Can also translate nucleotide sequence with prodigal if not already translated.
+```
+python3 code/preprocess.py --help
+```
+2. Place sequences onto tree. Run either papara or hmmalign to align query sequences to reference MSA. Call epa-ng to place sequences onto tree. Call gappa to make new tree newick file with placements.
+```
+python3 code/placesequences.py --help
+```
 
 
-## TODO
 
-1. Think about automatizing short read labelling based on (already labelled) tree placement
 
-2. Python's pathlib much better than os.path to handle paths and files. See this [post](https://medium.com/@ageitgey/python-3-quick-tip-the-easy-way-to-deal-with-file-paths-on-windows-mac-and-linux-11a072b58d5f)
-
-3. Contree used by Jose, tree best model (sometimes yeast or insect models appear, seems wrong).This is because iqtree is testing different substitution models during optimization, among which those appear.
-
-## Code meeting notes:
-
-1. Preprocessing:
-   1.1. Prodigal replaces unknown chars by X, later removed in preprocessing.py
-   1.2. Parallezation of tasks over input files no longer depends on ruffus. Implemented with multiprocessing Pool instead. Addtional arguments may be passed (**kwargs) 
-   1.3 Data will be peptide sequences
