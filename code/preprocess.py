@@ -31,7 +31,7 @@ else:
 
 def main():
     
-    with tempfile.TemporaryFile(mode='w') as tfile:
+    with tempfile.NamedTemporaryFile(mode='w') as tfile:
         removeDuplicatesFromFasta(
             input_fasta=args.data,
             output_fasta=tfile.name
