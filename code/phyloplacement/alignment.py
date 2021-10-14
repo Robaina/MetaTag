@@ -61,7 +61,7 @@ def alignShortReadsToReferenceMSA(ref_msa: str, query_seqs: str,
         wrappers.runHMMbuild(input_aln=ref_msa,
                              output_hmm=output_hmm)
         
-        with tempfile.TemporaryFile() as tempstock:
+        with tempfile.TemporaryFile(mode='w') as tempstock:
             wrappers.runHMMalign(input_aln=ref_msa,
                                  input_hmm=output_hmm,
                                  input_seqs=query_seqs,
@@ -69,8 +69,8 @@ def alignShortReadsToReferenceMSA(ref_msa: str, query_seqs: str,
             convertStockholmToFastaAln(input_stockholm=tempstock,
                                        output_fasta=output_aln_seqs)
     elif method.lower() in 'papara':
-        with tempfile.TemporaryFile() as tempphy, \
-             tempfile.TemporaryFile() as tempqueryaln:
+        with tempfile.TemporaryFile(mode='w') as tempphy, \
+             tempfile.TemporaryFile(mode='w') as tempqueryaln:
              convertFastaAlnToPhylip(input_fasta_aln=output_aln_seqs,
                                      output_file=tempphy)
              wrappers.runPapara(tree_nwk=tree_nwk,

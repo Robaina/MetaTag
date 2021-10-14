@@ -18,7 +18,7 @@ Preprocessing:
 parser = argparse.ArgumentParser(description='Database preprocessing')
 parser.add_argument('--hmm', dest='hmm', type=str,
                     help='Path to tigrfam or pfam model')
-parser.add_argument('--data', dest='data', type=str,
+parser.add_argument('--in', dest='data', type=str,
                     help='Path to peptide database')
 parser.add_argument('--out', dest='out', type=str,
                     help='Path to output directory')

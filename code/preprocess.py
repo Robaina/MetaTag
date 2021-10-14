@@ -3,14 +3,15 @@
 
 """
 Preprocessing:
-1) Assert correct sequence format for downstream analysis
-2) Remove duplicates
+1) Remove duplicates
+2) Assert correct sequence format for downstream analysis
 """
 
 import tempfile
 import argparse
 from phyloplacement.utils import setDefaultOutputPath
-from phyloplacement.database.preprocessing import (assertCorrectSequenceFormat, removeDuplicatesFromFasta)
+from phyloplacement.database.preprocessing import (assertCorrectSequenceFormat,
+                                                   removeDuplicatesFromFasta)
 
 
 parser = argparse.ArgumentParser(description='Database preprocessing')
@@ -30,13 +31,13 @@ else:
 
 def main():
     
-    with tempfile.TemporaryFile() as tfile:
+    with tempfile.TemporaryFile(mode='w') as tfile:
         removeDuplicatesFromFasta(
             input_fasta=args.data,
-            output_fasta=tfile
+            output_fasta=tfile.name
         )
         assertCorrectSequenceFormat(
-            fasta_file=tfile,
+            fasta_file=tfile.name,
             output_file=outfasta,
             is_peptide=is_peptide
         )
