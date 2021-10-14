@@ -8,45 +8,56 @@ Tools to preprocess sequence databases
 
 import os
 import re
-import shutil
 from Bio import SeqIO
 import pyfastx
 
-from phyloplacement.utils import saveToPickleFile, setDefaultOutputPath
+from phyloplacement.utils import (saveToPickleFile, setDefaultOutputPath,
+                                  terminalExecute)
 
 
-def relabelRecordsInFASTA(input_fasta: str,
-                 output_dir: str = None,
-                 prefix: str = None):
+def removeDuplicatesFromFastaByID(input_fasta: str,
+                                  output_fasta: str = None) -> None:
     """
-    Change record ids for numbers and store then in a dictionary
+    Remove entries with duplicated IDs from fasta.
     """
-    if output_dir is None:
-        output_dir = os.path.dirname(input_fasta)
-    if prefix is not None:
-        prefix_str = prefix 
-    else:
-        prefix_str = ''
-    
-    fasta_file = setDefaultOutputPath(input_fasta, 
-                                      tag='_short_ids',
-                                      only_filename=True)
-    dict_file = setDefaultOutputPath(input_fasta,
-                                     tag='_id_dict',
-                                     extension='.pickle',
-                                     only_filename=True)
-    output_fasta = f'{os.path.join(output_dir, fasta_file)}'
-    output_dict = f'{os.path.join(output_dir, dict_file)}'
-    
-    fasta = SeqIO.parse(input_fasta, 'fasta')
-    # new_ids = map(lambda n: f'{prefix_str}{n}', range(len(fasta)))
-    id_dict = dict()
-    with open(output_fasta, 'w') as outfasta:
-        for n, record in enumerate(fasta):
-            new_id = f'{prefix_str}{n}'
-            id_dict[new_id] = record.description
-            outfasta.write(f'>{new_id}\n{record.seq}\n')
-    saveToPickleFile(id_dict, output_dict)
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
+    seen_ids = set()
+    records = []
+    for record in SeqIO.parse(input_fasta, "fasta"):  
+        if record.id not in seen_ids:
+            seen_ids.add(record.id)
+            records.append(record)
+    with open(output_fasta, 'w') as out_handle: 
+         SeqIO.write(records, out_handle, 'fasta')
+
+def removeDuplicatesFromFasta(input_fasta: str,
+                              output_fasta: str = None,
+                              output_duplicates: bool = False) -> None:
+    """
+    Removes duplicate entries (either by sequence or ID) from fasta.
+    TODO: implement output_duplicates
+    """
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
+    seen_seqs, seen_ids = set(), set()
+    records = []
+    for record in SeqIO.parse(input_fasta, "fasta"):  
+        if (record.seq not in seen_seqs) and (record.id not in seen_ids):
+            seen_seqs.add(record.seq)
+            seen_ids.add(record.id)
+            records.append(record)
+    with open(output_fasta, 'w') as out_handle: 
+         SeqIO.write(records, out_handle, 'fasta')
+
+def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
+    """
+    Merge input fasta files into a single fast
+    """
+    if output_fasta is None:
+        output_fasta = os.path.join(input_fastas_dir, 'merged.fasta')
+    cmd_str = f'awk 1 *.fasta > {output_fasta}'
+    terminalExecute(cmd_str, suppress_output=False)
 
 def assertCorrectFilePath(file_name: str) -> None:
     """
@@ -104,18 +115,51 @@ def assertCorrectSequenceFormat(fasta_file: str,
             if isLegitSequence(record_seq):
                 outfile.write(f'>{record_name}\n{record_seq}\n')
 
-def pipe_line(fasta_path: str, id_type: int,
-              output_file = None) -> None:
+def relabelRecordsInFASTA(input_fasta: str,
+                 output_dir: str = None,
+                 prefix: str = None):
     """
-    Pipeline to clean sequences and path to fasta file
+    Change record ids for numbers and store then in a dictionary
     """
-    def is_legit_path(fasta_path, legit_fasta_path):
-        return fasta_path == legit_fasta_path
-            
-    clean_fasta_path = assertCorrectFilePath(fasta_path)
-
-    if not is_legit_path(fasta_path, clean_fasta_path):
-        shutil.move(fasta_path, clean_fasta_path)
+    if output_dir is None:
+        output_dir = os.path.dirname(input_fasta)
+    if prefix is not None:
+        prefix_str = prefix 
+    else:
+        prefix_str = ''
     
-    assertCorrectSequenceFormat(fasta_file=clean_fasta_path,
-                             output_file=output_file)
+    fasta_file = setDefaultOutputPath(input_fasta, 
+                                      tag='_short_ids',
+                                      only_filename=True)
+    dict_file = setDefaultOutputPath(input_fasta,
+                                     tag='_id_dict',
+                                     extension='.pickle',
+                                     only_filename=True)
+    output_fasta = f'{os.path.join(output_dir, fasta_file)}'
+    output_dict = f'{os.path.join(output_dir, dict_file)}'
+    
+    fasta = SeqIO.parse(input_fasta, 'fasta')
+    # new_ids = map(lambda n: f'{prefix_str}{n}', range(len(fasta)))
+    id_dict = dict()
+    with open(output_fasta, 'w') as outfasta:
+        for n, record in enumerate(fasta):
+            new_id = f'{prefix_str}{n}'
+            id_dict[new_id] = record.description
+            outfasta.write(f'>{new_id}\n{record.seq}\n')
+    saveToPickleFile(id_dict, output_dict)
+
+# def pipe_line(fasta_path: str, id_type: int,
+#               output_file = None) -> None:
+#     """
+#     Pipeline to clean sequences and path to fasta file
+#     """
+#     def is_legit_path(fasta_path, legit_fasta_path):
+#         return fasta_path == legit_fasta_path
+            
+#     clean_fasta_path = assertCorrectFilePath(fasta_path)
+
+#     if not is_legit_path(fasta_path, clean_fasta_path):
+#         shutil.move(fasta_path, clean_fasta_path)
+    
+#     assertCorrectSequenceFormat(fasta_file=clean_fasta_path,
+#                              output_file=output_file)
