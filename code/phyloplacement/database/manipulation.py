@@ -12,43 +12,8 @@ from Bio import SearchIO, SeqIO, AlignIO
 import pyfastx
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import terminalExecute, setDefaultOutputPath
+from phyloplacement.utils import setDefaultOutputPath
 
-
-def removeDuplicatesFromFastaByID(input_fasta: str,
-                                  output_fasta: str = None) -> None:
-    """
-    Remove entries with duplicated IDs from fasta.
-    """
-    if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
-    seen_ids = set()
-    records = []
-    for record in SeqIO.parse(input_fasta, "fasta"):  
-        if record.id not in seen_ids:
-            seen_ids.add(record.id)
-            records.append(record)
-    with open(output_fasta, 'w') as out_handle: 
-         SeqIO.write(records, out_handle, 'fasta')
-
-def removeDuplicatesFromFasta(input_fasta: str,
-                              output_fasta: str = None,
-                              output_duplicates: bool = False) -> None:
-    """
-    Removes duplicate entries (either by sequence or ID) from fasta.
-    TODO: implement output_duplicates
-    """
-    if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
-    seen_seqs, seen_ids = set(), set()
-    records = []
-    for record in SeqIO.parse(input_fasta, "fasta"):  
-        if (record.seq not in seen_seqs) and (record.id not in seen_ids):
-            seen_seqs.add(record.seq)
-            seen_ids.add(record.id)
-            records.append(record)
-    with open(output_fasta, 'w') as out_handle: 
-         SeqIO.write(records, out_handle, 'fasta')
 
 def filterFastaBySequenceLength(input_fasta: str, minLength: int = 0,
                                 maxLength: int = None,
@@ -70,15 +35,6 @@ def filterFastaBySequenceLength(input_fasta: str, minLength: int = 0,
         for record_id in record_ids:
             record_obj = fa[record_id]
             fp.write(record_obj.raw)
-
-def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
-    """
-    Merge input fasta files into a single fast
-    """
-    if output_fasta is None:
-        output_fasta = os.path.join(input_fastas_dir, 'merged.fasta')
-    cmd_str = f'awk 1 *.fasta > {output_fasta}'
-    terminalExecute(cmd_str, suppress_output=False)
 
 def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
     """
