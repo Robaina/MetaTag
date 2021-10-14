@@ -9,7 +9,6 @@
 
 import os
 import argparse
-
 from phyloplacement.utils import parallelizeOverInputFiles, readFromPickleFile
 from phyloplacement.database.mardb import getMARdbGenomeByEntryCode, getMarDBentryCode
 
