@@ -12,7 +12,7 @@ git clone https://github.com/Robaina/TRAITS.git
 ```
 conda env create -f environment.yml
 ```
-3. [Install papara](https://cme.h-its.org/exelixis/web/software/papara/index.html) executable, rename it to "papara" and add path to executable in module wrappers.py:
+3. [Install papara](https://cme.h-its.org/exelixis/web/software/papara/index.html) executable and add path to executable in module wrappers.py:
 ```python
 """
 Simple CLI wrappers to several tools
