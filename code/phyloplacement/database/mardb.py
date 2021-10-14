@@ -4,8 +4,6 @@ Tools to process MARdb data
 
 import re
 import os
-import shutil
-import tempfile
 import pyfastx
 from phyloplacement.utils import setDefaultOutputPath, terminalExecute 
 
@@ -47,12 +45,12 @@ def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
             return '>' not in file.read()
 
     def cleanOutputFasta(output_fasta: str) -> None:
-        with tempfile.TemporaryFile(mode='w') as tfile, open(output_fasta, 'r') as file:
-            for line in file:
+        with open(output_fasta, 'w+') as file:
+            lines = file.readlines()
+            for line in lines:
                 if '>' in line:
                     line = only_letters.sub('', line)
-                tfile.write(line)
-            shutil.move(tfile.name, output_fasta)
+            file.writelines(lines)
 
     cmd_str = (
         f'grep -A1 {entry_code} {input_fasta} > {output_fasta}'

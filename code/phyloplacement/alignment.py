@@ -61,23 +61,23 @@ def alignShortReadsToReferenceMSA(ref_msa: str, query_seqs: str,
         wrappers.runHMMbuild(input_aln=ref_msa,
                              output_hmm=output_hmm)
         
-        with tempfile.TemporaryFile(mode='w') as tempstock:
+        with tempfile.NamedTemporaryFile(mode='w') as tempstock:
             wrappers.runHMMalign(input_aln=ref_msa,
                                  input_hmm=output_hmm,
                                  input_seqs=query_seqs,
-                                 output_aln_seqs=tempstock)
-            convertStockholmToFastaAln(input_stockholm=tempstock,
+                                 output_aln_seqs=tempstock.name)
+            convertStockholmToFastaAln(input_stockholm=tempstock.name,
                                        output_fasta=output_aln_seqs)
     elif method.lower() in 'papara':
-        with tempfile.TemporaryFile(mode='w') as tempphy, \
-             tempfile.TemporaryFile(mode='w') as tempqueryaln:
+        with tempfile.NamedTemporaryFile(mode='w') as tempphy, \
+             tempfile.NamedTemporaryFile(mode='w') as tempqueryaln:
              convertFastaAlnToPhylip(input_fasta_aln=output_aln_seqs,
-                                     output_file=tempphy)
+                                     output_file=tempphy.name)
              wrappers.runPapara(tree_nwk=tree_nwk,
-                                msa_phy=tempphy,
+                                msa_phy=tempphy.name,
                                 query_fasta=query_seqs,
-                                output_aln=tempqueryaln)
-             convertPhylipToFastaAln(input_phylip=tempqueryaln,
+                                output_aln=tempqueryaln.name)
+             convertPhylipToFastaAln(input_phylip=tempqueryaln.name,
                                      output_file=output_aln_seqs)
     else:
         raise ValueError('Alignment method not implemented')
