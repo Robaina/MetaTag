@@ -79,8 +79,9 @@ def isLegitDNAsequence(record_seq: str) -> bool:
     return seq_symbols.issubset(nts)
 
 def assertCorrectSequenceFormat(fasta_file: str,
-                             output_file: str = None,
-                             is_peptide: bool = True) -> None:
+                                output_file: str = None,
+                                is_peptide: bool = True,
+                                remove: bool = True) -> None:
     """
     Filter out (DNA or peptide) sequences containing illegal characters
     """
