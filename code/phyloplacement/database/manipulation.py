@@ -154,7 +154,7 @@ def splitReferenceFromQueryAlignments(ref_query_msa: str,
             else:
                 outquery.write(f'>{record_name}\n{record_seq}\n')
 
-def countRecords(fasta_file: str) -> None:
+def countRecordsInFasta(fasta_file: str) -> int:
     """
     Count records in fasta file
     """

@@ -58,8 +58,8 @@ def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
     terminalExecute(cmd_str, suppress_output=False)
     if clean:
         cleanOutputFasta(output_fasta)
-    if is_empty(output_fasta):
-        os.remove(output_fasta)
+    # if is_empty(output_fasta):
+    #     os.remove(output_fasta)
 
 def relabelMarDB(label_dict: dict) -> dict:
     """

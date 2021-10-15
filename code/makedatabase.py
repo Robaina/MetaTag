@@ -1,64 +1,60 @@
 #!/usr/bin/env python
 # conda activate traits
 
+import os
+import shutil
 import argparse
-from pathlib import Path
-
 import phyloplacement.wrappers as wrappers
-from phyloplacement.database.preprocessing import relabelRecordsInFASTA, assertCorrectSequenceFormat
-from phyloplacement.database.manipulation import filterFASTAByHMM, countRecords
+from phyloplacement.database.preprocessing import relabelRecordsInFASTA
+from phyloplacement.database.manipulation import filterFASTAByHMM, countRecordsInFasta
 
 """
-Preprocessing:
-1) Assert correct sequence format for downstream analysis
-2) Reduce redundancy: remove duplicates, get representatives with cd-hit
+Reference database:
+1) Run hmmer to extract peptides of interest
+2) Reduce redundancy: cd-hit
 3) Relabel entries with temporary ids to avoid donwstream conflicts
 """
 
-parser = argparse.ArgumentParser(description='Database preprocessing')
+parser = argparse.ArgumentParser(description='Build peptide reference database')
 parser.add_argument('--hmm', dest='hmm', type=str,
                     help='Path to tigrfam or pfam model')
 parser.add_argument('--in', dest='data', type=str,
                     help='Path to peptide database')
-parser.add_argument('--out', dest='out', type=str,
+parser.add_argument('--out', dest='outdir', type=str,
                     help='Path to output directory')
+parser.add_argument('--reduce', dest='reduce', type=bool,
+                    default=False,
+                    help='Run cd-hit to reduce database redundancy')
 args = parser.parse_args()
 
-"""
-TIGR00639.1.HMM (large peptide database after cd-hit)
-TIGR01580.1.HMM (narG / nxr)
-"""
-mardb_data = Path('/home/robaina/Documents/MAR_database/')
-tigr_data = Path('/home/robaina/Documents/tigrfams/hmm_PGAP/')
-work_dir = Path('/home/robaina/Documents/TRAITS/tests/')
+output_fasta = os.path.join(args.outdir, 'ref_database.faa')
+reduced_fasta = os.path.join(args.outdir, 'ref_database_reduced.faa')
 
 def main():
+    
     # Make peptide-specific database
     filterFASTAByHMM(
-        hmm_model=str(tigr_data / 'TIGR01580.1.HMM'),
-        input_fasta=str(mardb_data / 'mardb_proteins_V6_no_duplicates.fasta'),
-        output_fasta=str(work_dir / 'mardb_TIGR01580.1.fasta')
+        hmm_model=args.hmm,
+        input_fasta=args.data,
+        output_fasta=output_fasta
     )
+    
+    if args.reduce:
+        # Reduce redundancy of reference database
+        wrappers.runCDHIT(
+            input_fasta=output_fasta,
+            output_fasta=reduced_fasta,
+            additional_args=None
+            )
+        n_records = countRecordsInFasta(output_fasta)
+        n_reduced_records = countRecordsInFasta(reduced_fasta)
+        shutil.move(reduced_fasta, output_fasta)
+        print(f'Original database size: {n_records}. Reduced database size: {n_reduced_records}')
 
-    # 1) Reduce redundancy of reference database
-    wrappers.runCDHIT(
-        input_fasta=str(work_dir / 'mardb_TIGR01580.1.fasta'),
-        output_fasta=str(work_dir / 'ref_reduced.fasta'),
-        additional_args=None
-        )
-    n_records = countRecords(str(work_dir / 'mardb_TIGR01580.1.fasta'))
-    n_reduced_records = countRecords(str(work_dir / 'ref_reduced.fasta'))
-
-    # 2) Assert  correct format
-    assertCorrectSequenceFormat(
-        fasta_file=str(work_dir / 'ref_reduced.fasta'),
-        output_file=str(work_dir / 'ref_reduced_clean.fasta'),
-    )
-
-    # 3) Assign numbers to reference sequence labels for data processing
+    # Assign numbers to reference sequence labels for data processing
     relabelRecordsInFASTA(
-        input_fasta=str(work_dir / 'ref_reduced_clean.fasta'),
-        output_dir=str(work_dir),
+        input_fasta=output_fasta,
+        output_dir=args.outdir,
         prefix='ref_'
         )
 

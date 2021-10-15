@@ -77,3 +77,9 @@ def parallelizeOverInputFiles(callable,
         n_processes = os.cpu_count - 1
     with Pool(processes=n_processes) as p:
         p.map(partial(callable, **callable_kwargs), input_list)
+
+def fullPathListDir(dir: str) -> list:
+    """
+    Return full path of files in provided directory
+    """
+    return [os.path.join(dir, file) for file in os.listdir(dir)]
