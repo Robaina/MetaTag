@@ -28,6 +28,7 @@ parser.add_argument('--tree_method', dest='tree_method', type=str,
 parser.add_argument('--tree_model', dest='tree_model', type=str,
                     default=None,
                     help='Choose substitution model for tree inference. Defaults to optimal.')
+
 args = parser.parse_args()
 output_aln = os.path.join(args.outdir, 'ref_database.faa.aln')
 

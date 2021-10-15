@@ -21,8 +21,8 @@ parser.add_argument('--in', dest='data', type=str,
                     help='Path to fasta file')
 parser.add_argument('--out', dest='out', type=str, default=None,
                     help='Path to output directory')
-args = parser.parse_args()
 
+args = parser.parse_args()
 is_peptide = not args.dna
 if args.out is None:
     outfasta = setDefaultOutputPath(args.data, tag='_cleaned')
