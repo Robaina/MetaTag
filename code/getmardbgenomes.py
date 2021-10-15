@@ -53,9 +53,9 @@ utils.parallelizeOverInputFiles(
 )
 
 # Remove fasta files without records
-for fasta in utils.fullPathListDir(args.outdir):
-    if is_empty_fasta(fasta):
-        os.remove(fasta)
+# for fasta in utils.fullPathListDir(args.outdir):
+#     if is_empty_fasta(fasta):
+#         os.remove(fasta)
 
 print('Done!')
 

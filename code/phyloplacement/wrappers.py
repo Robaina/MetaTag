@@ -359,9 +359,9 @@ def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
     terminalExecute(cmd_str, suppress_output=False)
 
 def runGappaHeatTree(input_jplace: str,
-                          output_dir: str = None,
-                          output_prefix: str = None, 
-                          additional_args: str = None) -> None:
+                    output_dir: str = None,
+                    output_prefix: str = None, 
+                    additional_args: str = None) -> None:
     """
     Run gappa examine heat-tree to obtain tree with short read placements 
     in newick format
@@ -371,7 +371,7 @@ def runGappaHeatTree(input_jplace: str,
     else:
         outdir_str = f'--out-dir {os.path.abspath(output_dir)}'
     if output_prefix is None:
-        output_prefix_str = f''
+        output_prefix_str = ''
     else:
         output_prefix_str = f'--file-prefix {output_prefix}'
     if additional_args is None:

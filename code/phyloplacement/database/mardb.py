@@ -40,15 +40,18 @@ def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
                                             tag=f'_genome_{entry_code}',
                                             extension='.fa')
     
-    def is_empty(fasta_file):
-        with open(fasta_file, 'r') as file:
-            return '>' not in file.read()
+    # def is_empty(fasta_file):
+    #     with open(fasta_file, 'r') as file:
+    #         return '>' not in file.read()
 
     def cleanOutputFasta(output_fasta: str) -> None:
+        """
+        Something going on here, outputs empty files
+        """
         with open(output_fasta, 'w+') as file:
             lines = file.readlines()
             for line in lines:
-                if '>' in line:
+                if not '>' in line:
                     line = only_letters.sub('', line)
             file.writelines(lines)
 
