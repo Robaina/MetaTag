@@ -25,8 +25,8 @@ parser.add_argument('--out', dest='outdir', type=str,
 parser.add_argument('--reduce', dest='reduce', type=bool,
                     default=False,
                     help='Run cd-hit to reduce database redundancy')
-args = parser.parse_args()
 
+args = parser.parse_args()
 output_fasta = os.path.join(args.outdir, 'ref_database.faa')
 reduced_fasta = os.path.join(args.outdir, 'ref_database_reduced.faa')
 

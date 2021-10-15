@@ -17,6 +17,7 @@ parser.add_argument('--aln', dest='aln', type=str,
                     help='Path to reference fasta alignment')
 parser.add_argument('--out', dest='outdir', type=str,
                     help='Path to output directory')
+
 args = parser.parse_args()
 
 def main():

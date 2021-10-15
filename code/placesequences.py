@@ -28,10 +28,8 @@ parser.add_argument('--aln_method', dest='aln_method', type=str,
 parser.add_argument('--tree_model', dest='tree_model', type=str,
                     default=None,
                     help='Provide subsitution model employed to infer tree. Can be either a valid model name or a path to the model.gz file returned by iqtree')
+
 args = parser.parse_args()
-
-
-output_placed_tree = os.path.join(args.outdir, 'ref_database.newick')
 epa_jplace = os.path.join(args.outdir, 'epa_result.jplace')
 
 def main():

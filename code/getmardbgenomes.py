@@ -24,8 +24,8 @@ parser.add_argument('--out', dest='outdir', type=str,
                     help='Path to output directory')
 parser.add_argument('--proc', dest='proc', type=int,
                     help='Number of processes to use')                  
-args = parser.parse_args()
 
+args = parser.parse_args()
 if not os.path.exists(args.outdir):
     os.makedirs(args.outdir)
 
