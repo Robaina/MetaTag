@@ -9,6 +9,7 @@ Preprocessing:
 
 import tempfile
 import argparse
+
 from phyloplacement.utils import setDefaultOutputPath
 from phyloplacement.database.preprocessing import (assertCorrectSequenceFormat,
                                                    removeDuplicatesFromFasta)

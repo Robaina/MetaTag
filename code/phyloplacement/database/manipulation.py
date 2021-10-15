@@ -175,3 +175,7 @@ def sliceFasta(input_file, output_file, N):
             break
         n += 1
     SeqIO.write(sliced_records, output_file, 'fasta')
+
+def is_empty_fasta(fasta_file):
+    with open(fasta_file, 'r') as file:
+        return '>' not in file.read()

@@ -3,6 +3,7 @@
 
 import os
 import argparse
+
 import phyloplacement.wrappers as wrappers
 from phyloplacement.alignment import alignPeptides
 from phyloplacement.phylotree import inferTree
@@ -11,7 +12,6 @@ from phyloplacement.phylotree import inferTree
 Reference tree:
 1) Run muscle or mafft to perform msa on reference database
 2) Run iqtree or fasttree to infer tree
-3) Remove outlier branches in tree (optional)
 """
 
 parser = argparse.ArgumentParser(description='MSA on reference database and infer reference tree')

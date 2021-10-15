@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # conda activate traits
 
-import os
 import argparse
 import phyloplacement.wrappers as wrappers
 
