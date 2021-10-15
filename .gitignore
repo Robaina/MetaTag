@@ -7,10 +7,9 @@ nxr_genomes/
 
 # Files
 trimal.html
-run_papara.py
+code/accesory/run_papara.py
 code/test.ipynb
-test.py
-scripts.py
+code/test.py
 NOTES.md
 
 # File types
