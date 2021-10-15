@@ -28,13 +28,8 @@ parser.add_argument('--tree_method', dest='tree_method', type=str,
 parser.add_argument('--tree_model', dest='tree_model', type=str,
                     default=None,
                     help='Choose substitution model for tree inference. Defaults to optimal.')
-parser.add_argument('--shrinktree', dest='shrinktree', type=bool,
-                    default=False,
-                    help='Run treeshrink to remove branch outliers')
 args = parser.parse_args()
-
 output_aln = os.path.join(args.outdir, 'ref_database.faa.aln')
-output_tree = os.path.join(args.outdir, 'ref_database.newick')
 
 def main():
     
@@ -52,15 +47,6 @@ def main():
         output_dir=args.outdir,
         additional_args=''
     )
-
-    # TODO: perhaps better to run in dedicated script
-    if args.shrinktree:
-        wrappers.runTreeShrink(
-            input_tree='',
-            input_aln='',
-            output_dir='',
-            additional_args=None
-        )
 
 if __name__ == '__main__':
     main()

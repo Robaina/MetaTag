@@ -13,7 +13,7 @@ Placement:
 3) Run gappa to obtain tree file with placed sequences
 """
 
-parser = argparse.ArgumentParser(description='MSA on reference database and infer reference tree')
+parser = argparse.ArgumentParser(description='Place query sequences onto reference tree')
 parser.add_argument('--aln', dest='aln', type=str,
                     help='Path to reference fasta alignment')
 parser.add_argument('--tree', dest='tree', type=str,
@@ -27,7 +27,7 @@ parser.add_argument('--aln_method', dest='aln_method', type=str,
                     help='Choose method to align query sequences to reference alignment')
 parser.add_argument('--tree_model', dest='tree_model', type=str,
                     default=None,
-                    help='Choose substitution model for tree inference. Defaults to optimal.')
+                    help='Provide subsitution model employed to infer tree. Can be either a valid model name or a path to the model.gz file returned by iqtree')
 args = parser.parse_args()
 
 
