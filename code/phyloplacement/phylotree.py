@@ -11,7 +11,7 @@ import phyloplacement.wrappers as wrappers
 from phyloplacement.alignment import alignShortReadsToReferenceMSA
 from phyloplacement.database.manipulation import splitReferenceFromQueryAlignments
 
-def makeTree(ref_aln: str,
+def inferTree(ref_aln: str,
              method: str = 'iqtree',
              substitution_model: str = 'TEST',
              output_dir: str = None,
@@ -24,7 +24,7 @@ def makeTree(ref_aln: str,
         wrappers.runIqTree(
         input_algns=ref_aln,
         output_dir=output_dir,
-        output_prefix='ref_alignment',
+        output_prefix='ref_database',
         keep_recovery_files=True,
         substitution_model=substitution_model,
         additional_args=additional_args
@@ -32,7 +32,7 @@ def makeTree(ref_aln: str,
     elif method.lower() in 'fasttree':   
         wrappers.runFastTree(
             input_algns=ref_aln,
-            output_file=os.path.join(output_dir, 'ref_alignment.fasttree'),
+            output_file=os.path.join(output_dir, 'ref_database.fasttree'),
             additional_args=additional_args
         )
     else:
@@ -58,6 +58,7 @@ def placeReadsOntoTree(input_tree: str,
                        tree_model: str,
                        ref_aln: str,
                        query_seqs: str,
+                       aln_method: str = 'papara',
                        ref_prefix: str = '_ref',
                        output_dir: str = None) -> None:
     """
@@ -77,7 +78,7 @@ def placeReadsOntoTree(input_tree: str,
     alignShortReadsToReferenceMSA(
         ref_msa=ref_aln,
         query_seqs=query_seqs,
-        method='papara',
+        method=aln_method,
         tree_nwk=input_tree,
         output_dir=output_dir
     )

@@ -75,8 +75,10 @@ def parallelizeOverInputFiles(callable,
     """
     if n_processes is None:
         n_processes = os.cpu_count - 1
-    with Pool(processes=n_processes) as p:
-        p.map(partial(callable, **callable_kwargs), input_list)
+    p = Pool(processes=n_processes)
+    p.map(partial(callable, **callable_kwargs), input_list)
+    p.close()
+    p.join()
 
 def fullPathListDir(dir: str) -> list:
     """
