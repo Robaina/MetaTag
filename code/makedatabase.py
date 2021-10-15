@@ -4,6 +4,7 @@
 import os
 import shutil
 import argparse
+
 import phyloplacement.wrappers as wrappers
 from phyloplacement.database.preprocessing import relabelRecordsInFASTA
 from phyloplacement.database.manipulation import filterFASTAByHMM, countRecordsInFasta

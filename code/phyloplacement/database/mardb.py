@@ -3,9 +3,10 @@ Tools to process MARdb data
 """
 
 import re
-import os
+import shutil
 import pyfastx
 from phyloplacement.utils import setDefaultOutputPath, terminalExecute 
+# from phyloplacement.database.manipulation import is_empty_fasta
 
 db_entry = re.compile('\[mmp_id=(.*)\] ')
 only_letters = re.compile('[^A-Z]')
@@ -39,21 +40,17 @@ def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
         output_fasta = setDefaultOutputPath(input_fasta,
                                             tag=f'_genome_{entry_code}',
                                             extension='.fa')
-    
-    # def is_empty(fasta_file):
-    #     with open(fasta_file, 'r') as file:
-    #         return '>' not in file.read()
 
     def cleanOutputFasta(output_fasta: str) -> None:
         """
-        Something going on here, outputs empty files
+        TODO: Something going on here, outputs empty files
         """
-        with open(output_fasta, 'w+') as file:
-            lines = file.readlines()
-            for line in lines:
-                if not '>' in line:
+        with open(output_fasta, 'r') as fasta, open('temp/temp_fasta.fa', 'a+') as tfasta:
+            for line in fasta.readlines():
+                if '>' not in line:
                     line = only_letters.sub('', line)
-            file.writelines(lines)
+                tfasta.write(line)
+        shutil.move(tfasta, fasta)
 
     cmd_str = (
         f'grep -A1 {entry_code} {input_fasta} > {output_fasta}'

@@ -11,8 +11,10 @@ time python3 code/getmardbgenomes.py --data /home/robaina/Documents/MAR_database
 
 import os
 import argparse
+
 import phyloplacement.utils as utils
 from phyloplacement.database.mardb import getMARdbGenomeByEntryCode, getMarDBentryCode
+from phyloplacement.database.manipulation import is_empty_fasta
 
 
 parser = argparse.ArgumentParser(description='Get MarDB genomes given set of sequences')
@@ -28,10 +30,6 @@ parser.add_argument('--proc', dest='proc', type=int,
 args = parser.parse_args()
 if not os.path.exists(args.outdir):
     os.makedirs(args.outdir)
-
-def is_empty_fasta(fasta_file):
-    with open(fasta_file, 'r') as file:
-        return '>' not in file.read()
 
 def parallel_genome(input_id, input_fasta: str, output_dir: str):
     output_fasta = os.path.join(output_dir, f'{input_id}.fa')
@@ -53,9 +51,9 @@ utils.parallelizeOverInputFiles(
 )
 
 # Remove fasta files without records
-# for fasta in utils.fullPathListDir(args.outdir):
-#     if is_empty_fasta(fasta):
-#         os.remove(fasta)
+for fasta in utils.fullPathListDir(args.outdir):
+    if is_empty_fasta(fasta):
+        os.remove(fasta)
 
 print('Done!')
 
