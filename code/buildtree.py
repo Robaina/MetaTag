@@ -4,7 +4,6 @@
 import os
 import argparse
 
-import phyloplacement.wrappers as wrappers
 from phyloplacement.alignment import alignPeptides
 from phyloplacement.phylotree import inferTree
 
