@@ -6,6 +6,7 @@ import os
 import random
 import string
 import subprocess
+import tarfile
 import pickle
 from functools import partial
 from multiprocessing import Pool
@@ -102,3 +103,20 @@ def fullPathListDir(dir: str) -> list:
     Return full path of files in provided directory
     """
     return [os.path.join(dir, file) for file in os.listdir(dir)]
+
+def extractTarFile(tar_file: str, dest_dir: str = None) -> None:
+    """
+    Extract tar or tar.gz files to dest_dir
+    """ 
+    if dest_dir is None:
+        dest_dir = '.'
+    if tar_file.endswith('tar.gz'):
+        tar = tarfile.open(tar_file, 'r:gz')
+        tar.extractall(path=dest_dir)
+        tar.close()
+    elif tar_file.endswith('tar'):
+        tar = tarfile.open(tar_file, 'r:')
+        tar.extractall(path=dest_dir)
+        tar.close()
+    else:
+        raise ValueError('Input is not a tar file')
