@@ -36,7 +36,7 @@ def parallel_genome(input_id, input_fasta: str, output_dir: str):
     getMARdbGenomeByEntryCode(input_id,
                               input_fasta=input_fasta,
                               output_fasta=output_fasta,
-                              clean=True)
+                              clean_seqs=True)
 
 # Retrieve mardb genomes
 label_dict = utils.readFromPickleFile(args.ids)

@@ -2,6 +2,7 @@
 Tools to process MARdb data
 """
 
+import os
 import re
 import shutil
 import pyfastx
@@ -9,7 +10,8 @@ from phyloplacement.utils import setDefaultOutputPath, terminalExecute
 # from phyloplacement.database.manipulation import is_empty_fasta
 
 db_entry = re.compile('\[mmp_id=(.*)\] ')
-only_letters = re.compile('[^A-Z]')
+not_capital_letters = re.compile('[^A-Z]')
+capital_letters = re.compile('[A-Z]')
 
 def getMarDBentryCode(label: str) -> str:
     return re.search(db_entry, label).group(1)
@@ -31,7 +33,7 @@ def filterMarDBrecordsbyEntryCodes(input_fasta: str, entry_codes: set,
 
 def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
                               output_fasta: str = None,
-                              clean: bool = True) -> None:
+                              clean_seqs: bool = True) -> None:
     """
     Get full or partial genomes with given MARdb entry code.
     If clean = True, remove characters which are not letters
@@ -43,23 +45,30 @@ def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
 
     def cleanOutputFasta(output_fasta: str) -> None:
         """
-        TODO: Something going on here, outputs empty files
+        Check if illegal symbols in sequences,
+        then remove and tag file as cleaned
         """
-        with open(output_fasta, 'r') as fasta, open('temp/temp_fasta.fa', 'a+') as tfasta:
+        fname, ext = os.path.splitext(output_fasta)
+        was_cleaned = False
+        cleaned_fasta = f'{fname}_cleaned{ext}'
+        with open(output_fasta, 'r') as fasta, open('temp_fasta.fa', 'a+') as tfasta:
             for line in fasta.readlines():
-                if '>' not in line:
-                    line = only_letters.sub('', line)
+                if ('>' not in line) and (not_capital_letters.search(line)):
+                    line = not_capital_letters.sub('', line)
+                    was_cleaned = True
                 tfasta.write(line)
-        shutil.move(tfasta, fasta)
+        if was_cleaned:
+            shutil.move(fasta.name, cleaned_fasta)
+            shutil.move(tfasta.name, cleaned_fasta)
+        else:
+            shutil.move(tfasta.name, fasta.name)
 
     cmd_str = (
         f'grep -A1 {entry_code} {input_fasta} > {output_fasta}'
     )
     terminalExecute(cmd_str, suppress_output=False)
-    if clean:
+    if clean_seqs:
         cleanOutputFasta(output_fasta)
-    # if is_empty(output_fasta):
-    #     os.remove(output_fasta)
 
 def relabelMarDB(label_dict: dict) -> dict:
     """
