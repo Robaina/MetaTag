@@ -35,7 +35,7 @@ def runProdigal(input_file: str, output_prefix: str = None,
         f'prodigal -i {input_file} -o {output_gbk} -p {procedure} '
         f'-a {output_fasta} -q {args_str}'
         )
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runHMMsearch(hmm_model: str, input_fasta: str,
                  output_file: str = None,
@@ -50,7 +50,7 @@ def runHMMsearch(hmm_model: str, input_fasta: str,
         output_file = setDefaultOutputPath(input_fasta, '_hmmer_hits', '.txt')
     cmd_str = (f'{method} --cut_ga --tblout {output_file} --cpu {n_processes} '
                f'{hmm_model} {input_fasta}')
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runHMMbuild(input_aln: str, output_hmm: str = None,
                 additional_args: str = None) -> None:
@@ -65,7 +65,7 @@ def runHMMbuild(input_aln: str, output_hmm: str = None,
     else:
         args_str = ''
     cmd_str = f'hmmbuild {args_str} {output_hmm} {input_aln}'
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runHMMalign(input_hmm: str, input_aln: str,
                 input_seqs: str, 
@@ -85,7 +85,7 @@ def runHMMalign(input_hmm: str, input_aln: str,
         f'hmmalign -o {output_aln_seqs} --mapali {input_aln} --trim '
         f'--informat fasta {args_str} {input_hmm} {input_seqs}'
         )
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runCDHIT(input_fasta: str, output_fasta: str = None,
              additional_args: str = None) -> None:
@@ -101,7 +101,7 @@ def runCDHIT(input_fasta: str, output_fasta: str = None,
     if additional_args is None:
         additional_args = ''
     cmd_str = f'cd-hit -i {input_fasta} -o {output_fasta} {additional_args}'
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runMAFFT(input_fasta: str, output_file: str = None,
              n_threads: int = -1, parallel: bool = True,
@@ -127,7 +127,7 @@ def runMAFFT(input_fasta: str, output_file: str = None,
     if additional_args is None:
         additional_args = ''
     cmd_str = f'mafft {thread_str} {additional_args} {input_fasta} > {output_file}'
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runMuscle(input_fasta: str, output_file: str = None,
               maxiters: int = None,
@@ -150,7 +150,7 @@ def runMuscle(input_fasta: str, output_file: str = None,
         args_str = ''
     cmd_str = (f'muscle -in {input_fasta} -out {output_file} '
                f'-maxiters {maxiters} {args_str}')
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runTrimal(input_aln: str, output_aln: str = None) -> None:
     """
@@ -162,7 +162,7 @@ def runTrimal(input_aln: str, output_aln: str = None) -> None:
         output_aln = setDefaultOutputPath(input_aln, '_trimal')
     cmd_str = (f'trimal -in {input_aln} -out {output_aln} -fasta -automated1 '
                f'-resoverlap 0.55 -seqoverlap 60 -htmlout trimal.html')
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runFastTree(input_algns: str, output_file: str = None,
                 nucleotides: bool = False,
@@ -184,7 +184,7 @@ def runFastTree(input_algns: str, output_file: str = None,
     if additional_args is None:
         additional_args = ''
     cmd_str = f'fasttree {nt_str} {input_algns} {additional_args} > {output_file}'
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runIqTree(input_algns: str, output_dir: str = None,
               output_prefix: str = None,
@@ -235,7 +235,7 @@ def runIqTree(input_algns: str, output_dir: str = None,
         additional_args = ''
     cmd_str = (f'iqtree -s {input_algns} -st {seq_type} -nt {n_processes} '
                f'-m {substitution_model} -bb {bootstrap_replicates} {output_prefix_str} {additional_args}')
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
     if not keep_recovery_files:
         removeAuxiliaryOutput(output_prefix)
 
@@ -275,7 +275,7 @@ def runTreeShrink(input_tree: str, input_aln: str,
             '-t input.tree -a input.aln '
             f'-o {temp_out_dir} -O output {args_str}'
                 )
-        terminalExecute(cmd_str, suppress_output=False)
+        terminalExecute(cmd_str, suppress_shell_output=False)
 
         shutil.move(
             os.path.join(temp_out_dir, temp_tree_dir, "output.tree"),
@@ -321,7 +321,7 @@ def runPapara(tree_nwk: str, msa_phy: str,
         f'-r {args_str} -a'
         )
     with tempfile.TemporaryDirectory() as tempdir:
-        terminalExecute(cmd_str, suppress_output=False, work_dir=tempdir)
+        terminalExecute(cmd_str, suppress_shell_output=False, work_dir=tempdir)
         shutil.move(os.path.join(tempdir, 'papara_alignment.phylip'),
                     output_aln)
 
@@ -356,7 +356,7 @@ def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
         f'epa-ng --ref-msa {input_aln_ref} --tree {input_tree} --query {input_aln_query} '
         f'--model {model} --threads {n_threads} --outdir {output_dir} {args_str}'
         )
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runGappaHeatTree(input_jplace: str,
                     output_dir: str = None,
@@ -384,7 +384,7 @@ def runGappaHeatTree(input_jplace: str,
         f'--write-newick-tree --write-svg-tree '
         f'{outdir_str} {output_prefix_str} {args_str}'
         )
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 
 

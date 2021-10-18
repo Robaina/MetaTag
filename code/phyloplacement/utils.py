@@ -38,9 +38,8 @@ def terminalExecute(command_str: str,
     if suppress_shell_output:
         suppress_code = '>/dev/null 2>&1'
         command_str = f'{command_str} {suppress_code}'
-    # os.system(command_str)
     output = subprocess.run(
-        command_str.split(), shell=True,
+        command_str, shell=True,
         cwd=work_dir, capture_output=return_output)
     return output
 

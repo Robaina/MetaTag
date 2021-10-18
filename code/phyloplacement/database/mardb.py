@@ -6,7 +6,9 @@ import os
 import re
 import shutil
 import pyfastx
-from phyloplacement.utils import setDefaultOutputPath, terminalExecute 
+from phyloplacement.utils import (setDefaultOutputPath,
+                                  terminalExecute,
+                                  createTemporaryFilePath) 
 # from phyloplacement.database.manipulation import is_empty_fasta
 
 db_entry = re.compile('\[mmp_id=(.*)\] ')
@@ -51,7 +53,8 @@ def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
         fname, ext = os.path.splitext(output_fasta)
         was_cleaned = False
         cleaned_fasta = f'{fname}_cleaned{ext}'
-        with open(output_fasta, 'r') as fasta, open('temp_fasta.fa', 'a+') as tfasta:
+        temp_file_path = createTemporaryFilePath()
+        with open(output_fasta, 'r') as fasta, open(temp_file_path, 'a+') as tfasta:
             for line in fasta.readlines():
                 if ('>' not in line) and (not_capital_letters.search(line)):
                     line = not_capital_letters.sub('', line)
@@ -59,14 +62,14 @@ def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
                 tfasta.write(line)
         if was_cleaned:
             shutil.move(fasta.name, cleaned_fasta)
-            shutil.move(tfasta.name, cleaned_fasta)
+            shutil.move(temp_file_path, cleaned_fasta)
         else:
-            shutil.move(tfasta.name, fasta.name)
+            os.remove(temp_file_path)
 
     cmd_str = (
         f'grep -A1 {entry_code} {input_fasta} > {output_fasta}'
     )
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=False)
     if clean_seqs:
         cleanOutputFasta(output_fasta)
 
@@ -111,7 +114,7 @@ def relabelMarDB(label_dict: dict) -> dict:
 #         '''| tr -d ''' + r"'\n'" + " "
 #         f'> {output_fasta}'
 #     )
-#     terminalExecute(cmd_str, suppress_output=False)
+#     terminalExecute(cmd_str, suppress_shell_output=False)
 #     with open(output_fasta, 'r+') as file:
 #         content = file.read()
 #         file.seek(0)
