@@ -3,6 +3,9 @@ Functions for general purposes
 """
 
 import os
+import random
+import string
+import subprocess
 import pickle
 from functools import partial
 from multiprocessing import Pool
@@ -25,14 +28,29 @@ def readFromPickleFile(path_to_file='object.pkl'):
     python_object = pickle.load(in_file)
     return python_object
 
-def terminalExecute(command_str: str, suppress_output=False) -> None:
+def terminalExecute(command_str: str,
+                    suppress_shell_output=False,
+                    work_dir: str = None,
+                    return_output=False) -> subprocess.STDOUT:
     """
     Execute given command in terminal through Python
     """
-    if suppress_output:
+    if suppress_shell_output:
         suppress_code = '>/dev/null 2>&1'
         command_str = f'{command_str} {suppress_code}'
-    os.system(command_str)
+    # os.system(command_str)
+    output = subprocess.run(
+        command_str.split(), shell=True,
+        cwd=work_dir, capture_output=return_output)
+    return output
+
+def createTemporaryFilePath(work_dir: str = None):
+    if work_dir is None:
+        work_dir = ''
+    temp_id = ''.join(
+        random.choice(string.ascii_lowercase) for i in range(10)
+        )
+    return os.path.join(work_dir, f'temp_{temp_id}')
     
 def deleteTemporaryFiles(dir_path: str) -> None:
     """

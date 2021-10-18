@@ -40,7 +40,10 @@ def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
     if output_fasta is None:
         output_fasta = os.path.join(input_fastas_dir, 'merged.fasta')
     cmd_str = f'awk 1 *.fasta > {output_fasta}'
-    terminalExecute(cmd_str, suppress_output=False)
+    terminalExecute(
+        cmd_str,
+        work_dir=input_fastas_dir,
+        )
 
 def assertCorrectFilePath(file_name: str) -> None:
     """
