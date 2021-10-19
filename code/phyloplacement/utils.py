@@ -12,6 +12,14 @@ from functools import partial
 from multiprocessing import Pool
 
 
+def handle_exceptions(foo):
+    def inner_foo(*args, **kwargs):
+        try:
+            foo(*args, **kwargs)
+        except Exception as e:
+            print(f'{foo.__name__} failed with exception: {e}')
+    return inner_foo
+
 def saveToPickleFile(python_object, path_to_file='object.pkl'):
     """
     Save python object to pickle file
@@ -44,13 +52,15 @@ def terminalExecute(command_str: str,
         cwd=work_dir, capture_output=return_output)
     return output
 
-def createTemporaryFilePath(work_dir: str = None):
+def createTemporaryFilePath(work_dir: str = None, extension: str = None):
     if work_dir is None:
         work_dir = ''
+    if extension is None:
+        extension = ''
     temp_id = ''.join(
         random.choice(string.ascii_lowercase) for i in range(10)
         )
-    return os.path.join(work_dir, f'temp_{temp_id}')
+    return os.path.join(work_dir, f'temp_{temp_id}{extension}')
     
 def deleteTemporaryFiles(dir_path: str) -> None:
     """

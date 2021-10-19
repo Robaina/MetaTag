@@ -11,9 +11,10 @@ import re
 from Bio import SeqIO
 import pyfastx
 from phyloplacement.utils import (saveToPickleFile, setDefaultOutputPath,
-                                  terminalExecute)
+                                  terminalExecute, handle_exceptions)
 
 
+@handle_exceptions
 def removeDuplicatesFromFasta(input_fasta: str,
                               output_fasta: str = None) -> None:
     """
@@ -39,7 +40,7 @@ def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
     """
     if output_fasta is None:
         output_fasta = os.path.join(input_fastas_dir, 'merged.fasta')
-    cmd_str = f'awk 1 *.fasta > {output_fasta}'
+    cmd_str = f'awk 1 * > {output_fasta}'
     terminalExecute(
         cmd_str,
         work_dir=input_fastas_dir,
@@ -75,6 +76,7 @@ def isLegitDNAsequence(record_seq: str) -> bool:
     seq_symbols = {s for s in record_seq}
     return seq_symbols.issubset(nts)
 
+@handle_exceptions
 def assertCorrectSequenceFormat(fasta_file: str,
                                 output_file: str = None,
                                 is_peptide: bool = True,

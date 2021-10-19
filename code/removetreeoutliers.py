@@ -14,13 +14,14 @@ parser.add_argument('--tree', dest='tree', type=str,
                     help='Path to tree in newick format')
 parser.add_argument('--aln', dest='aln', type=str,
                     help='Path to reference fasta alignment')
-parser.add_argument('--out', dest='outdir', type=str,
+parser.add_argument('--outdir', dest='outdir', type=str,
                     help='Path to output directory')
 
 args = parser.parse_args()
 
 def main():
-
+    
+    print('Removing tree branch outliers')
     wrappers.runTreeShrink(
         input_tree=args.tree,
         input_aln=args.aln,
