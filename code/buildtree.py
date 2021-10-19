@@ -16,7 +16,7 @@ Reference tree:
 parser = argparse.ArgumentParser(description='MSA on reference database and infer reference tree')
 parser.add_argument('--in', dest='data', type=str,
                     help='Path to reference database')
-parser.add_argument('--out', dest='outdir', type=str,
+parser.add_argument('--outdir', dest='outdir', type=str,
                     help='Path to output directory')
 parser.add_argument('--msa_method', dest='msa_method', type=str,
                     default='muscle', choices=['muscle', 'mafft'],
@@ -25,7 +25,7 @@ parser.add_argument('--tree_method', dest='tree_method', type=str,
                     default='iqtree', choices=['iqtree', 'fasttree'],
                     help='Choose method for tree inference')
 parser.add_argument('--tree_model', dest='tree_model', type=str,
-                    default=None,
+                    default='TEST',
                     help='Choose substitution model for tree inference. Defaults to optimal.')
 
 args = parser.parse_args()
@@ -33,13 +33,15 @@ output_aln = os.path.join(args.outdir, 'ref_database.faa.aln')
 
 def main():
     
+    print('Aligning reference database...')
     alignPeptides(
         input_fasta=args.data,
         method=args.msa_method,
         output_file=output_aln,
         additional_args=None
     )
-
+    
+    print('Infering reference tree...')
     inferTree(
         ref_aln=output_aln,
         method=args.tree_method,
@@ -47,6 +49,8 @@ def main():
         output_dir=args.outdir,
         additional_args=''
     )
+
+    print('Finished!')
 
 if __name__ == '__main__':
     main()

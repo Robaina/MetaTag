@@ -1,0 +1,33 @@
+#                                                                             --- full sequence ---- --- best 1 domain ---- --- domain number estimation ----
+# target name                     accession  query name           accession     E-value  score  bias   E-value  score  bias   exp reg clu  ov env dom rep inc description of target
+#             ------------------- ---------- --------------------  ---------- --------- ------ ----- --------- ------ -----   --- --- --- --- --- --- --- --- ---------------------
+MBB60344.1_MMP07619844            -          narG                 TIGR01580.1         0 2482.6   3.7         0 2482.5   3.7   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Pseudomonas sp.] [mmp_id=MMP07619844] [mmp_db=mardb]
+MBK57441.1_MMP07619845            -          narG                 TIGR01580.1         0 2449.4   5.5         0 2449.2   5.5   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Pseudomonas sp.] [mmp_id=MMP07619845] [mmp_db=mardb]
+WP_022963849.1_MMP02470162        -          narG                 TIGR01580.1         0 2387.3   3.4         0 2387.1   3.4   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Pseudomonas pelagia] [mmp_id=MMP02470162] [mmp_db=mardb]
+WP_064792118.1_MMP3925393         -          narG                 TIGR01580.1         0 2356.9  10.7         0 2356.7  10.7   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Shewanella sp. Alg231_23] [mmp_id=MMP3925393] [mmp_db=mardb]
+SFM69217.1_MMP04487963            -          narG                 TIGR01580.1         0 2348.9   9.5         0 2348.7   9.5   1.0   1   0   0   1   1   1   1 nitrate reductase alpha subunit [Marinobacter zhejiangensis] [mmp_id=MMP04487963] [mmp_db=mardb]
+WP_000040404.1_MMP03079701        -          narG                 TIGR01580.1         0 2346.8   0.1         0 2346.6   0.1   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Salmonella enterica] [mmp_id=MMP03079701] [mmp_db=mardb]
+WP_003092960.1_MMP02732281        -          narG                 TIGR01580.1         0 2343.3   1.8         0 2343.1   1.8   1.0   1   0   0   1   1   1   1 MULTISPECIES: nitrate reductase subunit alpha [Pseudomonas] [mmp_id=MMP02732281] [mmp_db=mardb]
+TLI76816.1_MMP07759746            -          narG                 TIGR01580.1         0 2327.4   0.1         0 2327.2   0.1   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Escherichia sp. E2586] [mmp_id=MMP07759746] [mmp_db=mardb]
+WP_044348277.1_MMP03072844        -          narG                 TIGR01580.1         0 2325.6   0.3         0 2325.4   0.3   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Raoultella ornithinolytica] [mmp_id=MMP03072844] [mmp_db=mardb]
+MAC89856.1_MMP07619317            -          narG                 TIGR01580.1         0 2149.8   3.1         0 2149.6   3.1   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Maricaulis sp.] [mmp_id=MMP07619317] [mmp_db=mardb]
+VDC52081.1_MMP5066646             -          narG                 TIGR01580.1         0 2120.2   1.5         0 2120.0   1.5   1.0   1   0   0   1   1   1   1 Respiratory nitrate reductase 1 alpha chain [Brevundimonas mediterranea] [mmp_id=MMP5066646] [mmp_db=mardb]
+PKR52467.1_MMP08013310            -          narG                 TIGR01580.1         0 2108.8   8.8         0 2108.6   8.8   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Thalassospira lohafexi] [mmp_id=MMP08013310] [mmp_db=mardb]
+MTH76846.1_MMP13324929            -          narG                 TIGR01580.1         0 2104.7   8.5         0 2104.5   8.5   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Paracoccus aestuariivivens] [mmp_id=MMP13324929] [mmp_db=mardb]
+OUS04265.1_MMP05179574            -          narG                 TIGR01580.1         0 2088.2   8.6         0 2088.0   8.6   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Rhodobacterales bacterium 52_120_T64] [mmp_id=MMP05179574] [mmp_db=mardb]
+GCA_002471225.1_00771_MMP06450618 -          narG                 TIGR01580.1         0 1897.6  10.2         0 1897.4  10.2   1.0   1   0   0   1   1   1   1 Respiratory nitrate reductase 1 alpha chain [mmp_id=MMP06450618] [mmp_db=mardb]
+ODB80631.1_MMP05161927            -          narG                 TIGR01580.1         0 1824.5  11.1         0 1824.2  11.1   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Staphylococcus sp. AOAB] [mmp_id=MMP05161927] [mmp_db=mardb]
+RRR48218.1_MMP10448711            -          narG                 TIGR01580.1         0 1656.7   0.0         0 1656.3   0.0   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Mycolicibacter terrae] [mmp_id=MMP10448711] [mmp_db=mardb]
+WP_028429155.1_MMP02440678        -          narG                 TIGR01580.1         0 1651.5   0.0         0 1651.3   0.0   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Streptomyces sp. TAA040] [mmp_id=MMP02440678] [mmp_db=mardb]
+PTN00733.1_MMP08779093            -          narG                 TIGR01580.1         0 1442.1   7.7         0 1441.7   7.7   1.0   1   0   0   1   1   1   1 nitrate reductase alpha subunit [Rhodovulum imhoffii] [mmp_id=MMP08779093] [mmp_db=mardb]
+MAG51704.1_MMP07618150            -          narG                 TIGR01580.1         0 1341.3   7.5         0 1341.0   7.5   1.0   1   0   0   1   1   1   1 nitrate reductase subunit alpha [Acidimicrobiaceae bacterium] [mmp_id=MMP07618150] [mmp_db=mardb]
+#
+# Program:         hmmsearch
+# Version:         3.3.2 (Nov 2020)
+# Pipeline mode:   SEARCH
+# Query file:      ./tests/TIGR01580.1.HMM
+# Target file:     ./tests/test_results/merged_data.faa
+# Option settings: hmmsearch --tblout ./tests/test_results/merged_data_TIGR01580.1.txt --cut_ga --cpu 7 ./tests/TIGR01580.1.HMM ./tests/test_results/merged_data.faa 
+# Current dir:     /home/robaina/Documents/TRAITS
+# Date:            Tue Oct 19 13:16:31 2021
+# [ok]
