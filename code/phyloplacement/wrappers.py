@@ -371,12 +371,13 @@ def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
     terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runGappaHeatTree(input_jplace: str,
-                    output_dir: str = None,
-                    output_prefix: str = None, 
-                    additional_args: str = None) -> None:
+                     output_dir: str = None,
+                     output_prefix: str = None, 
+                     additional_args: str = None) -> None:
     """
-    Run gappa examine heat-tree to obtain tree with short read placements 
-    in newick format
+    Run gappa examine heat-tree to obtain heat-map tree 
+    representing densities of placed short reads in svg 
+    or pdf formats
     """
     if output_dir is None:
         outdir_str = ''
@@ -393,7 +394,34 @@ def runGappaHeatTree(input_jplace: str,
 
     cmd_str = (
         f'gappa examine heat-tree --jplace-path {os.path.abspath(input_jplace)} '
-        f'--write-newick-tree --write-svg-tree '
+        f'--write-svg-tree '  # --write-newick-tree
+        f'{outdir_str} {output_prefix_str} {args_str}'
+        )
+    terminalExecute(cmd_str, suppress_shell_output=False)
+
+def runGappaGraft(input_jplace: str,
+                  output_dir: str = None,
+                  output_prefix: str = None,
+                  additional_args: str = None) -> None:
+    """
+    Run gappa examine graft to obtain tree with placements in
+    newick format
+    """
+    if output_dir is None:
+        outdir_str = ''
+    else:
+        outdir_str = f'--out-dir {os.path.abspath(output_dir)}'
+    if output_prefix is None:
+        output_prefix_str = ''
+    else:
+        output_prefix_str = f'--file-prefix {output_prefix}'
+    if additional_args is None:
+        args_str = ''
+    else:
+        args_str = additional_args
+
+    cmd_str = (
+        f'gappa examine graft --jplace-path {os.path.abspath(input_jplace)} '
         f'{outdir_str} {output_prefix_str} {args_str}'
         )
     terminalExecute(cmd_str, suppress_shell_output=False)

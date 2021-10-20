@@ -57,10 +57,10 @@ def main():
     )
     
     print('Writing tree with placements...')
-    wrappers.runGappaHeatTree(
+    wrappers.runGappaGraft(
         input_jplace=epa_jplace,
         output_dir=args.outdir,
-        output_prefix='epa_result_',
+        output_prefix=None,
         additional_args=None
     )
 
@@ -73,17 +73,17 @@ def main():
     )
     label_dict = {**ref_dict, **query_dict}
     relabelTree(
-        input_newick=os.path.join(args.outdir, 'epa_result_tree.newick'),
+        input_newick=os.path.join(args.outdir, 'epa_result.newick'),
         label_dict=label_dict,
-        output_file=os.path.join(args.outdir, 'epa_result_tree_relabel.newick')
+        output_file=os.path.join(args.outdir, 'epa_result_relabel.newick')
     )
 
-    # print('Drawing tree in browser...')
-    # plotTreeInBrowser(
-    #     input_tree=os.path.join(args.outdir, 'epa_result_tree_relabel.newick'),
-    #     output_dir=args.outdir,
-    #     feature_metadata=None
-    # )
+    print('Drawing tree in browser...')
+    plotTreeInBrowser(
+        input_tree=os.path.join(args.outdir, 'epa_result_relabel.newick'),
+        output_dir=None,
+        feature_metadata=None
+    )
 
     print('Finished!')
 

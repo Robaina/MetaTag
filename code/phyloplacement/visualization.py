@@ -47,7 +47,7 @@ def plotTreeInBrowser(input_tree: str, output_dir: str = None,
     """
     if output_dir is None:
         output_dir = os.path.join(
-            os.path.dirname(input_tree), 'empress-viz'
+            os.path.dirname(input_tree), 'empress-plot'
             )
     if feature_metadata is not None:
         meta_str = f'-fm {feature_metadata}'
