@@ -79,7 +79,7 @@ def alignShortReadsToReferenceMSA(ref_msa: str, query_seqs: str,
         temp_aln_path = createTemporaryFilePath()
 
         convertFastaAlnToPhylip(input_fasta_aln=ref_msa,
-                                output_file=temp_phy_path)
+                                output_phylip=temp_phy_path)
         wrappers.runPapara(tree_nwk=tree_nwk,
                            msa_phy=temp_phy_path,
                            query_fasta=query_seqs,

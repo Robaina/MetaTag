@@ -3,9 +3,11 @@
 
 import os
 import argparse
+from phyloplacement.utils import readFromPickleFile
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.phylotree import placeReadsOntoTree
+from phyloplacement.phylotree import placeReadsOntoTree, relabelTree
+from phyloplacement.visualization import plotTreeInBrowser
 
 """
 Placement:
@@ -20,17 +22,25 @@ parser.add_argument('--aln', dest='aln', type=str,
 parser.add_argument('--tree', dest='tree', type=str,
                     help='Path to reference tree')
 parser.add_argument('--query', dest='query', type=str,
-                    help='Path to query peptide sequences. Query sequences should be already preprocessed to handle illegal symbols')
+                    help=(
+                        'Path to query peptide sequences. '
+                        'Query sequences should be already preprocessed to handle illegal symbols')
+                        )
 parser.add_argument('--outdir', dest='outdir', type=str,
                     help='Path to output directory')
 parser.add_argument('--aln_method', dest='aln_method', type=str,
-                    default='papara', choices=['papara', 'mafft'],
+                    default='papara', choices=['papara', 'hmmalign'],
                     help='Choose method to align query sequences to reference alignment')
 parser.add_argument('--tree_model', dest='tree_model', type=str,
                     default=None,
-                    help='Provide subsitution model employed to infer tree. Can be either a valid model name or a path to the model.gz file returned by iqtree')
+                    help=(
+                        'Provide subsitution model employed to infer tree. '
+                        'Can be: 1) a valid model name or 2) a path to the log file returned by iqtree')
+                        )
 
 args = parser.parse_args()
+if args.tree_model is None:
+    raise ValueError('Missing tree model.')
 epa_jplace = os.path.join(args.outdir, 'epa_result.jplace')
 
 def main():
@@ -50,9 +60,30 @@ def main():
     wrappers.runGappaHeatTree(
         input_jplace=epa_jplace,
         output_dir=args.outdir,
-        output_prefix='epa_result',
+        output_prefix='epa_result_',
         additional_args=None
     )
+
+    print('Relabeling final tree...')
+    ref_dict = readFromPickleFile(
+        path_to_file=os.path.join(args.outdir, 'ref_database_id_dict.pickle')
+    )
+    query_dict = readFromPickleFile(
+        path_to_file=os.path.join(args.outdir, 'query_cleaned_id_dict.pickle')
+    )
+    label_dict = {**ref_dict, **query_dict}
+    relabelTree(
+        input_newick=os.path.join(args.outdir, 'epa_result_tree.newick'),
+        label_dict=label_dict,
+        output_file=os.path.join(args.outdir, 'epa_result_tree_relabel.newick')
+    )
+
+    # print('Drawing tree in browser...')
+    # plotTreeInBrowser(
+    #     input_tree=os.path.join(args.outdir, 'epa_result_tree_relabel.newick'),
+    #     output_dir=args.outdir,
+    #     feature_metadata=None
+    # )
 
     print('Finished!')
 

@@ -54,7 +54,7 @@ def plotTreeInBrowser(input_tree: str, output_dir: str = None,
     else:
         meta_str = ''
     cmd_str = f'empress tree-plot -t {input_tree} -o {output_dir} {meta_str}'
-    terminalExecute(cmd_str, suppress_shell_output=True)
+    terminalExecute(cmd_str, suppress_shell_output=False)
     webbrowser.open_new_tab(os.path.join(
         output_dir, 'empress.html'
     ))
