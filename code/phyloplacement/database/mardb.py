@@ -9,7 +9,7 @@ import pyfastx
 from phyloplacement.utils import (setDefaultOutputPath,
                                   terminalExecute,
                                   createTemporaryFilePath) 
-# from phyloplacement.database.manipulation import is_empty_fasta
+
 
 db_entry = re.compile('\[mmp_id=(.*)\] ')
 not_capital_letters = re.compile('[^A-Z]')
