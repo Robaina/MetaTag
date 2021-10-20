@@ -95,13 +95,13 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
         wrappers.runCDHIT(input_fasta=output_fasta)
 
 def convertFastaAlnToPhylip(input_fasta_aln: str,
-                            output_file: str = None) -> None:
+                            output_phylip: str = None) -> None:
     """
     Convert alignments in Fasta to Phylip.
     """
-    if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta_aln, extension='.phylip')
-    with open(input_fasta_aln, 'r') as input_handle, open(output_file, 'w') as output_handle:
+    if output_phylip is None:
+        output_phylip = setDefaultOutputPath(input_fasta_aln, extension='.phylip')
+    with open(input_fasta_aln, 'r') as input_handle, open(output_phylip, 'w') as output_handle:
         alignments = AlignIO.parse(input_handle, 'fasta')
         AlignIO.write(alignments, output_handle, 'phylip')
 
@@ -111,22 +111,21 @@ def convertPhylipToFastaAln(input_phylip: str,
     Convert alignments in Phylip to Fasta format
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_phylip, extension='.fasta.aln')
-    with open(input_phylip, 'r') as input_handle, open(output_file, 'w') as output_handle:
-        alignments = AlignIO.parse(input_handle, 'phylip')
-        AlignIO.write(alignments, output_handle, 'fasta')
+        output_file = setDefaultOutputPath(input_phylip, extension='.faln')
+    # with open(input_phylip, 'r') as input_handle, open(output_file, 'w') as output_handle:
+    alignments = AlignIO.parse(input_phylip, 'phylip')
+    AlignIO.write(alignments, output_file, 'fasta')
 
 def convertStockholmToFastaAln(input_stockholm: str,
-                            output_fasta: str = None) -> None:
+                               output_fasta: str = None) -> None:
     """
     Convert alignment file in Stockholm format to fasta
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_stockholm,
-                                            extension='.fasta')
-    with open(output_fasta, 'w') as fasta_file:
-        align = AlignIO.read(input_stockholm, 'stockholm')
-        print(align.format('fasta'), file=fasta_file)
+        output_fasta = setDefaultOutputPath(input_stockholm, extension='.faln')
+    # with open(output_fasta, 'w') as fasta_file:
+    alignments = AlignIO.read(input_stockholm, 'stockholm')
+    AlignIO.write(alignments, output_fasta, 'fasta')
 
 def splitReferenceFromQueryAlignments(ref_query_msa: str,
                                       ref_ids: set = None,

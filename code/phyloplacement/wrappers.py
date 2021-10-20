@@ -201,6 +201,9 @@ def runIqTree(input_algns: str, output_dir: str = None,
                      parameter values to be passed to iqtree
 
     output: iqtree outputs several files
+
+    Reducing computational time via model selection:
+    http://www.iqtree.org/doc/Command-Reference
     """
     def removeAuxiliaryOutput(output_prefix):
         """
@@ -233,8 +236,11 @@ def runIqTree(input_algns: str, output_dir: str = None,
         n_processes = 'AUTO'
     if additional_args is None:
         additional_args = ''
-    cmd_str = (f'iqtree -s {input_algns} -st {seq_type} -nt {n_processes} '
-               f'-m {substitution_model} -bb {bootstrap_replicates} {output_prefix_str} {additional_args}')
+    cmd_str = (
+        f'iqtree -s {input_algns} -st {seq_type} -nt {n_processes} '
+        f'-m {substitution_model} -bb {bootstrap_replicates} -mset raxml '
+        f'{output_prefix_str} {additional_args}'
+               )
     terminalExecute(cmd_str, suppress_shell_output=False)
     if not keep_recovery_files:
         removeAuxiliaryOutput(output_prefix)
