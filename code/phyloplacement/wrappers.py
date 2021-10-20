@@ -305,12 +305,18 @@ def runPapara(tree_nwk: str, msa_phy: str,
     consider the tree during alignment (would this be a justified improvement over hmmalign?)
 
     There seems to be a problem with enabling multithreading in papara when run as a static
-    executable. It looks like it has to be enable during compilation (but compilation currently not working):
+    executable. It looks like it has to be enabled during compilation (but compilation currently not working):
     https://stackoverflow.com/questions/19618926/thread-doesnt-work-with-an-error-enable-multithreading-to-use-stdthread-ope
     """
+    tree_nwk = os.path.abspath(tree_nwk)
+    msa_phy = os.path.abspath(msa_phy)
+    query_fasta = os.path.abspath(query_fasta)
+    
     if output_aln is None:
         output_aln = setDefaultOutputPath(query_fasta, tag='_ref_aln',
                                           extension='.phylip')
+    else:
+        output_aln = os.path.abspath(output_aln)
     if additional_args is not None:
         args_str = additional_args
     else:

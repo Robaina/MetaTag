@@ -21,7 +21,7 @@ parser.add_argument('--tree', dest='tree', type=str,
                     help='Path to reference tree')
 parser.add_argument('--query', dest='query', type=str,
                     help='Path to query peptide sequences. Query sequences should be already preprocessed to handle illegal symbols')
-parser.add_argument('--out', dest='outdir', type=str,
+parser.add_argument('--outdir', dest='outdir', type=str,
                     help='Path to output directory')
 parser.add_argument('--aln_method', dest='aln_method', type=str,
                     default='papara', choices=['papara', 'mafft'],
@@ -35,22 +35,26 @@ epa_jplace = os.path.join(args.outdir, 'epa_result.jplace')
 
 def main():
     
+    print('Placing reads on tree...')
     placeReadsOntoTree(
         input_tree=args.tree,
         tree_model=args.tree_model,
         ref_aln=args.aln,
         query_seqs=args.query,
         aln_method=args.aln_method,
-        ref_prefix='_ref',
+        ref_prefix='ref_',
         output_dir=args.outdir
     )
-
+    
+    print('Writing tree with placements...')
     wrappers.runGappaHeatTree(
         input_jplace=epa_jplace,
         output_dir=args.outdir,
         output_prefix='epa_result',
         additional_args=None
     )
+
+    print('Finished!')
 
 if __name__ == '__main__':
     main()

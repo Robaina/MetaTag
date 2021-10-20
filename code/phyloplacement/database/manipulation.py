@@ -137,15 +137,15 @@ def splitReferenceFromQueryAlignments(ref_query_msa: str,
     """
     if out_dir is None:
         out_dir = os.path.dirname(ref_query_msa)
-    if ref_ids is not None and ref_prefix is None:
+    if (ref_ids is not None) and (ref_prefix is None):
         def is_reference(record_name): return record_name in ref_ids
-    elif ref_ids is None and ref_prefix is not None:
-        def is_reference(record_name): return record_name.startswith(ref_prefix)
+    elif (ref_ids is None) and (ref_prefix is not None):
+        def is_reference(record_name): return record_name.lower().startswith(ref_prefix.lower())
     else:
         raise ValueError('Provide either set of ref ids or ref prefix')
     out_ref_msa = setDefaultOutputPath(ref_query_msa, tag='_ref_fraction')
     out_query_msa = setDefaultOutputPath(ref_query_msa, tag='_query_fraction')
-
+    
     fasta = pyfastx.Fasta(ref_query_msa, build_index=False, full_name=True)
     with open(out_ref_msa, 'w') as outref, open(out_query_msa, 'w') as outquery:
         for record_name, record_seq in fasta:

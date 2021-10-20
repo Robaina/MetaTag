@@ -46,13 +46,17 @@ def alignShortReadsToReferenceMSA(ref_msa: str, query_seqs: str,
     Align short read query sequences to reference MSA (fasta format).
     Outputs fasta msa alignment between query and reference sequences
     """
+    ref_msa = os.path.abspath(ref_msa)
+    query_seqs = os.path.abspath(query_seqs)
+    tree_nwk = os.path.abspath(tree_nwk)
+    
     if output_dir is None:
         output_dir = setDefaultOutputPath(ref_msa, only_dirname=True)
     output_hmm = os.path.join(
         output_dir, setDefaultOutputPath(ref_msa, extension='.hmm', only_filename=True)
         )
     output_aln_seqs = os.path.join(
-        output_dir, setDefaultOutputPath(query_seqs, extension='.aln',
+        output_dir, setDefaultOutputPath(query_seqs, extension='.faln',
                                          only_filename=True)
     )
     
@@ -74,7 +78,7 @@ def alignShortReadsToReferenceMSA(ref_msa: str, query_seqs: str,
         temp_phy_path = createTemporaryFilePath()
         temp_aln_path = createTemporaryFilePath()
 
-        convertFastaAlnToPhylip(input_fasta_aln=output_aln_seqs,
+        convertFastaAlnToPhylip(input_fasta_aln=ref_msa,
                                 output_file=temp_phy_path)
         wrappers.runPapara(tree_nwk=tree_nwk,
                            msa_phy=temp_phy_path,

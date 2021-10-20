@@ -75,9 +75,10 @@ def setDefaultOutputPath(input_path: str, tag: str = None,
                          only_dirname: bool = False) -> str:
     """
     Get default path to outputfile
+    TODO: return absolute path
     """
     basename = os.path.basename(input_path)
-    dirname = os.path.dirname(input_path)
+    dirname = os.path.abspath(os.path.dirname(input_path))
     fname, ext = os.path.splitext(basename)
     if extension is None:
         extension = ext
