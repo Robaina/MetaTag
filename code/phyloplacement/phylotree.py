@@ -59,7 +59,7 @@ def placeReadsOntoTree(input_tree: str,
                        ref_aln: str,
                        query_seqs: str,
                        aln_method: str = 'papara',
-                       ref_prefix: str = '_ref',
+                       ref_prefix: str = 'ref_',
                        output_dir: str = None) -> None:
     """
     Performs short read placement onto phylogenetic tree
@@ -68,12 +68,15 @@ def placeReadsOntoTree(input_tree: str,
     """
     if output_dir is None:
         output_dir = setDefaultOutputPath(query_seqs, only_dirname=True)
+    else:
+        output_dir = os.path.abspath(output_dir)
+
     ref_query_msa = os.path.join(
-            output_dir, setDefaultOutputPath(query_seqs, extenion='.aln,',
-                                             only_filename=True)
-            ),
-    aln_ref_frac = os.path.splitext(ref_query_msa)[0] + '_ref_fraction.fasta.aln'
-    aln_query_frac = os.path.splitext(ref_query_msa)[0] + '_query_fraction.fasta.aln'
+        output_dir, setDefaultOutputPath(query_seqs, extension='.faln',
+                                         only_filename=True)
+        )
+    aln_ref_frac = os.path.splitext(ref_query_msa)[0] + '_ref_fraction.faln'
+    aln_query_frac = os.path.splitext(ref_query_msa)[0] + '_query_fraction.faln'
 
     alignShortReadsToReferenceMSA(
         ref_msa=ref_aln,
@@ -82,15 +85,17 @@ def placeReadsOntoTree(input_tree: str,
         tree_nwk=input_tree,
         output_dir=output_dir
     )
+    
     splitReferenceFromQueryAlignments(
         ref_query_msa=ref_query_msa,
         ref_prefix=ref_prefix,
         out_dir=output_dir
     )
+
     wrappers.runEPAng(
         input_tree=input_tree,
-        input_aln=aln_ref_frac,
-        input_query=aln_query_frac,
+        input_aln_ref=aln_ref_frac,
+        input_aln_query=aln_query_frac,
         model=tree_model,
         output_dir=output_dir,
         n_threads=None,

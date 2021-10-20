@@ -29,7 +29,7 @@ parser.add_argument('--tree_model', dest='tree_model', type=str,
                     help='Choose substitution model for tree inference. Defaults to optimal.')
 
 args = parser.parse_args()
-output_aln = os.path.join(args.outdir, 'ref_database.faa.aln')
+output_aln = os.path.join(args.outdir, 'ref_database.faln')
 
 def main():
     
@@ -41,7 +41,7 @@ def main():
         additional_args=None
     )
     
-    print('Infering reference tree...')
+    print('Inferring reference tree...')
     inferTree(
         ref_aln=output_aln,
         method=args.tree_method,
