@@ -1,6 +1,7 @@
 # Directories
 Gene_Annotation_Jose_Tree_Method/
 .ipynb_checkpoints/
+__pycache__/
 data/nxr/
 picrust2/
 nxr_genomes/
