@@ -25,6 +25,14 @@ from phyloplacement.utils import terminalExecute, setDefaultOutputPath
 
 papara_exec = 'path/to/papara.exe'
 ```
+
+## Installation test
+To check that everything is working properly, you can run a test what will perform the entire workflow on a minimal dataset. To run it, call bash script:
+```
+bash tests/run_test.sh
+```
+It should produce a final tree with query sequences placed on it, as well as a bunch of intermediary files without any errors.
+
 ## Obtaining reference tree
 
 1. Preprocess database. Only run once to remove duplicates and sequences containing illegal symbols:
