@@ -131,3 +131,11 @@ def extractTarFile(tar_file: str, dest_dir: str = None) -> None:
         tar.close()
     else:
         raise ValueError('Input is not a tar file')
+
+def listTarDir(tar_dir: str) -> list:
+    """
+    List files within tar or tar.gz directory
+    """
+    with tarfile.open(tar_dir, 'r') as tar_obj:
+        files = tar_obj.getnames()
+    return files

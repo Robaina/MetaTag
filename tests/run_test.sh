@@ -1,5 +1,7 @@
 #                                   Run minimal example
+mkdir -p tests/test_results
 # rm -r tests/test_results; mkdir tests/test_results
+
 # Preprocess
 python3 ./code/preprocess.py --in ./tests/test_data/database/ --outfile ./tests/test_results/test_data_cleaned.faa
 
