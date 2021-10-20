@@ -29,7 +29,8 @@ parser.add_argument('--outfile', dest='outfile', type=str, default=None,
                     help='Path to output fasta file')
 parser.add_argument('--is_query', dest='isquery',
                     default=False, action='store_true',
-                    help='Indicate if fasta file contains query sequences. Defaults to reference database.')
+                    help=('Indicate if fasta file contains query sequences. '
+                          'Defaults to reference database.'))
 
 args = parser.parse_args()
 is_peptide = not args.dna
