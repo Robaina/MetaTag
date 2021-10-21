@@ -13,7 +13,7 @@ import shutil
 import argparse
 
 from phyloplacement.utils import (setDefaultOutputPath,
-                                  createTemporaryFilePath)
+                                  TemporaryFilePath)
 from phyloplacement.database.preprocessing import (assertCorrectSequenceFormat,
                                                    removeDuplicatesFromFasta,
                                                    mergeFASTAs,
@@ -54,21 +54,18 @@ else:
 
 def main():
     
-    tmp_file_path = createTemporaryFilePath()
-    
-    print('Removing duplicates...')
-    removeDuplicatesFromFasta(
-        input_fasta=data_path,
-        output_fasta=tmp_file_path
-    )
-    print('Asserting correct sequence format...')
-    assertCorrectSequenceFormat(
-        fasta_file=tmp_file_path,
-        output_file=outfasta,
-        is_peptide=is_peptide
-    )
-
-    os.remove(tmp_file_path)
+    with TemporaryFilePath() as tmp_file_path:
+        print('Removing duplicates...')
+        removeDuplicatesFromFasta(
+            input_fasta=data_path,
+            output_fasta=tmp_file_path
+        )
+        print('Asserting correct sequence format...')
+        assertCorrectSequenceFormat(
+            fasta_file=tmp_file_path,
+            output_file=outfasta,
+            is_peptide=is_peptide
+        )
 
     if args.isquery:
         print('Relabelling records...')

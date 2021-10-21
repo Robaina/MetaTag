@@ -65,6 +65,33 @@ def createTemporaryFilePath(work_dir: str = None, extension: str = None):
         random.choice(string.ascii_lowercase) for i in range(10)
         )
     return os.path.join(work_dir, f'temp_{temp_id}{extension}')
+class TemporaryFilePath:
+    """
+    Custom context manager to create a temporary file
+    which is removed when exiting context manager
+    """
+    def __init__(self,
+                 work_dir: str = None,
+                 extension: str = None,
+                 create_file: bool = False):
+        self.work_dir = work_dir or ''
+        self.extension = extension or ''
+        self.create_file = create_file
+
+    def __enter__(self):
+        temp_id = ''.join(
+        random.choice(string.ascii_lowercase) for i in range(10)
+        )
+        self.file_path = os.path.join(
+            self.work_dir, f'temp_{temp_id}{self.extension}'
+            )
+        if self.create_file:
+            os.mkdir(self.file_path)
+        return self.file_path
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if os.path.isfile(self.file_path):
+            os.remove(self.file_path)
     
 def deleteTemporaryFiles(dir_path: str) -> None:
     """

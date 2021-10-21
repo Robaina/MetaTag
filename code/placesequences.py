@@ -68,7 +68,7 @@ def main():
         additional_args=None
     )
 
-    print('Relabeling final tree...')
+    print('Relabelling final tree...')
     ref_dict = readFromPickleFile(
         path_to_file=os.path.join(args.outdir, 'ref_database_id_dict.pickle')
     )
