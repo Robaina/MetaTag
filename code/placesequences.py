@@ -7,7 +7,7 @@ from phyloplacement.utils import readFromPickleFile
 
 import phyloplacement.wrappers as wrappers
 from phyloplacement.phylotree import placeReadsOntoTree, relabelTree
-from phyloplacement.visualization import plotTreeInBrowser
+from phyloplacement.visualization import makeFeatureMetadataTable, plotTreeInBrowser
 
 """
 Placement:
@@ -78,11 +78,17 @@ def main():
         output_file=os.path.join(args.outdir, 'epa_result_relabel.newick')
     )
 
+    makeFeatureMetadataTable(
+        label_dict=label_dict,
+        output_tsv=os.path.join(args.outdir, 'empress_metadata.tsv'),
+        original_labels=True
+    )
+
     print('Drawing tree in browser...')
     plotTreeInBrowser(
         input_tree=os.path.join(args.outdir, 'epa_result_relabel.newick'),
         output_dir=None,
-        feature_metadata=None
+        feature_metadata=os.path.join(args.outdir, 'empress_metadata.tsv')
     )
 
     print('Finished!')

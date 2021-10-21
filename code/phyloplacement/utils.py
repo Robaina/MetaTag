@@ -53,6 +53,10 @@ def terminalExecute(command_str: str,
     return output
 
 def createTemporaryFilePath(work_dir: str = None, extension: str = None):
+    """
+    TODO:convert this into custom context manager
+    https://realpython.com/python-with-statement/
+    """
     if work_dir is None:
         work_dir = ''
     if extension is None:

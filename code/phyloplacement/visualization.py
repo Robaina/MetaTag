@@ -5,6 +5,7 @@ without short read placement.
 
 import os
 import webbrowser
+import pandas as pd
 from phyloplacement.utils import terminalExecute
 
 
@@ -36,6 +37,25 @@ def reformatTreeForiTOL(input_tree: str, tree_algorithm: str) -> None:
         raise ValueError(
             'Tree algorithm not found. Valid algorithms are: iqtree and fasttree'
             )
+
+def makeFeatureMetadataTable(label_dict: dict, output_tsv: str,
+                             original_labels: bool = True) -> None:
+    """
+    Construct feature metadata tsv classifiying reference and 
+    query sequences for empress
+    https://github.com/biocore/empress/issues/548
+    """
+    feature_dict = {
+        seq_name if original_labels else seq_id: 'ref' if 'ref_' in seq_id else 'query'
+        for seq_id, seq_name in label_dict.items()
+        }
+    df = pd.DataFrame.from_dict(
+        feature_dict, orient='index',
+        columns=['Sequence type']
+        )
+    df.index.name = 'Feature ID'
+    df.to_csv(output_tsv, sep='\t')
+    return df
 
 def plotTreeInBrowser(input_tree: str, output_dir: str = None,
                       feature_metadata: str = None) -> None:
