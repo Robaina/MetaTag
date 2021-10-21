@@ -55,7 +55,6 @@ def makeFeatureMetadataTable(label_dict: dict, output_tsv: str,
         )
     df.index.name = 'Feature ID'
     df.to_csv(output_tsv, sep='\t')
-    return df
 
 def plotTreeInBrowser(input_tree: str, output_dir: str = None,
                       feature_metadata: str = None) -> None:

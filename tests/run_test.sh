@@ -36,11 +36,11 @@ python3 ./code/buildtree.py \
  --outdir ./tests/test_results/ \
  --msa_method "muscle" \
  --tree_model "TEST" \
- --tree_method "fasttree"
+ --tree_method "iqtree"
 
 # Remove tree branch outliers
 python3 ./code/removetreeoutliers.py \
- --tree ./tests/test_results/ref_database.fasttree \
+ --tree ./tests/test_results/ref_database.contree \
  --outdir ./tests/test_results/ \
  --aln ./tests/test_results/ref_database.faln
 
@@ -53,8 +53,11 @@ python3 ./code/preprocess.py \
 # Place query sequences
 python3 code/placesequences.py \
  --aln tests/test_results/ref_database.faln \
- --tree tests/test_results/ref_database.fasttree \
+ --tree tests/test_results/ref_database.contree \
  --query tests/test_results/query_cleaned.faa \
  --outdir tests/test_results/ \
- --aln_method "papara" \
- --tree_model "JTT" # ./tests/test_results/ref_database.log # JTT
+ --aln_method "hmmalign" \
+ --tree_model ./tests/test_results/ref_database.log \
+ --open_in_browser
+ 
+ # ./tests/test_results/ref_database.log # JTT

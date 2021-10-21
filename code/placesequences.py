@@ -37,6 +37,10 @@ parser.add_argument('--tree_model', dest='tree_model', type=str,
                         'Provide subsitution model employed to infer tree. '
                         'Can be: 1) a valid model name or 2) a path to the log file returned by iqtree')
                         )
+parser.add_argument('--plot_placements', dest='plot_placements', action='store_true',
+                    default=False,
+                    help='If set, opens empress tree with placements in browser. Only if script run locally.'
+                        )
 
 args = parser.parse_args()
 if args.tree_model is None:
@@ -77,19 +81,20 @@ def main():
         label_dict=label_dict,
         output_file=os.path.join(args.outdir, 'epa_result_relabel.newick')
     )
+    
+    if args.plot_placements:
+        print('Drawing tree in browser...')
+        makeFeatureMetadataTable(
+            label_dict=label_dict,
+            output_tsv=os.path.join(args.outdir, 'empress_metadata.tsv'),
+            original_labels=True
+        )
 
-    makeFeatureMetadataTable(
-        label_dict=label_dict,
-        output_tsv=os.path.join(args.outdir, 'empress_metadata.tsv'),
-        original_labels=True
-    )
-
-    print('Drawing tree in browser...')
-    plotTreeInBrowser(
-        input_tree=os.path.join(args.outdir, 'epa_result_relabel.newick'),
-        output_dir=None,
-        feature_metadata=os.path.join(args.outdir, 'empress_metadata.tsv')
-    )
+        plotTreeInBrowser(
+            input_tree=os.path.join(args.outdir, 'epa_result_relabel.newick'),
+            output_dir=None,
+            feature_metadata=os.path.join(args.outdir, 'empress_metadata.tsv')
+        )
 
     print('Finished!')
 
