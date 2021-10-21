@@ -56,8 +56,8 @@ python3 code/placesequences.py \
  --tree tests/test_results/ref_database.contree \
  --query tests/test_results/query_cleaned.faa \
  --outdir tests/test_results/ \
- --aln_method "hmmalign" \
+ --aln_method "papara" \
  --tree_model ./tests/test_results/ref_database.log \
- --open_in_browser
+ --plot_placements
  
  # ./tests/test_results/ref_database.log # JTT
