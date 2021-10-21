@@ -39,7 +39,7 @@ parser.add_argument('--tree_model', dest='tree_model', type=str,
                         )
 parser.add_argument('--plot_placements', dest='plot_placements', action='store_true',
                     default=False,
-                    help='If set, opens empress tree with placements in browser. Only if script run locally.'
+                    help='If set, opens empress tree with placements in browser. Only if script runs locally.'
                         )
 
 args = parser.parse_args()

@@ -1,20 +1,20 @@
-# *************************************************************************************
-#                                    Run minimal example
-#
-# Run this bash script to test whether the installation has been successfull.
-# 
-# The script runs the entire pipeline, from peptide sequences, gene-specific database 
-# (narG in this example), reference tree reconstruction to placement of query sequences.
-#
-# If everything works fine, you should obtain a final figure:
-# test/test_results/epa_result_tree.svg and
-# a final tree: test/test_results/epa_result_tree_relabel.newick.
-# 
-#
-# Remember that the script must be run within the "traits" conda environment, which 
-# can be install from "environment.yml". See https://github.com/Robaina/TRAITS.
-#
-# *************************************************************************************
+# ************************************************************************************** #
+#                                    Run minimal example                                 #
+#                                                                                        #
+# Run this bash script to test whether the installation has been successfull.            #
+#                                                                                        #
+# The script runs the entire pipeline, from peptide sequences, gene-specific database    #
+# (narG in this example), reference tree reconstruction to placement of query sequences. #
+#                                                                                        #
+# If everything works fine, you should obtain a final figure:                            #
+# test/test_results/epa_result_tree.svg and                                              #
+# a final tree: test/test_results/epa_result_tree_relabel.newick.                        #
+#                                                                                        #
+#                                                                                        #
+# Remember that the script must be run within the "traits" conda environment, which      #
+# can be install from "environment.yml". See https://github.com/Robaina/TRAITS.          #
+#                                                                                        #
+# ************************************************************************************** #
 
 rm -r tests/test_results; mkdir tests/test_results
 
