@@ -61,7 +61,6 @@ def alignShortReadsToReferenceMSA(ref_msa: str, query_seqs: str,
     )
     
     if method.lower() in 'hmmalign':
-        # temp_file_path = createTemporaryFilePath()
         with TemporaryFilePath() as temp_file_path:
 
             wrappers.runHMMbuild(input_aln=ref_msa,
@@ -73,12 +72,8 @@ def alignShortReadsToReferenceMSA(ref_msa: str, query_seqs: str,
                                     output_aln_seqs=temp_file_path)
             convertStockholmToFastaAln(input_stockholm=temp_file_path,
                                         output_fasta=output_aln_seqs)
-        # os.remove(temp_file_path)
-
     elif method.lower() in 'papara':
         with TemporaryFilePath() as temp_phy_path, TemporaryFilePath() as temp_aln_path:
-        # temp_phy_path = createTemporaryFilePath()
-        # temp_aln_path = createTemporaryFilePath()
 
             convertFastaAlnToPhylip(input_fasta_aln=ref_msa,
                                     output_phylip=temp_phy_path)
@@ -88,8 +83,5 @@ def alignShortReadsToReferenceMSA(ref_msa: str, query_seqs: str,
                             output_aln=temp_aln_path)
             convertPhylipToFastaAln(input_phylip=temp_aln_path,
                                     output_file=output_aln_seqs)
-        
-        # os.remove(temp_phy_path)
-        # os.remove(temp_aln_path)
     else:
         raise ValueError('Alignment method not implemented')
