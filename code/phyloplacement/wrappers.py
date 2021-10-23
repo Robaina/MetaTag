@@ -40,7 +40,8 @@ def runProdigal(input_file: str, output_prefix: str = None,
 def runHMMsearch(hmm_model: str, input_fasta: str,
                  output_file: str = None,
                  method: str = 'hmmsearch',
-                 n_processes: int = None) -> None:
+                 n_processes: int = None,
+                 additional_args: str = None) -> None:
     """
     Simple CLI wrapper to hmmsearch or hmmscan
     """
@@ -48,9 +49,15 @@ def runHMMsearch(hmm_model: str, input_fasta: str,
         n_processes = os.cpu_count() - 1
     if output_file is None:
         output_file = setDefaultOutputPath(input_fasta, '_hmmer_hits', '.txt')
-    cmd_str = (f'{method} --cut_ga --tblout {output_file} --cpu {n_processes} '
-               f'{hmm_model} {input_fasta}')
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    if additional_args is not None:
+        args_str = additional_args
+    else:
+        args_str = ''
+    cmd_str = (
+        f'{method} --tblout {output_file} {args_str} --cpu {n_processes} '  #--cut_nc --cut_ga
+        f'{hmm_model} {input_fasta}'
+        )
+    terminalExecute(cmd_str, suppress_shell_output=True)
 
 def runHMMbuild(input_aln: str, output_hmm: str = None,
                 additional_args: str = None) -> None:
@@ -101,7 +108,7 @@ def runCDHIT(input_fasta: str, output_fasta: str = None,
     if additional_args is None:
         additional_args = ''
     cmd_str = f'cd-hit -i {input_fasta} -o {output_fasta} {additional_args}'
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=True)
 
 def runMAFFT(input_fasta: str, output_file: str = None,
              n_threads: int = -1, parallel: bool = True,

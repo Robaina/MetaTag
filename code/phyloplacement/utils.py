@@ -45,17 +45,21 @@ def terminalExecute(command_str: str,
     Execute given command in terminal through Python
     """
     if suppress_shell_output:
-        suppress_code = '>/dev/null 2>&1'
-        command_str = f'{command_str} {suppress_code}'
+        # suppress_code = '>/dev/null 2>&1'
+        stdout = subprocess.DEVNULL
+    else:
+        stdout = None
+        # command_str = f'{command_str} {suppress_code}'
     output = subprocess.run(
         command_str, shell=True,
-        cwd=work_dir, capture_output=return_output)
+        cwd=work_dir, capture_output=return_output,
+        stdout=stdout
+        )
     return output
 
 def createTemporaryFilePath(work_dir: str = None, extension: str = None):
     """
-    TODO:convert this into custom context manager
-    https://realpython.com/python-with-statement/
+    Converted into custom context manager
     """
     if work_dir is None:
         work_dir = ''

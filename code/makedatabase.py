@@ -38,7 +38,8 @@ def main():
     filterFASTAByHMM(
         hmm_model=args.hmm,
         input_fasta=args.data,
-        output_fasta=output_fasta
+        output_fasta=output_fasta,
+        additional_args=None
     )
     
     if args.reduce:
