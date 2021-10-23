@@ -69,7 +69,8 @@ def filterFASTAbyIDs(input_fasta: str, record_ids: list,
 def filterFASTAByHMM(hmm_model: str, input_fasta: str,
                      output_fasta: str = None,
                      method: str = 'hmmsearch',
-                     remove_uninformative: bool = False) -> None:
+                     remove_uninformative: bool = False,
+                     additional_args: str = None) -> None:
     """
     Generate protein-specific database by filtering
     sequence database to only contain sequences 
@@ -84,7 +85,8 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
         hmm_model=hmm_model,
         input_fasta=input_fasta,
         output_file=hmmer_output,
-        method=method
+        method=method,
+        additional_args=additional_args
         )
     print('Parsing Hmmer output file...')
     hmmer_hits = parseHMMsearchOutput(hmmer_output)
@@ -112,7 +114,6 @@ def convertPhylipToFastaAln(input_phylip: str,
     """
     if output_file is None:
         output_file = setDefaultOutputPath(input_phylip, extension='.faln')
-    # with open(input_phylip, 'r') as input_handle, open(output_file, 'w') as output_handle:
     alignments = AlignIO.parse(input_phylip, 'phylip')
     AlignIO.write(alignments, output_file, 'fasta')
 
@@ -123,7 +124,6 @@ def convertStockholmToFastaAln(input_stockholm: str,
     """
     if output_fasta is None:
         output_fasta = setDefaultOutputPath(input_stockholm, extension='.faln')
-    # with open(output_fasta, 'w') as fasta_file:
     alignments = AlignIO.read(input_stockholm, 'stockholm')
     AlignIO.write(alignments, output_fasta, 'fasta')
 
