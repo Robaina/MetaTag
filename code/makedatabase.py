@@ -23,14 +23,17 @@ parser.add_argument('--in', dest='data', type=str,
                     help='Path to peptide database')
 parser.add_argument('--outdir', dest='outdir', type=str,
                     help='Path to output directory')
+parser.add_argument('--prefix', dest='prefix', type=str,
+                    default='',
+                    help='Prefix to be added to output files')
 parser.add_argument('--reduce', dest='reduce',
                     default=False, action='store_true',
                     help='Run cd-hit to reduce database redundancy')
 
 args = parser.parse_args()
-output_fasta = os.path.join(args.outdir, 'ref_database.faa')
-output_fasta_short = os.path.join(args.outdir, 'ref_database_short_ids.faa')
-reduced_fasta = os.path.join(args.outdir, 'ref_database_reduced.faa')
+output_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database.faa')
+output_fasta_short = os.path.join(args.outdir, f'{args.prefix}ref_database_short_ids.faa')
+reduced_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database_reduced.faa')
 
 def main():
     
@@ -39,7 +42,7 @@ def main():
         hmm_model=args.hmm,
         input_fasta=args.data,
         output_fasta=output_fasta,
-        additional_args=None
+        additional_args='--cut_nc'
     )
     
     if args.reduce:
@@ -60,7 +63,7 @@ def main():
     relabelRecordsInFASTA(
         input_fasta=output_fasta,
         output_dir=args.outdir,
-        prefix='ref_'
+        prefix=f'ref_{args.prefix}'
         )
     shutil.move(output_fasta_short, output_fasta)
     print('Finished!')
