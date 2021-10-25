@@ -6,7 +6,8 @@ import shutil
 import argparse
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.database.preprocessing import relabelRecordsInFASTA
+from phyloplacement.utils import TemporaryFilePath
+from phyloplacement.database.preprocessing import relabelRecordsInFASTA, getRepresentativeSet
 from phyloplacement.database.manipulation import filterFASTAByHMM, countRecordsInFasta
 
 """
@@ -26,46 +27,56 @@ parser.add_argument('--outdir', dest='outdir', type=str,
 parser.add_argument('--prefix', dest='prefix', type=str,
                     default='',
                     help='Prefix to be added to output files')
-parser.add_argument('--reduce', dest='reduce',
-                    default=False, action='store_true',
-                    help='Run cd-hit to reduce database redundancy')
+parser.add_argument('--max_size', dest='maxsize',
+                    default=None, type=int,
+                    help=(
+                        'Maximum size of representative set of sequences. '
+                        'Defaults to full set.'
+                        )
+                    )
+parser.add_argument('--relabel', dest='relabel', action='store_true',
+                    default=False,
+                    help='Relabel record IDs with numeral ids.')
+
 
 args = parser.parse_args()
 output_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database.faa')
 output_fasta_short = os.path.join(args.outdir, f'{args.prefix}ref_database_short_ids.faa')
+output_fasta_PI = os.path.join(args.outdir, f'{args.prefix}PI.txt')
 reduced_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database_reduced.faa')
 
 def main():
     
     print('Making peptide-specific reference database...')
-    filterFASTAByHMM(
-        hmm_model=args.hmm,
-        input_fasta=args.data,
-        output_fasta=output_fasta,
-        additional_args='--cut_nc'
-    )
-    
-    if args.reduce:
-        print('Reducing redundancy of reference database...')
-        wrappers.runCDHIT(
-            input_fasta=output_fasta,
-            output_fasta=reduced_fasta,
-            additional_args=None
-            )
-        n_records = countRecordsInFasta(output_fasta)
-        n_reduced_records = countRecordsInFasta(reduced_fasta)
-        shutil.move(reduced_fasta, output_fasta)
-        os.remove(reduced_fasta + ".clstr")
-        print(f'Original database size: {n_records}. Reduced database size: {n_reduced_records}')
-
-    # Assign numbers to reference sequence labels for data processing
-    print('Relabelling records in reference database...')
-    relabelRecordsInFASTA(
-        input_fasta=output_fasta,
-        output_dir=args.outdir,
-        prefix=f'ref_{args.prefix}'
+    with TemporaryFilePath() as tempaln:
+        filterFASTAByHMM(
+            hmm_model=args.hmm,
+            input_fasta=args.data,
+            output_fasta=output_fasta,
+            additional_args=f'--cut_ga -A {tempaln}'
         )
-    shutil.move(output_fasta_short, output_fasta)
+        wrappers.getPercentIdentityFromMSA(
+            input_msa=tempaln,
+            output_file=output_fasta_PI
+        )
+    
+    print('Finding representative sequences for reference database...')
+    getRepresentativeSet(
+        input_seqs=output_fasta,
+        input_PI=output_fasta_PI,
+        max_size=args.maxsize,
+        outfile=reduced_fasta
+    )
+    shutil.move(reduced_fasta, output_fasta)
+    
+    if args.relabel:
+        print('Relabelling records in reference database...')
+        relabelRecordsInFASTA(
+            input_fasta=output_fasta,
+            output_dir=args.outdir,
+            prefix=f'ref_{args.prefix}'
+            )
+        shutil.move(output_fasta_short, output_fasta)
     print('Finished!')
 
 if __name__ == '__main__':

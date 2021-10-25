@@ -3,6 +3,7 @@ Functions for general purposes
 """
 
 import os
+import shutil
 import random
 import string
 import subprocess
@@ -94,8 +95,29 @@ class TemporaryFilePath:
         return self.file_path
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if os.path.isfile(self.file_path):
+        if os.path.exists(self.file_path):
             os.remove(self.file_path)
+class TemporaryDirectoryPath:
+    """
+    Custom context manager to create a temporary directory
+    which is removed when exiting context manager
+    """
+    def __init__(self, work_dir: str = None):
+        self.work_dir = work_dir or ''
+
+    def __enter__(self):
+        temp_id = ''.join(
+        random.choice(string.ascii_lowercase) for i in range(10)
+        )
+        self.dir_path = os.path.join(
+            self.work_dir, f'temp_{temp_id}/'
+            )
+        os.mkdir(self.dir_path)
+        return self.dir_path
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if os.path.exists(self.dir_path):
+            shutil.rmtree(self.dir_path)
     
 def deleteTemporaryFiles(dir_path: str) -> None:
     """
