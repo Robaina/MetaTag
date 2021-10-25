@@ -29,8 +29,11 @@ parser.add_argument('--outfile', dest='outfile', type=str, default=None,
                     help='Path to output fasta file')
 parser.add_argument('--is_query', dest='isquery',
                     default=False, action='store_true',
-                    help=('Indicate if fasta file contains query sequences. '
-                          'Defaults to reference database.'))
+                    help=(
+                        'Indicate if fasta file contains query sequences. '
+                        'Defaults to reference database.'
+                          )
+                    )
 
 args = parser.parse_args()
 is_peptide = not args.dna
@@ -67,7 +70,7 @@ def main():
             is_peptide=is_peptide
         )
 
-    if args.isquery:
+    if args.isquery:  # make this into args.relabel and add args.prefix (remove from makedatabase, perhaps)
         print('Relabelling records...')
         outfasta_short = setDefaultOutputPath(outfasta, tag='_short_ids')
         relabelRecordsInFASTA(

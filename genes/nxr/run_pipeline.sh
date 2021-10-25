@@ -8,32 +8,31 @@
 #  --outfile genes/nxr/nxr_results/data_cleaned.faa
 
 # Make database
-# python3 ./code/makedatabase.py \
-#  --in genes/nxr/nxr_results/data_cleaned.faa \
-#  --outdir genes/nxr/nxr_results/ \
-#  --hmm genes/nxr/hmms/Molybdopterin.hmm \
-#  --prefix "molyb_" \
-#  --reduce
+python3 ./code/makedatabase.py \
+ --in genes/nxr/nxr_results/data_cleaned.faa \
+ --outdir genes/nxr/nxr_results/ \
+ --hmm genes/nxr/hmms/Molybdopterin.hmm \
+ --prefix "molyb_" \
+ --max_size 300
 
 # python3 ./code/makedatabase.py \
 #  --in genes/nxr/nxr_results/data_cleaned.faa \
 #  --outdir genes/nxr/nxr_results/ \
 #  --hmm genes/nxr/hmms/narGTIGR01580.1.hmm \
 #  --prefix "narG_" \
-#  --reduce
+#  --max_size 300
 
 # Merge narG, molyb and remove possible duplicated seqs
-mkdir genes/nxr/nxr_results/molyb_narG/
-mv genes/nxr/nxr_results/molyb_ref_database.faa genes/nxr/nxr_results/molyb_narG/
-mv genes/nxr/nxr_results/narG_ref_database.faa genes/nxr/nxr_results/molyb_narG/
+# mkdir nxr_results/molyb_narG/
+# mv nxr_results/narG_ref_database.faa nxr_results/molyb_narG/narG_ref_database.faa
+# mv nxr_results/molyb_ref_database.faa nxr_results/molyb_narG/molyb_ref_database.faa
 
-python3 ./code/preprocess.py \
- --in genes/nxr/nxr_results/molyb_narG \
- --outfile genes/nxr/nxr_results/molyb_narG_ref_database.faa
+# python3 ./code/preprocess.py \
+#  --in genes/nxr/nxr_results/molyb_narG/ \
+#  --outfile genes/nxr/nxr_results/molyb_narG_ref_database.faa
 
-# Run repset on narG and molyb reference databases (these databases have been prevously cd-hited, and hmmsearch with --cut_nc)
-source /home/ubuntu/anaconda3/etc/profile.d/conda.sh
-conda deactivate; conda activate repset
+# Add nxr-classified sequences from Nitzinger, 2021
+
 
 
 

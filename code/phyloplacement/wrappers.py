@@ -94,14 +94,24 @@ def runHMMalign(input_hmm: str, input_aln: str,
         )
     terminalExecute(cmd_str, suppress_shell_output=False)
 
+def getPercentIdentityFromMSA(input_msa: str,
+                              output_file: str = None) -> None:
+    """
+    Run esl-alipid to compute pairwise PI from a MSA. 
+    """
+    input_msa = os.path.abspath(input_msa)
+    if output_file is None:
+        output_file = setDefaultOutputPath(input_msa,
+                                           tag='_PI', extension='.txt')
+    cmd_str = f'esl-alipid {input_msa} > {output_file}'
+    terminalExecute(cmd_str, suppress_shell_output=False)
+
 def runCDHIT(input_fasta: str, output_fasta: str = None,
              additional_args: str = None) -> None:
     """
-    Simple CLI wrapper to cd-hit to obain representative sequences
-    CD-HIT may be used to remove duplicated sequences (keeps one representatie)
-    with parameters -c 1 -t 1. However, it does require lots of RAM to store sequences,
-    cannot run on Aquifex.
-
+    Simple CLI wrapper to cd-hit to obtain representative sequences
+    CD-HIT may be used to remove duplicated sequences (keeps one representative)
+    with parameters -c 1 -t 1.
     """
     if output_fasta is None:
        output_fasta = setDefaultOutputPath(input_fasta, '_cdhit')
