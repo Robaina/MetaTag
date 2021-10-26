@@ -7,6 +7,7 @@ import argparse
 
 import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import TemporaryFilePath
+from phyloplacement.alignment import alignPeptides
 from phyloplacement.database.preprocessing import relabelRecordsInFASTA, getRepresentativeSet
 from phyloplacement.database.manipulation import filterFASTAByHMM, countRecordsInFasta
 
@@ -48,18 +49,36 @@ reduced_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database_reduced.fa
 def main():
     
     print('Making peptide-specific reference database...')
-    with TemporaryFilePath() as tempaln:
+    with TemporaryFilePath() as tempaln, TemporaryFilePath() as tempfasta:
         filterFASTAByHMM(
             hmm_model=args.hmm,
             input_fasta=args.data,
             output_fasta=output_fasta,
-            additional_args=f'--cut_nc -A {tempaln}'
+            additional_args=f'--cut_nc'  # -A {tempaln}'
         )
+
+        wrappers.runCDHIT(
+             input_fasta=output_fasta,
+             output_fasta=tempfasta,
+             additional_args=None
+        )
+
+        wrappers.runMAFFT(
+            input_fasta=tempfasta,
+            output_file=tempaln,
+            n_threads=-1,
+            parallel=True,
+            additional_args='--retree 1 --maxiterate 0'
+        )
+        
         wrappers.getPercentIdentityFromMSA(
             input_msa=tempaln,
             output_file=output_fasta_PI
         )
-    
+
+        shutil.move(tempfasta, output_fasta)
+        os.remove(tempfasta + ".clstr")
+
     print('Finding representative sequences for reference database...')
     getRepresentativeSet(
         input_seqs=output_fasta,
