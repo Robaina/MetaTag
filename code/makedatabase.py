@@ -36,7 +36,7 @@ parser.add_argument('--max_size', dest='maxsize',
                     )
 parser.add_argument('--relabel', dest='relabel', action='store_true',
                     default=False,
-                    help='Relabel record IDs with numeral ids.')
+                    help='Relabel record IDs with numeral ids')
 
 
 args = parser.parse_args()
@@ -53,7 +53,7 @@ def main():
             hmm_model=args.hmm,
             input_fasta=args.data,
             output_fasta=output_fasta,
-            additional_args=f'--cut_ga -A {tempaln}'
+            additional_args=f'--cut_nc -A {tempaln}'
         )
         wrappers.getPercentIdentityFromMSA(
             input_msa=tempaln,
