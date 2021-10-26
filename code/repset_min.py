@@ -25,6 +25,7 @@ if __name__ == "__main__":
     parser.add_argument("--seqs", type=Path, required=True, help="Input sequences, fasta format")
     parser.add_argument("--pi", type=str, required=True, help="Input text file with PI from els-alipid")
     parser.add_argument("--mixture", type=float, default=0.5, help="Mixture parameter determining the relative weight of facility-location relative to sum-redundancy. Default=0.5")
+    parser.add_argument("--size", type=int, default=float("inf"), help="Repset size. Default=inf")
     args = parser.parse_args()
     workdir = args.outdir
 
@@ -114,26 +115,26 @@ else:
     #             db[seq_id1]["in_neighbors"][seq_id2] = {"log10_e": log10_e, "pct_identical": pident}
     # return db
 
-def get_pident(pi_file, seqs):
+def get_pident(pi_file): #, seqs):
     """
     Parse esl-alipid output file
     """
+    print('Building dataframe')
     df = pd.read_csv(
         pi_file, sep='\s+',
         skiprows=1, header=None
     )
-    # df = df.applymap(lambda cell: cell.re)
     df.columns = [
         'seqname1', 'seqname2', '%id', 'nid', 'denomid', '%match', 'nmatch', 'denommatch'
         ]
+    print('Dataframe built')
     
     db = {}
-    fasta_sequences = SeqIO.parse(seqs,'fasta') # open not needed (at least in python3)
-    # Initialize dict
-    for seq in fasta_sequences:
-        seq_id = seq.id
-        # print(seq_id)
-        db[seq_id] = {"neighbors": {}, "in_neighbors": {}, "seq": seq.seq}
+    # fasta_sequences = SeqIO.parse(seqs,'fasta') # open not needed (at least in python3)
+    # # Initialize dict
+    # for seq in fasta_sequences:
+    #     seq_id = seq.id
+    #     db[seq_id] = {"neighbors": {}, "in_neighbors": {}} # , "seq": seq.seq}  # (Removed to save RAM)
     
     for i, row in df.iterrows():
         seq_id1 = row.seqname1.split('/')[0]
@@ -141,11 +142,16 @@ def get_pident(pi_file, seqs):
         # print(seq_id1, seq_id2)
         log10_e = -100
         pident = row['%id']
-        # Originally filtering pairs with evalue > 1e-2 (perhaps nid, %match)
-        if seq_id1 in db.keys() and seq_id2 in db.keys():
-            db[seq_id2]["neighbors"][seq_id1] = {"log10_e": log10_e, "pct_identical": pident}
-            db[seq_id1]["in_neighbors"][seq_id2] = {"log10_e": log10_e, "pct_identical": pident}
 
+        # Originally filtering pairs with evalue > 1e-2 (perhaps nid, %match)
+        db[seq_id1] = {"neighbors": {}, "in_neighbors": {}}
+        db[seq_id2] = {"neighbors": {}, "in_neighbors": {}}
+
+        # if seq_id1 in db.keys() and seq_id2 in db.keys():
+        db[seq_id2]["neighbors"][seq_id1] = {"log10_e": log10_e, "pct_identical": pident}
+        db[seq_id1]["in_neighbors"][seq_id2] = {"log10_e": log10_e, "pct_identical": pident}
+
+    del df
     return db
 
 
@@ -639,6 +645,9 @@ class MixtureObjective(object):
 
 # returns an order
 def accelerated_greedy_selection(db, objective, sim, max_evals=float("inf"), diff_approx_ratio=1.0, repset_size=float("inf"), target_obj_val=float("inf")):
+    
+    print(f'Repset size: {repset_size}')
+    
     assert diff_approx_ratio <= 1.0
     repset = []
     pq = [(-float("inf"), seq_id) for seq_id in db]
@@ -667,26 +676,27 @@ def accelerated_greedy_selection(db, objective, sim, max_evals=float("inf"), dif
 
 # Like CD-HIT, but using my own implementation
 # rather than calling the executable
-def graph_cdhit_selection(db, sim, threshold=0.9, order_by_length=True):
-    repset = set()
-    if order_by_length:
-        seq_ids_ordered = sorted(db.keys(), key=lambda seq_id: -len(str(db[seq_id]["seq"])))
-    else:
-        seq_ids_ordered = random.sample(db.keys(), len(db.keys()))
-    next_log = 10
-    for iteration_index, seq_id in enumerate(seq_ids_ordered):
-        if iteration_index >= next_log:
-            if not (logger is None):
-                logger.info("graph_cdhit_selection {} / {}".format(iteration_index, len(seq_ids_ordered)))
-            next_log *= 1.3
-        covered = False
-        for neighbor_seq_id, d in db[seq_id]["neighbors"].items():
-            if (neighbor_seq_id in repset) and (sim_from_neighbor(sim, d) >= threshold):
-                covered = True
-                break
-        if not covered:
-            repset.add(seq_id)
-    return sorted(list(repset))
+# (Semidan) Requires "seq" field in db, removed to save RAM
+# def graph_cdhit_selection(db, sim, threshold=0.9, order_by_length=True):
+#     repset = set()
+#     if order_by_length:
+#         seq_ids_ordered = sorted(db.keys(), key=lambda seq_id: -len(str(db[seq_id]["seq"])))
+#     else:
+#         seq_ids_ordered = random.sample(db.keys(), len(db.keys()))
+#     next_log = 10
+#     for iteration_index, seq_id in enumerate(seq_ids_ordered):
+#         if iteration_index >= next_log:
+#             if not (logger is None):
+#                 logger.info("graph_cdhit_selection {} / {}".format(iteration_index, len(seq_ids_ordered)))
+#             next_log *= 1.3
+#         covered = False
+#         for neighbor_seq_id, d in db[seq_id]["neighbors"].items():
+#             if (neighbor_seq_id in repset) and (sim_from_neighbor(sim, d) >= threshold):
+#                 covered = True
+#                 break
+#         if not covered:
+#             repset.add(seq_id)
+#     return sorted(list(repset))
 
 
 ###############################################################
@@ -790,12 +800,14 @@ def graph_cdhit_selection(db, sim, threshold=0.9, order_by_length=True):
 
 if __name__ == "__main__":
     # db = run_psiblast(workdir, args.seqs)  
-    db = get_pident(pi_file=args.pi, seqs=args.seqs) # Make db with PI from esl-alipid
+    print('Reading PI database...')
+    db = get_pident(pi_file=args.pi) #, seqs=args.seqs) # Make db with PI from esl-alipid
+    print('Finished building database...')
     objective = MixtureObjective([summaxacross, sumsumwithin], [args.mixture, 1.0-args.mixture])
     logger.info("-----------------------")
     logger.info("Starting mixture of summaxacross and sumsumwithin with weight %s...", args.mixture)
     sim, sim_name = ([fraciden, fraciden], "fraciden-fraciden")
-    repset_order = accelerated_greedy_selection(db, objective, sim) # Call main algorithm
+    repset_order = accelerated_greedy_selection(db, objective, sim, repset_size=args.size) # Call main algorithm
 
     with open(workdir / "repset.txt", "w") as f:
         for seq_id in repset_order:
