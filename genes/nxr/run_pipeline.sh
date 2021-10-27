@@ -35,7 +35,7 @@
 
 # mv genes/nxr/nxr_results/Nitzinger_short_ids.faa genes/nxr/nxr_results/molyb_narG/
 
-# # Merge all three databases into final reference database
+# Merge all three databases into final reference database
 # python3 ./code/preprocess.py \
 #  --in genes/nxr/nxr_results/molyb_narG/ \
 #  --outfile genes/nxr/nxr_results/molyb_narG_Nitz_ref_database.faa
@@ -45,14 +45,19 @@ python3 ./code/buildtree.py \
  --in genes/nxr/nxr_results/molyb_narG_Nitz_ref_database.faa \
  --outdir genes/nxr/nxr_results/ \
  --msa_method "muscle" \
- --tree_model "TEST" \
+ --tree_model "LG+F+G4" \
  --tree_method "iqtree"
 
 # Remove tree branch outliers
 python3 ./code/removetreeoutliers.py \
- --tree genes/nxr/nxr_results/molyb_narG_Nitz_ref_database.contree \
+ --tree genes/nxr/nxr_results/ref_database.contree \
  --outdir genes/nxr/nxr_results/ \
- --aln genes/nxr/nxr_results/molyb_narG_Nitz_ref_database.faln
+ --aln genes/nxr/nxr_results/ref_database.faln
+
+# Relabel reference tree
+python3 ./code/relabelTree.py \
+ --tree genes/nxr/nxr_results/ref_database_shrink.contree \
+ --labels /home/robaina/Documents/TRAITS/genes/nxr/nxr_results/molyb_ref_database_id_dict.pickle,/home/robaina/Documents/TRAITS/genes/nxr/nxr_results/narG_ref_database_id_dict.pickle,/home/robaina/Documents/TRAITS/genes/nxr/nxr_results/Nitzinger_short_ids_id_dict.pickle \
 
 # # Preprocess query sequences
 # python3 ./code/preprocess.py \

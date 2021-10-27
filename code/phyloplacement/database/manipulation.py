@@ -69,7 +69,6 @@ def filterFASTAbyIDs(input_fasta: str, record_ids: list,
 def filterFASTAByHMM(hmm_model: str, input_fasta: str,
                      output_fasta: str = None,
                      method: str = 'hmmsearch',
-                     remove_uninformative: bool = False,
                      additional_args: str = None) -> None:
     """
     Generate protein-specific database by filtering
@@ -93,8 +92,6 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
     print('Filtering Fasta...')
     filterFASTAbyIDs(input_fasta, record_ids=hmmer_hits.id.values,
                      output_fasta=output_fasta)
-    if remove_uninformative:
-        wrappers.runCDHIT(input_fasta=output_fasta)
 
 def convertFastaAlnToPhylip(input_fasta_aln: str,
                             output_phylip: str = None) -> None:
