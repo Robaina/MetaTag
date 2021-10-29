@@ -16,7 +16,8 @@ code/accesory/run_papara.py
 code/test.ipynb
 code/test.py
 NOTES.md
-notify.py
+code/notify.py
+genes/nxr/commit_to_github.sh
 
 # File types
 *.sqlite
