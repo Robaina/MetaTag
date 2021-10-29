@@ -16,6 +16,7 @@ code/accesory/run_papara.py
 code/test.ipynb
 code/test.py
 NOTES.md
+notify.py
 
 # File types
 *.sqlite

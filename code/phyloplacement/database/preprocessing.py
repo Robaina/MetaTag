@@ -8,7 +8,6 @@ Tools to preprocess sequence databases
 
 import os
 import re
-import tempfile
 from Bio import SeqIO
 import pyfastx
 from phyloplacement.database.manipulation import filterFASTAbyIDs
@@ -38,7 +37,7 @@ def removeDuplicatesFromFasta(input_fasta: str,
 
 def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
     """
-    Merge input fasta files into a single fast
+    Merge input fasta files into a single fasta
     """
     if output_fasta is None:
         output_fasta = os.path.join(input_fastas_dir, 'merged.fasta')
