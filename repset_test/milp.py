@@ -34,6 +34,7 @@ def solveMILP(n_nodes, n_edges, edge_pairs, w, size):
 
     # Optimize model
     m.optimize()
+    print('Obj: %g' % m.objVal)
 
 
 
@@ -44,12 +45,16 @@ w = 100 * np.random.rand(n_edges)
 size = 10
 
 # write els-alipd like output:
-outfile = ""
-first_line = ""
-with open(outfile, "w") as outfile:
-    for i, j in edge_pairs:
-        edge = f"n{i}n{j}"
+outfile = "/home/robaina/Documents/TRAITS/repset_test/esl_output.txt"
 
+with open(outfile, "w") as outfile:
+    first_line = "# seqname1 seqname2 %id nid denomid %match nmatch denommatch\n"
+    outfile.write(first_line)
+
+    for n, (i, j) in enumerate(edge_pairs):
+        edge = f"n{i} n{j}"
+        line = f"n{i} n{j}  {w[n]}     39    100 100.00    100    100\n"
+        outfile.write(line)
 
 
 
