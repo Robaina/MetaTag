@@ -78,15 +78,16 @@ def main():
 
         shutil.move(tempfasta, output_fasta)
         os.remove(tempfasta + ".clstr")
-
-    print('Finding representative sequences for reference database...')
-    getRepresentativeSet(
-        input_seqs=output_fasta,
-        input_PI=output_fasta_PI,
-        max_size=args.maxsize,
-        outfile=reduced_fasta
-    )
-    shutil.move(reduced_fasta, output_fasta)
+    
+    if args.maxsize is not None:
+        print('Finding representative sequences for reference database...')
+        getRepresentativeSet(
+            input_seqs=output_fasta,
+            input_PI=output_fasta_PI,
+            max_size=args.maxsize,
+            outfile=reduced_fasta
+        )
+        shutil.move(reduced_fasta, output_fasta)
     
     if args.relabel:
         print('Relabelling records in reference database...')
