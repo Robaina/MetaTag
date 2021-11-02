@@ -7,9 +7,8 @@ import argparse
 
 import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import TemporaryFilePath
-from phyloplacement.alignment import alignPeptides
 from phyloplacement.database.preprocessing import relabelRecordsInFASTA, getRepresentativeSet
-from phyloplacement.database.manipulation import filterFASTAByHMM, countRecordsInFasta
+from phyloplacement.database.manipulation import filterFASTAByHMM
 
 """
 Reference database:
