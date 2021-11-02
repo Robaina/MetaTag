@@ -145,5 +145,5 @@ for n in range(n_samples):
     repset_dist_to_milp.append(milp_repset_ratio)
 
 
-saveToPickleFile(repset_dist_to_milp, 'repset_dist_to_milp.pickle')
+saveToPickleFile(repset_dist_to_milp, '/home/robaina/Documents/TRAITS/repset_test/repset_dist_to_milp.pickle')
 print('Finished!')
