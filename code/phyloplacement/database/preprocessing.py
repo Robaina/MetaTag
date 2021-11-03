@@ -174,7 +174,7 @@ def getRepresentativeSet(input_seqs: str, input_PI: str,
     
     with TemporaryDirectoryPath() as tempdir:
         cmd_str = (
-            f'python /code/repset/repset.py --seqs {input_seqs} --pi {input_PI} '
+            f'python /code/vendor/repset_min.py --seqs {input_seqs} --pi {input_PI} '
             f'--outdir {tempdir} --size {max_size}'
             )
         terminalExecute(cmd_str, suppress_shell_output=True)
