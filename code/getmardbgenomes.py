@@ -13,7 +13,7 @@ import os
 import argparse
 
 import phyloplacement.utils as utils
-from phyloplacement.database.mardb import getMARdbGenomeByEntryCode, getMarDBentryCode
+from phyloplacement.database.parsers.mardb import getMARdbGenomeByEntryCode, getMarDBentryCode
 from phyloplacement.database.manipulation import is_empty_fasta
 
 
