@@ -6,8 +6,9 @@ Tools to create peptide-specific sequence databases
 """
 
 import os
-import pandas as pd
+import warnings
 from collections import defaultdict
+import pandas as pd
 from Bio import SearchIO, SeqIO, AlignIO
 import pyfastx
 
@@ -15,14 +16,20 @@ import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import setDefaultOutputPath
 
 
-def filterFastaBySequenceLength(input_fasta: str, minLength: int = 0,
+def filterFastaBySequenceLength(input_fasta: str, minLength: int = None,
                                 maxLength: int = None,
                                 output_fasta: str = None) -> None:
     """
     Filter sequences by length in fasta file
-    """     
+    """  
+    if (minLength is None) and (maxLength is None):
+        warnings.warn("Missing boundary values for sequence length")
+        return
+    input_fasta = os.path.abspath(input_fasta)   
     fa = pyfastx.Fasta(input_fasta)
     record_ids = fa.keys()
+    if minLength is None:
+        minLength = 0
     if maxLength is not None:
         max_tag = str(maxLength)
         record_ids.filter(record_ids>=minLength, record_ids<=maxLength)
@@ -31,10 +38,13 @@ def filterFastaBySequenceLength(input_fasta: str, minLength: int = 0,
         record_ids.filter(record_ids>=minLength)
     if output_fasta is None:
         output_fasta = setDefaultOutputPath(input_fasta, f'_length_{minLength}_{max_tag}')
+    if not record_ids:
+        raise ValueError("No records found with given sequence length bounds")
     with open(output_fasta, 'w') as fp:
         for record_id in record_ids:
             record_obj = fa[record_id]
             fp.write(record_obj.raw)
+    os.remove(input_fasta + ".fxi")
 
 def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
     """
@@ -65,11 +75,11 @@ def filterFASTAbyIDs(input_fasta: str, record_ids: list,
                 fp.write(record_obj.raw)
             except:
                 pass
+    os.remove(input_fasta + ".fxi")
 
 def filterFASTAByHMM(hmm_model: str, input_fasta: str,
                      output_fasta: str = None,
                      method: str = 'hmmsearch',
-                     remove_uninformative: bool = False,
                      additional_args: str = None) -> None:
     """
     Generate protein-specific database by filtering
@@ -93,8 +103,6 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
     print('Filtering Fasta...')
     filterFASTAbyIDs(input_fasta, record_ids=hmmer_hits.id.values,
                      output_fasta=output_fasta)
-    if remove_uninformative:
-        wrappers.runCDHIT(input_fasta=output_fasta)
 
 def convertFastaAlnToPhylip(input_fasta_aln: str,
                             output_phylip: str = None) -> None:

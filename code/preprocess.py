@@ -27,10 +27,12 @@ parser.add_argument('--in', dest='data', type=str,
                     help='Path to fasta file or directory containing fasta files')
 parser.add_argument('--outfile', dest='outfile', type=str, default=None,
                     help='Path to output fasta file')
-parser.add_argument('--is_query', dest='isquery',
+parser.add_argument('--relabel', dest='relabel',
                     default=False, action='store_true',
-                    help=('Indicate if fasta file contains query sequences. '
-                          'Defaults to reference database.'))
+                    help='Relabel record IDs with numeral ids')
+parser.add_argument('--idprefix', dest='idprefix', type=str,
+                    default='',
+                    help='Prefix to be added to sequence IDs')
 
 args = parser.parse_args()
 is_peptide = not args.dna
@@ -67,13 +69,13 @@ def main():
             is_peptide=is_peptide
         )
 
-    if args.isquery:
+    if args.relabel:  # make this into args.relabel and add args.prefix (remove from makedatabase, perhaps)
         print('Relabelling records...')
         outfasta_short = setDefaultOutputPath(outfasta, tag='_short_ids')
         relabelRecordsInFASTA(
             input_fasta=outfasta,
             output_dir=os.path.dirname(args.outfile),
-            prefix='query_'
+            prefix=args.idprefix
             )
         shutil.move(outfasta_short, outfasta)
     print('Finished!')
