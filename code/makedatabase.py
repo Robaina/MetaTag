@@ -9,6 +9,7 @@ import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import TemporaryFilePath
 from phyloplacement.database.preprocessing import relabelRecordsInFASTA, getRepresentativeSet
 from phyloplacement.database.manipulation import filterFASTAByHMM
+from phyloplacement.database.reduction import reduceDatabaseRedundancy
 
 """
 Reference database:
@@ -42,52 +43,26 @@ parser.add_argument('--relabel', dest='relabel', action='store_true',
 args = parser.parse_args()
 output_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database.faa')
 output_fasta_short = os.path.join(args.outdir, f'{args.prefix}ref_database_short_ids.faa')
-output_fasta_PI = os.path.join(args.outdir, f'{args.prefix}PI.txt')
-reduced_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database_reduced.faa')
 
 def main():
     
     print('Making peptide-specific reference database...')
-    with TemporaryFilePath() as tempaln, TemporaryFilePath() as tempfasta:
+    with TemporaryFilePath() as tempfasta:
         filterFASTAByHMM(
             hmm_model=args.hmm,
             input_fasta=args.data,
-            output_fasta=output_fasta,
+            output_fasta=tempfasta,
             additional_args=f'--cut_nc'  # -A {tempaln}'
         )
-
-        wrappers.runCDHIT(
-             input_fasta=output_fasta,
-             output_fasta=tempfasta,
-             additional_args=None
-        )
-
-        wrappers.runMAFFT(
+    
+        reduceDatabaseRedundancy(
             input_fasta=tempfasta,
-            output_file=tempaln,
-            n_threads=-1,
-            parallel=True,
-            additional_args='--retree 1 --maxiterate 0'
-        )
-        
-        wrappers.getPercentIdentityFromMSA(
-            input_msa=tempaln,
-            output_file=output_fasta_PI
+            output_fasta=output_fasta,
+            cdhit=True,
+            cdhit_args=None,
+            maxsize=args.maxsize
         )
 
-        shutil.move(tempfasta, output_fasta)
-        os.remove(tempfasta + ".clstr")
-    
-    if args.maxsize is not None:
-        print('Finding representative sequences for reference database...')
-        getRepresentativeSet(
-            input_seqs=output_fasta,
-            input_PI=output_fasta_PI,
-            max_size=args.maxsize,
-            outfile=reduced_fasta
-        )
-        shutil.move(reduced_fasta, output_fasta)
-    
     if args.relabel:
         print('Relabelling records in reference database...')
         relabelRecordsInFASTA(
