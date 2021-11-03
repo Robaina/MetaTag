@@ -1,5 +1,5 @@
 """
-Functions for general purposes
+Functions and classes for general purposes
 """
 
 import os
@@ -14,62 +14,16 @@ from multiprocessing import Pool
 
 
 def handle_exceptions(foo):
+    """
+    Decorator to handle possible exceptions in
+    given function (foo)
+    """
     def inner_foo(*args, **kwargs):
         try:
             foo(*args, **kwargs)
         except Exception as e:
             print(f'{foo.__name__} failed with exception: {e}')
     return inner_foo
-
-def saveToPickleFile(python_object, path_to_file='object.pkl'):
-    """
-    Save python object to pickle file
-    """
-    out_file = open(path_to_file,'wb')
-    pickle.dump(python_object, out_file)
-    out_file.close()
-    
-def readFromPickleFile(path_to_file='object.pkl'):
-    """
-    Load python object from pickle file.
-    Returns python object.
-    """
-    in_file = open(path_to_file,'rb')
-    python_object = pickle.load(in_file)
-    return python_object
-
-def terminalExecute(command_str: str,
-                    suppress_shell_output=False,
-                    work_dir: str = None,
-                    return_output=False) -> subprocess.STDOUT:
-    """
-    Execute given command in terminal through Python
-    """
-    if suppress_shell_output:
-        # suppress_code = '>/dev/null 2>&1'
-        stdout = subprocess.DEVNULL
-    else:
-        stdout = None
-        # command_str = f'{command_str} {suppress_code}'
-    output = subprocess.run(
-        command_str, shell=True,
-        cwd=work_dir, capture_output=return_output,
-        stdout=stdout
-        )
-    return output
-
-def createTemporaryFilePath(work_dir: str = None, extension: str = None):
-    """
-    Converted into custom context manager
-    """
-    if work_dir is None:
-        work_dir = ''
-    if extension is None:
-        extension = ''
-    temp_id = ''.join(
-        random.choice(string.ascii_lowercase) for i in range(10)
-        )
-    return os.path.join(work_dir, f'temp_{temp_id}{extension}')
 class TemporaryFilePath:
     """
     Custom context manager to create a temporary file
@@ -118,6 +72,19 @@ class TemporaryDirectoryPath:
     def __exit__(self, exc_type, exc_val, exc_tb):
         if os.path.exists(self.dir_path):
             shutil.rmtree(self.dir_path)
+
+def createTemporaryFilePath(work_dir: str = None, extension: str = None):
+    """
+    Converted into custom context manager
+    """
+    if work_dir is None:
+        work_dir = ''
+    if extension is None:
+        extension = ''
+    temp_id = ''.join(
+        random.choice(string.ascii_lowercase) for i in range(10)
+        )
+    return os.path.join(work_dir, f'temp_{temp_id}{extension}')
     
 def deleteTemporaryFiles(dir_path: str) -> None:
     """
@@ -148,6 +115,41 @@ def setDefaultOutputPath(input_path: str, tag: str = None,
         return dirname
     else:
         return os.path.join(dirname, default_file)
+
+def saveToPickleFile(python_object, path_to_file='object.pkl'):
+    """
+    Save python object to pickle file
+    """
+    out_file = open(path_to_file,'wb')
+    pickle.dump(python_object, out_file)
+    out_file.close()
+    
+def readFromPickleFile(path_to_file='object.pkl'):
+    """
+    Load python object from pickle file.
+    Returns python object.
+    """
+    in_file = open(path_to_file,'rb')
+    python_object = pickle.load(in_file)
+    return python_object
+
+def terminalExecute(command_str: str,
+                    suppress_shell_output=False,
+                    work_dir: str = None,
+                    return_output=False) -> subprocess.STDOUT:
+    """
+    Execute given command in terminal through Python
+    """
+    if suppress_shell_output:
+        stdout = subprocess.DEVNULL
+    else:
+        stdout = None
+    output = subprocess.run(
+        command_str, shell=True,
+        cwd=work_dir, capture_output=return_output,
+        stdout=stdout
+        )
+    return output
 
 def parallelizeOverInputFiles(callable,
                               input_list: list,
