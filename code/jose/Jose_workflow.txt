@@ -1,0 +1,47 @@
+General idea
+-------------
+
+We will create a tree to place environmental short reads on,so we can assign both function and taxonomy to these reads
+more accurately than one could achieve with a database like ReqSeq.
+
+How? First, we create a database of sequences for our gene of interest (GOI). These sequences are obtained via pfam/tigr
+running a hmmer search.
+
+Workflow:
+
+1. Get peptides database, clean sequences and/or tags [e.g., MARdb CDS peptides]
+2. Filter GOI-specific peptide sequences via HMMs (pfam or tigrfam)
+3. Align GOI-specific sequences (.phylip file)
+4. Reconstruct GOI-specific phylogenetic tree
+5. Place environmental (translated) short reads onto phylogenetic tree
+
+Scripts:
+--------------
+
+1. Run clean.py [Clean DNA sequences and reformat labels]
+
+2. Run loopparallel.py [Translate DNA sequences into peptides with prodigal]
+
+3. Run reformatlabel.py [Edit peptide labels in fasta file to include meta]
+
+4. Run pfamgenomesparallel.py [Make peptide-specific database using hmm model]
+
+5. Run 0MusclePep.py [Get multiple peptide alignments ".phylip" file]
+
+6. Run fasttree or iqtree in bash [Get phylogenetic tree, requires .phylip file]
+
+7. Run papara in bash [Place environmental short reads (translated?) onto tree]
+
+8. Placement with papara
+
+9. Visualization (iTOL): itolfasttree.py, itoliqtree.py
+
+
+TESTING:
+--------
+
+1. clean.py works
+2. loopparallel.py works
+3. reformatlabel.py works
+4. pfamgenomesparallel.py works
+

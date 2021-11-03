@@ -1,3 +1,6 @@
+# Magic commands:
+# git restore --source HEAD~1 "PATH_IN_YOUR_REPO"
+
 # Directories
 Gene_Annotation_Jose_Tree_Method/
 .ipynb_checkpoints/
