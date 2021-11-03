@@ -13,10 +13,10 @@ from phyloplacement.alignment import alignShortReadsToReferenceMSA
 from phyloplacement.database.manipulation import splitReferenceFromQueryAlignments
 
 def inferTree(ref_aln: str,
-             method: str = 'iqtree',
-             substitution_model: str = 'TEST',
-             output_dir: str = None,
-             additional_args: str = None) -> None:
+              method: str = 'iqtree',
+              substitution_model: str = 'TEST',
+              output_dir: str = None,
+              additional_args: str = None) -> None:
     """
     Infer tree from reference msa. Best substitution model
     selected by default.

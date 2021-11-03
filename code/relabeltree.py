@@ -6,8 +6,7 @@ from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
 from phyloplacement.phylotree import relabelTree
 
 """
-Shrink reference tree:
-1) Run shrinkTree to remove outlier branches from reference tree and msa
+Relabel tree from label dict as pickle file
 """
 
 parser = argparse.ArgumentParser(description='Relabel tree based on input label dictionaries')

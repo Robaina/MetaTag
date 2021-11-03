@@ -88,6 +88,9 @@ def runHMMalign(input_hmm: str, input_aln: str,
         args_str = additional_args
     else:
         args_str = ''
+    input_hmm = os.path.abspath(input_hmm)
+    input_aln = os.path.abspath(input_aln)
+    input_seqs = os.path.abspath(input_seqs)
     cmd_str = (
         f'hmmalign -o {output_aln_seqs} --mapali {input_aln} --trim '
         f'--informat fasta {args_str} {input_hmm} {input_seqs}'
@@ -117,6 +120,7 @@ def runCDHIT(input_fasta: str, output_fasta: str = None,
        output_fasta = setDefaultOutputPath(input_fasta, '_cdhit')
     if additional_args is None:
         additional_args = ''
+    input_fasta = os.path.abspath(input_fasta)
     cmd_str = f'cd-hit -i {input_fasta} -o {output_fasta} {additional_args}'
     terminalExecute(cmd_str, suppress_shell_output=True)
 
@@ -143,6 +147,7 @@ def runMAFFT(input_fasta: str, output_file: str = None,
         thread_str = ''
     if additional_args is None:
         additional_args = ''
+    input_fasta = os.path.abspath(input_fasta)
     cmd_str = f'mafft {thread_str} {additional_args} {input_fasta} > {output_file}'
     terminalExecute(cmd_str, suppress_shell_output=False)
 
@@ -165,6 +170,7 @@ def runMuscle(input_fasta: str, output_file: str = None,
         args_str = additional_args
     else:
         args_str = ''
+    input_fasta = os.path.abspath(input_fasta)
     cmd_str = (f'muscle -in {input_fasta} -out {output_file} '
                f'-maxiters {maxiters} {args_str}')
     terminalExecute(cmd_str, suppress_shell_output=False)
@@ -177,6 +183,7 @@ def runTrimal(input_aln: str, output_aln: str = None) -> None:
     """
     if output_aln is None:
         output_aln = setDefaultOutputPath(input_aln, '_trimal')
+    input_aln = os.path.abspath(input_aln)
     cmd_str = (f'trimal -in {input_aln} -out {output_aln} -fasta -automated1 '
                f'-resoverlap 0.55 -seqoverlap 60 -htmlout trimal.html')
     terminalExecute(cmd_str, suppress_shell_output=False)
@@ -200,6 +207,7 @@ def runFastTree(input_algns: str, output_file: str = None,
         nt_str = ''
     if additional_args is None:
         additional_args = ''
+    input_algns = os.path.abspath(input_algns)
     cmd_str = f'fasttree {nt_str} {input_algns} {additional_args} > {output_file}'
     terminalExecute(cmd_str, suppress_shell_output=False)
 
@@ -253,6 +261,8 @@ def runIqTree(input_algns: str, output_dir: str = None,
         n_processes = 'AUTO'
     if additional_args is None:
         additional_args = ''
+
+    input_algns = os.path.abspath(input_algns)
     cmd_str = (
         f'iqtree -s {input_algns} -st {seq_type} -nt {n_processes} '
         f'-m {substitution_model} -bb {bootstrap_replicates} -mset raxml '
@@ -280,7 +290,8 @@ def runTreeShrink(input_tree: str, input_aln: str,
         args_str = additional_args
     else:
         args_str = ''
-    
+    input_tree = os.path.abspath(input_tree)
+    input_aln = os.path.abspath(input_aln)
     out_tree = setDefaultOutputPath(input_tree, tag='_shrink', only_filename=True)
     out_aln = setDefaultOutputPath(input_aln, tag='_shrink', only_filename=True)
 

@@ -23,6 +23,7 @@ def alignPeptides(input_fasta: str,
         output_file = setDefaultOutputPath(input_fasta,
                                            extension='.fasta.aln',
                                            only_filename=True)
+    input_fasta = os.path.abspath(input_fasta)
     if method.lower() in 'muscle':
         wrappers.runMuscle(
             input_fasta=input_fasta,
