@@ -168,13 +168,13 @@ def getRepresentativeSet(input_seqs: str, input_PI: str,
     """
     input_seqs = os.path.abspath(input_seqs)
     input_PI = os.path.abspath(input_PI)
+    
     if outfile is None:
         outfile = setDefaultOutputPath(input_seqs, tag='_repset')
     
-    # with tempfile.TemporaryDirectory() as tempdir:  # seems like not enough mem in temp/
     with TemporaryDirectoryPath() as tempdir:
         cmd_str = (
-            f'python /home/robaina/Documents/TRAITS/code/repset_min.py --seqs {input_seqs} --pi {input_PI} '
+            f'python /code/repset/repset.py --seqs {input_seqs} --pi {input_PI} '
             f'--outdir {tempdir} --size {max_size}'
             )
         terminalExecute(cmd_str, suppress_shell_output=True)
