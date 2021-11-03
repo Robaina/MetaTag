@@ -24,6 +24,7 @@ def handle_exceptions(foo):
         except Exception as e:
             print(f'{foo.__name__} failed with exception: {e}')
     return inner_foo
+
 class TemporaryFilePath:
     """
     Custom context manager to create a temporary file
@@ -51,6 +52,7 @@ class TemporaryFilePath:
     def __exit__(self, exc_type, exc_val, exc_tb):
         if os.path.exists(self.file_path):
             os.remove(self.file_path)
+            
 class TemporaryDirectoryPath:
     """
     Custom context manager to create a temporary directory
