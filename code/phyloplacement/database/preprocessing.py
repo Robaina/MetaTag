@@ -161,20 +161,21 @@ def getRepresentativeSet(input_seqs: str, input_PI: str,
                          max_size: int = None,
                          outfile: str = None) -> None: 
     """
-    Runs a modified version of repset.py to obtain a representative 
+    Runs repset.py to obtain a representative 
     set of size equal to max_size (or smaller if less sequences than max_size)
     or an ordered list (by 'representativeness') of representative sequences
     if max_size set to None.
     """
     input_seqs = os.path.abspath(input_seqs)
     input_PI = os.path.abspath(input_PI)
+    repset_exe = os.path.abspath("code/vendor/repset_min.py")
     
     if outfile is None:
         outfile = setDefaultOutputPath(input_seqs, tag='_repset')
     
     with TemporaryDirectoryPath() as tempdir:
         cmd_str = (
-            f'python /code/vendor/repset_min.py --seqs {input_seqs} --pi {input_PI} '
+            f'python {repset_exe} --seqs {input_seqs} --pi {input_PI} '
             f'--outdir {tempdir} --size {max_size}'
             )
         terminalExecute(cmd_str, suppress_shell_output=True)
