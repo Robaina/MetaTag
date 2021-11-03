@@ -10,8 +10,9 @@ import os
 import re
 from Bio import SeqIO
 import pyfastx
-from phyloplacement.utils import (saveToPickleFile, setDefaultOutputPath,
-                                  terminalExecute, handle_exceptions)
+from phyloplacement.database.manipulation import filterFASTAbyIDs
+from phyloplacement.utils import (readFromPickleFile, saveToPickleFile, setDefaultOutputPath,
+                                  terminalExecute, handle_exceptions, TemporaryDirectoryPath)
 
 
 @handle_exceptions
@@ -36,7 +37,7 @@ def removeDuplicatesFromFasta(input_fasta: str,
 
 def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
     """
-    Merge input fasta files into a single fast
+    Merge input fasta files into a single fasta
     """
     if output_fasta is None:
         output_fasta = os.path.join(input_fastas_dir, 'merged.fasta')
@@ -104,8 +105,8 @@ def assertCorrectSequenceFormat(fasta_file: str,
                 outfile.write(f'>{record_name}\n{record_seq}\n')
 
 def relabelRecordsInFASTA(input_fasta: str,
-                 output_dir: str = None,
-                 prefix: str = None):
+                          output_dir: str = None,
+                          prefix: str = None):
     """
     Change record ids for numbers and store then in a dictionary
     """
@@ -136,18 +137,57 @@ def relabelRecordsInFASTA(input_fasta: str,
             outfasta.write(f'>{new_id}\n{record.seq}\n')
     saveToPickleFile(id_dict, output_dict)
 
-# def pipe_line(fasta_path: str, id_type: int,
-#               output_file = None) -> None:
-#     """
-#     Pipeline to clean sequences and path to fasta file
-#     """
-#     def is_legit_path(fasta_path, legit_fasta_path):
-#         return fasta_path == legit_fasta_path
-            
-#     clean_fasta_path = assertCorrectFilePath(fasta_path)
+def setOriginalRecordIDsInFASTA(input_fasta: str,
+                                label_dict_pickle: str = None,
+                                output_fasta: str = None):
+    """
+    Relabel temporary record ID by original IDs
+    """
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fasta, 
+                                            tag='_original_ids')
+    def relabel_records():
+        for record in SeqIO.parse(input_fasta, 'fasta'):  
+            name = label_dict[record.name]
+            record.name = name
+            record.id = name
+            record.description = name
+            yield record
 
-#     if not is_legit_path(fasta_path, clean_fasta_path):
-#         shutil.move(fasta_path, clean_fasta_path)
+    label_dict = readFromPickleFile(label_dict_pickle)
+    SeqIO.write(relabel_records(), output_fasta, 'fasta')
+
+def getRepresentativeSet(input_seqs: str, input_PI: str,
+                         max_size: int = None,
+                         outfile: str = None) -> None: 
+    """
+    Runs repset.py to obtain a representative 
+    set of size equal to max_size (or smaller if less sequences than max_size)
+    or an ordered list (by 'representativeness') of representative sequences
+    if max_size set to None.
+    """
+    input_seqs = os.path.abspath(input_seqs)
+    input_PI = os.path.abspath(input_PI)
+    repset_exe = os.path.abspath("code/vendor/repset_min.py")
     
-#     assertCorrectSequenceFormat(fasta_file=clean_fasta_path,
-#                              output_file=output_file)
+    if outfile is None:
+        outfile = setDefaultOutputPath(input_seqs, tag='_repset')
+    
+    with TemporaryDirectoryPath() as tempdir:
+        cmd_str = (
+            f'python {repset_exe} --seqs {input_seqs} --pi {input_PI} '
+            f'--outdir {tempdir} --size {max_size}'
+            )
+        terminalExecute(cmd_str, suppress_shell_output=True)
+
+        with open(os.path.join(tempdir, 'repset.txt')) as repset:
+            rep_ids = [rep_id.strip('\n') for rep_id in repset.readlines()]
+        
+    if (max_size is not None) and (max_size < len(rep_ids)):
+        rep_ids = rep_ids[:max_size]
+
+    filterFASTAbyIDs(
+        input_fasta=input_seqs,
+        record_ids=rep_ids,
+        output_fasta=outfile
+    )

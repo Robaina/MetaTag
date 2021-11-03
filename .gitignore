@@ -2,17 +2,22 @@
 Gene_Annotation_Jose_Tree_Method/
 .ipynb_checkpoints/
 __pycache__/
-genes/nxr/
 picrust2/
 nxr_genomes/
 data/databases/
+genes/nxr/data/
+genes/nxr/nxr_results
+genes/nxr/nxr_results_old
+repset_test/
+
 
 # Files
 trimal.html
 code/accesory/run_papara.py
 code/test.ipynb
-code/test.py
 NOTES.md
+code/notify.py
+genes/nxr/commit_to_github.sh
 
 # File types
 *.sqlite

@@ -40,7 +40,7 @@ It should produce a final tree with query sequences placed on it, as well as a b
 python3 code/preprocess.py --help
 ```
 
-2. Make reference (protein-specific) peptide database. Run to filter origial database by given tigrfam or pfam. Also reduces redundancy of peptide database
+2. Make reference (protein-specific) peptide database. Run to filter origial database by given tigrfam or pfam. Also reduces redundancy of peptide database and allows filtering database sequences by minimum and/or maximum sequence length
 ```
 python3 code/makedatabase.py --help
 ```
