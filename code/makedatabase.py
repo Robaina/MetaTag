@@ -13,7 +13,7 @@ from phyloplacement.database.manipulation import filterFASTAByHMM
 """
 Reference database:
 1) Run hmmer to extract peptides of interest
-2) Reduce redundancy: cd-hit
+2) Reduce redundancy: cd-hit and/or repset
 3) Relabel entries with temporary ids to avoid donwstream conflicts
 """
 
