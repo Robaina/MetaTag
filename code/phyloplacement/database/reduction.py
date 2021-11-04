@@ -12,10 +12,45 @@ import shutil
 import warnings
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import setDefaultOutputPath
-from phyloplacement.utils import TemporaryFilePath
-from phyloplacement.database.preprocessing import getRepresentativeSet
+from phyloplacement.utils import (setDefaultOutputPath, terminalExecute,
+                                  TemporaryFilePath, TemporaryDirectoryPath)
+from phyloplacement.database.manipulation import filterFASTAbyIDs
 
+
+def getRepresentativeSet(input_seqs: str, input_PI: str,
+                         max_size: int = None,
+                         outfile: str = None) -> None: 
+    """
+    Runs repset.py to obtain a representative 
+    set of size equal to max_size (or smaller if less sequences than max_size)
+    or an ordered list (by 'representativeness') of representative sequences
+    if max_size set to None.
+    """
+    input_seqs = os.path.abspath(input_seqs)
+    input_PI = os.path.abspath(input_PI)
+    repset_exe = os.path.abspath("code/vendor/repset_min.py")
+    
+    if outfile is None:
+        outfile = setDefaultOutputPath(input_seqs, tag='_repset')
+    
+    with TemporaryDirectoryPath() as tempdir:
+        cmd_str = (
+            f'python {repset_exe} --seqs {input_seqs} --pi {input_PI} '
+            f'--outdir {tempdir} --size {max_size}'
+            )
+        terminalExecute(cmd_str, suppress_shell_output=True)
+
+        with open(os.path.join(tempdir, 'repset.txt')) as repset:
+            rep_ids = [rep_id.strip('\n') for rep_id in repset.readlines()]
+        
+    if (max_size is not None) and (max_size < len(rep_ids)):
+        rep_ids = rep_ids[:max_size]
+
+    filterFASTAbyIDs(
+        input_fasta=input_seqs,
+        record_ids=rep_ids,
+        output_fasta=outfile
+    )
 
 def reduceDatabaseRedundancy(input_fasta: str,
                              output_fasta: str = None,
