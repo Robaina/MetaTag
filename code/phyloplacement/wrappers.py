@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Simple CLI wrappers to several tools
 """
@@ -5,8 +8,8 @@ Simple CLI wrappers to several tools
 import os
 import shutil
 import tempfile
-from phyloplacement.utils import terminalExecute, setDefaultOutputPath
 
+from phyloplacement.utils import terminalExecute, setDefaultOutputPath
 papara_exec = '/home/robaina/Software/papara/papara'
 
 

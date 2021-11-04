@@ -1,5 +1,12 @@
 #!/usr/bin/env python
-# conda activate traits
+# -*- coding: utf-8 -*-
+
+"""
+Reference database:
+1) Run hmmer to extract peptides of interest
+2) Reduce redundancy: cd-hit and/or repset
+3) Relabel entries with temporary ids to avoid donwstream conflicts
+"""
 
 import os
 import shutil
@@ -10,12 +17,6 @@ from phyloplacement.database.preprocessing import relabelRecordsInFASTA
 from phyloplacement.database.manipulation import filterFASTAByHMM, filterFastaBySequenceLength
 from phyloplacement.database.reduction import reduceDatabaseRedundancy
 
-"""
-Reference database:
-1) Run hmmer to extract peptides of interest
-2) Reduce redundancy: cd-hit and/or repset
-3) Relabel entries with temporary ids to avoid donwstream conflicts
-"""
 
 parser = argparse.ArgumentParser(description='Build peptide reference database')
 parser.add_argument('--hmm', dest='hmm', type=str,

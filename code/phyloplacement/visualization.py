@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Tools to visualize phylogenetic trees with and
 without short read placement.
@@ -6,6 +9,7 @@ without short read placement.
 import os
 import webbrowser
 import pandas as pd
+
 from phyloplacement.utils import terminalExecute
 
 
