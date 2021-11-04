@@ -60,6 +60,7 @@ parser.add_argument('--relabel', dest='relabel', action='store_true',
 
 
 args = parser.parse_args()
+hmmer_output = os.path.join(args.outdir, 'hmmer_output.txt')
 output_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database.faa')
 output_fasta_short = os.path.join(args.outdir, f'{args.prefix}ref_database_short_ids.faa')
 
@@ -71,6 +72,7 @@ def main():
             hmm_model=args.hmm,
             input_fasta=args.data,
             output_fasta=tempfasta,
+            hmmer_output=hmmer_output,
             additional_args=f'--cut_nc'
         )
         

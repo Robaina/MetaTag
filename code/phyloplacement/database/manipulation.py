@@ -83,6 +83,7 @@ def filterFASTAbyIDs(input_fasta: str, record_ids: list,
 
 def filterFASTAByHMM(hmm_model: str, input_fasta: str,
                      output_fasta: str = None,
+                     hmmer_output: str = None,
                      method: str = 'hmmsearch',
                      additional_args: str = None) -> None:
     """
@@ -90,9 +91,11 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
     sequence database to only contain sequences 
     corresponing to protein of interest
     """
-    basename, ext = os.path.splitext(input_fasta)
     hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
-    hmmer_output = f'{basename}_{hmm_name}.txt'
+    if hmmer_output is None:
+        hmmer_output = setDefaultOutputPath(input_fasta, tag=f'_{hmm_name}', extension='.txt')
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fasta, tag=f'filtered_{hmm_name}')
     
     print('Running Hmmer...')
     wrappers.runHMMsearch(
