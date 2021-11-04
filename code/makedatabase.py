@@ -18,7 +18,10 @@ from phyloplacement.database.manipulation import filterFASTAByHMM, filterFastaBy
 from phyloplacement.database.reduction import reduceDatabaseRedundancy
 
 
-parser = argparse.ArgumentParser(description='Build peptide reference database')
+parser = argparse.ArgumentParser(
+    description='Build peptide reference database',
+    epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
+    )
 parser.add_argument('--hmm', dest='hmm', type=str,
                     help='Path to tigrfam or pfam model')
 parser.add_argument('--in', dest='data', type=str,
