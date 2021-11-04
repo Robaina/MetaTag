@@ -103,8 +103,7 @@ def setDefaultOutputPath(input_path: str, tag: str = None,
                          only_filename: bool = False,
                          only_dirname: bool = False) -> str:
     """
-    Get default path to outputfile
-    TODO: return absolute path
+    Get default path to output file or directory
     """
     basename = os.path.basename(input_path)
     dirname = os.path.abspath(os.path.dirname(input_path))
@@ -117,9 +116,9 @@ def setDefaultOutputPath(input_path: str, tag: str = None,
     if only_filename:
         return default_file
     if only_dirname:
-        return dirname
+        return os.path.abspath(dirname)
     else:
-        return os.path.join(dirname, default_file)
+        return os.path.abspath(os.path.join(dirname, default_file))
 
 def saveToPickleFile(python_object, path_to_file='object.pkl'):
     """
