@@ -21,21 +21,26 @@ from phyloplacement.database.preprocessing import (assertCorrectSequenceFormat,
 
 
 parser = argparse.ArgumentParser(
-    description='Database preprocessing',
+    description='Database preprocessing: removal of duplicated sequences and of sequences with illegal symbols',
     epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
     )
-parser.add_argument('--dna', dest='dna', action='store_true', default=False,
-                    help='Declare if sequences are nucleotides. Default to peptide sequences.')
-parser.add_argument('--in', dest='data', type=str,
-                    help='Path to fasta file or directory containing fasta files')
-parser.add_argument('--outfile', dest='outfile', type=str, default=None,
-                    help='Path to output fasta file')
-parser.add_argument('--relabel', dest='relabel',
-                    default=False, action='store_true',
-                    help='Relabel record IDs with numeral ids')
-parser.add_argument('--idprefix', dest='idprefix', type=str,
-                    default='',
-                    help='Prefix to be added to sequence IDs')
+
+optional = parser._action_groups.pop()
+required = parser.add_argument_group('required arguments')
+parser._action_groups.append(optional)
+
+required.add_argument('--in', dest='data', type=str, required=True,
+                      help='path to fasta file or directory containing fasta files')
+optional.add_argument('--dna', dest='dna', action='store_true', default=False,
+                      help='declare if sequences are nucleotides. Defaults to peptide sequences.')
+optional.add_argument('--outfile', dest='outfile', type=str,
+                      help='path to output fasta file')
+optional.add_argument('--relabel', dest='relabel',
+                      default=False, action='store_true',
+                      help='relabel record IDs with numeral ids')
+optional.add_argument('--idprefix', dest='idprefix', type=str,
+                      default='',
+                      help='prefix to be added to sequence IDs')
 
 args = parser.parse_args()
 is_peptide = not args.dna
