@@ -12,7 +12,7 @@
 #                                                                                        #
 #                                                                                        #
 # Remember that the script must be run within the "traits" conda environment, which      #
-# can be install from "environment.yml". See https://github.com/Robaina/TRAITS.          #
+# can be installed from "environment.yml". See https://github.com/Robaina/TRAITS.          #
 #                                                                                        #
 # ************************************************************************************** #
 
