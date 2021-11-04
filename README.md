@@ -1,6 +1,8 @@
 # TRAITS
 
-Repository of project TRAITS.
+This repository contains:
+
+1. Tools to annotate short reads taxonomy and function via pylogenetic tree evolutionary placement
 
 ---
 ## Installation
