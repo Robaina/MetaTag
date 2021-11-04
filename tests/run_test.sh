@@ -1,5 +1,5 @@
 # ************************************************************************************** #
-#                                    Run minimal example                                 #
+#                                  Run minimal example                                   #
 #                                                                                        #
 # Run this bash script to test whether the installation has been successfull.            #
 #                                                                                        #

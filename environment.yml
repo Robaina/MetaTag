@@ -97,4 +97,3 @@ dependencies:
     - traitlets==5.1.0
     - urllib3==1.26.7
     - wcwidth==0.2.5
-prefix: /home/robaina/miniconda3/envs/traits
