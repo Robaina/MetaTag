@@ -29,7 +29,7 @@ python3 ./code/makedatabase.py \
  --outdir ./tests/test_results/ \
  --hmm ./tests/test_data/TIGR01580.1.HMM \
  --max_size 20 \
-#  --min_seq_length 10 --max_seq_length 2000 \
+ --min_seq_length 10 --max_seq_length 2000 \
  --relabel
 
 # Alignment and tree
