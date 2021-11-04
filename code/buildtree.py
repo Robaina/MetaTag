@@ -10,38 +10,37 @@ Reference tree:
 import os
 import argparse
 
+from phyloplacement.utils import setDefaultOutputPath
 from phyloplacement.alignment import alignPeptides
 from phyloplacement.phylotree import inferTree
-
-
-
-optional = parser._action_groups.pop()
-required = parser.add_argument_group('required arguments')
-parser._action_groups.append(optional)
-required.add_argument('--required_arg', required=True)
-optional.add_argument('--optional_arg')
-parser.print_help()
 
 
 parser = argparse.ArgumentParser(
     description='MSA on reference database and infer reference tree',
     epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
     )
-parser.add_argument('--in', dest='data', type=str, required=True,
-                    help='Path to reference database')
-parser.add_argument('--outdir', dest='outdir', type=str,
-                    help='Path to output directory')
-parser.add_argument('--msa_method', dest='msa_method', type=str,
-                    default='muscle', choices=['muscle', 'mafft'],
-                    help='Choose method for msa')
-parser.add_argument('--tree_method', dest='tree_method', type=str,
-                    default='iqtree', choices=['iqtree', 'fasttree'],
-                    help='Choose method for tree inference')
-parser.add_argument('--tree_model', dest='tree_model', type=str,
-                    default='TEST',
-                    help='Choose substitution model for tree inference. Defaults to optimal.')
+
+optional = parser._action_groups.pop()
+required = parser.add_argument_group('required arguments')
+parser._action_groups.append(optional)
+
+required.add_argument('--in', dest='data', type=str, required=True,
+                      help='path to reference database')
+optional.add_argument('--outdir', dest='outdir', type=str,
+                      help='path to output directory')
+optional.add_argument('--msa_method', dest='msa_method', type=str,
+                      default='muscle', choices=['muscle', 'mafft'],
+                      help='choose method for msa')
+optional.add_argument('--tree_method', dest='tree_method', type=str,
+                      default='iqtree', choices=['iqtree', 'fasttree'],
+                      help='choose method for tree inference')
+optional.add_argument('--tree_model', dest='tree_model', type=str,
+                      default='TEST',
+                      help='choose substitution model for tree inference. Defaults to optimal.')
 
 args = parser.parse_args()
+if args.outdir is None:
+    args.outdir = setDefaultOutputPath(args.data, only_dirname=True)
 output_aln = os.path.join(args.outdir, 'ref_database.faln')
 
 def main():

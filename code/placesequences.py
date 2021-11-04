@@ -11,7 +11,7 @@ Placement:
 import os
 import argparse
 
-from phyloplacement.utils import readFromPickleFile
+from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
 import phyloplacement.wrappers as wrappers
 from phyloplacement.phylotree import placeReadsOntoTree, relabelTree
 from phyloplacement.visualization import makeFeatureMetadataTable, plotTreeInBrowser
@@ -21,32 +21,39 @@ parser = argparse.ArgumentParser(
     description='Place query sequences onto reference tree',
     epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
     )
-parser.add_argument('--aln', dest='aln', type=str,
-                    help='Path to reference fasta alignment')
-parser.add_argument('--tree', dest='tree', type=str,
-                    help='Path to reference tree')
-parser.add_argument('--query', dest='query', type=str,
-                    help=(
-                        'Path to query peptide sequences. '
+
+optional = parser._action_groups.pop()
+required = parser.add_argument_group('required arguments')
+parser._action_groups.append(optional)
+
+required.add_argument('--aln', dest='aln', type=str, required=True,
+                      help='path to reference fasta alignment')
+required.add_argument('--tree', dest='tree', type=str, required=True,
+                      help='path to reference tree')
+required.add_argument('--query', dest='query', type=str, required=True,
+                      help=(
+                        'path to query peptide sequences. \n'
                         'Query sequences should be already preprocessed to handle illegal symbols')
                         )
-parser.add_argument('--outdir', dest='outdir', type=str,
-                    help='Path to output directory')
-parser.add_argument('--aln_method', dest='aln_method', type=str,
-                    default='papara', choices=['papara', 'hmmalign'],
-                    help='Choose method to align query sequences to reference alignment')
-parser.add_argument('--tree_model', dest='tree_model', type=str,
-                    default=None,
-                    help=(
-                        'Provide subsitution model employed to infer tree. '
-                        'Can be: 1) a valid model name or 2) a path to the log file returned by iqtree')
-                        )
-parser.add_argument('--plot_placements', dest='plot_placements', action='store_true',
-                    default=False,
-                    help='If set, opens empress tree with placements in browser. Only if script runs locally.'
+optional.add_argument('--outdir', dest='outdir', type=str,
+                      help='path to output directory')
+optional.add_argument('--aln_method', dest='aln_method', type=str,
+                      default='papara', choices=['papara', 'hmmalign'],
+                      help='choose method to align query sequences to reference alignment')
+optional.add_argument('--tree_model', dest='tree_model', type=str,
+                      default=None,
+                      help=(
+                          'provide subsitution model employed to infer tree. '
+                          'Can be: 1) a valid model name or 2) a path to the log file returned by iqtree')
+                          )
+optional.add_argument('--plot_placements', dest='plot_placements', action='store_true',
+                      default=False,
+                      help='open empress tree with placements in browser. Only if script runs locally.'
                         )
 
 args = parser.parse_args()
+if args.outdir is None:
+    args.outdir = setDefaultOutputPath(args.aln, only_dirname=True)
 if args.tree_model is None:
     raise ValueError('Missing tree model.')
 epa_jplace = os.path.join(args.outdir, 'epa_result.jplace')

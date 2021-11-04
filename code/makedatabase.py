@@ -12,7 +12,7 @@ import os
 import shutil
 import argparse
 
-from phyloplacement.utils import TemporaryFilePath
+from phyloplacement.utils import setDefaultOutputPath, TemporaryFilePath
 from phyloplacement.database.preprocessing import relabelRecordsInFASTA
 from phyloplacement.database.manipulation import filterFASTAByHMM, filterFastaBySequenceLength
 from phyloplacement.database.reduction import reduceDatabaseRedundancy
@@ -22,29 +22,31 @@ parser = argparse.ArgumentParser(
     description='Build peptide reference database',
     epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
     )
-parser.add_argument('--hmm', dest='hmm', type=str,
-                    help='Path to tigrfam or pfam model')
-parser.add_argument('--in', dest='data', type=str,
-                    help='Path to peptide database')
-parser.add_argument('--outdir', dest='outdir', type=str,
-                    help='Path to output directory')
-parser.add_argument('--prefix', dest='prefix', type=str,
-                    required=False,
-                    default='',
-                    help='Prefix to be added to output files')
-parser.add_argument('--max_size', dest='maxsize',
-                    required=False,
-                    default=None, type=int,
-                    help=(
-                        'Maximum size of representative set of sequences. '
-                        'Defaults to full set.'
-                        )
+
+optional = parser._action_groups.pop()
+required = parser.add_argument_group('required arguments')
+parser._action_groups.append(optional)
+
+required.add_argument('--hmm', dest='hmm', type=str, required=True,
+                      help='path to tigrfam or pfam model')
+required.add_argument('--in', dest='data', type=str, required=True,
+                      help='path to peptide database')
+optional.add_argument('--outdir', dest='outdir', type=str,
+                      help='path to output directory')
+optional.add_argument('--prefix', dest='prefix', type=str,
+                      default='',
+                      help='prefix to be added to output files')
+optional.add_argument('--max_size', dest='maxsize',
+                      default=None, type=int,
+                      help=(
+                          'maximum size of representative set of sequences. '
+                          'Defaults to full set.'
+                          )
                     )
-parser.add_argument('--min_seq_length', dest='minseqlength',
-                    default=None, type=int,
-                    required=False,
-                    help=(
-                        'Minimum sequence length in reference database. '
+optional.add_argument('--min_seq_length', dest='minseqlength',
+                      default=None, type=int,
+                      help=(
+                        'minimum sequence length in reference database. '
                         'Defaults to zero'
                         )
                     )
@@ -52,17 +54,19 @@ parser.add_argument('--max_seq_length', dest='maxseqlength',
                     default=None, type=int,
                     required=False,
                     help=(
-                        'Maximum sequence length in reference database. '
+                        'maximum sequence length in reference database. '
                         'Defaults to inf'
                         )
                     )
 parser.add_argument('--relabel', dest='relabel', action='store_true',
                     required=False,
                     default=False,
-                    help='Relabel record IDs with numeral ids')
+                    help='relabel record IDs with numeral ids')
 
 
 args = parser.parse_args()
+if args.outdir is None:
+    args.outdir = setDefaultOutputPath(args.data, only_dirname=True)
 hmmer_output = os.path.join(args.outdir, 'hmmer_output.txt')
 output_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database.faa')
 output_fasta_short = os.path.join(args.outdir, f'{args.prefix}ref_database_short_ids.faa')
