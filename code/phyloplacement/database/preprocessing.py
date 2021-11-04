@@ -8,8 +8,10 @@ Tools to preprocess sequence databases
 
 import os
 import re
+
 from Bio import SeqIO
 import pyfastx
+
 from phyloplacement.utils import (readFromPickleFile, saveToPickleFile, setDefaultOutputPath,
                                   terminalExecute, handle_exceptions)
 
