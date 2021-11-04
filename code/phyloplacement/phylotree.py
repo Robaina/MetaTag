@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Tools to perform phylogenetic tree reconstructions and
 query sequence placements onto trees
@@ -5,6 +8,7 @@ query sequence placements onto trees
 
 import os
 import re
+
 from Bio import Phylo 
 
 from phyloplacement.utils import setDefaultOutputPath

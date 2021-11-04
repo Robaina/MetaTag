@@ -1,13 +1,15 @@
 #!/usr/bin/env python
-# conda activate traits
-
-import argparse
-import phyloplacement.wrappers as wrappers
+# -*- coding: utf-8 -*-
 
 """
 Shrink reference tree:
 1) Run shrinkTree to remove outlier branches from reference tree and msa
 """
+
+import argparse
+
+import phyloplacement.wrappers as wrappers
+
 
 parser = argparse.ArgumentParser(description='Detect and remove outlier branches from tree and msa')
 parser.add_argument('--tree', dest='tree', type=str,

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# conda activate traits
+# -*- coding: utf-8 -*-
 
 """
 '/home/robaina/Documents/TRAITS/tests/ref_reduced_clean_id_dict.pickle'

@@ -1,13 +1,5 @@
 #!/usr/bin/env python
-# conda activate traits
-
-import os
-import argparse
-from phyloplacement.utils import readFromPickleFile
-
-import phyloplacement.wrappers as wrappers
-from phyloplacement.phylotree import placeReadsOntoTree, relabelTree
-from phyloplacement.visualization import makeFeatureMetadataTable, plotTreeInBrowser
+# -*- coding: utf-8 -*-
 
 """
 Placement:
@@ -15,6 +7,15 @@ Placement:
 2) Run epa-ng to place query onto tree
 3) Run gappa to obtain tree file with placed sequences
 """
+
+import os
+import argparse
+
+from phyloplacement.utils import readFromPickleFile
+import phyloplacement.wrappers as wrappers
+from phyloplacement.phylotree import placeReadsOntoTree, relabelTree
+from phyloplacement.visualization import makeFeatureMetadataTable, plotTreeInBrowser
+
 
 parser = argparse.ArgumentParser(description='Place query sequences onto reference tree')
 parser.add_argument('--aln', dest='aln', type=str,

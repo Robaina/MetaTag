@@ -1,13 +1,15 @@
 #!/usr/bin/env python
-# conda activate traits
-
-import argparse
-from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
-from phyloplacement.phylotree import relabelTree
+# -*- coding: utf-8 -*-
 
 """
 Relabel tree from label dict as pickle file
 """
+
+import argparse
+
+from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
+from phyloplacement.phylotree import relabelTree
+
 
 parser = argparse.ArgumentParser(description='Relabel tree based on input label dictionaries')
 parser.add_argument('--tree', dest='tree', type=str,

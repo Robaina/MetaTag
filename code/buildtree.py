@@ -1,5 +1,11 @@
 #!/usr/bin/env python
-# conda activate traits
+# -*- coding: utf-8 -*-
+
+"""
+Reference tree:
+1) Run muscle or mafft to perform msa on reference database
+2) Run iqtree or fasttree to infer tree
+"""
 
 import os
 import argparse
@@ -7,11 +13,6 @@ import argparse
 from phyloplacement.alignment import alignPeptides
 from phyloplacement.phylotree import inferTree
 
-"""
-Reference tree:
-1) Run muscle or mafft to perform msa on reference database
-2) Run iqtree or fasttree to infer tree
-"""
 
 parser = argparse.ArgumentParser(description='MSA on reference database and infer reference tree')
 parser.add_argument('--in', dest='data', type=str,

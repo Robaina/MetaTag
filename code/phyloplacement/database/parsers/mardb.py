@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Tools to process MARdb data
 """
@@ -5,7 +8,9 @@ Tools to process MARdb data
 import os
 import re
 import shutil
+
 import pyfastx
+
 from phyloplacement.utils import (setDefaultOutputPath,
                                   terminalExecute,
                                   createTemporaryFilePath) 

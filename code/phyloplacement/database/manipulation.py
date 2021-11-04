@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Tools to create peptide-specific sequence databases
 
@@ -8,6 +11,7 @@ Tools to create peptide-specific sequence databases
 import os
 import warnings
 from collections import defaultdict
+
 import pandas as pd
 from Bio import SearchIO, SeqIO, AlignIO
 import pyfastx
