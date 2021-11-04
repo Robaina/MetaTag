@@ -20,7 +20,10 @@ from phyloplacement.database.preprocessing import (assertCorrectSequenceFormat,
                                                    relabelRecordsInFASTA)
 
 
-parser = argparse.ArgumentParser(description='Database preprocessing')
+parser = argparse.ArgumentParser(
+    description='Database preprocessing',
+    epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
+    )
 parser.add_argument('--dna', dest='dna', action='store_true', default=False,
                     help='Declare if sequences are nucleotides. Default to peptide sequences.')
 parser.add_argument('--in', dest='data', type=str,

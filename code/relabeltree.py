@@ -11,7 +11,10 @@ from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
 from phyloplacement.phylotree import relabelTree
 
 
-parser = argparse.ArgumentParser(description='Relabel tree based on input label dictionaries')
+parser = argparse.ArgumentParser(
+    description='Relabel tree based on input label dictionaries',
+    epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
+    )
 parser.add_argument('--tree', dest='tree', type=str,
                     help='Path to tree in newick format')
 parser.add_argument('--labels', dest='labels', type=str,

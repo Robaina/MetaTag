@@ -14,8 +14,20 @@ from phyloplacement.alignment import alignPeptides
 from phyloplacement.phylotree import inferTree
 
 
-parser = argparse.ArgumentParser(description='MSA on reference database and infer reference tree')
-parser.add_argument('--in', dest='data', type=str,
+
+optional = parser._action_groups.pop()
+required = parser.add_argument_group('required arguments')
+parser._action_groups.append(optional)
+required.add_argument('--required_arg', required=True)
+optional.add_argument('--optional_arg')
+parser.print_help()
+
+
+parser = argparse.ArgumentParser(
+    description='MSA on reference database and infer reference tree',
+    epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
+    )
+parser.add_argument('--in', dest='data', type=str, required=True,
                     help='Path to reference database')
 parser.add_argument('--outdir', dest='outdir', type=str,
                     help='Path to output directory')

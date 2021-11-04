@@ -17,7 +17,10 @@ from phyloplacement.phylotree import placeReadsOntoTree, relabelTree
 from phyloplacement.visualization import makeFeatureMetadataTable, plotTreeInBrowser
 
 
-parser = argparse.ArgumentParser(description='Place query sequences onto reference tree')
+parser = argparse.ArgumentParser(
+    description='Place query sequences onto reference tree',
+    epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
+    )
 parser.add_argument('--aln', dest='aln', type=str,
                     help='Path to reference fasta alignment')
 parser.add_argument('--tree', dest='tree', type=str,

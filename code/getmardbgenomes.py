@@ -17,7 +17,10 @@ from phyloplacement.database.parsers.mardb import getMARdbGenomeByEntryCode, get
 from phyloplacement.database.manipulation import is_empty_fasta
 
 
-parser = argparse.ArgumentParser(description='Get MarDB genomes given set of sequences')
+parser = argparse.ArgumentParser(
+    description='Get MarDB genomes given set of sequences',
+    epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
+    )
 parser.add_argument('--data', dest='data', type=str,
                     help='Path mardb assembly fasta file')
 parser.add_argument('--ids', dest='ids', type=str,
