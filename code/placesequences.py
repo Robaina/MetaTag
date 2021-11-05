@@ -35,17 +35,17 @@ required.add_argument('--query', dest='query', type=str, required=True,
                         'path to query peptide sequences. \n'
                         'Query sequences should be already preprocessed to handle illegal symbols')
                         )
+required.add_argument('--tree_model', dest='tree_model', type=str,
+                      required=True,
+                      help=(
+                          'provide subsitution model employed to infer tree. '
+                          'Can be: 1) a valid model name or 2) a path to the log file returned by iqtree')
+                          )
 optional.add_argument('--outdir', dest='outdir', type=str,
                       help='path to output directory')
 optional.add_argument('--aln_method', dest='aln_method', type=str,
                       default='papara', choices=['papara', 'hmmalign'],
                       help='choose method to align query sequences to reference alignment')
-optional.add_argument('--tree_model', dest='tree_model', type=str,
-                      default=None,
-                      help=(
-                          'provide subsitution model employed to infer tree. '
-                          'Can be: 1) a valid model name or 2) a path to the log file returned by iqtree')
-                          )
 optional.add_argument('--plot_placements', dest='plot_placements', action='store_true',
                       default=False,
                       help='open empress tree with placements in browser. Only if script runs locally.'
