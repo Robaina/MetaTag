@@ -2,17 +2,19 @@
 # -*- coding: utf-8 -*-
 
 """
-Relabel tree from label dict as pickle file
+Relabel tree and msa from label dicts as pickle files
 """
 
+import os
 import argparse
 
 from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
+from phyloplacement.database.preprocessing import setOriginalRecordIDsInFASTA
 from phyloplacement.phylotree import relabelTree
 
 
 parser = argparse.ArgumentParser(
-    description='Relabel tree based on input label dictionaries',
+    description='Relabel tree and msa based on input label dictionaries',
     epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
     )
 
@@ -23,20 +25,57 @@ parser._action_groups.append(optional)
 required.add_argument('--tree', dest='tree', type=str, required=True,
                       help='path to tree in newick format')
 required.add_argument('--labels', dest='labels', type=str, required=True,
-                      help='path to label dict in pickle format. More than one comma-separated path can be input')
-optional.add_argument('--outfile', dest='outfile', type=str,
-                      help='path to output file directory')
+                      nargs='+',
+                      help=(
+                          'path to label dict in pickle format. '
+                          'More than one space-separated path can be input')
+                          )
+optional.add_argument('--label_prefixes', dest='labelprefixes', type=str,
+                      nargs='+',
+                      help=(
+                          'prefix(es) to be added to sequences in each label dict,'
+                          'input in same order as labels.'
+                          'More than one space-separated prefix can be input')
+                          )
+optional.add_argument('--aln', dest='aln', type=str,
+                      help='path to fasta alignment file to be relabelled')
+optional.add_argument('--outdir', dest='outdir', type=str,
+                      help='path to output directory')
 
 args = parser.parse_args()
-if args.outfile is None:
-    args.outfile = setDefaultOutputPath(args.tree, tag='_relabel')
-label_dicts = [readFromPickleFile(label_path.strip()) for label_path in args.labels.split(',')]
-label_dict = {k: k.split('_')[1] + '_' + v for d in label_dicts for k, v in d.items()}
+if args.outdir is None:
+    args.outdir = setDefaultOutputPath(args.tree, only_dirname=True)
 
-    
-print('Relabelling tree...')
-relabelTree(
-    input_newick=args.tree,
-    label_dict=label_dict,
-    output_file=args.outfile
-)
+treeout = os.path.join(args.outdir, setDefaultOutputPath(args.tree, tag='_relabel'))
+if args.aln is not None:
+    alnout = os.path.join(args.outdir, setDefaultOutputPath(args.aln, tag='_relabel'))
+
+if args.labelprefixes is None:
+    label_pre = ['' for _ in args.labels]
+else:
+    label_pre = args.labelprefixes
+
+label_dicts = [readFromPickleFile(label_path.strip()) for label_path in args.labels]
+label_dict = {
+    k: prefix + v 
+    for prefix, labels in zip(label_pre, label_dicts) 
+    for (k, v) in labels.items()
+    }
+
+def main():
+    print('Relabelling tree...')
+    relabelTree(
+        input_newick=args.tree,
+        label_dict=label_dict,
+        output_file=treeout
+    )
+
+    if args.aln is not None:
+        setOriginalRecordIDsInFASTA(
+            input_fasta=args.aln, 
+            label_dict=label_dict,
+            output_fasta=alnout
+        )
+
+if __name__ == '__main__':
+    main()

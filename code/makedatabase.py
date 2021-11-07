@@ -13,7 +13,7 @@ import shutil
 import argparse
 
 from phyloplacement.utils import setDefaultOutputPath, TemporaryFilePath
-from phyloplacement.database.preprocessing import relabelRecordsInFASTA
+from phyloplacement.database.preprocessing import setTempRecordIDsInFASTA
 from phyloplacement.database.manipulation import filterFASTAByHMM, filterFastaBySequenceLength
 from phyloplacement.database.reduction import reduceDatabaseRedundancy
 
@@ -84,7 +84,7 @@ def main():
         )
         
         if (args.minseqlength is not None) or (args.maxseqlength is not None):
-            print("Filtering sequences by established length bounds")
+            print("Filtering sequences by established length bounds...")
             filterFastaBySequenceLength(
                 input_fasta=tempfasta,
                 minLength=args.minseqlength,
@@ -103,7 +103,7 @@ def main():
 
     if args.relabel:
         print('Relabelling records in reference database...')
-        relabelRecordsInFASTA(
+        setTempRecordIDsInFASTA(
             input_fasta=output_fasta,
             output_dir=args.outdir,
             prefix=f'ref_{args.prefix}'

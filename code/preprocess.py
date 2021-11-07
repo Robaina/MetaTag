@@ -17,7 +17,7 @@ from phyloplacement.utils import (setDefaultOutputPath,
 from phyloplacement.database.preprocessing import (assertCorrectSequenceFormat,
                                                    removeDuplicatesFromFasta,
                                                    mergeFASTAs,
-                                                   relabelRecordsInFASTA)
+                                                   setTempRecordIDsInFASTA)
 
 
 parser = argparse.ArgumentParser(
@@ -80,7 +80,7 @@ def main():
     if args.relabel:  # make this into args.relabel and add args.prefix (remove from makedatabase, perhaps)
         print('Relabelling records...')
         outfasta_short = setDefaultOutputPath(outfasta, tag='_short_ids')
-        relabelRecordsInFASTA(
+        setTempRecordIDsInFASTA(
             input_fasta=outfasta,
             output_dir=os.path.dirname(args.outfile),
             prefix=args.idprefix

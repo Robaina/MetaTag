@@ -63,13 +63,15 @@ python3 ./code/removetreeoutliers.py \
  --outdir genes/nxr/nxr_results/narG_molyb_nitz18_nitz21/ \
  --aln genes/nxr/nxr_results/narG_molyb_nitz18_nitz21/ref_database.faln
 
-# Relabel reference tree
-python3 ./code/relabelTree.py \
+# Relabel reference tree and msa
+python3 ./code/relabeltree.py \
  --tree genes/nxr/nxr_results/narG_molyb_nitz18_nitz21/ref_database_shrink.contree \
- --labels /home/robaina/Documents/TRAITS/genes/nxr/nxr_results/molyb_ref_database_id_dict.pickle,\
-/home/robaina/Documents/TRAITS/genes/nxr/nxr_results/narG_ref_database_id_dict.pickle,\
-/home/robaina/Documents/TRAITS/genes/nxr/nxr_results/Nitzinger18_short_ids_id_dict.pickle,\
-/home/robaina/Documents/TRAITS/genes/nxr/nxr_results/Nitzinger21_short_ids_id_dict.pickle
+ --aln genes/nxr/nxr_results/narG_molyb_nitz18_nitz21/ref_database.faln \
+ --labels /home/robaina/Documents/TRAITS/genes/nxr/nxr_results/molyb_ref_database_id_dict.pickle \
+          /home/robaina/Documents/TRAITS/genes/nxr/nxr_results/narG_ref_database_id_dict.pickle \
+          /home/robaina/Documents/TRAITS/genes/nxr/nxr_results/Nitzinger18_short_ids_id_dict.pickle \
+          /home/robaina/Documents/TRAITS/genes/nxr/nxr_results/Nitzinger21_short_ids_id_dict.pickle \
+ --label_prefixes "molyb_" "narG_" "Nitz18" "Nitz21"
 
  # Commit to GitHub
 # git add -f /home/robaina/Documents/TRAITS/genes/nxr/nxr_results/narG_molyb_nitz18_nitz21/ref_database_shrink_relabel.contree
