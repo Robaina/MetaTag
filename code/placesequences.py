@@ -11,10 +11,9 @@ Placement:
 import os
 import argparse
 
-from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
 import phyloplacement.wrappers as wrappers
-from phyloplacement.phylotree import placeReadsOntoTree, relabelTree
-from phyloplacement.visualization import makeFeatureMetadataTable, plotTreeInBrowser
+from phyloplacement.utils import setDefaultOutputPath
+from phyloplacement.phylotree import placeReadsOntoTree
 
 
 parser = argparse.ArgumentParser(
@@ -46,10 +45,6 @@ optional.add_argument('--outdir', dest='outdir', type=str,
 optional.add_argument('--aln_method', dest='aln_method', type=str,
                       default='papara', choices=['papara', 'hmmalign'],
                       help='choose method to align query sequences to reference alignment')
-optional.add_argument('--plot_placements', dest='plot_placements', action='store_true',
-                      default=False,
-                      help='open empress tree with placements in browser. Only if script runs locally.'
-                        )
 
 args = parser.parse_args()
 if args.outdir is None:
@@ -78,34 +73,6 @@ def main():
         output_prefix=None,
         additional_args=None
     )
-
-    print('Relabelling final tree...')
-    ref_dict = readFromPickleFile(
-        path_to_file=os.path.join(args.outdir, 'ref_database_id_dict.pickle')
-    )
-    query_dict = readFromPickleFile(
-        path_to_file=os.path.join(args.outdir, 'query_cleaned_id_dict.pickle')
-    )
-    label_dict = {**ref_dict, **query_dict}
-    relabelTree(
-        input_newick=os.path.join(args.outdir, 'epa_result.newick'),
-        label_dict=label_dict,
-        output_file=os.path.join(args.outdir, 'epa_result_relabel.newick')
-    )
-    
-    if args.plot_placements:
-        print('Drawing tree in browser...')
-        makeFeatureMetadataTable(
-            label_dict=label_dict,
-            output_tsv=os.path.join(args.outdir, 'empress_metadata.tsv'),
-            original_labels=True
-        )
-
-        plotTreeInBrowser(
-            input_tree=os.path.join(args.outdir, 'epa_result_relabel.newick'),
-            output_dir=None,
-            feature_metadata=os.path.join(args.outdir, 'empress_metadata.tsv')
-        )
 
     print('Finished!')
 

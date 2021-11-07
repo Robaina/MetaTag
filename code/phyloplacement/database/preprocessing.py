@@ -108,7 +108,7 @@ def assertCorrectSequenceFormat(fasta_file: str,
             if isLegitSequence(record_seq):
                 outfile.write(f'>{record_name}\n{record_seq}\n')
 
-def relabelRecordsInFASTA(input_fasta: str,
+def setTempRecordIDsInFASTA(input_fasta: str,
                           output_dir: str = None,
                           prefix: str = None):
     """
@@ -142,7 +142,7 @@ def relabelRecordsInFASTA(input_fasta: str,
     saveToPickleFile(id_dict, output_dict)
 
 def setOriginalRecordIDsInFASTA(input_fasta: str,
-                                label_dict_pickle: str = None,
+                                label_dict: dict = None,
                                 output_fasta: str = None):
     """
     Relabel temporary record ID by original IDs
@@ -158,5 +158,4 @@ def setOriginalRecordIDsInFASTA(input_fasta: str,
             record.description = name
             yield record
 
-    label_dict = readFromPickleFile(label_dict_pickle)
     SeqIO.write(relabel_records(), output_fasta, 'fasta')
