@@ -115,12 +115,13 @@ def convertFastaAlnToPhylip(input_fasta_aln: str,
                             output_phylip: str = None) -> None:
     """
     Convert alignments in Fasta to Phylip.
+    TODO: check that IDs no longer than 10 char, if so raise Error (or check if papara accepts more than 10 char)
     """
     if output_phylip is None:
         output_phylip = setDefaultOutputPath(input_fasta_aln, extension='.phylip')
     with open(input_fasta_aln, 'r') as input_handle, open(output_phylip, 'w') as output_handle:
         alignments = AlignIO.parse(input_handle, 'fasta')
-        AlignIO.write(alignments, output_handle, 'phylip')
+        AlignIO.write(alignments, output_handle, 'phylip-relaxed')
 
 def convertPhylipToFastaAln(input_phylip: str,
                             output_file: str = None) -> None:
@@ -129,7 +130,7 @@ def convertPhylipToFastaAln(input_phylip: str,
     """
     if output_file is None:
         output_file = setDefaultOutputPath(input_phylip, extension='.faln')
-    alignments = AlignIO.parse(input_phylip, 'phylip')
+    alignments = AlignIO.parse(input_phylip, 'phylip-relaxed')
     AlignIO.write(alignments, output_file, 'fasta')
 
 def convertStockholmToFastaAln(input_stockholm: str,

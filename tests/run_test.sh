@@ -30,11 +30,12 @@ python3 code/makedatabase.py \
  --hmm tests/test_data/TIGR01580.1.HMM \
  --max_size 20 \
  --min_seq_length 10 --max_seq_length 2000 \
+ --prefix "test_" \
  --relabel
 
 # Alignment and tree
 python3 code/buildtree.py \
- --in tests/test_results/ref_database.faa \
+ --in tests/test_results/test_ref_database.faa \
  --outdir tests/test_results/ \
  --msa_method "muscle" \
  --tree_model "TEST" \
@@ -64,7 +65,7 @@ python3 code/placesequences.py \
 # Relabel tree and alignment
 python3 code/relabeltree.py \
  --tree tests/test_results/epa_result.newick \
- --labels tests/test_results/ref_database_id_dict.pickle \
+ --labels tests/test_results/test_ref_database_id_dict.pickle \
           tests/test_results/query_cleaned_id_dict.pickle \
  --label_prefixes "ref_" "query_"
 

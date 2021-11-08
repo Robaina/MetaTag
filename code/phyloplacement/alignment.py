@@ -75,7 +75,7 @@ def alignShortReadsToReferenceMSA(ref_msa: str, query_seqs: str,
                                     input_seqs=query_seqs,
                                     output_aln_seqs=temp_file_path)
             convertStockholmToFastaAln(input_stockholm=temp_file_path,
-                                        output_fasta=output_aln_seqs)
+                                       output_fasta=output_aln_seqs)
     elif method.lower() in 'papara':
         with TemporaryFilePath() as temp_phy_path, TemporaryFilePath() as temp_aln_path:
 
