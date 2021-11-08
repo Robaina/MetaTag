@@ -56,7 +56,8 @@ def relabelTree(input_newick: str,
     tree = next(Phylo.parse(input_newick, 'newick'))
     leaves = tree.get_terminals()
     for leaf in leaves:
-        leaf.name = label_dict[leaf.name]
+        if leaf.name in label_dict.keys():
+            leaf.name = label_dict[leaf.name]
     Phylo.write(tree, output_file, 'newick')
 
 def getIqTreeModelFromLogFile(iqtree_log: str) -> str:

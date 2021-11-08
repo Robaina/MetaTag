@@ -151,11 +151,12 @@ def setOriginalRecordIDsInFASTA(input_fasta: str,
         output_fasta = setDefaultOutputPath(input_fasta, 
                                             tag='_original_ids')
     def relabel_records():
-        for record in SeqIO.parse(input_fasta, 'fasta'):  
-            name = label_dict[record.name]
-            record.name = name
-            record.id = name
-            record.description = name
+        for record in SeqIO.parse(input_fasta, 'fasta'):
+            if record.name in label_dict.keys():  
+                name = label_dict[record.name]
+                record.name = name
+                record.id = name
+                record.description = name
             yield record
 
     SeqIO.write(relabel_records(), output_fasta, 'fasta')
