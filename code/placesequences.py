@@ -71,7 +71,7 @@ def main():
         input_jplace=epa_jplace,
         output_dir=args.outdir,
         output_prefix=None,
-        additional_args=None
+        additional_args='--fully-resolve'
     )
 
     print('Finished!')
