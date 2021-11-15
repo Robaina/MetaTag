@@ -14,7 +14,7 @@ from Bio import Phylo
 from phyloplacement.utils import setDefaultOutputPath
 import phyloplacement.wrappers as wrappers
 from phyloplacement.alignment import alignShortReadsToReferenceMSA
-from phyloplacement.database.manipulation import splitReferenceFromQueryAlignments
+from phyloplacement.database.manipulation import getFastaRecordIDs, splitReferenceFromQueryAlignments
 
 def inferTree(ref_aln: str,
               method: str = 'iqtree',
@@ -97,7 +97,8 @@ def placeReadsOntoTree(input_tree: str,
     if os.path.isfile(tree_model):
         tree_model = getIqTreeModelFromLogFile(tree_model)
         print(f'Running EPA-ng with inferred substitution model: {tree_model}')
-
+    
+    ref_ids = getFastaRecordIDs(ref_aln)
     ref_query_msa = os.path.join(
         output_dir, setDefaultOutputPath(query_seqs, extension='.faln',
                                          only_filename=True)
@@ -115,7 +116,8 @@ def placeReadsOntoTree(input_tree: str,
     
     splitReferenceFromQueryAlignments(
         ref_query_msa=ref_query_msa,
-        ref_prefix=ref_prefix,
+        # ref_prefix=ref_prefix,
+        ref_ids=ref_ids,
         out_dir=output_dir
     )
 

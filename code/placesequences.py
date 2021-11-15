@@ -15,7 +15,7 @@ import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import setDefaultOutputPath
 from phyloplacement.phylotree import placeReadsOntoTree
 
-# TODO: extract reference IDs from reference.faln so queries can be separated from references
+
 parser = argparse.ArgumentParser(
     description='Place query sequences onto reference tree',
     epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
@@ -62,7 +62,7 @@ def main():
         ref_aln=args.aln,
         query_seqs=args.query,
         aln_method=args.aln_method,
-        ref_prefix='ref_',
+        # ref_prefix='ref_',
         output_dir=args.outdir
     )
     

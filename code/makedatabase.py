@@ -61,7 +61,10 @@ parser.add_argument('--max_seq_length', dest='maxseqlength',
 parser.add_argument('--relabel', dest='relabel', action='store_true',
                     required=False,
                     default=False,
-                    help='relabel record IDs with numeral ids')
+                    help=(
+                        'relabel record IDs with numeral ids. '
+                        'Unrequired to build database, but highly recommended '
+                        'to avoid possible conflicts downstream the pipeline.'))
 
 
 args = parser.parse_args()

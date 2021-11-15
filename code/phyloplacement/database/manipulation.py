@@ -115,7 +115,6 @@ def convertFastaAlnToPhylip(input_fasta_aln: str,
                             output_phylip: str = None) -> None:
     """
     Convert alignments in Fasta to Phylip.
-    TODO: check that IDs no longer than 10 char, if so raise Error (or check if papara accepts more than 10 char)
     """
     if output_phylip is None:
         output_phylip = setDefaultOutputPath(input_fasta_aln, extension='.phylip')
@@ -168,6 +167,13 @@ def splitReferenceFromQueryAlignments(ref_query_msa: str,
                 outref.write(f'>{record_name}\n{record_seq}\n')
             else:
                 outquery.write(f'>{record_name}\n{record_seq}\n')
+
+def getFastaRecordIDs(fasta_file: str) -> set:
+    """
+    Extract record ids from fasta
+    """
+    fasta = pyfastx.Fasta(fasta_file, full_name=True)
+    return set(fasta.keys())
 
 def countRecordsInFasta(fasta_file: str) -> int:
     """
