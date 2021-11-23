@@ -6,6 +6,8 @@ Preprocessing:
 0) Merge fasta files if more than one
 1) Remove duplicates
 2) Assert correct sequence format for downstream analysis
+3) Translate if nucleotide
+4) Relabel if asked for
 """
 
 import os
@@ -13,7 +15,9 @@ import shutil
 import argparse
 
 from phyloplacement.utils import (setDefaultOutputPath,
-                                  TemporaryFilePath)
+                                  TemporaryFilePath,
+                                  TemporaryDirectoryPath)
+from phyloplacement.wrappers import runProdigal
 from phyloplacement.database.preprocessing import (assertCorrectSequenceFormat,
                                                    removeDuplicatesFromFasta,
                                                    mergeFASTAs,
@@ -33,6 +37,8 @@ required.add_argument('--in', dest='data', type=str, required=True,
                       help='path to fasta file or directory containing fasta files')
 optional.add_argument('--dna', dest='dna', action='store_true', default=False,
                       help='declare if sequences are nucleotides. Defaults to peptide sequences.')
+optional.add_argument('--translate', dest='translate', action='store_true', default=False,
+                      help='choose whether nucleotide sequences are translated with prodigal')
 optional.add_argument('--outfile', dest='outfile', type=str,
                       help='path to output fasta file')
 optional.add_argument('--relabel', dest='relabel',
@@ -44,10 +50,10 @@ optional.add_argument('--idprefix', dest='idprefix', type=str,
 
 args = parser.parse_args()
 is_peptide = not args.dna
+output_dir = os.path.abspath(os.path.dirname(args.outfile))
 
 if os.path.isdir(args.data):
     print('Merging input files...')
-    output_dir = os.path.dirname(args.outfile)
     _, file_ext = os.path.splitext(os.listdir(args.data)[0])
     data_path = os.path.abspath(os.path.join(output_dir, f'merged_data{file_ext}'))
     mergeFASTAs(
@@ -76,8 +82,23 @@ def main():
             output_file=outfasta,
             is_peptide=is_peptide
         )
+    
+    if args.translate:
+        outprefix = setDefaultOutputPath(outfasta, only_filename=True)
+        with TemporaryDirectoryPath() as tempdir:
+            runProdigal(
+                input_file=outfasta,
+                output_prefix=outprefix,
+                output_dir=tempdir, 
+                metagenome=False, 
+                additional_args=None
+            )
+            outfaa = os.path.join(tempdir, outprefix + '.faa')
+            outgbk = os.path.join(tempdir, outprefix + '.gbk')
+            shutil.move(outfaa, outfasta)
+            shutil.move(outgbk, output_dir)
 
-    if args.relabel:  # make this into args.relabel and add args.prefix (remove from makedatabase, perhaps)
+    if args.relabel:
         print('Relabelling records...')
         outfasta_short = setDefaultOutputPath(outfasta, tag='_short_ids')
         setTempRecordIDsInFASTA(

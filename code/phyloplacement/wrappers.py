@@ -25,15 +25,15 @@ def runProdigal(input_file: str, output_prefix: str = None,
     else:
         procedure = 'single'
     if output_dir is None:
-        pass
+        output_dir = setDefaultOutputPath(input_file, only_dirname=True)
     if output_prefix is None:
-        pass
-    if additional_args is None:
+        output_prefix = setDefaultOutputPath(input_file, only_filename=True)
+    if additional_args is not None:
         args_str = additional_args
     else:
         args_str = ''
-    output_gbk = os.path.join(output_dir, output_prefix, '.gbk')
-    output_fasta = os.path.join(output_dir, output_prefix, '.faa')
+    output_gbk = os.path.join(output_dir, output_prefix + '.gbk')
+    output_fasta = os.path.join(output_dir, output_prefix + '.faa')
     cmd_str = (
         f'prodigal -i {input_file} -o {output_gbk} -p {procedure} '
         f'-a {output_fasta} -q {args_str}'
@@ -380,7 +380,6 @@ def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
     input_aln_query: fasta format (sequences must be alignned to reference 
     msa fasta and have the same length as the reference msa alignment)
     epa-ng: https://github.com/Pbdas/epa-ng
-    TODO: model parameters must be the same employed to make reference tree.
     """
     if model is None:
         model = 'GTR+G'
