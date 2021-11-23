@@ -63,7 +63,7 @@ label_dict = {
     }
 
 def main():
-    print('Relabelling tree...')
+    print('* Relabelling tree...')
     relabelTree(
         input_newick=args.tree,
         label_dict=label_dict,

@@ -34,7 +34,7 @@ if args.outdir is None:
 
 def main():
     
-    print('Removing tree branch outliers')
+    print('* Removing tree branch outliers')
     wrappers.runTreeShrink(
         input_tree=args.tree,
         input_aln=args.aln,

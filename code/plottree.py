@@ -32,7 +32,7 @@ if args.outdir is None:
 
 def main():
 
-    print('Drawing tree in browser...')
+    print('* Drawing tree in browser...')
     # makeFeatureMetadataTable(
     #     label_dict=label_dict,
     #     output_tsv=os.path.join(args.outdir, 'empress_metadata.tsv'),

@@ -21,7 +21,8 @@ from phyloplacement.wrappers import runProdigal
 from phyloplacement.database.preprocessing import (assertCorrectSequenceFormat,
                                                    removeDuplicatesFromFasta,
                                                    mergeFASTAs,
-                                                   setTempRecordIDsInFASTA)
+                                                   setTempRecordIDsInFASTA,
+                                                   fastaContainsNucleotideSequences)
 
 
 parser = argparse.ArgumentParser(
@@ -49,7 +50,6 @@ optional.add_argument('--idprefix', dest='idprefix', type=str,
                       help='prefix to be added to sequence IDs')
 
 args = parser.parse_args()
-is_peptide = not args.dna
 output_dir = os.path.abspath(os.path.dirname(args.outfile))
 
 if os.path.isdir(args.data):
@@ -68,23 +68,33 @@ if args.outfile is None:
 else:
     outfasta = os.path.abspath(args.outfile)
 
+if args.dna:
+    is_peptide = False
+if not args.dna:
+    if fastaContainsNucleotideSequences(args.data):
+        print('Inferred data contain nucleotide sequences')
+        is_peptide = False
+    else:
+        is_peptide = True
+
 def main():
     
     with TemporaryFilePath() as tmp_file_path:
-        print('Removing duplicates...')
+        print('* Removing duplicates...')
         removeDuplicatesFromFasta(
             input_fasta=data_path,
             output_fasta=tmp_file_path
         )
-        print('Asserting correct sequence format...')
+        print('* Asserting correct sequence format...')
         assertCorrectSequenceFormat(
             fasta_file=tmp_file_path,
             output_file=outfasta,
             is_peptide=is_peptide
         )
     
-    if args.translate:
+    if args.translate and not is_peptide:
         outprefix = setDefaultOutputPath(outfasta, only_filename=True)
+        print('* Translating nucleotide sequences...')
         with TemporaryDirectoryPath() as tempdir:
             runProdigal(
                 input_file=outfasta,
@@ -97,9 +107,11 @@ def main():
             outgbk = os.path.join(tempdir, outprefix + '.gbk')
             shutil.move(outfaa, outfasta)
             shutil.move(outgbk, output_dir)
+    elif args.translate and is_peptide:
+        print('Data already translated!')
 
     if args.relabel:
-        print('Relabelling records...')
+        print('* Relabelling records...')
         outfasta_short = setDefaultOutputPath(outfasta, tag='_short_ids')
         setTempRecordIDsInFASTA(
             input_fasta=outfasta,

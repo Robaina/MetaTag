@@ -62,6 +62,13 @@ def assertCorrectFilePath(file_name: str) -> None:
         '_', fname).replace('__', '_').strip('_')
     return os.path.join(fdir, f'{clean_fname}{ext}')
 
+def fastaContainsNucleotideSequences(fasta_file: str) -> bool:
+    """
+    Check whether fasta file contains nucleotide sequences
+    """
+    seq_1 = next(SeqIO.parse(fasta_file, 'fasta'))
+    return set(seq_1.seq).issubset({'A', 'G', 'T', 'C'})
+
 def isLegitPeptideSequence(record_seq: str) -> bool:
     """
     Assert that peptide sequence only contains valid symbols

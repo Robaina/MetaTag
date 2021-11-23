@@ -76,7 +76,7 @@ output_fasta_short = os.path.join(args.outdir, f'{args.prefix}ref_database_short
 
 def main():
     
-    print('Making peptide-specific reference database...')
+    print('* Making peptide-specific reference database...')
     with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2:
         filterFASTAByHMM(
             hmm_model=args.hmm,
@@ -87,7 +87,7 @@ def main():
         )
         
         if (args.minseqlength is not None) or (args.maxseqlength is not None):
-            print("Filtering sequences by established length bounds...")
+            print("* Filtering sequences by established length bounds...")
             filterFastaBySequenceLength(
                 input_fasta=tempfasta,
                 minLength=args.minseqlength,
@@ -105,7 +105,7 @@ def main():
         )
 
     if args.relabel:
-        print('Relabelling records in reference database...')
+        print('* Relabelling records in reference database...')
         setTempRecordIDsInFASTA(
             input_fasta=output_fasta,
             output_dir=args.outdir,
