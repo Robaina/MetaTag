@@ -50,6 +50,11 @@ optional.add_argument('--idprefix', dest='idprefix', type=str,
                       help='prefix to be added to sequence IDs')
 
 args = parser.parse_args()
+
+if args.outfile is None:
+    outfasta = setDefaultOutputPath(args.data, tag='_cleaned')
+else:
+    outfasta = os.path.abspath(args.outfile)
 output_dir = os.path.abspath(os.path.dirname(args.outfile))
 
 if os.path.isdir(args.data):
@@ -63,15 +68,10 @@ if os.path.isdir(args.data):
 else:
     data_path = os.path.abspath(args.data)
 
-if args.outfile is None:
-    outfasta = setDefaultOutputPath(data_path, tag='_cleaned')
-else:
-    outfasta = os.path.abspath(args.outfile)
-
 if args.dna:
     is_peptide = False
 if not args.dna:
-    if fastaContainsNucleotideSequences(args.data):
+    if fastaContainsNucleotideSequences(data_path):
         print('Inferred data contain nucleotide sequences')
         is_peptide = False
     else:

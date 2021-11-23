@@ -1,13 +1,39 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Classify nifH sequences in clusters based on CART model,
 CART model from: https://sfamjournals.onlinelibrary.wiley.com/doi/10.1111/1758-2229.12455
-
-Usage: python3 nifhcart.py input_fasta input_alignment [output_fasta]
 """
 
 import os
-import sys
+import argparse
+
 from Bio import SeqIO
+
+
+parser = argparse.ArgumentParser(
+    description='Classify nifH peptide sequences in clusters based on CART model',
+    epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
+    )
+
+optional = parser._action_groups.pop()
+required = parser.add_argument_group('required arguments')
+parser._action_groups.append(optional)
+
+required.add_argument('--seqs', dest='seqs', type=str, required=True,
+                      help='path to fasta file')
+required.add_argument('--aln', dest='aln', type=str, required=True,
+                      help='path to fasta file')
+optional.add_argument('--outfile', dest='outfile', type=str,
+                      help='path to output fasta file')
+
+args = parser.parse_args()
+if args.outfile is None:
+    base, ext = os.path.splitext(args.seqs)[0]
+    outfasta = os.path.abspath(base + '_clustered' + ext)
+else:
+    outfasta = os.path.abspath(args.outfile)
 
 
 def getnifHclusterID(seq: list, cart_model=dict) -> str:
@@ -86,13 +112,5 @@ def addClusterToNifH(input_fasta: str, input_alignment: str,
 
 
 if __name__ == '__main__':
-
-    input_fasta = sys.argv[1]
-    input_alignment = sys.argv[2]
-    if len(sys.argv) > 3:
-        output_fasta = sys.argv[3]
-    else:
-        output_fasta = None
-
-    addClusterToNifH(input_fasta, input_alignment, output_fasta)
+    addClusterToNifH(args.seqs, args.aln, outfasta)
     
