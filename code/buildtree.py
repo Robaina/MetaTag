@@ -45,7 +45,7 @@ output_aln = os.path.join(args.outdir, 'ref_database.faln')
 
 def main():
     
-    print('Aligning reference database...')
+    print('* Aligning reference database...')
     alignPeptides(
         input_fasta=args.data,
         method=args.msa_method,
@@ -53,7 +53,7 @@ def main():
         additional_args=None
     )
     
-    print('Inferring reference tree...')
+    print('* Inferring reference tree...')
     inferTree(
         ref_aln=output_aln,
         method=args.tree_method,

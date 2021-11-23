@@ -55,7 +55,7 @@ epa_jplace = os.path.join(args.outdir, 'epa_result.jplace')
 
 def main():
     
-    print('Placing reads on tree...')
+    print('* Placing reads on tree...')
     placeReadsOntoTree(
         input_tree=args.tree,
         tree_model=args.tree_model,
@@ -66,7 +66,7 @@ def main():
         output_dir=args.outdir
     )
     
-    print('Writing tree with placements...')
+    print('* Writing tree with placements...')
     wrappers.runGappaGraft(
         input_jplace=epa_jplace,
         output_dir=args.outdir,
