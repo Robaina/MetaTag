@@ -4,20 +4,20 @@
 #                           Amt pipeline                            #
 # ***************************************************************** #
 
-# mkdir -p mardb_mc16
+mkdir -p mardb_mc16
 
-# # Preprocess
-# python3 ./code/preprocess.py \
-#  --in data/MAR_HQ \
-#  --outfile data/marhq_cleaned.faa
+# Preprocess
+python3 ./code/preprocess.py \
+ --in data/MAR_HQ \
+ --outfile data/marhq_cleaned.faa
 
-# # Make database
-# python3 ./code/makedatabase.py \
-#  --in data/marhq_cleaned.faa \
-#  --outdir genes/amt/results/ \
-#  --hmm genes/amt/hmms/TIGR00836.1.HMM \
-#  --prefix "amt_" --relabel \
-#  --max_size 600
+# Make database
+python3 ./code/makedatabase.py \
+ --in data/marhq_cleaned.faa \
+ --outdir genes/amt/results/ \
+ --hmm genes/amt/hmms/TIGR00836.1.HMM \
+ --prefix "amt_" --relabel \
+ --max_size 600
 
 # Add amt-classified bacterial and archaeal sequences from mcdonald2016 
 python3 ./code/preprocess.py \
@@ -31,8 +31,8 @@ python3 ./code/preprocess.py \
  --outfile genes/amt/results/mcdonald2016_RH_short_ids.faa \
  --idprefix "ref_mc16rh_" --relabel
 
-# # Move databases to directory to merge
-# mv genes/amt/results/amt_ref_database.faa genes/amt/results/mardb_mc16/
+# Move databases to directory to merge
+mv genes/amt/results/amt_ref_database.faa genes/amt/results/mardb_mc16/
 mv genes/amt/results/mcdonald2016_prokaryotes_short_ids.faa genes/amt/results/mardb_mc16/
 mv genes/amt/results/mcdonald2016_RH_short_ids.faa genes/amt/results/mardb_mc16/
 
@@ -70,4 +70,4 @@ python3 ./code/relabeltree.py \
 # git push origin robaina_nxr
 
 # Send notification
-python3 ./code/notify.py --link https://github.com/Robaina/TRAITS/
+# python3 ./code/notify.py --link https://github.com/Robaina/TRAITS/
