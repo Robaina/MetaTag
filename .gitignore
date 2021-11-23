@@ -6,13 +6,14 @@ Gene_Annotation_Jose_Tree_Method/
 .ipynb_checkpoints/
 __pycache__/
 picrust2/
-nxr_genomes/
-data/databases/
-genes/nxr/data/
-genes/nxr/nxr_results
-genes/nxr/nxr_results_old
+data/
+genes/
+!genes/**/*.sh
+!genes/**/*.contree
+!genes/**/*.pickle
+!genes/**/iTOL_colors.txt
 tests/test_results
-
+tests/test_data_dna
 
 # Files
 trimal.html

@@ -70,7 +70,7 @@ def isLegitPeptideSequence(record_seq: str) -> bool:
         'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L',
         'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y'
     }
-    seq_symbols = {s for s in record_seq}
+    seq_symbols = {s.upper() for s in record_seq}
     return seq_symbols.issubset(aas)
 
 def isLegitDNAsequence(record_seq: str) -> bool:
@@ -78,7 +78,7 @@ def isLegitDNAsequence(record_seq: str) -> bool:
     Assert that DNA sequence only contains valid symbols
     """
     nts = {'A', 'G', 'T', 'C'}
-    seq_symbols = {s for s in record_seq}
+    seq_symbols = {s.upper() for s in record_seq}
     return seq_symbols.issubset(nts)
 
 @handle_exceptions
