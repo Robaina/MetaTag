@@ -7,11 +7,14 @@ Gene_Annotation_Jose_Tree_Method/
 __pycache__/
 picrust2/
 data/
-genes/
+**/nxr_genomes/
+genes/**/data/*
+genes/**/results/*
 !genes/**/*.sh
 !genes/**/*.contree
 !genes/**/*.pickle
 !genes/**/iTOL_colors.txt
+!genes**/placement_results
 tests/test_results
 tests/test_data_dna
 

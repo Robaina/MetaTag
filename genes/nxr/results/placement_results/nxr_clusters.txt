@@ -1,0 +1,41 @@
+DATASET_COLORSTRIP
+SEPARATOR COMMA
+DATASET_LABEL,Nxr taxonomy
+#COLOR,#00ff00
+LEGEND_TITLE,Taxonomy
+LEGEND_SHAPES,1,1,1,1,1,1,1,1,1
+LEGEND_COLORS,#e41a1c,#377eb8,#4daf4a,#984ea3,#ff7f00,#a65628,#f781bf,#ffff33,#a6cee3
+LEGEND_LABELS,Nitrobacter,Nitrococcus,Nitrospina,Nitrospira,Nitrotoga,Nitrolancea,Crenarchaeota,Anammox,narG
+SHOW_INTERNAL,1
+DATA
+CONTAINS==Nitrobacter,#e41a1c
+CONTAINS==Nitrococcus,#99CCFF
+CONTAINS==Nitrospina,#4daf4a
+CONTAINS==Nitrospira,#984ea3
+CONTAINS==Nitrotoga,#ff7f00
+CONTAINS==Nitrolancea,#a65628
+Nitz18_Caldiarc_1153_bp_ami_ARB_B6257D34,#f781bf,Crenarchaeota
+Nitz18_IcelandI_1203_bp_ami_ARB_28E70B5D,#f781bf,Cranarchaeota
+molyb_Acidobacteria_bacterium_UBA11137_MMP08017860__DMLL01000108.1_0MMP08017860_37_045219_048710_pos|Nitz18_CanBroc4_1149_bp_ami_KKO18748,#ffff33,Anammox Nxr
+Nitz21_CAGS01000276.1_1__Nitrolancea_hollandica_Lb_|Nitz21_CAGS01000644.1_1__Nitrolancea_hollandica_Lb_,#a65628,Nitrolancea
+Nitz21_MKSM01000044.1_9__Nitrobacter_sp._62-23_|Nitz21_EAQ34378.1__Nitrobacter_sp._Nb-311A_,#e41a1c,Nitrobacter
+Nitz21_MNDM01000028.1_37__Nitrospirae_bacterium_13_2_20CM_2_62_8_|Nitz21_ALA60908.1__Nitrospira_moscoviensis_NSP_M-1_,#984ea3,Nitrospira
+Nitz21_2636266387__Nitrospinae_bacterium_AAA008-D05_|Nitz18_NitGrac4_1148_bp_ami_WP_042250442,#4daf4a,Nitrospina
+Nitz21_RFC30958.1__Candidatus_Nitrotoga_sp._MKT_|Nitz21_SPS04412.1__Candidatus_Nitrotoga_fabula_KNB_,#ff7f00,Nitrotoga
+CONTAINS==narG,#a6cee3
+Nitz18_HdgTher4.1_1154_bp_ami_WP_012964344,#a6cee3,narG
+Nitz18_ThlNitra_1167_bp_ami_WP_015257936,#a6cee3,narG
+Nitz18_ThlThioc_1167_bp_ami_WP_018232354,#a6cee3,narG
+Nitz18_ThiIngri_1163_bp_ami_BAP55970,#a6cee3,narG
+Nitz18_CanMeth4_1152_bp_ami_KCZ70344,#a6cee3,narG
+I1122,#a6cee3,narG
+I883,#a6cee3,narG
+I924,#a6cee3,narG
+I938,#a6cee3,narG
+I948,#a6cee3,narG
+I672,#a6cee3,narG
+I966,#a6cee3,narG
+I871,#a6cee3,narG
+I642,#ff7f00,Nitrotoga
+
+
