@@ -144,6 +144,7 @@ if __name__ == '__main__':
     else:
         outdict = os.path.abspath(args.outdict)
 
-
+    
+    print('* Classifying nifH sequences according to CART model')
     addClusterToNifHdict(args.seqs, args.aln, args.indict, outdict)
     
