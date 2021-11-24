@@ -138,7 +138,7 @@ if __name__ == '__main__':
                         help='path to output ID dictionary in pickle format')
 
     args = parser.parse_args()
-    if args.outfile is None:
+    if args.outdict is None:
         base, ext = os.path.splitext(args.indict)
         outdict = os.path.abspath(base + '_clustered' + ext)
     else:
