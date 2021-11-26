@@ -107,6 +107,8 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
         )
     print('Parsing Hmmer output file...')
     hmmer_hits = parseHMMsearchOutput(hmmer_output)
+    if not hmmer_hits.id.values:
+        raise ValueError('No records found in database matching provided hmm')
     print('Filtering Fasta...')
     filterFASTAbyIDs(input_fasta, record_ids=hmmer_hits.id.values,
                      output_fasta=output_fasta)
