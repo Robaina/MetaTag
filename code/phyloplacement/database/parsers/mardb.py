@@ -24,7 +24,7 @@ def getMarDBentryCode(label: str) -> str:
     return re.search(db_entry, label).group(1)
 
 def filterMarDBrecordsbyEntryCodes(input_fasta: str, entry_codes: set,
-                            output_fasta: str = None) -> None:
+                                   output_fasta: str = None) -> None:
     """
     Filter records in mardb fasta file matching provided entry codes
     """
