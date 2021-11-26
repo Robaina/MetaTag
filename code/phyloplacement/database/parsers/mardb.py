@@ -10,17 +10,49 @@ import re
 import shutil
 
 import pyfastx
+import pandas as pd
 
 from phyloplacement.utils import (setDefaultOutputPath,
                                   terminalExecute,
                                   createTemporaryFilePath) 
 
 
-db_entry = re.compile('\[mmp_id=(.*)\] ')
-not_capital_letters = re.compile('[^A-Z]')
-capital_letters = re.compile('[A-Z]')
+class MMPtaxonomyAssigner():
+    """
+    Methods to assign taxonomy to mardb reference sequeces
+    """
+    def __init__(self, current: str = None, partial: str = None):
+        self.current = (os.path.abspath(current)
+                        or os.path.abspath('/data/taxonomy/CurrentComplete.tsv'))
+        self.partial = (os.path.abspath(partial)
+                        or os.path.abspath('/data/taxonomy/CurrentPartial.tsv'))
+        tax_cols = [
+        'mmp_ID', 'taxon_lineage_names', 'full_scientific_name',
+        'kingdom','phylum','class', 'order', 'family', 'genus', 'species'
+        ]
+        tax_complete = pd.read_csv(self.current, sep='\t')
+        tax_complete = tax_complete[tax_cols]
+        tax_partial = pd.read_csv(self.partial, sep='\t')
+        tax_partial = tax_partial[tax_cols]
+        tax_mmp = pd.concat([tax_complete, tax_partial]).drop_duplicates()
+        self.tax_mmp = tax_mmp.set_index('mmp_ID')
+
+    def lowestAvailableCommonTaxonomy(self, mmp_ids: list) -> dict:
+        tax_list = [
+            'kingdom', 'phylum', 'class',
+            'order', 'family', 'genus', 'species'
+            ]
+        lowest_tax = {}
+        data = self.tax_mmp.loc[mmp_ids, :]
+        for tax_cat in tax_list:
+            taxa = data[tax_cat].drop_duplicates().values
+            if len(taxa) == 1:
+                lowest_tax[tax_cat] = taxa[0]
+        return lowest_tax
+
 
 def getMarDBentryCode(label: str) -> str:
+    db_entry = re.compile('\[mmp_id=(.*)\] ')
     return re.search(db_entry, label).group(1)
 
 def filterMarDBrecordsbyEntryCodes(input_fasta: str, entry_codes: set,
@@ -55,6 +87,7 @@ def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
         Check if illegal symbols in sequences,
         then remove and tag file as cleaned
         """
+        not_capital_letters = re.compile('[^A-Z]')
         fname, ext = os.path.splitext(output_fasta)
         was_cleaned = False
         cleaned_fasta = f'{fname}_cleaned{ext}'
@@ -101,26 +134,3 @@ def relabelMarDB(label_dict: dict) -> dict:
         k: editMarDBlabel(v)
         for k, v in label_dict.items()
     }
-
-# def getMARdbGenomeByEntryCode(entry_code: str, input_fasta: str,
-#                               output_fasta: str = None) -> None:
-#     """
-#     Get full or partial genomes with given MARdb entry code.
-#     If more than one record found for entry code (e.g., when dealing
-#     with contigs of partial genomes), then all records are merged together
-#     into a single fasta file.
-#     """
-#     if output_fasta is None:
-#         output_fasta = setDefaultOutputPath(input_fasta,
-#                                             tag=f'_genome_{entry_code}',
-#                                             extension='.fa')
-#     cmd_str = (
-#         f'grep -A1 {entry_code} {input_fasta} | grep -v {entry_code} '
-#         '''| tr -d ''' + r"'\n'" + " "
-#         f'> {output_fasta}'
-#     )
-#     terminalExecute(cmd_str, suppress_shell_output=False)
-#     with open(output_fasta, 'r+') as file:
-#         content = file.read()
-#         file.seek(0)
-#         file.write(f'>{entry_code}\n' + content)
