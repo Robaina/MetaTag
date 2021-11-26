@@ -46,21 +46,39 @@ def inferTree(ref_aln: str,
     else:
         raise ValueError('Wrong method, enter iqtree or fasttree')
 
+def sanityCheckForiTOL(label: str) -> str:
+    """
+    Reformat label to comply with iTOL requirements, remove:
+    1. white spaces
+    2. double underscores
+    3. symbols outside english letters and numbers 
+    """
+    legal_chars = re.compile('[^a-zA-Z0-9]')
+    itol_label = legal_chars.sub('_', label).replace('__', '_')
+    return itol_label
+
 def relabelTree(input_newick: str,
                 label_dict: dict,
-                output_file: str = None) -> None: 
+                output_file: str = None,
+                iTOL=True) -> None: 
     """
-    Relabel tree leaves 
+    Relabel tree leaves with labels from 
+    provided dictionary. If iTOL is set, then
+    labels are checked for iTOL compatibility
     """
     if output_file is None:
         output_file = setDefaultOutputPath(
             input_newick, tag='_relabel'
         )
+    if iTOL:
+        sanity_check = sanityCheckForiTOL
+    else:
+        sanity_check = lambda x: x
     tree = next(Phylo.parse(input_newick, 'newick'))
     leaves = tree.get_terminals()
     for leaf in leaves:
         if leaf.name in label_dict.keys():
-            leaf.name = label_dict[leaf.name]
+            leaf.name = sanity_check(label_dict[leaf.name])
     Phylo.write(tree, output_file, 'newick')
 
 def getIqTreeModelFromLogFile(iqtree_log: str) -> str:
