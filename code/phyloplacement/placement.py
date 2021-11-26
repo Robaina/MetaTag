@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Tools to perform phylogenetic tree reconstructions and
-query sequence placements onto trees
+Tools to quantify and assign labels to placed sequences
 """
 
 import os
@@ -17,8 +16,6 @@ from phyloplacement.utils import setDefaultOutputPath
 import phyloplacement.wrappers as wrappers
 from phyloplacement.alignment import alignShortReadsToReferenceMSA
 from phyloplacement.database.manipulation import getFastaRecordIDs, splitReferenceFromQueryAlignments
-
-
 
 
 class JplaceParser():
@@ -119,6 +116,13 @@ class JplaceParser():
             for placement in self.jplace['placements']
         ]
         return best_placements
+
+    def assignClusterCommonLabelsToQueries(self) -> dict:
+        """
+        Assign cluster function and lowest common taxonomy
+        to query sequences placed within cluster
+        """
+        pass
 
     def labelPlacedQueries(self):
         """
