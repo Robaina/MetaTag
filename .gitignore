@@ -9,6 +9,7 @@ picrust2/
 data/
 **/nxr_genomes/
 genes/**/data/*
+genes/**/papers/*
 genes/**/results/*
 !genes/**/*.sh
 !genes/**/*.faln
