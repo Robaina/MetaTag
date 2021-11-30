@@ -283,7 +283,8 @@ def runTreeShrink(input_tree: str, input_aln: str,
     Run treeshrink to remove tree branch outliers. 
     Remove outliers from MSA file too.
     Tree file must be of newick format.
-    see run_treeshrink.py  -h for help
+    See run_treeshrink.py  -h for help
+    Currently using default parameter values.
     """
     if output_dir is None:
         output_dir = os.path.dirname(input_tree)
