@@ -26,7 +26,6 @@ def downloadGBKfromNCBI(entry_ids: list, output_dir: str = None) -> None:
 
 def getProteinSequenceFromGBK(gbk: str, cds_keywords: dict,
                               case_insensitive: bool = True,
-                              strict_match: bool = False
                               ) -> dict:
     """
     Extract cds record matching keywords from gbk file.
@@ -39,9 +38,6 @@ def getProteinSequenceFromGBK(gbk: str, cds_keywords: dict,
           'product': ['urease', 'alpha'] 
       }
       case_insensity: whether or not to care for case when matching keywords 
-      strict_match: if true, only whole-word matches allowed, otherwise 
-                    substrings are considered matches too.
-    TODO: enable strict match
     """
     def contains_keywords(text: str, keywords: list) -> bool: 
         if case_insensitive:
