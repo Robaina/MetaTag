@@ -83,7 +83,7 @@ def main():
             input_fasta=args.data,
             output_fasta=tempfasta,
             hmmer_output=hmmer_output,
-            additional_args=f'--cut_nc'
+            additional_args='--cut_nc'
         )
         
         if (args.minseqlength is not None) or (args.maxseqlength is not None):
