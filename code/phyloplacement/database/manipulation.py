@@ -90,6 +90,9 @@ def filterFASTAByHMM(hmm_model: str, input_fasta: str,
     Generate protein-specific database by filtering
     sequence database to only contain sequences 
     corresponing to protein of interest
+    
+    @Arguments:
+    additional_args: additional arguments to hmmsearch or hmmscan
     """
     hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
     if hmmer_output is None:
