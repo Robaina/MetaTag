@@ -47,6 +47,7 @@ def runHMMsearch(hmm_model: str, input_fasta: str,
                  additional_args: str = None) -> None:
     """
     Simple CLI wrapper to hmmsearch or hmmscan
+    --cut_nc, --cut_ga
     """
     if n_processes is None:
         n_processes = os.cpu_count() - 1
@@ -57,7 +58,7 @@ def runHMMsearch(hmm_model: str, input_fasta: str,
     else:
         args_str = ''
     cmd_str = (
-        f'{method} --tblout {output_file} {args_str} --cpu {n_processes} '  #--cut_nc --cut_ga
+        f'{method} --tblout {output_file} {args_str} --cpu {n_processes} '
         f'{hmm_model} {input_fasta}'
         )
     terminalExecute(cmd_str, suppress_shell_output=True)
