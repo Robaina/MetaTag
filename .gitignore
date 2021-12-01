@@ -9,7 +9,9 @@ picrust2/
 data/*.faa
 data/databases/*
 data/MAR_HQ/*
-!data/taxonomy/*
+data/taxonomy/*
+!data/taxonomy/CurrentComplete.tsv
+!data/taxonomy/PartialComplete.tsv
 **/nxr_genomes/
 genes/**/data/*
 genes/**/papers/*
