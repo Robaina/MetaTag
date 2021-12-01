@@ -119,6 +119,11 @@ def main():
             prefix=args.idprefix
             )
         shutil.move(outfasta_short, outfasta)
+    
+    # Remove temporary merged fasta
+    if os.path.isdir(args.data):
+        os.remove(data_path)
+    
     print('Finished!')
 
 if __name__ == '__main__':
