@@ -7,6 +7,7 @@ Gene_Annotation_Jose_Tree_Method/
 __pycache__/
 picrust2/
 data/
+!data/taxonomy/*
 **/nxr_genomes/
 genes/**/data/*
 genes/**/papers/*
