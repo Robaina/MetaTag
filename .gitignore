@@ -6,7 +6,9 @@ Gene_Annotation_Jose_Tree_Method/
 .ipynb_checkpoints/
 __pycache__/
 picrust2/
-data/
+data/*.faa
+data/databases/*
+data/MAR_HQ/*
 !data/taxonomy/*
 **/nxr_genomes/
 genes/**/data/*
