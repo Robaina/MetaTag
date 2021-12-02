@@ -10,6 +10,7 @@ import argparse
 
 from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
 from phyloplacement.database.preprocessing import setOriginalRecordIDsInFASTA
+from phyloplacement.database.parsers.mardb import MMPtaxonomyAssigner
 from phyloplacement.phylotree import relabelTree
 
 
@@ -37,6 +38,10 @@ optional.add_argument('--label_prefixes', dest='labelprefixes', type=str,
                           'input in same order as labels.'
                           'More than one space-separated prefix can be input')
                           )
+optional.add_argument('--taxonomy', dest='taxonomy', action='store_true',
+                      default=False, help=(
+                          'Assign GTDB taxonomy to labels containing MMP identifiers')
+                          )
 optional.add_argument('--aln', dest='aln', type=str,
                       help='path to fasta alignment file to be relabelled')
 optional.add_argument('--outdir', dest='outdir', type=str,
@@ -50,20 +55,44 @@ treeout = os.path.join(args.outdir, setDefaultOutputPath(args.tree, tag='_relabe
 if args.aln is not None:
     alnout = os.path.join(args.outdir, setDefaultOutputPath(args.aln, tag='_relabel'))
 
-if args.labelprefixes is None:
-    label_pre = ['' for _ in args.labels]
-else:
-    label_pre = args.labelprefixes
 
-label_dicts = [readFromPickleFile(label_path.strip()) for label_path in args.labels]
-label_dict = {
-    k: prefix + v 
-    for prefix, labels in zip(label_pre, label_dicts) 
-    for (k, v) in labels.items()
-    }
+def initializeLabelDict(args) -> dict:
+    """
+    Initialize label dictionary for tree relabelling
+    """
+    if args.labelprefixes is None:
+        label_pre = ['' for _ in args.labels]
+    else:
+        label_pre = args.labelprefixes
+
+    if args.taxonomy:
+        def taxonomify(label: str) -> str:
+            taxonomy = MMPtaxonomyAssigner()
+            return taxonomy.assignTaxonomyToLabel(
+                label, root_level='kingdom',
+                full_label=False
+                )
+    else:
+        def taxonomify(label: str) -> str:
+            return label
+
+    label_dicts = [
+        readFromPickleFile(label_path.strip()) for label_path in args.labels
+        ]
+    label_dict = {
+        k: prefix + taxonomify(label) 
+        for prefix, labels in zip(label_pre, label_dicts) 
+        for (k, label) in labels.items()
+        }
+   
+    return label_dict
+
 
 def main():
+
     print('* Relabelling tree...')
+
+    label_dict = initializeLabelDict(args)
     relabelTree(
         input_newick=args.tree,
         label_dict=label_dict,

@@ -67,7 +67,8 @@ python3 code/relabeltree.py \
  --tree tests/test_results/epa_result.newick \
  --labels tests/test_results/test_ref_database_id_dict.pickle \
           tests/test_results/query_cleaned_id_dict.pickle \
- --label_prefixes "ref_" "query_"
+ --label_prefixes "ref_" "query_" \
+ --taxonomy
 
 
  # ./tests/test_results/ref_database.log # JTT

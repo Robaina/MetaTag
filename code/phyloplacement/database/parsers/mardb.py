@@ -24,11 +24,11 @@ class MMPtaxonomyAssigner():
     """
     def __init__(self, current: str = None, partial: str = None):
         if current is None:
-            self.current = os.path.abspath('../data/taxonomy/CurrentComplete.tsv')
+            self.current = os.path.abspath('data/taxonomy/CurrentComplete.tsv')
         else:
             self.current = os.path.abspath(current)
         if partial is None:
-            self.partial = os.path.abspath('../data/taxonomy/CurrentPartial.tsv')
+            self.partial = os.path.abspath('data/taxonomy/CurrentPartial.tsv')
         else:
             self.partial = os.path.abspath(partial)
         tax_cols = [
@@ -47,8 +47,11 @@ class MMPtaxonomyAssigner():
         """
         Extract mardb mmp id from reference label
         """
-        db_entry = re.compile('_MMP(.*)__')
-        return re.search(db_entry, label).group(0).strip('_')
+        db_entry = re.compile('_MMP\d{8}')
+        try:
+            return re.search(db_entry, label).group(0).strip('_')
+        except Exception:
+            return ''
 
     def lowestAvailableCommonTaxonomy(self, mmp_ids: list) -> dict:
         """
@@ -59,18 +62,22 @@ class MMPtaxonomyAssigner():
             'order', 'family', 'genus', 'species'
             ]
         lowest_tax = {}
-        data = self.tax_mmp.loc[mmp_ids, :]
-        for tax_cat in tax_levels:
-            taxa = data[tax_cat].drop_duplicates().values
-            if len(taxa) == 1:
-                lowest_tax[tax_cat] = taxa[0]
-        return lowest_tax
+        try:
+            data = self.tax_mmp.loc[mmp_ids, :]
+            for tax_cat in tax_levels:
+                taxa = data[tax_cat].drop_duplicates().values
+                if len(taxa) == 1:
+                    lowest_tax[tax_cat] = taxa[0]
+            return lowest_tax
+        except Exception as e:
+            raise ValueError(f'No taxonomy found. Exception: {e}')
 
     def assignTaxonomyToLabel(self, label: str,
                               root_level: str = 'kingdom',
                               full_label: bool = False) -> str:
         """
-        Assign GTDB taxonomy to labels containing MardDB entry codes
+        Assign GTDB taxonomy to labels containing MardDB entry codes.
+        Returns original label when no taxonomical info found.
         @Arguments:
             root_level: selects the highest taxon to be included in the label
             (kingdom, phylum, class, order, family)
@@ -80,22 +87,27 @@ class MMPtaxonomyAssigner():
         tax_levels = ['kingdom', 'phylum', 'class', 'order', 'family']
         selected_levels = tax_levels[tax_levels.index(root_level):]
         mmp_id = self.extractMMPidFromLabel(label)
-        tax_dict = self.lowestAvailableCommonTaxonomy([mmp_id])
-        
-        fil_tax_dict = {
-            tax: value 
-            for tax, value in tax_dict.items()
-            if (
-                (value.lower() not in 'unclassified') and
-                (tax in selected_levels)
-                )
-        }
-        tax_labels = '_'.join(fil_tax_dict.values())
-        if full_label:
-            return f'{label}_{tax_labels}'
-        else:
-            return f'{mmp_id}_{tax_labels}'
 
+        try:
+            tax_dict = self.lowestAvailableCommonTaxonomy([mmp_id])
+            
+            fil_tax_dict = {
+                tax: value 
+                for tax, value in tax_dict.items()
+                if (
+                    (value.lower() not in 'unclassified') and
+                    (tax in selected_levels)
+                    )
+            }
+            tax_labels = '_'.join(fil_tax_dict.values())
+            if full_label:
+                return f'{label}_{tax_labels}'
+            else:
+                return f'{mmp_id}_{tax_labels}'
+        except Exception:
+            tax_labels = 'No_taxomy_found'
+            return f'{label}_{tax_labels}'
+  
 
 
 def getMarDBentryCode(label: str) -> str:
