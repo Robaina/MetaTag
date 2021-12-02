@@ -8,6 +8,7 @@ __pycache__/
 picrust2/
 data/*.faa
 data/databases/*
+!data/databases/readme.txt
 data/MAR_HQ/*
 data/taxonomy/*
 !data/taxonomy/CurrentComplete.tsv

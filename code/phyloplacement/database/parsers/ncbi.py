@@ -6,12 +6,11 @@ Obtain FASTA with gene sequences from list of NCBI accession ids
 Dependencies: ncbi-acc-download
 """
 
-import os 
+import os
 
 from Bio import SeqIO
 
-from phyloplacement.utils import terminalExecute, fullPathListDir
-
+from phyloplacement.utils import terminalExecute
 
 
 def downloadGBKfromNCBI(entry_ids: list, output_dir: str = None) -> None: 
@@ -25,8 +24,7 @@ def downloadGBKfromNCBI(entry_ids: list, output_dir: str = None) -> None:
         terminalExecute(cmd_str)
 
 def getProteinSequenceFromGBK(gbk: str, cds_keywords: dict,
-                              case_insensitive: bool = True,
-                              ) -> dict:
+                              case_insensitive: bool = True) -> dict:
     """
     Extract cds record matching keywords from gbk file.
       @Arguments:
