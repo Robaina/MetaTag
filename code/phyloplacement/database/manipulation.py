@@ -18,6 +18,7 @@ import pyfastx
 
 import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import setDefaultOutputPath
+from phyloplacement.database.parsers.mardb import MARdbLabelParser
 
 
 def filterFastaBySequenceLength(input_fasta: str, minLength: int = None,
@@ -205,3 +206,197 @@ def sliceFasta(input_file, output_file, N):
 def is_empty_fasta(fasta_file):
     with open(fasta_file, 'r') as file:
         return '>' not in file.read()
+
+
+class LinkedHMMfilter():
+    """
+    Tools to search for linkage structures among sets of hmm models
+    """
+    def __init__(self, hmm_hits: dict) -> None:
+        """
+        Search for contigs that satisfy the given gene linkage structure
+
+        @param: hmm_hits, a dict of pandas DataFrames, as output by
+                parseHMMsearchOutput with keys corresponding to hmm names
+        """
+        self._hmm_hits = hmm_hits
+    
+    @staticmethod
+    def parseLinkageString(link_str: str) -> list[list]:
+        """
+        Parse linkage structure string. A linkage structure
+        is a string like the following:
+
+        >hmm_a n_ab <hmm_b n_bc hmm_c
+
+        where '>' indicates a hmm target located on the positive strand,
+        '<' a target located on the negative strand. No order symbol 
+        indicates that results should be independent of strand location.
+        """
+        def splitStrandFromLocus(locus_str: str) -> tuple:
+            if locus_str[0] == '<' or locus_str[0] == '>':
+                sense = locus_str[0]
+                locus_str = locus_str[1:]
+                strand = 'pos' if sense == '>' else 'neg'
+            else:
+                strand = None
+            return (strand, locus_str)
+
+        links = link_str.split()
+        max_dists = [int(dist) for dist in links if dist.isdigit()]
+        hmms = [h for h in links if not h.isdigit()]
+        pairs = list(zip(hmms, hmms[1:]))
+        parsed_struc = []
+        for pair, dist in zip(pairs, max_dists):
+            sense_a, locus_a = splitStrandFromLocus(pair[0])
+            sense_b, locus_b = splitStrandFromLocus(pair[1])
+            parsed_struc.append([locus_a, locus_b, dist, sense_a, sense_b])
+        return parsed_struc
+    
+    @staticmethod
+    def filterHitsByLinkagePair(hit_labels_a: pd.DataFrame, hit_labels_b: pd.DataFrame,
+                                dist_ab: int, strand_a: str = None, strand_b: str = None) -> pd.DataFrame:
+        """
+        Get labels compatible with linked pair
+        """
+        def in_right_strand(hit_strand: str, strand: str):
+            if strand is not None:
+                return hit_strand == strand
+            else:
+                return True
+
+        def get_linked_hit_labels_with_strand():
+            linked_labels = set()
+            linked_hit_labels = pd.DataFrame(columns=hit_labels_a.columns)
+
+            for i, hit_a in hit_labels_a.iterrows():
+                if  in_right_strand(hit_a.strand, strand_a) and hit_a.full not in linked_labels:
+                    contig_a = hit_a.contig
+                    pos_a = hit_a.gene_pos
+                    linked_b_hits = hit_labels_b[
+                        (
+                            (hit_labels_b.contig == contig_a) & 
+                            (abs(hit_labels_b.gene_pos - pos_a) <= dist_ab) &
+                            (hit_labels_b.strand == strand_b)
+                            )
+                        ]
+                    linked_b_labels = linked_b_hits.full.values.tolist()
+                    
+                    if linked_b_labels:
+                        linked_labels.update([hit_a.full] + linked_b_labels)
+                        linked_hit_labels = linked_hit_labels.append(linked_b_hits).append(hit_a)
+
+            return linked_hit_labels.drop_duplicates()
+
+        def get_linked_hit_labels():
+            linked_labels = set()
+            linked_hit_labels = pd.DataFrame(columns=hit_labels_a.columns)
+
+            for i, hit_a in hit_labels_a.iterrows():
+                if hit_a.full not in linked_labels:
+                    contig_a = hit_a.contig
+                    pos_a = hit_a.gene_pos
+                    linked_b_hits = hit_labels_b[
+                        (
+                            (hit_labels_b.contig == contig_a) & 
+                            (abs(hit_labels_b.gene_pos - pos_a) <= dist_ab)
+                            )
+                        ]
+                    linked_b_labels = linked_b_hits.full.values.tolist()
+                    
+                    if linked_b_labels:
+                        linked_labels.update([hit_a.full] + linked_b_labels)
+                        linked_hit_labels = linked_hit_labels.append(linked_b_hits).append(hit_a)
+
+            return linked_hit_labels.drop_duplicates()
+        
+        if strand_a is None and strand_b is None:
+            return get_linked_hit_labels()
+        else:
+            return get_linked_hit_labels_with_strand()
+
+    def filterHitsByLinkedHMMstructure(self, link_structure: str) -> pd.DataFrame:
+        """
+        Search for contigs that satisfy the given gene linkage structure
+        @param: link_structure, a str describing the desired linkage structure,
+                structured as follows:
+
+                'hmm_a N_ab hmm_b'
+
+                where N_ab corresponds to the maximum number of genes separating 
+                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
+                to the name of the hmm as provided in the keys of hmm_hits.
+                More than two hmms can be concatenated.
+        """
+        parsed_struc = self.parseLinkageString(link_structure)
+        
+        hit_labels = {}
+        mardblabel = MARdbLabelParser()
+        for hmm, hits in self._hmm_hits.items():
+            labels = hits.id.values.tolist()
+            if not labels:
+                raise ValueError(
+                    f'No records found in database matching HMM: {hmm}'
+                    )
+            hit_labels[hmm] = mardblabel.parse_from_list(labels)
+        
+        for n, linked_pair in enumerate(parsed_struc):
+
+            if n < 1:
+                locus_a, locus_b, dist_ab, strand_a, strand_b = linked_pair
+                hit_labels_a, hit_labels_b = hit_labels.pop(locus_a), hit_labels.pop(locus_b)
+                linked_hit_labels = self.filterHitsByLinkagePair(hit_labels_a, hit_labels_b, dist_ab, strand_a, strand_b)
+            else:
+                locus_a = f'{locus_a}_{locus_b}'
+                new_locus_b, dist_ab, strand_a, strand_b = linked_pair[1:]
+                hit_labels[locus_a] = linked_hit_labels
+                hit_labels_a, hit_labels_b = hit_labels.pop(locus_a), hit_labels.pop(new_locus_b)
+                linked_hit_labels = self.filterHitsByLinkagePair(hit_labels_a, hit_labels_b, dist_ab, strand_a, strand_b)
+        
+        return linked_hit_labels
+
+
+def filterFastaByHMMStructure(hmm_structure: str, input_fasta: str,
+                              input_hmms: list[str],
+                              output_fasta: str = None,
+                              hmmer_output_dir: str = None,
+                              method: str = 'hmmsearch',
+                              additional_args: str = None) -> None:
+    """
+    Generate protein-specific database by filtering sequence database
+    to only contain sequences which satisfy the provided (gene/hmm)
+    structure
+    
+    @Arguments:
+    additional_args: additional arguments to hmmsearch or hmmscan
+    """
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(
+            input_fasta, tag=f'filtered_{hmm_structure.replace(" ", "_")}'
+            )
+    if hmmer_output_dir is None:
+        hmmer_output_dir = setDefaultOutputPath(input_fasta, only_dirname=True)
+
+    print('Running Hmmer...')
+    hmm_hits = {}
+    for hmm_model in input_hmms:
+        hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
+        hmmer_output = os.path.join(hmmer_output_dir, f'hmmer_output_{hmm_name}.txt')
+
+        wrappers.runHMMsearch(
+            hmm_model=hmm_model,
+            input_fasta=input_fasta,
+            output_file=hmmer_output,
+            method=method,
+            additional_args=additional_args
+            )
+
+        hmm_hits[hmm_name] = parseHMMsearchOutput(hmmer_output)
+
+    print('Filtering results by linkage structure...')
+    linkedfilter = LinkedHMMfilter(hmm_hits)
+    linked_hit_labels = linkedfilter.filterHitsByLinkedHMMstructure(hmm_structure)
+
+    print('Filtering Fasta...')
+    filterFASTAbyIDs(input_fasta, record_ids=linked_hit_labels.full.values,
+                     output_fasta=output_fasta)

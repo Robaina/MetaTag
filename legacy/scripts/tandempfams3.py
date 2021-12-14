@@ -95,6 +95,7 @@ cmd = ["mkdir resultsnucleotides"]; pipe = subprocess.Popen(cmd, shell = True, s
 cmd = ["rm pfam1"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 cmd = ["rm pfam2"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
+# Parse input pfam 1
 act=0
 if pfam1.startswith("PF"):
 	print ("cat /usr/gonzalez/hmmer/Pfam-A.hmm | grep '"+pfam1+"'")
@@ -119,7 +120,7 @@ if pfam1.startswith("TIGR"):
 	print (out.decode('ascii'), err.decode('ascii'))
 	act=1
 	
-if pfam1=="pfams.txt":
+if pfam1=="pfams.txt":  # File containing several pfams
 	filetowrite = open("pfam2", "w")
 	filetowrite.close()
 	
@@ -144,6 +145,7 @@ if act==0:
 	print ("cp /usr/gonzalez/hmmer/"+pfam1+" pfam1")
 	cmd = ["cp /usr/gonzalez/hmmer/"+pfam1+" pfam1"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
+# Parse input pfam 2
 act=0
 if pfam2.startswith("PF"):
 	print ("cat /usr/gonzalez/hmmer/Pfam-A.hmm | grep '"+pfam2+"'")
@@ -193,6 +195,7 @@ if act==0:
 	print ("cp /usr/gonzalez/hmmer/"+pfam2+" pfam2")
 	cmd = ["cp /usr/gonzalez/hmmer/"+pfam2+" pfam2"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
+# prepare an HMM database for hmmscan
 print ("hmmpress pfam1")
 cmd = ["hmmpress pfam1"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 print (out.decode('ascii'), err.decode('ascii'))
@@ -201,6 +204,7 @@ print ("hmmpress pfam2")
 cmd = ["hmmpress pfam2"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 print (out.decode('ascii'), err.decode('ascii'))
 
+# Initialize output fasta files (here for DmdA)
 filetowrite = open("DmdA"+pfam1.replace(".","")+pfam2.replace(".","")+".fasta", "w")
 filetowrite2 = open("DmdAnext"+pfam1.replace(".","")+pfam2.replace(".","")+".fasta", "w")
 filetowrite4 = open("DmdAonly"+pfam1.replace(".","")+pfam2.replace(".","")+".fasta", "w")
@@ -208,11 +212,15 @@ filetowrite4 = open("DmdAonly"+pfam1.replace(".","")+pfam2.replace(".","")+".fas
 filetowrite5 = open("temp.txt", "w")
 filetowrite5.close()
 
+
+# Main function
 def loop(path, fname, evalue1, evalue2):
+	# Call hmmscan with first pfam
 	print ("hmmscan --tblout results1.txt "+evalue1+" -o /dev/null --cpu "+str(nproc)+" pfam1 FASTA1.txt")
 	cmd = ["hmmscan --tblout results1.txt "+evalue1+" -o /dev/null --cpu "+str(nproc)+" pfam1 FASTA1.txt"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 	print (out.decode('ascii'), err.decode('ascii'))
 	
+	# Parse hmmscan output file
 	nhits=0
 	newhits1=0
 	filetoread1 = open("results1.txt", "r")
@@ -221,6 +229,7 @@ def loop(path, fname, evalue1, evalue2):
 		if len(line)>0 and not(line.startswith("#")):
 			newhits1+=1
 			print (line)
+			# evalue1l only printed
 			evalue11=line[line.find(" "):].strip(); evalue11=evalue11[evalue11.find(" "):].strip(); evalue11=evalue11[evalue11.find(" "):].strip(); evalue11=evalue11[evalue11.find(" "):].strip()
 			evalue11=evalue11[:evalue11.find(" ")].strip()
 			print (evalue11)
@@ -230,27 +239,32 @@ def loop(path, fname, evalue1, evalue2):
 			pep1= pep1[pep1.find(" "):].strip()
 			pep1= pep1[:pep1.find(" ")].strip()
 			
-			contig1=pep1[2+pep1.find("__"):]
+			# Parse contig from peptide label (following Jose's long label format)
+			# e.g. >006_Arcobacter_molluscorum_LMG_25693_strain_CECT_7696__1_2232_2248098_2249009_neg
+			contig1=pep1[2+pep1.find("__"):] 
 			pos1=contig1[1+contig1.find("_"):]
-			pos1=int(pos1[:pos1.find("_")])
+			pos1=int(pos1[:pos1.find("_")]) # locus position in contig1 (2232)
 
-			contig1=str(int(contig1[:contig1.find("_")]))
-
-			handle = open(path+fname, "r")
+			contig1=str(int(contig1[:contig1.find("_")])) # (1). which is the contig of hmm-found peptide (FASTA1.txt)
+            
+			# Write hmm1 results into FASTA2.txt
+			handle = open(path+fname, "r")  #fname should be identical to FASTA1.txt since it is a copy
 			filetowrite3 = open("FASTA2.txt", "w")
 			for x in SeqIO.parse(handle, "fasta"):
 				contig2=str(x.name)[2+str(x.name).find("__"):]
-				contig2=str(int(contig2[:contig2.find("_")]))
-				if contig2==contig1:
+				contig2=str(int(contig2[:contig2.find("_")])) # contig ID within __ and _
+				if contig2==contig1: # Writing findings solely if contig ID matches?? Thus contig IDs are unique in each FASTA, each sequence is a contig.
 					filetowrite3.write(">"+str(x.name)+"\n")
 					filetowrite3.write(str(x.seq)+"\n")
 			filetowrite3.close()
 			handle.close()
 			
+			# Call hmmscan with second pfam and sequences previously found (FASTA2.txt)
 			print ("hmmscan --tblout results2.txt "+evalue2+" -o /dev/null --cpu "+str(nproc)+" pfam2 FASTA2.txt")
 			cmd = ["hmmscan --tblout results2.txt "+evalue2+" -o /dev/null --cpu "+str(nproc)+" pfam2 FASTA2.txt"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 			print (out.decode('ascii'), err.decode('ascii'))
 			
+			# Parse hmmscan result
 			filetoread2 = open("results2.txt", "r")
 			for line in filetoread2:
 				line=line.strip()
@@ -272,6 +286,7 @@ def loop(path, fname, evalue1, evalue2):
 					pos2=int(pos2[:pos2.find("_")])
 					print (pos2)
 					
+					# Assert that distance between the two genes is no greater than gap and write results to final fasta file
 					if abs(pos1-pos2)<=gap:
 						nhits+=1; act=1
 						handle = open(path+fname, "r")
@@ -284,6 +299,7 @@ def loop(path, fname, evalue1, evalue2):
 								break
 						handle.close()
 						
+						# Write peptide 2 (?) to another fasta
 						handle = open(path+fname, "r")
 						for x in SeqIO.parse(handle, "fasta"):
 							if str(x.name)==pep2.strip():
@@ -310,7 +326,7 @@ def loop(path, fname, evalue1, evalue2):
 						if posnuc1<0:
 							posnuc1=1
 						posnuc2=int(posnuc+lengthnucleotides)
-
+                        # Write third output file (which is?)
 						for x in SeqIO.parse(handle, "fasta"):
 							if str(x.name)==str(contig1):
 								filetowrite3 = open("./resultsnucleotides/"+fname[:fname.find(".")]+"_contig_"+str(contig1)+".fasta", "w")
@@ -322,6 +338,7 @@ def loop(path, fname, evalue1, evalue2):
 			filetoread2.close()
 			if act==0:
 				print (pep1)
+				# Write fourth output file (?)
 				handle = open(path+fname, "r")
 				for x in SeqIO.parse(handle, "fasta"):
 					if str(x.name)==pep1:
@@ -337,8 +354,9 @@ def loop(path, fname, evalue1, evalue2):
 	
 	cmd = ["rm results?.txt"]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
-	return (newhits1)
+	return (newhits1)  # number of hits with first pfam
 
+# Main loop: copy each file in "path" to FASTA1.txt to start search
 dirList=os.listdir(path)
 jj=0; ntotalhits1=0
 for fname in dirList:

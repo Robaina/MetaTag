@@ -24,12 +24,14 @@ genes/**/results/*
 !genes/**/iTOL_colors.txt
 !genes**/placement_results
 tests/test_results
+tests/hmm_outputs
 tests/test_data_dna
 
 # Files
 trimal.html
 code/accesory/run_papara.py
 code/test.ipynb
+code/test.py
 NOTES.md
 code/notify.py
 genes/nxr/commit_to_github.sh

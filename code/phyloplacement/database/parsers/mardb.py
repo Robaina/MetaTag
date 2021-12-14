@@ -17,6 +17,64 @@ from phyloplacement.utils import (setDefaultOutputPath,
                                   createTemporaryFilePath) 
 
 
+class MARdbLabelParser():
+    """
+    Parse MARdb entry label to extract coded info
+    """
+    def __init__(self) -> None:
+        pass
+
+    @staticmethod
+    def extractMMPid(label: str) -> str:
+        """
+        Extract mardb mmp id from reference label
+        """
+        db_entry = re.compile('_MMP\d{8}')
+        try:
+            return re.search(db_entry, label).group(0).strip('_')
+        except Exception:
+            return ''
+    
+    def parse(self, label: str) -> dict:
+        """
+        Parse MarDB sequence labels to obtain contig and locus info
+        """
+        parsed_dict = {
+            'full': label,
+            'species': '',
+            'mmp_id': '',
+            'contig': '',
+            'gene_pos': None,
+            'locus_pos': None,
+            'strand': ''
+            } 
+        try: 
+            entry = label.split('__')[0]
+            mmp_id = self.extractMMPid(label)
+            species = entry.strip(mmp_id).strip('_')
+            meta = label.split('__')[1]
+            strand = meta.split('_')[-1]
+            locus_pos = tuple([int(pos) for pos in meta.split('_')[-3:-1]])
+            gene_pos = int(meta.split('_')[-4])
+            contig = '_'.join(meta.split('_')[:-4])
+            parsed_dict['species'] = species
+            parsed_dict['mmp_id'] = mmp_id
+            parsed_dict['contig'] = contig
+            parsed_dict['gene_pos'] = gene_pos 
+            parsed_dict['locus_pos'] = locus_pos
+            parsed_dict['strand'] = strand
+        except Exception:
+            pass
+        return parsed_dict
+
+    def parse_from_list(self, labels=list) -> pd.DataFrame: 
+        """
+        Parse labels in list of labels and return DataFrame
+        """
+        return pd.DataFrame(
+            [self.parse(label) for label in labels]
+        )
+
 
 class MMPtaxonomyAssigner():
     """
@@ -41,17 +99,6 @@ class MMPtaxonomyAssigner():
         tax_partial = tax_partial[tax_cols]
         tax_mmp = pd.concat([tax_complete, tax_partial]).drop_duplicates()
         self.tax_mmp = tax_mmp.set_index('mmp_ID')
-    
-    @staticmethod
-    def extractMMPidFromLabel(label: str) -> str:
-        """
-        Extract mardb mmp id from reference label
-        """
-        db_entry = re.compile('_MMP\d{8}')
-        try:
-            return re.search(db_entry, label).group(0).strip('_')
-        except Exception:
-            return ''
 
     def lowestAvailableCommonTaxonomy(self, mmp_ids: list) -> dict:
         """
@@ -86,7 +133,8 @@ class MMPtaxonomyAssigner():
         """
         tax_levels = ['kingdom', 'phylum', 'class', 'order', 'family']
         selected_levels = tax_levels[tax_levels.index(root_level):]
-        mmp_id = self.extractMMPidFromLabel(label)
+        labelParser = MARdbLabelParser()
+        mmp_id = labelParser.extractMMPid(label)
 
         try:
             tax_dict = self.lowestAvailableCommonTaxonomy([mmp_id])
@@ -107,8 +155,10 @@ class MMPtaxonomyAssigner():
         except Exception:
             tax_labels = 'No_taxomy_found'
             return f'{label}_{tax_labels}'
-  
 
+
+
+# *** Tagged as possibly trash code ***
 
 def getMarDBentryCode(label: str) -> str:
     db_entry = re.compile('\[mmp_id=(.*)\] ')
