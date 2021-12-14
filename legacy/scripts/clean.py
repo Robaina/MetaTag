@@ -40,7 +40,7 @@ if question=="":
 question=question[0]
 question=int(question)
 
-cmd = ["rm -r /home/robaina/cleangenomes/newfiles"];
+cmd = ["rm -r /home/robaina/cleangenomes/newfiles"]
 pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 p_status = pipe.wait()
 out, err = pipe.communicate()

@@ -15,7 +15,6 @@ pathtonucleotide = '/home/robaina/cleangenomes/cleanfiles/'
 
 pathresultsformatted="./a/"
 
-
 cmd = ["rm -r "+pathresultsformatted]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 cmd = ["mkdir "+pathresultsformatted]; pipe = subprocess.Popen(cmd, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE); p_status = pipe.wait(); out, err = pipe.communicate()
 
