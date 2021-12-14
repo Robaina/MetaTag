@@ -35,6 +35,9 @@ bash tests/run_test.sh
 ```
 It should produce a final tree with query sequences placed on it, as well as a bunch of intermediary files without any errors.
 
+## Working with GitHub branches
+
+
 ## Obtaining reference tree
 
 1. Preprocess database. Only run once to remove duplicates and sequences containing illegal symbols:
