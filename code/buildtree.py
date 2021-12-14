@@ -53,14 +53,14 @@ def main():
         additional_args=None
     )
     
-    print('* Inferring reference tree...')
-    inferTree(
-        ref_aln=output_aln,
-        method=args.tree_method,
-        substitution_model=args.tree_model,
-        output_dir=args.outdir,
-        additional_args=''
-    )
+    # print('* Inferring reference tree...')
+    # inferTree(
+    #     ref_aln=output_aln,
+    #     method=args.tree_method,
+    #     substitution_model=args.tree_model,
+    #     output_dir=args.outdir,
+    #     additional_args=''
+    # )
 
     print('Finished!')
 
