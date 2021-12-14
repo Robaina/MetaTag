@@ -42,7 +42,7 @@ The best way to safely interact with the codebase is through a personal git bran
 git pull --rebase origin main
 ```
 
-or if accesing git within Visual Studio Code, one can also run the command by clicking on the Source Control options (three dots) within the Git tab and cliking on Pull/Push / Pull (Rebase). All of this making sure you have selected your branch first.
+or if accesing git within Visual Studio Code, one can also run the command by clicking on the Source Control options (three dots) within the Git tab and cliking on Branch / Rebase branch. All of this making sure you have selected your branch first.
 
 __IMPORTANT NOTES__: 
 
