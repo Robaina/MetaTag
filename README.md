@@ -36,6 +36,16 @@ bash tests/run_test.sh
 It should produce a final tree with query sequences placed on it, as well as a bunch of intermediary files without any errors.
 
 ## Working with GitHub branches
+The best way to safely interact with the codebase is through a personal git branch. It may happen that the main branch is updated (for instace with a new script added) and one needs to integrate (merge) these new changes in their own branch without affecting the main branch. The best way to do this is by making use of the following command:
+
+```
+git pull --rebase origin main
+```
+
+__IMPORTANT NOTES__: 
+
+1. Before pulling new updated from main, commit all the you changes you made in yout local branch
+2. The command above must be exectued within your git branch, so first select the branch, the run the command.
 
 
 ## Obtaining reference tree
