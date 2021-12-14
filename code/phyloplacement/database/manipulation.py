@@ -359,7 +359,7 @@ class LinkedHMMfilter():
         return linked_hit_labels
 
 
-def filterFastaByHMMStructure(hmm_structure: str, input_fasta: str,
+def filterFastaByHMMstructure(hmm_structure: str, input_fasta: str,
                               input_hmms: list[str],
                               output_fasta: str = None,
                               hmmer_output_dir: str = None,

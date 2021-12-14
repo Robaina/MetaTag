@@ -14,7 +14,7 @@ import argparse
 
 from phyloplacement.utils import setDefaultOutputPath, TemporaryFilePath
 from phyloplacement.database.preprocessing import setTempRecordIDsInFASTA
-from phyloplacement.database.manipulation import filterFastaByHMMStructure, filterFastaBySequenceLength
+from phyloplacement.database.manipulation import filterFastaByHMMstructure, filterFastaBySequenceLength
 from phyloplacement.database.reduction import reduceDatabaseRedundancy
 
 
@@ -91,7 +91,7 @@ def main():
     
     print('* Making peptide-specific reference database...')
     with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2:
-        filterFastaByHMMStructure(
+        filterFastaByHMMstructure(
             hmm_structure=args.hmm_struc,
             input_fasta=args.data,
             input_hmms=args.hmms,
