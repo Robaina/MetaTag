@@ -19,7 +19,7 @@ from phyloplacement.database.reduction import reduceDatabaseRedundancy
 
 
 parser = argparse.ArgumentParser(
-    description='Build peptide reference database',
+    description='Build peptide reference database from HMM structure',
     epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
     )
 
@@ -31,7 +31,17 @@ required.add_argument('--hmms', dest='hmms', type=str, nargs='+',
                       required=True,
                       help='list of space-separated paths to tigrfam or pfam models')
 required.add_argument('--hmm_struc', dest='hmm_struc', type=str, required=True,
-                      help='string displaying hmm sctructure to search for')
+                      help=(
+                          'string displaying hmm sctructure to search for, such as: \n'
+                          '">hmm_a n_ab <hmm_b n_bc hmm_c", \n'
+                          'where ">" indicates a hmm target located on the positive strand, '
+                          '"<" a target located on the negative strand, and n_ab cooresponds '
+                          'to the maximum number of genes separating matched gene a and b. \n' 
+                          'Multiple hmms may be employed (limited by computational capabilities).'
+                          'No order symbol in a hmm indicates that results should be independent '
+                          'of strand location.'
+                          )
+                    )
 required.add_argument('--in', dest='data', type=str, required=True,
                       help='path to peptide database')
 optional.add_argument('--outdir', dest='outdir', type=str,
@@ -87,6 +97,7 @@ def main():
             input_hmms=args.hmms,
             output_fasta=tempfasta,
             hmmer_output_dir=hmmer_output_dir,
+            reuse_hmmer_results=True,
             method='hmmsearch',
             additional_args='--cut_nc'
         )
