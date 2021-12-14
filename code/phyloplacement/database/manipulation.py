@@ -230,8 +230,11 @@ class LinkedHMMfilter():
         >hmm_a n_ab <hmm_b n_bc hmm_c
 
         where '>' indicates a hmm target located on the positive strand,
-        '<' a target located on the negative strand. No order symbol 
-        indicates that results should be independent of strand location.
+        '<' a target located on the negative strand, and n_ab cooresponds 
+        to the maximum number of genes separating matched gene a and b. 
+        Multiple hmms may be employed (limited by computational capabilities).
+        No order symbol in a hmm indicates that results should be independent
+        of strand location.
         """
         def splitStrandFromLocus(locus_str: str) -> tuple:
             if locus_str[0] == '<' or locus_str[0] == '>':
@@ -360,6 +363,7 @@ def filterFastaByHMMStructure(hmm_structure: str, input_fasta: str,
                               input_hmms: list[str],
                               output_fasta: str = None,
                               hmmer_output_dir: str = None,
+                              reuse_hmmer_results: bool = True,
                               method: str = 'hmmsearch',
                               additional_args: str = None) -> None:
     """
@@ -375,7 +379,11 @@ def filterFastaByHMMStructure(hmm_structure: str, input_fasta: str,
             input_fasta, tag=f'filtered_{hmm_structure.replace(" ", "_")}'
             )
     if hmmer_output_dir is None:
-        hmmer_output_dir = setDefaultOutputPath(input_fasta, only_dirname=True)
+        hmmer_output_dir = os.path.join(
+            setDefaultOutputPath(input_fasta, only_dirname=True), 'hmmer_outputs')
+    
+    if not os.path.isdir(hmmer_output_dir):
+        os.mkdir(hmmer_output_dir)
 
     print('Running Hmmer...')
     hmm_hits = {}
@@ -383,19 +391,23 @@ def filterFastaByHMMStructure(hmm_structure: str, input_fasta: str,
         hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
         hmmer_output = os.path.join(hmmer_output_dir, f'hmmer_output_{hmm_name}.txt')
 
-        wrappers.runHMMsearch(
-            hmm_model=hmm_model,
-            input_fasta=input_fasta,
-            output_file=hmmer_output,
-            method=method,
-            additional_args=additional_args
-            )
+        if not (reuse_hmmer_results and os.path.isfile(hmmer_output)):
+            wrappers.runHMMsearch(
+                hmm_model=hmm_model,
+                input_fasta=input_fasta,
+                output_file=hmmer_output,
+                method=method,
+                additional_args=additional_args
+                )
 
         hmm_hits[hmm_name] = parseHMMsearchOutput(hmmer_output)
 
-    print('Filtering results by linkage structure...')
+    print('Filtering results by HMM structure...')
     linkedfilter = LinkedHMMfilter(hmm_hits)
     linked_hit_labels = linkedfilter.filterHitsByLinkedHMMstructure(hmm_structure)
+
+    if not linked_hit_labels.full.values.tolist():
+        raise ValueError('No records found in database matching provided hmm structure')
 
     print('Filtering Fasta...')
     filterFASTAbyIDs(input_fasta, record_ids=linked_hit_labels.full.values,
