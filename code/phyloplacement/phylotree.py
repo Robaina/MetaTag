@@ -7,6 +7,7 @@ query sequence placements onto trees
 """
 
 import os
+import shutil
 import re
 
 from Bio import Phylo 
@@ -19,8 +20,7 @@ from phyloplacement.database.manipulation import getFastaRecordIDs, splitReferen
 
 def inferTree(ref_aln: str,
               method: str = 'iqtree',
-              substitution_model: str = 'TEST',
-              modeltest_starting_tree: str = None,
+              substitution_model: str = 'modeltest',
               output_dir: str = None,
               additional_args: str = None) -> None:
     """
@@ -28,20 +28,45 @@ def inferTree(ref_aln: str,
     selected by default.
     """
     if method.lower() in 'iqtree':
+        if 'modeltest' in substitution_model.lower():
+            print('Selecting best subsitution model per modeltest-ng...')
+            wrappers.runModelTest(
+                input_algns=ref_aln,
+                n_processes=None,
+                output_dir=output_dir
+            )
+            best_model = getTreeModelFromModeltestLog(
+                modeltest_log=os.path.join(output_dir, 'modeltest_result.log'),
+                criterion='BIC'
+            )
+            modeltest_starting_tree = os.path.join(
+                output_dir, 'modeltest_result.tree'
+            )
+        elif 'iqtest' in substitution_model.lower():
+            best_model = 'TEST'
+            modeltest_starting_tree = None
+        else:
+            best_model = substitution_model
+            modeltest_starting_tree = None
+
         wrappers.runIqTree(
         input_algns=ref_aln,
         output_dir=output_dir,
         output_prefix='ref_database',
         keep_recovery_files=True,
-        substitution_model=substitution_model,
+        substitution_model=best_model,
         starting_tree=modeltest_starting_tree,
         additional_args=additional_args
         )
-    elif method.lower() in 'fasttree':   
+        shutil.move(
+            os.path.join(output_dir, 'ref_database.contree'),
+            os.path.join(output_dir, 'ref_database.newick')
+            )
+
+    elif method.lower() in 'fasttree':
         wrappers.runFastTree(
             input_algns=ref_aln,
-            output_file=os.path.join(output_dir, 'ref_database.fasttree'),
-            starting_tree=modeltest_starting_tree,
+            output_file=os.path.join(output_dir, 'ref_database.newick'),
             additional_args=additional_args
         )
     else:
