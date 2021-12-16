@@ -35,7 +35,7 @@ python3 code/makedatabase.py \
  --prefix "test_" \
  --relabel
 
-# Alignment and tree (changed script, only msa)
+# Alignment and tree
 python3 code/buildtree.py \
  --in tests/test_results/test_ref_database.faa \
  --outdir tests/test_results/ \
@@ -43,36 +43,34 @@ python3 code/buildtree.py \
  --tree_model "TEST" \
  --tree_method "iqtree"
 
-modeltest-ng -i tests/test_results/ref_database.faln -T raxml -d aa
+# Remove tree branch outliers
+python3 code/removetreeoutliers.py \
+ --tree tests/test_results/ref_database.contree \
+ --outdir tests/test_results/ \
+ --aln tests/test_results/ref_database.faln
 
-# # Remove tree branch outliers
-# python3 code/removetreeoutliers.py \
-#  --tree tests/test_results/ref_database.contree \
-#  --outdir tests/test_results/ \
-#  --aln tests/test_results/ref_database.faln
+# Preprocess query sequences
+python3 code/preprocess.py \
+ --in tests/test_data/query.faa \
+ --outfile tests/test_results/query_cleaned.faa \
+ --idprefix "query_" --relabel
 
-# # Preprocess query sequences
-# python3 code/preprocess.py \
-#  --in tests/test_data/query.faa \
-#  --outfile tests/test_results/query_cleaned.faa \
-#  --idprefix "query_" --relabel
+# Place query sequences
+python3 code/placesequences.py \
+ --aln tests/test_results/ref_database.faln \
+ --tree tests/test_results/ref_database.contree \
+ --query tests/test_results/query_cleaned.faa \
+ --outdir tests/test_results/ \
+ --aln_method "papara" \
+ --tree_model tests/test_results/ref_database.log
 
-# # Place query sequences
-# python3 code/placesequences.py \
-#  --aln tests/test_results/ref_database.faln \
-#  --tree tests/test_results/ref_database.contree \
-#  --query tests/test_results/query_cleaned.faa \
-#  --outdir tests/test_results/ \
-#  --aln_method "papara" \
-#  --tree_model tests/test_results/ref_database.log
-
-# # Relabel tree and alignment
-# python3 code/relabeltree.py \
-#  --tree tests/test_results/epa_result.newick \
-#  --labels tests/test_results/test_ref_database_id_dict.pickle \
-#           tests/test_results/query_cleaned_id_dict.pickle \
-#  --label_prefixes "ref_" "query_" \
-#  --taxonomy
+# Relabel tree and alignment
+python3 code/relabeltree.py \
+ --tree tests/test_results/epa_result.newick \
+ --labels tests/test_results/test_ref_database_id_dict.pickle \
+          tests/test_results/query_cleaned_id_dict.pickle \
+ --label_prefixes "ref_" "query_" \
+ --taxonomy
 
 
  # ./tests/test_results/ref_database.log # JTT
