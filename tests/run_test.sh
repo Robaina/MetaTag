@@ -40,12 +40,12 @@ python3 code/buildtree.py \
  --in tests/test_results/test_ref_database.faa \
  --outdir tests/test_results/ \
  --msa_method "muscle" \
- --tree_model "TEST" \
+ --tree_model "iqtest" \
  --tree_method "iqtree"
 
 # Remove tree branch outliers
 python3 code/removetreeoutliers.py \
- --tree tests/test_results/ref_database.contree \
+ --tree tests/test_results/ref_database.newick \
  --outdir tests/test_results/ \
  --aln tests/test_results/ref_database.faln
 
@@ -57,8 +57,8 @@ python3 code/preprocess.py \
 
 # Place query sequences
 python3 code/placesequences.py \
- --aln tests/test_results/ref_database.faln \
- --tree tests/test_results/ref_database.contree \
+ --aln tests/test_results/ref_database_shrink.faln \
+ --tree tests/test_results/ref_database_shrink.newick \
  --query tests/test_results/query_cleaned.faa \
  --outdir tests/test_results/ \
  --aln_method "papara" \

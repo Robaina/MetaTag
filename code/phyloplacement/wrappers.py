@@ -204,8 +204,10 @@ def runModelTest(input_algns: str, n_processes: int = None,
             )
     else:
         output_dir = os.path.abspath(
-            os.path.join(output_dir), 'modeltest_result'
+            os.path.join(output_dir, 'modeltest_result')
             )
+    if n_processes is None:
+        n_processes = os.cpu_count() - 1
     cmd_str = (f'modeltest-ng -i {input_algns} -T raxml -d aa -p {n_processes} '
                f'-o {output_dir}')
     terminalExecute(cmd_str, suppress_shell_output=False)
