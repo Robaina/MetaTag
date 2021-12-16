@@ -196,6 +196,7 @@ def runModelTest(input_algns: str, n_processes: int = None,
                  output_dir: str = None) -> None:
     """
     Simple CLI wrapper to modeltest-ng
+    Repo: https://github.com/ddarriba/modeltest
     """
     if output_dir is None:
         output_dir = os.path.join(
