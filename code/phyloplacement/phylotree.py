@@ -20,7 +20,7 @@ from phyloplacement.database.manipulation import getFastaRecordIDs, splitReferen
 def inferTree(ref_aln: str,
               method: str = 'iqtree',
               substitution_model: str = 'TEST',
-              modeltest_starting_tree: bool = True,
+              modeltest_starting_tree: str = None,
               output_dir: str = None,
               additional_args: str = None) -> None:
     """
