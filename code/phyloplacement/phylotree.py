@@ -8,12 +8,10 @@ query sequence placements onto trees
 
 import os
 import re
-# import json
-# from io import StringIO
 
 from Bio import Phylo 
 
-from phyloplacement.utils import setDefaultOutputPath
+from phyloplacement.utils import setDefaultOutputPath, easyPatternMatching
 import phyloplacement.wrappers as wrappers
 from phyloplacement.alignment import alignShortReadsToReferenceMSA
 from phyloplacement.database.manipulation import getFastaRecordIDs, splitReferenceFromQueryAlignments
@@ -22,6 +20,7 @@ from phyloplacement.database.manipulation import getFastaRecordIDs, splitReferen
 def inferTree(ref_aln: str,
               method: str = 'iqtree',
               substitution_model: str = 'TEST',
+              modeltest_starting_tree: bool = True,
               output_dir: str = None,
               additional_args: str = None) -> None:
     """
@@ -35,12 +34,14 @@ def inferTree(ref_aln: str,
         output_prefix='ref_database',
         keep_recovery_files=True,
         substitution_model=substitution_model,
+        starting_tree=modeltest_starting_tree,
         additional_args=additional_args
         )
     elif method.lower() in 'fasttree':   
         wrappers.runFastTree(
             input_algns=ref_aln,
             output_file=os.path.join(output_dir, 'ref_database.fasttree'),
+            starting_tree=modeltest_starting_tree,
             additional_args=additional_args
         )
     else:
@@ -97,6 +98,20 @@ def getIqTreeModelFromLogFile(iqtree_log: str) -> str:
         if model.lower() in ['mfp', 'test']:
             model = re.search('(?<=Best-fit model: )(.*)(?= chosen)', text).group(1)
     return model
+
+def getTreeModelFromModeltestLog(modeltest_log: str, criterion: str = 'BIC') -> str:
+    """
+    Parse modeltest-ng log file and return best fit model
+    according to selected criterion: BIC, AIC or AICc
+    """
+    with open(modeltest_log, 'r') as log:
+        text = log.read()
+        model = easyPatternMatching(
+            easyPatternMatching(
+                text, f'Best model according to {criterion}\n', '\nlnL'),
+                left_pattern='Model:'
+                ).strip()
+        return model
 
 def placeReadsOntoTree(input_tree: str, 
                        tree_model: str,

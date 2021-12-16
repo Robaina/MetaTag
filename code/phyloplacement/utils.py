@@ -202,3 +202,16 @@ def listTarDir(tar_dir: str) -> list:
     with tarfile.open(tar_dir, 'r') as tar_obj:
         files = tar_obj.getnames()
     return files
+
+def easyPatternMatching(text: str, left_pattern: str, right_pattern: str = None) -> str:
+    """
+    Just straightforward string searchs between two patterns
+    """
+    idx1 = text.find(left_pattern)
+    left_subtext = text[idx1 + len(left_pattern):]
+    if right_pattern is not None:
+        idx2 = left_subtext.find(right_pattern)
+        matched_text = left_subtext[:idx2]
+    else:
+        matched_text = left_subtext
+    return matched_text

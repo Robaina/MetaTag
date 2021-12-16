@@ -17,6 +17,8 @@
 # ************************************************************************************** #
 
 rm -r tests/test_results; mkdir tests/test_results
+source /home/robaina/miniconda3/bin/activate
+conda activate traits-test
 
 # Preprocess
 python3 code/preprocess.py \

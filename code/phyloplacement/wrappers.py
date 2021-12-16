@@ -192,15 +192,35 @@ def runTrimal(input_aln: str, output_aln: str = None) -> None:
                f'-resoverlap 0.55 -seqoverlap 60 -htmlout trimal.html')
     terminalExecute(cmd_str, suppress_shell_output=False)
 
+def runModelTest(input_algns: str, n_processes: int = None,
+                 output_dir: str = None) -> None:
+    """
+    Simple CLI wrapper to modeltest-ng
+    """
+    if output_dir is None:
+        output_dir = os.path.join(
+            setDefaultOutputPath(input_algns, only_dirname=True), 'modeltest_result'
+            )
+    else:
+        output_dir = os.path.abspath(
+            os.path.join(output_dir), 'modeltest_result'
+            )
+    cmd_str = (f'modeltest-ng -i {input_algns} -T raxml -d aa -p {n_processes} '
+               f'-o {output_dir}')
+    terminalExecute(cmd_str, suppress_shell_output=False)
+
 def runFastTree(input_algns: str, output_file: str = None,
                 nucleotides: bool = False,
+                starting_tree: str = None,
                 additional_args: str = None) -> None:
     """
     Simple CLI wrapper to fasttree.
     fasttree accepts multiple alignments in fasta or phylip formats
+    It seems that fasttree does not allow inputing subsitution model.
+    Default substitution model for protein seqs is JTT
 
     additional_args: a string containing additional parameters and
-                    parameter values to be passed to fasttree
+                     parameter values to be passed to fasttree
     """
     if output_file is None:
         output_file = setDefaultOutputPath(input_algns, tag='_fasttree',
@@ -209,10 +229,14 @@ def runFastTree(input_algns: str, output_file: str = None,
         nt_str = '-gtr -nt'
     else:
         nt_str = ''
+    if starting_tree is not None:
+        start_t_str = f'-intree {starting_tree}'
+    else:
+        start_t_str = ''
     if additional_args is None:
         additional_args = ''
     input_algns = os.path.abspath(input_algns)
-    cmd_str = f'fasttree {nt_str} {input_algns} {additional_args} > {output_file}'
+    cmd_str = f'fasttree {nt_str} {input_algns} {start_t_str} {additional_args} > {output_file}'
     terminalExecute(cmd_str, suppress_shell_output=False)
 
 def runIqTree(input_algns: str, output_dir: str = None,
@@ -220,6 +244,7 @@ def runIqTree(input_algns: str, output_dir: str = None,
               keep_recovery_files: bool = False,
               nucleotides: bool = False, n_processes: int = None,
               substitution_model: str = 'TEST',
+              starting_tree: str = None,
               bootstrap_replicates: int = 1000,
               additional_args: str = None) -> None:
     """
@@ -263,6 +288,10 @@ def runIqTree(input_algns: str, output_dir: str = None,
         seq_type = 'AA'
     if n_processes is None:
         n_processes = 'AUTO'
+    if starting_tree is not None:
+        start_t_str = f'-t {starting_tree}'
+    else:
+        start_t_str = ''
     if additional_args is None:
         additional_args = ''
 
@@ -270,7 +299,7 @@ def runIqTree(input_algns: str, output_dir: str = None,
     cmd_str = (
         f'iqtree -s {input_algns} -st {seq_type} -nt {n_processes} '
         f'-m {substitution_model} -bb {bootstrap_replicates} -mset raxml '
-        f'{output_prefix_str} {additional_args}'
+        f'{output_prefix_str} {start_t_str} {additional_args}'
                )
     terminalExecute(cmd_str, suppress_shell_output=False)
     if not keep_recovery_files:
