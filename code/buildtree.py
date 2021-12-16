@@ -35,8 +35,8 @@ optional.add_argument('--tree_method', dest='tree_method', type=str,
                       default='iqtree', choices=['iqtree', 'fasttree'],
                       help='choose method for tree inference')
 optional.add_argument('--tree_model', dest='tree_model', type=str,
-                      default='TEST',
-                      help='choose substitution model for tree inference. Defaults to optimal.')
+                      default='modeltest', choices=['iqtest', 'modeltest', 'a model name'],
+                      help='choose substitution model for iqtree inference. Defaults to optimal per modeltest-ng.')
 
 args = parser.parse_args()
 if args.outdir is None:
