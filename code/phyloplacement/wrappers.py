@@ -490,6 +490,34 @@ def runGappaGraft(input_jplace: str,
         )
     terminalExecute(cmd_str, suppress_shell_output=False)
 
+def runGappaAssign(jplace: str, taxonomy_file: str,
+                   output_dir: str = None, output_prefix: str = None,
+                   additional_args: str = None) -> None:
+    """
+    Use gappa examine assign to assign taxonomy to placed query sequences
+    based on taxonomy assigned to tree reference sequences
+
+    argument: --resolve-missing-paths alongside --root-outgroup can be
+    added to find missing taxonomic info in labels.
+
+    Info: https://github.com/lczech/gappa/wiki/Subcommand:-assign
+    """
+    if output_dir is None:
+        output_dir = setDefaultOutputPath(jplace, only_dirname=True)
+    if output_prefix is None:
+        output_prefix = setDefaultOutputPath(jplace, only_filename=True)
+    if additional_args is not None:
+        args_str = additional_args
+    else:
+        args_str = ''
+
+    cmd_str = (
+        f'gappa examine assign --jplace-path {jplace} --taxon-file {taxonomy_file} '
+        f'--out-dir {output_dir} --file-prefix {output_prefix} --allow-file-overwriting'
+        f'{args_str}'
+        )
+    terminalExecute(cmd_str, suppress_shell_output=True)
+
 
 
 
