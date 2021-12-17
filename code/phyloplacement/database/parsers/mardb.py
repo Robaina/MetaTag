@@ -80,11 +80,11 @@ class MMPtaxonomyAssigner():
     """
     Methods to assign taxonomy to mardb reference sequeces
     """
-    def __init__(self, current: str = None, partial: str = None):
-        if current is None:
-            self.current = os.path.abspath('data/taxonomy/CurrentComplete.tsv')
+    def __init__(self, complete: str = None, partial: str = None):
+        if complete is None:
+            self.complete = os.path.abspath('data/taxonomy/CurrentComplete.tsv')
         else:
-            self.current = os.path.abspath(current)
+            self.complete = os.path.abspath(complete)
         if partial is None:
             self.partial = os.path.abspath('data/taxonomy/CurrentPartial.tsv')
         else:
@@ -93,7 +93,7 @@ class MMPtaxonomyAssigner():
         'mmp_ID', 'taxon_lineage_names', 'full_scientific_name',
         'kingdom','phylum','class', 'order', 'family', 'genus', 'species'
         ]
-        tax_complete = pd.read_csv(self.current, sep='\t')
+        tax_complete = pd.read_csv(self.complete, sep='\t')
         tax_complete = tax_complete[tax_cols]
         tax_partial = pd.read_csv(self.partial, sep='\t')
         tax_partial = tax_partial[tax_cols]
@@ -121,7 +121,9 @@ class MMPtaxonomyAssigner():
 
     def assignTaxonomyToLabel(self, label: str,
                               root_level: str = 'kingdom',
-                              full_label: bool = False) -> str:
+                              full_label: bool = False,
+                              only_taxonomy: bool = False,
+                              separator: str = '_') -> str:
         """
         Assign GTDB taxonomy to labels containing MardDB entry codes.
         Returns original label when no taxonomical info found.
@@ -138,23 +140,41 @@ class MMPtaxonomyAssigner():
 
         try:
             tax_dict = self.lowestAvailableCommonTaxonomy([mmp_id])
-            
-            fil_tax_dict = {
-                tax: value 
-                for tax, value in tax_dict.items()
-                if (
-                    (value.lower() not in 'unclassified') and
-                    (tax in selected_levels)
-                    )
-            }
-            tax_labels = '_'.join(fil_tax_dict.values())
+            fil_tax_dict = {}
+            for tax, value in tax_dict.items():
+                if tax in selected_levels:
+                    if value.lower() in 'unclassified':
+                        break
+                    fil_tax_dict[tax] = value
+
+            tax_labels = separator.join(fil_tax_dict.values())
             if full_label:
-                return f'{label}_{tax_labels}'
+                return tax_labels if only_taxonomy else f'{label}_{tax_labels}'
             else:
-                return f'{mmp_id}_{tax_labels}'
+                return tax_labels if only_taxonomy else f'{mmp_id}_{tax_labels}'
         except Exception:
-            tax_labels = 'No_taxomy_found'
-            return f'{label}_{tax_labels}'
+            tax_labels = 'No_taxonomy_found'
+            return tax_labels if only_taxonomy else f'{label}_{tax_labels}'
+
+    def buildGappaTaxonomyTable(self, ref_id_dict: dict, output_file: str = None) -> None:
+        """
+        Build gappa-compatible taxonomy file as specified here:
+        https://github.com/lczech/gappa/wiki/Subcommand:-assign
+        """
+        if output_file is None:
+            output_file = os.path.join(os.getcwd(), 'gappa_taxonomy.tsv')
+
+        with open(output_file, 'w') as outfile:
+            lines = []
+            for ref_id, label in ref_id_dict.items():
+                taxon_str = self.assignTaxonomyToLabel(
+                    label=label, full_label=False,
+                    only_taxonomy=True, separator=';'
+                    )
+                taxon_str = '' if 'No_taxonomy_found' in taxon_str else taxon_str
+                if taxon_str:
+                    lines.append(f'{ref_id}\t{taxon_str}\n')
+            outfile.writelines(lines)
 
 
 

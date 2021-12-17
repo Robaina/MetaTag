@@ -5,17 +5,17 @@
 Tools to quantify and assign labels to placed sequences
 """
 
-import os
 import re
 import json
 from io import StringIO
 
 from Bio import Phylo 
 
-from phyloplacement.utils import setDefaultOutputPath
 import phyloplacement.wrappers as wrappers
-from phyloplacement.alignment import alignShortReadsToReferenceMSA
-from phyloplacement.database.manipulation import getFastaRecordIDs, splitReferenceFromQueryAlignments
+from phyloplacement.utils import (setDefaultOutputPath,
+                                  TemporaryFilePath,
+                                  readFromPickleFile)
+from phyloplacement.database.parsers.mardb import MMPtaxonomyAssigner
 
 
 class JplaceParser():
@@ -136,3 +136,30 @@ class JplaceParser():
             if place_object['p']['edge_num'] in ref_dict.keys()
         }
         return labeled_placements
+
+
+def assignTaxonomyToPlacements(jplace: str, id_dict_pickle: str,
+                               output_dir: str = None,
+                               output_prefix: str = None) -> None:
+    """
+    Assign taxonomy to placed query sequences based on
+    taxonomy assigned to tree reference sequences
+    """
+    if output_dir is None:
+        output_dir = setDefaultOutputPath(jplace, only_dirname=True)
+    if output_prefix is None:
+        output_prefix = setDefaultOutputPath(jplace, only_filename=True)
+
+    with TemporaryFilePath() as temptax:
+        id_dict = readFromPickleFile(id_dict_pickle)
+        taxonomy = MMPtaxonomyAssigner(
+            complete='../data/taxonomy/CurrentComplete.tsv',
+            partial='../data/taxonomy/CurrentPartial.tsv'
+            )
+        taxonomy.buildGappaTaxonomyTable(id_dict, output_file=temptax)
+        wrappers.runGappaAssign(
+            jplace=jplace,
+            taxonomy_file=temptax,
+            output_dir=output_dir,
+            output_prefix=output_prefix,
+            additional_args=None)
