@@ -516,7 +516,7 @@ def runGappaAssign(jplace: str, taxonomy_file: str,
         f'--out-dir {output_dir} --file-prefix {output_prefix} --allow-file-overwriting'
         f'{args_str}'
         )
-    terminalExecute(cmd_str, suppress_shell_output=True)
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 
 

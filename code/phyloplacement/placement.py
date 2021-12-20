@@ -153,8 +153,8 @@ def assignTaxonomyToPlacements(jplace: str, id_dict_pickle: str,
     with TemporaryFilePath() as temptax:
         id_dict = readFromPickleFile(id_dict_pickle)
         taxonomy = MMPtaxonomyAssigner(
-            complete='../data/taxonomy/CurrentComplete.tsv',
-            partial='../data/taxonomy/CurrentPartial.tsv'
+            complete='data/taxonomy/CurrentComplete.tsv',
+            partial='data/taxonomy/CurrentPartial.tsv'
             )
         taxonomy.buildGappaTaxonomyTable(id_dict, output_file=temptax)
         wrappers.runGappaAssign(
