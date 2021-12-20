@@ -513,8 +513,8 @@ def runGappaAssign(jplace: str, taxonomy_file: str,
 
     cmd_str = (
         f'gappa examine assign --jplace-path {jplace} --taxon-file {taxonomy_file} '
-        f'--out-dir {output_dir} --file-prefix {output_prefix} --allow-file-overwriting'
-        f'{args_str}'
+        f'--out-dir {output_dir} --file-prefix {output_prefix} --allow-file-overwriting '
+        f'--per-query-results {args_str}'
         )
     terminalExecute(cmd_str, suppress_shell_output=False)
 
