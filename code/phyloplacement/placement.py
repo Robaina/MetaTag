@@ -138,9 +138,10 @@ class JplaceParser():
         return labeled_placements
 
 
-def assignTaxonomyToPlacements(jplace: str, id_dict_pickle: str,
+def assignTaxonomyToPlacements(jplace: str, id_dict: dict,
                                output_dir: str = None,
-                               output_prefix: str = None) -> None:
+                               output_prefix: str = None,
+                               additional_args: str = None) -> None:
     """
     Assign taxonomy to placed query sequences based on
     taxonomy assigned to tree reference sequences
@@ -151,7 +152,6 @@ def assignTaxonomyToPlacements(jplace: str, id_dict_pickle: str,
         output_prefix = setDefaultOutputPath(jplace, only_filename=True)
 
     with TemporaryFilePath() as temptax:
-        id_dict = readFromPickleFile(id_dict_pickle)
         taxonomy = MMPtaxonomyAssigner(
             complete='data/taxonomy/CurrentComplete.tsv',
             partial='data/taxonomy/CurrentPartial.tsv'
@@ -162,4 +162,4 @@ def assignTaxonomyToPlacements(jplace: str, id_dict_pickle: str,
             taxonomy_file=temptax,
             output_dir=output_dir,
             output_prefix=output_prefix,
-            additional_args=None)
+            additional_args=additional_args)

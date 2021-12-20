@@ -18,7 +18,7 @@
 
 rm -r tests/test_results; mkdir tests/test_results
 # source /home/robaina/miniconda3/bin/activate
-# conda activate traits-test
+# conda activate traits
 
 # Preprocess
 python3 code/preprocess.py \
@@ -30,14 +30,29 @@ python3 code/makedatabase.py \
  --in tests/test_results/test_data_cleaned.faa \
  --outdir tests/test_results/ \
  --hmm tests/test_data/TIGR01580.1.HMM \
- --max_size 20 \
+ --max_size 1000 \
  --min_seq_length 10 --max_seq_length 2000 \
  --prefix "test_" \
  --relabel
 
+# Add outgroup: preprocess
+python3 ./code/preprocess.py \
+ --in tests/test_data/outlier_data.faa \
+ --outfile tests/test_results/outliers_short_ids.faa \
+ --idprefix "ref_out_" --relabel
+
+# Merge outgroup to reference database
+mkdir tests/test_results/data 
+mv tests/test_results/test_ref_database.faa tests/test_results/data/
+mv tests/test_results/outliers_short_ids.faa tests/test_results/data/
+
+python3 ./code/preprocess.py \
+ --in tests/test_results/data/ \
+ --outfile tests/test_results/ref_database.faa
+
 # Alignment and tree
 python3 code/buildtree.py \
- --in tests/test_results/test_ref_database.faa \
+ --in tests/test_results/ref_database.faa \
  --outdir tests/test_results/ \
  --msa_method "muscle" \
  --tree_model "iqtest" \
@@ -68,8 +83,9 @@ python3 code/placesequences.py \
 python3 code/relabeltree.py \
  --tree tests/test_results/epa_result.newick \
  --labels tests/test_results/test_ref_database_id_dict.pickle \
+          tests/test_results/outliers_short_ids_id_dict.pickle \
           tests/test_results/query_cleaned_id_dict.pickle \
- --label_prefixes "ref_" "query_" \
+ --label_prefixes "ref_" "out_" "query_" \
  --taxonomy
 
 
