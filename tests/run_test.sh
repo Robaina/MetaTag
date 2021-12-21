@@ -16,7 +16,7 @@
 #                                                                                        #
 # ************************************************************************************** #
 
-rm -r tests/test_results; mkdir tests/test_results
+rm -r tests/test_results; mkdir tests/test_results; mkdir tests/test_results/gappa/
 # source /home/robaina/miniconda3/bin/activate
 # conda activate traits
 
@@ -78,6 +78,16 @@ python3 code/placesequences.py \
  --outdir tests/test_results/ \
  --aln_method "papara" \
  --tree_model tests/test_results/ref_database.log
+
+# Assign taxonomy to placed sequences
+python3 code/evaluateplacements.py \
+ --jplace tests/test_results/epa_result.jplace \
+ --labels tests/test_results/test_ref_database_id_dict.pickle \
+          tests/test_results/outliers_short_ids_id_dict.pickle \
+          tests/test_results/query_cleaned_id_dict.pickle \
+ --outgroup tests/test_results/data/outliers_short_ids.faa \
+ --prefix "test_placed_tax_" \
+ --outdir tests/test_results/gappa/
 
 # Relabel tree and alignment
 python3 code/relabeltree.py \
