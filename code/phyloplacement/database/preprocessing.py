@@ -167,3 +167,21 @@ def setOriginalRecordIDsInFASTA(input_fasta: str,
             yield record
 
     SeqIO.write(relabel_records(), output_fasta, 'fasta')
+
+def writeRecordNamesToFile(input_fasta: str, output_file: str = None):
+    """
+    Write a txt file containing a list of record IDs in fasta
+    """
+    if output_file is None:
+        output_file = setDefaultOutputPath(input_fasta, extension='.txt')
+    with open(output_file, 'w') as file:
+        lines = []
+        records = SeqIO.parse(input_fasta, 'fasta')
+        for record in records:
+            lines.append(record.name + '\n')
+        file.writelines(lines)
+
+def is_fasta(filename):
+    with open(filename, "r") as handle:
+        fasta = SeqIO.parse(handle, "fasta")
+        return any(fasta) 

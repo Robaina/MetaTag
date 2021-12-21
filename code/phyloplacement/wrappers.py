@@ -492,6 +492,7 @@ def runGappaGraft(input_jplace: str,
 
 def runGappaAssign(jplace: str, taxonomy_file: str,
                    output_dir: str = None, output_prefix: str = None,
+                   only_best_hit: bool = True,
                    additional_args: str = None) -> None:
     """
     Use gappa examine assign to assign taxonomy to placed query sequences
@@ -506,6 +507,10 @@ def runGappaAssign(jplace: str, taxonomy_file: str,
         output_dir = setDefaultOutputPath(jplace, only_dirname=True)
     if output_prefix is None:
         output_prefix = setDefaultOutputPath(jplace, only_filename=True)
+    if only_best_hit:
+        best_str = '--best-hit'
+    else:
+        best_str = ''
     if additional_args is not None:
         args_str = additional_args
     else:
@@ -514,7 +519,7 @@ def runGappaAssign(jplace: str, taxonomy_file: str,
     cmd_str = (
         f'gappa examine assign --jplace-path {jplace} --taxon-file {taxonomy_file} '
         f'--out-dir {output_dir} --file-prefix {output_prefix} --allow-file-overwriting '
-        f'--per-query-results {args_str}'
+        f'--per-query-results {best_str} {args_str}'
         )
     terminalExecute(cmd_str, suppress_shell_output=False)
 

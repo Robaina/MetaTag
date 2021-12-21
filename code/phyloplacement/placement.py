@@ -4,7 +4,7 @@
 """
 Tools to quantify and assign labels to placed sequences
 """
-
+import os
 import re
 import json
 from io import StringIO
@@ -13,9 +13,11 @@ from Bio import Phylo
 
 import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import (setDefaultOutputPath,
-                                  TemporaryFilePath,
-                                  readFromPickleFile)
+                                  TemporaryFilePath)
 from phyloplacement.database.parsers.mardb import MMPtaxonomyAssigner
+from phyloplacement.alignment import alignShortReadsToReferenceMSA
+from phyloplacement.phylotree import getIqTreeModelFromLogFile
+from phyloplacement.database.manipulation import getFastaRecordIDs, splitReferenceFromQueryAlignments
 
 
 class JplaceParser():
@@ -138,13 +140,69 @@ class JplaceParser():
         return labeled_placements
 
 
+def placeReadsOntoTree(input_tree: str, 
+                       tree_model: str,
+                       ref_aln: str,
+                       query_seqs: str,
+                       aln_method: str = 'papara',
+                       output_dir: str = None) -> None:
+    """
+    Performs short read placement onto phylogenetic tree
+    tree_model: str, either the model name or path to log output by iqtree
+    workflow example: https://github.com/Pbdas/epa-ng/wiki/Full-Stack-Example
+    """
+    if output_dir is None:
+        output_dir = setDefaultOutputPath(query_seqs, only_dirname=True)
+    else:
+        output_dir = os.path.abspath(output_dir)
+    
+    if os.path.isfile(tree_model):
+        tree_model = getIqTreeModelFromLogFile(tree_model)
+        print(f'Running EPA-ng with inferred substitution model: {tree_model}')
+    
+    ref_ids = getFastaRecordIDs(ref_aln)
+    ref_query_msa = os.path.join(
+        output_dir, setDefaultOutputPath(query_seqs, extension='.faln',
+                                         only_filename=True)
+        )
+    aln_ref_frac = os.path.splitext(ref_query_msa)[0] + '_ref_fraction.faln'
+    aln_query_frac = os.path.splitext(ref_query_msa)[0] + '_query_fraction.faln'
+
+    alignShortReadsToReferenceMSA(
+        ref_msa=ref_aln,
+        query_seqs=query_seqs,
+        method=aln_method,
+        tree_nwk=input_tree,
+        output_dir=output_dir
+    )
+    
+    splitReferenceFromQueryAlignments(
+        ref_query_msa=ref_query_msa,
+        ref_ids=ref_ids,
+        out_dir=output_dir
+    )
+
+    wrappers.runEPAng(
+        input_tree=input_tree,
+        input_aln_ref=aln_ref_frac,
+        input_aln_query=aln_query_frac,
+        model=tree_model,
+        output_dir=output_dir,
+        n_threads=None,
+        additional_args=None)
+
 def assignTaxonomyToPlacements(jplace: str, id_dict: dict,
                                output_dir: str = None,
                                output_prefix: str = None,
+                               only_best_hit: bool = True,
                                additional_args: str = None) -> None:
     """
     Assign taxonomy to placed query sequences based on
-    taxonomy assigned to tree reference sequences
+    taxonomy assigned to tree reference sequences using
+    gappa examine assign.
+    @parameter
+    only_best_hit: only report taxonomy with largest LWR
+                   per query
     """
     if output_dir is None:
         output_dir = setDefaultOutputPath(jplace, only_dirname=True)
@@ -162,4 +220,5 @@ def assignTaxonomyToPlacements(jplace: str, id_dict: dict,
             taxonomy_file=temptax,
             output_dir=output_dir,
             output_prefix=output_prefix,
+            only_best_hit=only_best_hit,
             additional_args=additional_args)
