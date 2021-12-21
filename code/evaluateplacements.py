@@ -37,8 +37,7 @@ optional.add_argument('--outgroup', dest='outgroup', type=str,
                           'path to text file containing IDs of sequences to be considered '
                           'as an outgroup to root the tree. It can also be a fasta file from '
                           'which sequence names will be extracted. The outgroup will be used to '
-                          'recover missing taxonomic infomation by gappa examine assign. '
-                          'IMPORTANT: outgroup sequences have to be fully taxonomically resolved')
+                          'recover missing taxonomic infomation by gappa examine assign. ')
                           )
 optional.add_argument('--prefix', dest='prefix', type=str,
                       default='',
