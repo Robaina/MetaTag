@@ -13,7 +13,7 @@ import argparse
 
 import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import setDefaultOutputPath
-from phyloplacement.phylotree import placeReadsOntoTree
+from phyloplacement.placement import placeReadsOntoTree
 
 
 parser = argparse.ArgumentParser(
@@ -62,7 +62,6 @@ def main():
         ref_aln=args.aln,
         query_seqs=args.query,
         aln_method=args.aln_method,
-        # ref_prefix='ref_',
         output_dir=args.outdir
     )
     
