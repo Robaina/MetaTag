@@ -358,10 +358,24 @@ class LinkedHMMfilter():
         
         return linked_hit_labels
 
+    def partitionLinkedLabelsByHMM(self, linked_hit_labels: pd.DataFrame) -> pd.DataFrame:
+        """
+        Partition linked labels dataframe into several dataframes containing
+        hmm-specific hits.  This is a workaround to avoid extensive modification of
+        LinkedHMMfilter.filterHitsByLinkedHMMstructure.
+        """
+        return {
+            hmm_name: linked_hit_labels[linked_hit_labels.full.isin(hits.id)]
+            for hmm_name, hits in self._hmm_hits.items()
+        }
 
-def filterFastaByHMMstructure(hmm_structure: str, input_fasta: str,
+
+def filterFastaByHMMstructure(hmm_structure: str,
+                              target_hmm: str,
+                              input_fasta: str,
                               input_hmms: list[str],
                               output_fasta: str = None,
+                              output_dir: str = None,
                               hmmer_output_dir: str = None,
                               reuse_hmmer_results: bool = True,
                               method: str = 'hmmsearch',
@@ -403,6 +417,11 @@ def filterFastaByHMMstructure(hmm_structure: str, input_fasta: str,
         raise ValueError('Additional arguments must be: 1) a list[str], 2) a str, or 3) None')
     if not os.path.isdir(hmmer_output_dir):
         os.mkdir(hmmer_output_dir)
+    
+    if output_dir is None:
+        output_dir = setDefaultOutputPath(input_fasta, only_dirname=True)
+    else:
+        output_dir = output_dir
 
     print('Running Hmmer...')
     hmm_hits = {}
@@ -427,7 +446,14 @@ def filterFastaByHMMstructure(hmm_structure: str, input_fasta: str,
 
     if not linked_hit_labels.full.values.tolist():
         raise ValueError('No records found in database matching provided hmm structure')
-
+    
     print('Filtering Fasta...')
-    filterFASTAbyIDs(input_fasta, record_ids=linked_hit_labels.full.values,
-                     output_fasta=output_fasta)
+    partitioned_hit_labels = linkedfilter.partitionLinkedLabelsByHMM(linked_hit_labels)
+    for hmm_name in hmm_hits:
+        if hmm_name in target_hmm:
+            outfasta = output_fasta
+        else:
+            outfasta = os.path.join(output_dir, f'{hmm_name}_hits.fasta')
+        record_ids = partitioned_hit_labels[hmm_name].full.values
+        filterFASTAbyIDs(input_fasta, record_ids=record_ids,
+                         output_fasta=outfasta)

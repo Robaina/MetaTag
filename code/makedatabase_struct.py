@@ -30,6 +30,12 @@ parser._action_groups.append(optional)
 required.add_argument('--hmms', dest='hmms', type=str, nargs='+',
                       required=True,
                       help='list of space-separated paths to tigrfam or pfam models')
+required.add_argument('--target_hmm', dest='target_hmm', type=str,
+                      required=True,
+                      help=(
+                          'name of target hmm model to be used to generate sequence database. '
+                          'Name must be equal to the name of one of the provided hmms')
+                          )
 required.add_argument('--hmm_struc', dest='hmm_struc', type=str, required=True,
                       help=(
                           'string displaying hmm sctructure to search for, such as: \n'
@@ -39,7 +45,13 @@ required.add_argument('--hmm_struc', dest='hmm_struc', type=str, required=True,
                           'to the maximum number of genes separating matched gene a and b. \n' 
                           'Multiple hmms may be employed (limited by computational capabilities).'
                           'No order symbol in a hmm indicates that results should be independent '
-                          'of strand location.'
+                          'of strand location. '
+                          'The script outputs a main file containing sequences matching the provided '
+                          'hmm structure and corresponding to the main target indicated in the argument: '
+                          'target_hmm. These sequences are filtered by sequence length and by maximum '
+                          'number of total sequences. '
+                          'The script also outputs additional file containing the matched records for the '
+                          'other, non-target, hmms. However, these files are not processed any further.'
                           )
                     )
 required.add_argument('--in', dest='data', type=str, required=True,
@@ -102,9 +114,11 @@ def main():
     with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2:
         filterFastaByHMMstructure(
             hmm_structure=args.hmm_struc,
+            target_hmm=args.target_hmm,
             input_fasta=args.data,
             input_hmms=args.hmms,
             output_fasta=tempfasta,
+            output_dir=args.outdir,
             hmmer_output_dir=hmmer_output_dir,
             reuse_hmmer_results=True,
             method='hmmsearch',
