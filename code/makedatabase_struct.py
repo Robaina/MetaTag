@@ -63,6 +63,13 @@ optional.add_argument('--min_seq_length', dest='minseqlength',
                         'Defaults to zero'
                         )
                     )
+optional.add_argument('--hmmsearch_args', dest='hmmsearch_args', type=str,
+                      default=None, required=False,
+                      help=(
+                          'list of comma-separated additional arguments to hmmsearch for each input hmm. '
+                          'A single argument may be provided, in which case the same additional argument '
+                          'is employed in all hmms.')
+                          )
 parser.add_argument('--max_seq_length', dest='maxseqlength',
                     default=None, type=int,
                     required=False,
@@ -83,6 +90,8 @@ parser.add_argument('--relabel', dest='relabel', action='store_true',
 args = parser.parse_args()
 if args.outdir is None:
     args.outdir = setDefaultOutputPath(args.data, only_dirname=True)
+hmmsearch_args = list(map(lambda x: x.strip(), args.hmmsearch_args.split(",")))
+hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
 hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
 output_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database.faa')
 output_fasta_short = os.path.join(args.outdir, f'{args.prefix}ref_database_short_ids.faa')
@@ -99,7 +108,7 @@ def main():
             hmmer_output_dir=hmmer_output_dir,
             reuse_hmmer_results=True,
             method='hmmsearch',
-            additional_args='--cut_nc'
+            additional_args=hmmsearch_args #'--cut_nc'
         )
         
         if (args.minseqlength is not None) or (args.maxseqlength is not None):

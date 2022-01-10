@@ -365,14 +365,19 @@ def filterFastaByHMMstructure(hmm_structure: str, input_fasta: str,
                               hmmer_output_dir: str = None,
                               reuse_hmmer_results: bool = True,
                               method: str = 'hmmsearch',
-                              additional_args: str = None) -> None:
+                              additional_args: list[str] = None) -> None:
     """
     Generate protein-specific database by filtering sequence database
     to only contain sequences which satisfy the provided (gene/hmm)
     structure
     
     @Arguments:
-    additional_args: additional arguments to hmmsearch or hmmscan
+    additional_args: additional arguments to hmmsearch or hmmscan. Each
+    element in the list is a string with additional arguments for each 
+    input hmm (arranged in the same order), an element can also take a 
+    value of None to avoid passing additional arguments for a specific 
+    input hmm. A single string may also be passed, in which case the 
+    same additional argument is passed to hmmsearch for all input hmms
     """
     if output_fasta is None:
         output_fasta = setDefaultOutputPath(
@@ -381,13 +386,27 @@ def filterFastaByHMMstructure(hmm_structure: str, input_fasta: str,
     if hmmer_output_dir is None:
         hmmer_output_dir = os.path.join(
             setDefaultOutputPath(input_fasta, only_dirname=True), 'hmmer_outputs')
+        
+    if additional_args is None:
+        additional_args = [None for _ in len(input_hmms)]
     
+    if type(additional_args) == str:
+        additional_args = [additional_args for _ in len(input_hmms)]
+
+    elif type(additional_args) == list:
+        if len(additional_args) == 1:
+            additional_args = [additional_args[0] for _ in len(input_hmms)]
+
+        if (len(additional_args) > 1) and (len(additional_args) < len(input_hmms)):
+            raise ValueError("Provided additional argument strings are less than the number of input hmms.")
+    else:
+        raise ValueError('Additional arguments must be: 1) a list[str], 2) a str, or 3) None')
     if not os.path.isdir(hmmer_output_dir):
         os.mkdir(hmmer_output_dir)
 
     print('Running Hmmer...')
     hmm_hits = {}
-    for hmm_model in input_hmms:
+    for hmm_model, add_args in zip(input_hmms, additional_args):
         hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
         hmmer_output = os.path.join(hmmer_output_dir, f'hmmer_output_{hmm_name}.txt')
 
@@ -397,7 +416,7 @@ def filterFastaByHMMstructure(hmm_structure: str, input_fasta: str,
                 input_fasta=input_fasta,
                 output_file=hmmer_output,
                 method=method,
-                additional_args=additional_args
+                additional_args=add_args
                 )
 
         hmm_hits[hmm_name] = parseHMMsearchOutput(hmmer_output)
