@@ -55,9 +55,9 @@ python3 code/buildtree.py \
  --in tests/test_results/ref_database.faa \
  --outdir tests/test_results/ \
  --msa_method "muscle" \
- --tree_model "iqtest" \
+ --tree_model "LG+F+I+G4" \
  --tree_method "iqtree"
-
+# "iqtest" \
 # Remove tree branch outliers
 python3 code/removetreeoutliers.py \
  --tree tests/test_results/ref_database.newick \
@@ -77,7 +77,9 @@ python3 code/placesequences.py \
  --query tests/test_results/query_cleaned.faa \
  --outdir tests/test_results/ \
  --aln_method "papara" \
- --tree_model tests/test_results/ref_database.log
+ --tree_model "LG+F+I+G4"  
+ 
+ #tests/test_results/ref_database.log
 
 # Assign taxonomy to placed sequences
 python3 code/evaluateplacements.py \
