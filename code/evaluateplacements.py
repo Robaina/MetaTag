@@ -12,7 +12,7 @@ import argparse
 
 from phyloplacement.utils import setDefaultOutputPath, readFromPickleFile
 from phyloplacement.database.preprocessing import is_fasta, writeRecordNamesToFile
-from phyloplacement.placement import assignTaxonomyToPlacements
+from phyloplacement.placement import assignTaxonomyToPlacements, read_clusters_file
 
 
 parser = argparse.ArgumentParser(
@@ -32,6 +32,14 @@ required.add_argument('--labels', dest='labels', type=str, required=True,
                           'path to label dict in pickle format. '
                           'More than one space-separated path can be input')
                           )
+optional.add_argument('--ref_clusters', dest='ref_clusters', type=str,
+                      default=None,
+                      help=(
+                          'tsv file containing cluster assignment to each reference '
+                          'sequence id. Must contain one column named "id" and another '
+                          '(tab-separated) column named "cluster"'
+                          )
+                      )
 optional.add_argument('--outgroup', dest='outgroup', type=str,
                       help=(
                           'path to text file containing IDs of sequences to be considered '
@@ -63,6 +71,15 @@ def main():
     else:
         args_str = '--resolve-missing-paths'
 
+    if args.ref_clusters is not None:
+        ref_clusters = read_clusters_file(
+            args.ref_clusters,
+            sep='\t',
+            remove_header=True
+        )
+    else:
+        ref_clusters = None
+
     args_str = None
     label_dicts = [
         readFromPickleFile(label_path.strip()) for label_path in args.labels
@@ -72,14 +89,15 @@ def main():
         for labels in label_dicts 
         for (k, label) in labels.items()
         }
-
+    
     assignTaxonomyToPlacements(
         jplace=args.jplace,
         id_dict=label_dict,
         output_dir=args.outdir,
         output_prefix=args.prefix,
         only_best_hit=True,
-        additional_args=args_str
+        ref_clusters=ref_clusters,
+        gappa_additional_args=args_str
     )
 
 if __name__ == '__main__':

@@ -84,7 +84,7 @@ python3 code/evaluateplacements.py \
  --jplace tests/test_results/epa_result.jplace \
  --labels tests/test_results/test_ref_database_id_dict.pickle \
           tests/test_results/outliers_short_ids_id_dict.pickle \
-          tests/test_results/query_cleaned_id_dict.pickle \
+ --ref_clusters tests/test_results/data/clusters.tsv \
  --outgroup tests/test_results/data/outliers_short_ids.faa \
  --prefix "test_placed_tax_" \
  --outdir tests/test_results/gappa/
