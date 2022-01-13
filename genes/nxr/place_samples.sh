@@ -1,10 +1,10 @@
 # Place environmental samples onto NXR tree
 
 # Preprocess query sequences
-python3 code/preprocess.py \
- --in ../../remedios_merged.fasta \
- --outfile query_cleaned.faa \
- --idprefix "query_" --dna --translate --relabel
+# python3 code/preprocess.py \
+#  --in ../../remedios_merged.fasta \
+#  --outfile query_cleaned.faa \
+#  --idprefix "query_" --dna --translate --relabel
 
 # Place query sequences
 # python3 code/placesequences.py \
