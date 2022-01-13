@@ -13,6 +13,37 @@ from phyloplacement.utils import terminalExecute, setDefaultOutputPath
 papara_exec = '/home/robaina/Software/papara/papara'
 
 
+def runFastP(input_fastq1: str, input_fastq2: str = None,
+             merge: bool = False, merged_out: str = None,
+             output_dir: str = None,
+             n_threads: int = None,
+             additional_args: str = None) -> None:
+    """
+    Simple CLI wrapper to Fastp
+    https://github.com/OpenGene/fastp
+    """
+    if input_fastq2 is None:
+        input_str = f'-i {input_fastq1}'
+    else:
+        input_str = f'-i {input_fastq1} -I {input_fastq2}'
+    if n_threads is not None:
+        threads_str = f'--thread {n_threads}'
+    else:
+        threads_str = ''
+    if output_dir is None:
+        output_dir = setDefaultOutputPath(input_fastq1, only_dirname=True)
+    if merge:
+        merged_out = merged_out if merged_out is not None else os.path.join(output_dir, 'merged.fastq')
+        out_str = f'--merge --merged_out {merged_out}'
+    else:
+        out_str = f'-o {"fastp_" + input_fastq1} -O {"fastp_" + input_fastq2}'
+    if additional_args is not None:
+        args_str = additional_args
+    else:
+        args_str = ''
+    cmd_str = f'fastp {input_str} {out_str} {threads_str} {args_str}'
+    terminalExecute(cmd_str, suppress_shell_output=True)
+        
 def runProdigal(input_file: str, output_prefix: str = None,
                 output_dir: str = None,
                 metagenome: bool = False,
