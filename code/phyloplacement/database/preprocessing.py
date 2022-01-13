@@ -100,6 +100,9 @@ def assertCorrectSequenceFormat(fasta_file: str,
     basename = os.path.basename(fasta_file)
     fname, ext = os.path.splitext(basename)
 
+    def removeStopCodonSignals(record_seq: str) -> str:
+        return record_seq.replace('*', '')
+
     if output_file is None:
         output_file = os.path.join(dirname, f'{fname}_modified{ext}')
     else:
@@ -112,6 +115,8 @@ def assertCorrectSequenceFormat(fasta_file: str,
     fasta = pyfastx.Fasta(fasta_file, build_index=False, full_name=True)
     with open(output_file, 'w') as outfile:
         for record_name, record_seq in fasta:
+            if is_peptide:
+                record_seq = removeStopCodonSignals(record_seq)
             if isLegitSequence(record_seq):
                 outfile.write(f'>{record_name}\n{record_seq}\n')
 
@@ -180,6 +185,23 @@ def writeRecordNamesToFile(input_fasta: str, output_file: str = None):
         for record in records:
             lines.append(record.name + '\n')
         file.writelines(lines)
+
+def fastq2fasta(input_fastq: str, output_fasta: str = None,
+                unzip: bool = True) -> None:
+    """
+    Convert Fastq to FASTA format via sed
+    """
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fastq, extension='.fasta')
+    
+    if unzip:
+        input_uncompressed = input_fastq.strip(".gz")
+        cmd_str = f"gzip -d {input_fastq} > {input_uncompressed}"
+        terminalExecute(cmd_str, suppress_shell_output=False)
+        input_fastq = input_uncompressed
+
+    cmd_str = f"sed -n '1~4s/^@/>/p;2~4p' {input_fastq} > {output_fasta}"
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def is_fasta(filename):
     with open(filename, "r") as handle:

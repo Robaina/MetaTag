@@ -105,7 +105,12 @@ def main():
             )
             outfaa = os.path.join(tempdir, outprefix + '.faa')
             outgbk = os.path.join(tempdir, outprefix + '.gbk')
-            shutil.move(outfaa, outfasta)
+
+            assertCorrectSequenceFormat(
+                fasta_file=outfaa,
+                output_file=outfasta,
+                is_peptide=True
+            )
             shutil.move(outgbk, output_dir)
     elif args.translate and is_peptide:
         print('Data already translated!')
