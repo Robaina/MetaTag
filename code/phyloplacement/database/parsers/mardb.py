@@ -8,6 +8,7 @@ Tools to process MARdb data
 import os
 import re
 import shutil
+import warnings
 
 import pyfastx
 import pandas as pd
@@ -29,7 +30,7 @@ class MARdbLabelParser():
         """
         Extract mardb mmp id from reference label
         """
-        db_entry = re.compile('_MMP\d{8}')
+        db_entry = re.compile('_MMP\d+')#{7}|_MMP\d{8}|_MMP\d{9}')
         try:
             return re.search(db_entry, label).group(0).strip('_')
         except Exception:
@@ -104,13 +105,16 @@ class MMPtaxonomyAssigner():
         """
         Find lowest common GTDB taxonomy of selected MarDB entry ids
         """
+        mmps = [mmp for mmp in mmp_ids if mmp in self.tax_mmp.index]
+        if len(mmps) < len(mmp_ids):
+            warnings.warn('Not all labels had taxopath. Computing common taxonomy from a subset')
         tax_levels = [
             'kingdom', 'phylum', 'class',
             'order', 'family', 'genus', 'species'
             ]
         lowest_tax = {}
         try:
-            data = self.tax_mmp.loc[mmp_ids, :]
+            data = self.tax_mmp.loc[mmps, :]
             for tax_cat in tax_levels:
                 taxa = data[tax_cat].drop_duplicates().values
                 if len(taxa) == 1:
@@ -155,6 +159,20 @@ class MMPtaxonomyAssigner():
         except Exception:
             tax_labels = 'No_taxonomy_found'
             return tax_labels if only_taxonomy else f'{label}_{tax_labels}'
+
+    def assignLowestCommonTaxonomyToCluster(self, clusters: dict, label_dict: dict) -> dict:
+        """
+        Find lowest possible common taxonomy to reference labels in clusters
+        """
+        parser = MARdbLabelParser()
+        clusters_taxopath = {}
+        for cluster_id, cluster in clusters.items():
+            cluster_labels = [label_dict[ref_id] for ref_id in cluster]
+            cluster_mmp_ids = [parser.extractMMPid(label) for label in cluster_labels]
+            taxo_dict = self.lowestAvailableCommonTaxonomy(cluster_mmp_ids)
+            taxopath = ';'.join(taxo_dict.values())
+            clusters_taxopath[cluster_id] = taxopath
+        return clusters_taxopath
 
     def buildGappaTaxonomyTable(self, ref_id_dict: dict, output_file: str = None) -> None:
         """

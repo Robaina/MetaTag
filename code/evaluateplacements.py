@@ -12,7 +12,7 @@ import argparse
 
 from phyloplacement.utils import setDefaultOutputPath, readFromPickleFile
 from phyloplacement.database.preprocessing import is_fasta, writeRecordNamesToFile
-from phyloplacement.placement import assignTaxonomyToPlacements, read_clusters_file
+from phyloplacement.placement import assignTaxonomyToPlacements, parseTreeClusters
 
 
 parser = argparse.ArgumentParser(
@@ -71,15 +71,6 @@ def main():
     else:
         args_str = '--resolve-missing-paths'
 
-    if args.ref_clusters is not None:
-        ref_clusters = read_clusters_file(
-            args.ref_clusters,
-            sep='\t',
-            remove_header=True
-        )
-    else:
-        ref_clusters = None
-
     args_str = None
     label_dicts = [
         readFromPickleFile(label_path.strip()) for label_path in args.labels
@@ -96,7 +87,7 @@ def main():
         output_dir=args.outdir,
         output_prefix=args.prefix,
         only_best_hit=True,
-        ref_clusters=ref_clusters,
+        ref_clusters_file=args.ref_clusters,
         gappa_additional_args=args_str
     )
 

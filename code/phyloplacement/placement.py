@@ -192,22 +192,23 @@ def placeReadsOntoTree(input_tree: str,
         n_threads=None,
         additional_args=None)
 
-def read_clusters_file(in_file: str, sep='\t', remove_header=True) -> dict:
+def parseTreeClusters(clusters_tsv: str, cluster_as_key: bool = True, sep='\t') -> dict:
     """
-    Read text file containing cluster assignment to reference ids
-    remove_header: set to true if text file contains header so it
-    doesn't appear as a key, value pair in the dictionary.
+    Parse clusters text file into dictionary
+    @param
+    clusters_as_key: if True then dict keys are cluster IDs and values
+    are lists of reference IDs. If False, dict keys are reference IDs and 
+    values the cluster to which they belong.
     """
-    clusters = {}
-    with open(in_file, 'r') as clusters_tsv:
-        if remove_header:
-            lines =  clusters_tsv.readlines()[1:]
-        else:
-            lines =  clusters_tsv.readlines()
-        for line in lines:
-            ref_id, cluster_id = line.split(sep)
-            clusters[ref_id] = cluster_id.strip('\n')
-    return clusters
+    df = pd.read_csv(clusters_tsv, sep='\t')
+    if cluster_as_key:
+        cluster_ids = df.cluster.unique()
+        return {
+            cluster_id: df[df.cluster == cluster_id].id.values.tolist()
+            for cluster_id in cluster_ids
+        }
+    else:
+        return dict(df.values)
 
 def addClustersToTaxTable(in_taxtable: str, clusters: dict,
                           out_taxtable: str = None) -> None:
@@ -223,7 +224,7 @@ def addClustersToTaxTable(in_taxtable: str, clusters: dict,
     taxtable.to_csv(out_taxtable, sep='\t', index=False, header=None)
 
 def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
-                          output_file: str = None) -> None:
+                          clusters_taxopath: dict = None, output_file: str = None) -> None:
     """
     Parse gappa assign per query taxonomy assignment result tsv
     has_cluster_id: set to True if results table includes reference
@@ -235,14 +236,15 @@ def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
     with open(output_file, 'w') as file:
         lines = []
         if has_cluster_id:
-            header = 'query_id' + '\t' + 'cluster_id' + '\t' + 'taxopath' + '\n'
+            header = 'query_id' + '\t' + 'cluster_id' + '\t' + 'taxopath' + '\t' + 'cluster_taxopath' + '\n'
         else:
             header = 'query_id' + '\t' + 'taxopath' + '\n'
         lines.append(header)
         for i, row in table.iterrows():
             if has_cluster_id:
                 elems = row.taxopath.split(';')
-                cluster_id, taxopath = elems[0], ';'.join(elems[1:])
+                cluster_id = elems[0]
+                taxopath = ';'.join(elems[1:]) + '\t' + clusters_taxopath[cluster_id]
             else:
                 cluster_id, taxopath = '', row.taxopath
             lines.append(row['name'] + '\t' + cluster_id + '\t' + taxopath + '\n')
@@ -252,7 +254,7 @@ def assignTaxonomyToPlacements(jplace: str, id_dict: dict,
                                output_dir: str = None,
                                output_prefix: str = None,
                                only_best_hit: bool = True,
-                               ref_clusters: dict = None,
+                               ref_clusters_file: str = None,
                                gappa_additional_args: str = None) -> None:
     """
     Assign taxonomy to placed query sequences based on
@@ -271,21 +273,30 @@ def assignTaxonomyToPlacements(jplace: str, id_dict: dict,
     if output_prefix is None:
         output_prefix = setDefaultOutputPath(jplace, only_filename=True)
 
+    gappa_assign_out = os.path.join(output_dir, output_prefix + 'per_query.tsv')
+    query_taxo_out = os.path.join(output_dir, output_prefix + 'assignments.tsv')
     with TemporaryFilePath() as temptax:
         taxonomy = MMPtaxonomyAssigner(
             complete='data/taxonomy/CurrentComplete.tsv',
             partial='data/taxonomy/CurrentPartial.tsv'
             )
         taxonomy.buildGappaTaxonomyTable(id_dict, output_file=temptax)
-        if ref_clusters is not None:
+        if ref_clusters_file is not None:
             has_cluster_id = True
+            ref_clusters = parseTreeClusters(ref_clusters_file, cluster_as_key=False, sep='\t')
             addClustersToTaxTable(
                 in_taxtable=temptax,
                 clusters=ref_clusters,
                 out_taxtable=temptax
             )
+            ref_clusters = parseTreeClusters(ref_clusters_file, cluster_as_key=True, sep='\t')
+            clusters_taxopath = taxonomy.assignLowestCommonTaxonomyToCluster(
+                clusters=ref_clusters,
+                label_dict=id_dict
+            )
         else:
             has_cluster_id = False
+            clusters_taxopath = None
         wrappers.runGappaAssign(
             jplace=jplace,
             taxonomy_file=temptax,
@@ -295,7 +306,8 @@ def assignTaxonomyToPlacements(jplace: str, id_dict: dict,
             additional_args=gappa_additional_args)
 
         parseGappaAssignTable(
-            input_table=os.path.join(output_dir, output_prefix + 'per_query.tsv'),
+            input_table=gappa_assign_out,
             has_cluster_id=has_cluster_id,
-            output_file=os.path.join(output_dir, output_prefix + 'assignments.tsv')
+            output_file=query_taxo_out,
+            clusters_taxopath=clusters_taxopath
         )
