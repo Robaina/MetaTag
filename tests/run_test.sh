@@ -17,8 +17,6 @@
 # ************************************************************************************** #
 
 rm -r tests/test_results; mkdir tests/test_results; mkdir tests/test_results/gappa/
-# source /home/robaina/miniconda3/bin/activate
-# conda activate traits
 
 # Preprocess
 python3 code/preprocess.py \
@@ -80,7 +78,7 @@ python3 code/placesequences.py \
  --tree_model tests/test_results/ref_database.log
 
 # Assign taxonomy to placed sequences
-python3 code/evaluateplacements.py \
+python3 code/labelplacements.py \
  --jplace tests/test_results/epa_result.jplace \
  --labels tests/test_results/test_ref_database_id_dict.pickle \
           tests/test_results/outliers_short_ids_id_dict.pickle \
@@ -88,6 +86,13 @@ python3 code/evaluateplacements.py \
  --outgroup tests/test_results/data/outliers_short_ids.faa \
  --prefix "test_placed_tax_" \
  --outdir tests/test_results/gappa/
+
+# Count placements (filter by taxon, cluster id and quality score)
+python3 code/countplacements.py \
+ --taxtable tests/test_results/gappa/test_placed_tax_assignments.tsv \
+ --taxlevel "family" \
+ --cluster_ids "G1" "G2" \
+ --outfile tests/test_results/gappa/test_placed_family_tax_counts.tsv
 
 # Relabel tree and alignment
 python3 code/relabeltree.py \

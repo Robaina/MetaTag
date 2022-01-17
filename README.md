@@ -86,7 +86,7 @@ python3 code/placesequences.py --help
 ```
 3. Evaluate placed sequences. Assign taxonomy and function to placed query sequences and quantify placed sequences according to function and taxonomy. Currently only taxonomy implemented.
 ```
-python3 code/evaluateplacements.py --help
+python3 code/labelplacements.py --help
 ```
 
 

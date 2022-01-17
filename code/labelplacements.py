@@ -2,21 +2,20 @@
 # -*- coding: utf-8 -*-
 
 """
-Evaluation of placed sequences:
+Taxonomic and function al labelling of placed sequences:
 1) Run gappa examine assign to infer taxonomy of placed sequences from reference tree taxonomy
 2) Assign function to placed sequences
-3) Count placed sequences
 """
 
 import argparse
 
 from phyloplacement.utils import setDefaultOutputPath, readFromPickleFile
 from phyloplacement.database.preprocessing import is_fasta, writeRecordNamesToFile
-from phyloplacement.placement import assignTaxonomyToPlacements, parseTreeClusters
+from phyloplacement.placement import assignTaxonomyToPlacements
 
 
 parser = argparse.ArgumentParser(
-    description='Evaluate placed sequences: assgin taxonomy, function and quantify',
+    description='Assgin taxonomy and function to placed query sequences',
     epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
     )
 
