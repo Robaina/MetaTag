@@ -16,7 +16,7 @@
 #  --tree_model genes/nxr/results/ref_database.log
 
 # Assign taxonomy to placed sequences
-# python3 code/evaluateplacements.py \
+# python3 code/labelplacements.py \
 #  --jplace genes/nxr/results/remedios_placement_results/epa_result.jplace \
 #  --labels genes/nxr/results/remedios_placement_results/molyb_ref_database_id_dict.pickle \
 #           genes/nxr/results/remedios_placement_results/narG_ref_database_id_dict.pickle \

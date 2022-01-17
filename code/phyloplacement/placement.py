@@ -4,6 +4,7 @@
 """
 Tools to quantify and assign labels to placed sequences
 """
+from __future__ import annotations
 import os
 import re
 import json
@@ -139,6 +140,96 @@ class JplaceParser():
             if place_object['p']['edge_num'] in ref_dict.keys()
         }
         return labeled_placements
+
+
+class Taxopath():
+    """
+    Object to contain taxopath
+    """
+    def __init__(self, taxopath_str: str = None, delimiter: str = ";"):
+        self._taxopath = taxopath_str
+        self._delimiter = delimiter
+        self._tax_levels = [
+            'kingdom', 'phylum', 'class',
+            'order', 'family', 'genus', 'species'
+            ]
+        self.taxodict = self._dictFromTaxopath()
+
+    def _dictFromTaxopath(self):
+        if self._taxopath is None:
+            taxolist = []
+        else:
+            taxolist = [elem.strip() for elem in self._taxopath.split(self._delimiter)]
+        taxolist.extend([None for _ in range(len(self._tax_levels) - len(taxolist))])
+        return {taxlevel: taxon for taxlevel, taxon in zip(self._tax_levels, taxolist)}
+
+    @classmethod
+    def from_dict(cls, taxodict: dict, delimiter: str = ";") -> Taxopath:
+        """
+        Instantiate Taxopath object from dict
+        """
+        taxa = []
+        for taxon in taxodict.values():
+            if taxon is None:
+                break
+            else:
+                taxa.append(taxon)
+        taxostr = delimiter.join(taxa)
+        return cls(taxopath_str=taxostr, delimiter=delimiter)
+
+    @classmethod
+    def getLowestCommonTaxopath(cls, taxopaths: list[str]) -> Taxopath:
+        """
+        compute lowest common taxopath (ancestor) of a list 
+        of taxopaths
+        """
+        taxopath_dicts = [cls(taxostr).taxodict for taxostr in taxopaths]
+        common_taxodict = cls().taxodict
+        for taxlevel in cls().taxlevels:
+            taxa = set([taxdict[taxlevel] for taxdict in taxopath_dicts])
+            if len(taxa) > 1:
+                break
+            else:
+                common_taxodict[taxlevel] = list(taxa)[0]
+        return cls.from_dict(common_taxodict)
+
+    @property
+    def taxostring(self):
+        return self._taxopath
+
+    @property
+    def taxlevels(self):
+        return self._tax_levels
+
+
+class TaxAssignParser():
+    """
+    Parse function and taxonomy placement assignments table
+    """
+    def __init__(self, tax_assign_path: str):
+                 self._tax_assign = pd.read_csv(tax_assign_path, sep='\t')
+    
+    @property
+    def taxlevels(self):
+        return Taxopath().taxlevels
+
+    def countHits(self, cluster_ids: list[str], 
+                  taxlevel: str = 'family', score_threshold: float = None,
+                  taxopath_type: str = 'taxopath', normalize=True) -> pd.Series:
+        """
+        Count hits within given cluster ids and at specificied taxon level
+        @Params:
+        normalize=True, then results are reported as fractions of total
+        score_threshold: global placement score threshold to filter
+                         low-quality placements out
+        taxopath_type: 'taxopath' to use gappa-assign taxopath or 'cluster_taxopath'
+                        to use lowest common taxopath of the reference tree cluster
+        """
+        taxohits = self._tax_assign[self._tax_assign.cluster_id.isin(cluster_ids)][taxopath_type].values
+        taxodicts = [Taxopath(taxostr).taxodict for taxostr in taxohits]
+        taxohits = pd.DataFrame(taxodicts).applymap(lambda x: 'Unespecified' if x is None else x)
+        counts = taxohits[taxlevel].value_counts(normalize=normalize)
+        return counts
 
 
 def placeReadsOntoTree(input_tree: str, 
