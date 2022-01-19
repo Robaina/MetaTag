@@ -32,6 +32,8 @@ required.add_argument('--cluster_ids', dest='cluster_ids', type=str, required=Tr
                           'corresponding to the selecte function to filter counts'
                           )
                     )
+optional.add_argument('--score_threshold', dest='score_threshold', type=float,
+                      help='cluster score threshold value to filter placement results')
 optional.add_argument('--outfile', dest='outfile', type=str,
                       help='path to output file')
 
@@ -43,7 +45,9 @@ if args.outfile is None:
 
 taxparser = TaxAssignParser(args.taxtable)
 counts = taxparser.countHits(
-    cluster_ids=args.cluster_ids, taxlevel=args.taxlevel,
+    cluster_ids=args.cluster_ids,
+    score_threshold=args.score_threshold,
+    taxlevel=args.taxlevel,
     normalize=True, taxopath_type='taxopath'
     )
 counts.to_csv(args.outfile, header=None, sep='\t')
