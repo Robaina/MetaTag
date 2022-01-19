@@ -84,9 +84,13 @@ python3 code/preprocess.py --help
 ```
 python3 code/placesequences.py --help
 ```
-3. Evaluate placed sequences. Assign taxonomy and function to placed query sequences and quantify placed sequences according to function and taxonomy. Currently only taxonomy implemented.
+3. Assign taxonomy and function to placed sequences. Assign taxonomy and function to placed query sequences.
 ```
 python3 code/labelplacements.py --help
+```
+4. Quantify placed queries. Filter placed sequences according to cluster/placement quality score and quantify remaining placed sequences according to function and taxonomy
+```
+python3 code/countplacements.py --help
 ```
 
 
