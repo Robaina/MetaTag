@@ -83,6 +83,7 @@ python3 code/labelplacements.py \
  --labels tests/test_results/test_ref_database_id_dict.pickle \
           tests/test_results/outliers_short_ids_id_dict.pickle \
  --ref_clusters tests/test_data/clusters.tsv \
+ --ref_cluster_scores tests/test_data/cluster_scores.tsv \
  --outgroup tests/test_results/data/outliers_short_ids.faa \
  --prefix "test_placed_tax_" \
  --outdir tests/test_results/gappa/
@@ -92,6 +93,7 @@ python3 code/countplacements.py \
  --taxtable tests/test_results/gappa/test_placed_tax_assignments.tsv \
  --taxlevel "family" \
  --cluster_ids "G1" "G2" \
+ --score_threshold 0.6 \
  --outfile tests/test_results/gappa/test_placed_family_tax_counts.tsv
 
 # Relabel tree and alignment

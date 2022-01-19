@@ -39,6 +39,14 @@ optional.add_argument('--ref_clusters', dest='ref_clusters', type=str,
                           '(tab-separated) column named "cluster"'
                           )
                       )
+optional.add_argument('--ref_cluster_scores', dest='ref_cluster_scores', type=str,
+                      default=None,
+                      help=(
+                          'tsv file containing cluster quality scores assigned to each '
+                          'cluster in the reference tree. Contains one column named "cluster" '
+                          'and another (tab-separated) column named "score"'
+                          )
+                      )
 optional.add_argument('--outgroup', dest='outgroup', type=str,
                       help=(
                           'path to text file containing IDs of sequences to be considered '
@@ -87,6 +95,7 @@ def main():
         output_prefix=args.prefix,
         only_best_hit=True,
         ref_clusters_file=args.ref_clusters,
+        ref_cluster_scores_file=args.ref_cluster_scores,
         gappa_additional_args=args_str
     )
 
