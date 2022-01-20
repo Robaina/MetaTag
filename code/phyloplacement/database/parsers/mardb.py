@@ -80,6 +80,9 @@ class MARdbLabelParser():
 class MMPtaxonomyAssigner():
     """
     Methods to assign taxonomy to mardb reference sequeces
+    @Params:
+    complete: path to complete gtdb database
+    partial: path to partial gtdb database
     """
     def __init__(self, complete: str = None, partial: str = None):
         if complete is None:
