@@ -139,6 +139,7 @@ class MMPtaxonomyAssigner():
             (kingdom, phylum, class, order, family)
             full_label: whether to output a simplified label with MMP id and
                         assigned taxonomy or the full label (defaults to False)
+            only_taxonomy: whether to ouput only taxopath (defaults to False)
         """
         tax_levels = ['kingdom', 'phylum', 'class', 'order', 'family']
         selected_levels = tax_levels[tax_levels.index(root_level):]

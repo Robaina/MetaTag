@@ -40,7 +40,7 @@ optional.add_argument('--label_prefixes', dest='labelprefixes', type=str,
                           )
 optional.add_argument('--taxonomy', dest='taxonomy', action='store_true',
                       default=False, help=(
-                          'Assign GTDB taxonomy to labels containing MMP identifiers')
+                          'assign GTDB taxonomy to labels containing MMP identifiers')
                           )
 optional.add_argument('--aln', dest='aln', type=str,
                       help='path to fasta alignment file to be relabelled')
@@ -52,6 +52,7 @@ if args.outdir is None:
     args.outdir = setDefaultOutputPath(args.tree, only_dirname=True)
 
 treeout = os.path.join(args.outdir, setDefaultOutputPath(args.tree, tag='_relabel'))
+taxoout = os.path.join(args.outdir, setDefaultOutputPath(args.tree, tag='_taxonomy', extension='.tsv'))
 if args.aln is not None:
     alnout = os.path.join(args.outdir, setDefaultOutputPath(args.aln, tag='_relabel'))
 
@@ -65,27 +66,45 @@ def initializeLabelDict(args) -> dict:
     else:
         label_pre = args.labelprefixes
 
-    if args.taxonomy:
-        def taxonomify(label: str) -> str:
-            taxonomy = MMPtaxonomyAssigner()
-            return taxonomy.assignTaxonomyToLabel(
-                label, root_level='kingdom',
-                full_label=False
-                )
-    else:
-        def taxonomify(label: str) -> str:
-            return label
-
     label_dicts = [
         readFromPickleFile(label_path.strip()) for label_path in args.labels
         ]
     label_dict = {
-        k: prefix + taxonomify(label) 
+        k: prefix + label
         for prefix, labels in zip(label_pre, label_dicts) 
         for (k, label) in labels.items()
         }
-   
     return label_dict
+
+def assignTaxonomyToLabels(label_dict: dict) -> tuple[dict]:
+    """
+    Assign GTDB taxonomy to tree labels
+    """
+    taxo_dict, export_label_dict, tree_label_dict = {}, {}, {}
+    taxonomy = MMPtaxonomyAssigner()
+    for k, label in label_dict.items():
+        taxopath = taxonomy.assignTaxonomyToLabel(
+            label, root_level='kingdom',
+            only_taxonomy=True
+            )
+        taxo_dict[k] = taxopath
+        export_label_dict[label] = taxopath
+    
+    for k, label in label_dict.items():
+        tree_label_dict[k] = f'{label}_{taxo_dict[k]}'
+
+    return tree_label_dict, export_label_dict
+
+def exportTaxonomyTable(export_label_dict: dict, outfile: str) -> None:
+    """
+    Build and export table containing assigned taxonomy
+    """
+    lines = ['label\ttaxopath\n']
+    with open(taxoout, 'w') as file:
+        for label, taxopath in export_label_dict.items():
+            line = label + '\t' + taxopath + '\n'
+            lines.append(line)
+        file.writelines(lines)
 
 
 def main():
@@ -93,9 +112,15 @@ def main():
     print('* Relabelling tree...')
 
     label_dict = initializeLabelDict(args)
+    if args.taxonomy:
+        tree_label_dict, export_label_dict = assignTaxonomyToLabels(label_dict)
+        exportTaxonomyTable(export_label_dict, taxoout)
+    else:
+        tree_label_dict = label_dict
+
     relabelTree(
         input_newick=args.tree,
-        label_dict=label_dict,
+        label_dict=tree_label_dict,
         output_file=treeout
     )
 
