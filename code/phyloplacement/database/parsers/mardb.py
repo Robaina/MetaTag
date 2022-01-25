@@ -145,22 +145,25 @@ class MMPtaxonomyAssigner():
         selected_levels = tax_levels[tax_levels.index(root_level):]
         labelParser = MARdbLabelParser()
         mmp_id = labelParser.extractMMPid(label)
+        if mmp_id:
+            try:
+                tax_dict = self.lowestAvailableCommonTaxonomy([mmp_id])
+                fil_tax_dict = {}
+                for tax, value in tax_dict.items():
+                    if tax in selected_levels:
+                        if value.lower() in 'unclassified':
+                            break
+                        fil_tax_dict[tax] = value
 
-        try:
-            tax_dict = self.lowestAvailableCommonTaxonomy([mmp_id])
-            fil_tax_dict = {}
-            for tax, value in tax_dict.items():
-                if tax in selected_levels:
-                    if value.lower() in 'unclassified':
-                        break
-                    fil_tax_dict[tax] = value
-
-            tax_labels = separator.join(fil_tax_dict.values())
-            if full_label:
+                tax_labels = separator.join(fil_tax_dict.values())
+                if full_label:
+                    return tax_labels if only_taxonomy else f'{label}_{tax_labels}'
+                else:
+                    return tax_labels if only_taxonomy else f'{mmp_id}_{tax_labels}'
+            except Exception:
+                tax_labels = 'No_taxonomy_found'
                 return tax_labels if only_taxonomy else f'{label}_{tax_labels}'
-            else:
-                return tax_labels if only_taxonomy else f'{mmp_id}_{tax_labels}'
-        except Exception:
+        else:
             tax_labels = 'No_taxonomy_found'
             return tax_labels if only_taxonomy else f'{label}_{tax_labels}'
 
@@ -193,9 +196,9 @@ class MMPtaxonomyAssigner():
                     label=label, full_label=False,
                     only_taxonomy=True, separator=';'
                     )
-                taxon_str = '' if 'No_taxonomy_found' in taxon_str else taxon_str
-                if taxon_str:
-                    lines.append(f'{ref_id}\t{taxon_str}\n')
+                taxon_str = 'Undefined' if ('No_taxonomy_found' in taxon_str) else taxon_str
+                lines.append(f'{ref_id}\t{taxon_str}\n')
+
             outfile.writelines(lines)
 
 
