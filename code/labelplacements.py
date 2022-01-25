@@ -11,7 +11,7 @@ import argparse
 
 from phyloplacement.utils import setDefaultOutputPath, readFromPickleFile
 from phyloplacement.database.preprocessing import is_fasta, writeRecordNamesToFile
-from phyloplacement.placement import assignTaxonomyToPlacements
+from phyloplacement.placement import assignLabelsToPlacements
 
 
 parser = argparse.ArgumentParser(
@@ -88,7 +88,7 @@ def main():
         for (k, label) in labels.items()
         }
     
-    assignTaxonomyToPlacements(
+    assignLabelsToPlacements(
         jplace=args.jplace,
         id_dict=label_dict,
         output_dir=args.outdir,

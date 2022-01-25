@@ -332,7 +332,8 @@ def addClustersToTaxTable(in_taxtable: str, clusters: dict,
 
 def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
                           cluster_scores: dict = None,
-                          clusters_taxopath: dict = None, output_file: str = None) -> None:
+                          clusters_taxopath: dict = None,
+                          output_file: str = None) -> None:
     """
     Parse gappa assign per query taxonomy assignment result tsv
     has_cluster_id: set to True if results table includes reference
@@ -357,7 +358,11 @@ def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
             if has_cluster_id:
                 elems = row.taxopath.split(';')
                 cluster_id = elems[0]
-                taxopath = clusters_taxopath[cluster_id] + '\t' + ';'.join(elems[1:])
+                cluster_taxopath = clusters_taxopath[cluster_id]
+                print(cluster_taxopath)
+                if not cluster_taxopath:
+                    cluster_taxopath = 'Undefined'
+                taxopath = cluster_taxopath + '\t' + ';'.join(elems[1:])
             else:
                 cluster_id, taxopath = '', row.taxopath
             if cluster_scores is not None:
@@ -368,15 +373,15 @@ def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
             lines.append(line)
         file.writelines(lines)
 
-def assignTaxonomyToPlacements(jplace: str, id_dict: dict,
-                               output_dir: str = None,
-                               output_prefix: str = None,
-                               only_best_hit: bool = True,
-                               ref_clusters_file: str = None,
-                               ref_cluster_scores_file: str = None,
-                               gappa_additional_args: str = None) -> None:
+def assignLabelsToPlacements(jplace: str, id_dict: dict,
+                             output_dir: str = None,
+                             output_prefix: str = None,
+                             only_best_hit: bool = True,
+                             ref_clusters_file: str = None,
+                             ref_cluster_scores_file: str = None,
+                             gappa_additional_args: str = None) -> None:
     """
-    Assign taxonomy to placed query sequences based on
+    Assign taxonomy and/or tree cluster IDs to placed query sequences based on
     taxonomy assigned to tree reference sequences using
     gappa examine assign.
     @parameter
@@ -413,6 +418,7 @@ def assignTaxonomyToPlacements(jplace: str, id_dict: dict,
             partial='data/taxonomy/CurrentPartial.tsv'
             )
         taxonomy.buildGappaTaxonomyTable(id_dict, output_file=temptax)
+        
         if has_cluster_id:
             addClustersToTaxTable(
                 in_taxtable=temptax,
