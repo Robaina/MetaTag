@@ -359,7 +359,6 @@ def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
                 elems = row.taxopath.split(';')
                 cluster_id = elems[0]
                 cluster_taxopath = clusters_taxopath[cluster_id]
-                print(cluster_taxopath)
                 if not cluster_taxopath:
                     cluster_taxopath = 'Undefined'
                 taxopath = cluster_taxopath + '\t' + ';'.join(elems[1:])
