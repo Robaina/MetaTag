@@ -418,7 +418,6 @@ def assignLabelsToPlacements(jplace: str, id_dict: dict,
             partial='data/taxonomy/CurrentPartial.tsv'
             )
         taxonomy.buildGappaTaxonomyTable(id_dict, output_file=temptax)
-        
         if has_cluster_id:
             addClustersToTaxTable(
                 in_taxtable=temptax,
