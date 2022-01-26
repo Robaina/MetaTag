@@ -85,7 +85,8 @@ def assignTaxonomyToLabels(label_dict: dict) -> tuple[dict]:
     for k, label in label_dict.items():
         taxopath = taxonomy.assignTaxonomyToLabel(
             label, root_level='kingdom',
-            only_taxonomy=True
+            only_taxonomy=True,
+            separator=';'
             )
         taxo_dict[k] = taxopath
         export_label_dict[label] = taxopath
