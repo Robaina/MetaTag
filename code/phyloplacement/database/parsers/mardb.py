@@ -104,9 +104,12 @@ class MMPtaxonomyAssigner():
         tax_mmp = pd.concat([tax_complete, tax_partial]).drop_duplicates()
         self.tax_mmp = tax_mmp.set_index('mmp_ID')
 
-    def lowestAvailableCommonTaxonomy(self, mmp_ids: list) -> dict:
+    def lowestAvailableCommonTaxonomy(self, mmp_ids: list,
+                                      only_classified_taxa: bool = True) -> dict:
         """
         Find lowest common GTDB taxonomy of selected MarDB entry ids
+        @Params:
+        only_classified_taxa: report only taxa with assigned taxonomy
         """
         mmps = [mmp for mmp in mmp_ids if mmp in self.tax_mmp.index]
         if len(mmps) < len(mmp_ids):
@@ -115,16 +118,24 @@ class MMPtaxonomyAssigner():
             'kingdom', 'phylum', 'class',
             'order', 'family', 'genus', 'species'
             ]
-        lowest_tax = {}
-        try:
-            data = self.tax_mmp.loc[mmps, :]
-            for tax_cat in tax_levels:
-                taxa = data[tax_cat].drop_duplicates().values
-                if len(taxa) == 1:
-                    lowest_tax[tax_cat] = taxa[0]
-            return lowest_tax
-        except Exception as e:
-            raise ValueError(f'No taxonomy found. Exception: {e}')
+        lowest_tax, taxdict = {}, {}
+        data = self.tax_mmp.loc[mmps, :]
+        for tax_cat in tax_levels:
+            taxa = data[tax_cat].drop_duplicates().values
+            if len(taxa) == 1:
+                lowest_tax[tax_cat] = taxa[0]
+            else:
+                lowest_tax[tax_cat] = 'Unclassified'
+        if only_classified_taxa:
+            for tax, value in lowest_tax.items():
+                if value == 'Unclassified':
+                    break
+                taxdict[tax] = value
+        else:
+            taxdict = lowest_tax
+        if not taxdict:
+            warnings.warn('No common taxonomy found for given MMPs')
+        return taxdict
 
     def assignTaxonomyToLabel(self, label: str,
                               root_level: str = 'kingdom',
@@ -146,21 +157,20 @@ class MMPtaxonomyAssigner():
         labelParser = MARdbLabelParser()
         mmp_id = labelParser.extractMMPid(label)
         if mmp_id:
-            try:
-                tax_dict = self.lowestAvailableCommonTaxonomy([mmp_id])
-                fil_tax_dict = {}
-                for tax, value in tax_dict.items():
-                    if tax in selected_levels:
-                        if value.lower() in 'unclassified':
-                            break
-                        fil_tax_dict[tax] = value
-
+            tax_dict = self.lowestAvailableCommonTaxonomy([mmp_id])
+            fil_tax_dict = {}
+            for tax, value in tax_dict.items():
+                if tax in selected_levels:
+                    if value.lower() in 'unclassified':
+                        break
+                    fil_tax_dict[tax] = value
+            if fil_tax_dict:
                 tax_labels = separator.join(fil_tax_dict.values())
                 if full_label:
                     return tax_labels if only_taxonomy else f'{label}_{tax_labels}'
                 else:
                     return tax_labels if only_taxonomy else f'{mmp_id}_{tax_labels}'
-            except Exception:
+            else:
                 tax_labels = 'No_taxonomy_found'
                 return tax_labels if only_taxonomy else f'{label}_{tax_labels}'
         else:
@@ -197,8 +207,8 @@ class MMPtaxonomyAssigner():
                     only_taxonomy=True, separator=';'
                     )
                 taxon_str = 'Undefined' if ('No_taxonomy_found' in taxon_str) else taxon_str
-                lines.append(f'{ref_id}\t{taxon_str}\n')
-
+                if taxon_str != 'Undefined':
+                    lines.append(f'{ref_id}\t{taxon_str}\n')
             outfile.writelines(lines)
 
 
