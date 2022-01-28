@@ -368,10 +368,14 @@ def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
             else:
                 cluster_id, taxopath = '', row.taxopath
             if cluster_scores is not None:
-                cluster_score = str(cluster_scores[cluster_id])
+                if cluster_id in cluster_scores.keys():
+                    cluster_score = str(cluster_scores[cluster_id])
+                else:
+                    cluster_score = str(None)
                 line = row['name'] + '\t' + cluster_id + '\t' + cluster_score + '\t' + taxopath + '\n'
             else:
                 line = row['name'] + '\t' + cluster_id + '\t' + taxopath + '\n'
+    
             lines.append(line)
         file.writelines(lines)
 
