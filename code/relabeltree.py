@@ -101,7 +101,7 @@ def exportTaxonomyTable(export_label_dict: dict, outfile: str) -> None:
     Build and export table containing assigned taxonomy
     """
     lines = ['label\ttaxopath\n']
-    with open(taxoout, 'w') as file:
+    with open(outfile, 'w') as file:
         for label, taxopath in export_label_dict.items():
             line = label + '\t' + taxopath + '\n'
             lines.append(line)
