@@ -185,9 +185,14 @@ class MMPtaxonomyAssigner():
         clusters_taxopath = {}
         for cluster_id, cluster in clusters.items():
             cluster_labels = [label_dict[ref_id] for ref_id in cluster]
-            cluster_mmp_ids = [parser.extractMMPid(label) for label in cluster_labels]
-            taxo_dict = self.lowestAvailableCommonTaxonomy(cluster_mmp_ids)
-            taxopath = ';'.join(taxo_dict.values())
+            cluster_mmp_ids = list(filter(
+                lambda x: x != '', [parser.extractMMPid(label) for label in cluster_labels]
+                ))
+            if cluster_mmp_ids:
+                taxo_dict = self.lowestAvailableCommonTaxonomy(cluster_mmp_ids)
+                taxopath = ';'.join(taxo_dict.values())
+            else:
+                taxopath = 'Undefined'
             clusters_taxopath[cluster_id] = taxopath
         return clusters_taxopath
 
