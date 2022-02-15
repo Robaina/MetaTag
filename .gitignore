@@ -9,8 +9,11 @@ picrust2/
 data/*.faa
 data/databases/*
 !data/databases/readme.txt
-data/MAR_HQ/*
-data/taxonomy/*
+data/MAR/*
+data/OceanDNA/*
+data/Paoli/*
+data/metadata/*
+data/preprocessedDatabases/*
 !data/taxonomy/CurrentComplete.tsv
 !data/taxonomy/PartialComplete.tsv
 **/nxr_genomes/

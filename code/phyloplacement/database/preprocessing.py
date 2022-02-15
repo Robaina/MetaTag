@@ -15,7 +15,7 @@ import re
 from Bio import SeqIO
 import pyfastx
 
-from phyloplacement.utils import (readFromPickleFile, saveToPickleFile, setDefaultOutputPath,
+from phyloplacement.utils import (saveToPickleFile, setDefaultOutputPath,
                                   terminalExecute, handle_exceptions)
 
 
@@ -36,7 +36,6 @@ def removeDuplicatesFromFasta(input_fasta: str,
                 seen_seqs.add(record.seq)
                 seen_ids.add(record.id)
                 yield record
-
     SeqIO.write(unique_records(), output_fasta, 'fasta')
 
 def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
