@@ -16,6 +16,12 @@ Peptides:
 Genomes:
 58e972c7d9abda800c5285b7693eb237  filesMARgenomesCompleteSept2020.tar.gz
 
+
+NOTE: (Semidan)
+These files don't have MMP id. Using instead:
+/home/robaina/Documents/TRAITS/data/MAR/aMARgenomesComplete
+
+I did it again,using prodigal to get gene position and contig info
 ------------------------------------------------------------------------------------------------------------------------
 8466 genomes from Nishimura and Yoshizawa, 2021, species representatives. 
 It's a selection of genomes. Each had the highest quality within each species.
