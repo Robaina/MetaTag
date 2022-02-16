@@ -39,6 +39,7 @@ code/test.py
 NOTES.md
 code/notify.py
 genes/nxr/commit_to_github.sh
+data/final_ref_database.fasta
 
 # File types
 *.sqlite
