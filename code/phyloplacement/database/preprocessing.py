@@ -15,29 +15,37 @@ import re
 from Bio import SeqIO
 import pyfastx
 
-from phyloplacement.utils import (readFromPickleFile, saveToPickleFile, setDefaultOutputPath,
+import phyloplacement.wrappers as wrappers
+from phyloplacement.utils import (saveToPickleFile, setDefaultOutputPath,
                                   terminalExecute, handle_exceptions)
 
 
-@handle_exceptions
+# @handle_exceptions
+# def removeDuplicatesFromFasta(input_fasta: str,
+#                               output_fasta: str = None) -> None:
+#     """
+#     Removes duplicate entries (either by sequence or ID) from fasta.
+
+#     """
+#     if output_fasta is None:
+#         output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
+    
+#     seen_seqs, seen_ids = set(), set()
+#     def unique_records():
+#         for record in SeqIO.parse(input_fasta, 'fasta'):  
+#             if (record.seq not in seen_seqs) and (record.id not in seen_ids):
+#                 seen_seqs.add(record.seq)
+#                 seen_ids.add(record.id)
+#                 yield record
+
+#     SeqIO.write(unique_records(), output_fasta, 'fasta')
+
 def removeDuplicatesFromFasta(input_fasta: str,
                               output_fasta: str = None) -> None:
     """
     Removes duplicate entries (either by sequence or ID) from fasta.
-
     """
-    if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
-    
-    seen_seqs, seen_ids = set(), set()
-    def unique_records():
-        for record in SeqIO.parse(input_fasta, 'fasta'):  
-            if (record.seq not in seen_seqs) and (record.id not in seen_ids):
-                seen_seqs.add(record.seq)
-                seen_ids.add(record.id)
-                yield record
-
-    SeqIO.write(unique_records(), output_fasta, 'fasta')
+    wrappers.runSeqKitNoDup()
 
 def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
     """
