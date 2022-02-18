@@ -21,12 +21,12 @@ def runSeqKitNoDup(input_fasta: str, output_fasta: str = None,
     if output_fasta is None:
         output_fasta = setDefaultOutputPath(input_fasta, tag="_no_duplicates")
     if export_duplicates:
-        dup_file = setDefaultOutputPath(output_fasta, tag="_duplicates", extension=".txt")
+        dup_file = setDefaultOutputPath(input_fasta, tag="_duplicates", extension=".txt")
         dup_str = f"-D {dup_file}"
     else:
         dup_str = ""
     cmd_str = (
-        f"seqkit {input_fasta} -n -s {dup_str} -o {output_fasta}"
+        f"seqkit rmdup {input_fasta} -s {dup_str} -o {output_fasta}"
     )
     terminalExecute(cmd_str)
 
