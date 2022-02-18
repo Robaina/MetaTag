@@ -21,7 +21,8 @@ rm -r tests/test_results; mkdir tests/test_results; mkdir tests/test_results/gap
 # Preprocess
 python3 code/preprocess.py \
  --in tests/test_data/database/ \
- --outfile tests/test_results/test_data_cleaned.faa
+ --outfile tests/test_results/test_data_cleaned.faa \
+ --export-duplicates
 
 # Make database
 python3 code/makedatabase.py \
