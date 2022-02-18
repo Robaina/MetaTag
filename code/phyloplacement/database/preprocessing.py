@@ -20,32 +20,31 @@ from phyloplacement.utils import (saveToPickleFile, setDefaultOutputPath,
                                   terminalExecute, handle_exceptions)
 
 
-# @handle_exceptions
-# def removeDuplicatesFromFasta(input_fasta: str,
-#                               output_fasta: str = None) -> None:
-#     """
-#     Removes duplicate entries (either by sequence or ID) from fasta.
-
-#     """
-#     if output_fasta is None:
-#         output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
-    
-#     seen_seqs, seen_ids = set(), set()
-#     def unique_records():
-#         for record in SeqIO.parse(input_fasta, 'fasta'):  
-#             if (record.seq not in seen_seqs) and (record.id not in seen_ids):
-#                 seen_seqs.add(record.seq)
-#                 seen_ids.add(record.id)
-#                 yield record
-
-#     SeqIO.write(unique_records(), output_fasta, 'fasta')
-
+@handle_exceptions
 def removeDuplicatesFromFasta(input_fasta: str,
-                              output_fasta: str = None) -> None:
+                              output_fasta: str = None,
+                              export_duplicates: bool = False,
+                              method: str = 'seqkit') -> None:
     """
     Removes duplicate entries (either by sequence or ID) from fasta.
     """
-    wrappers.runSeqKitNoDup()
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
+
+    if 'bio' in method:
+        seen_seqs, seen_ids = set(), set()
+        def unique_records():
+            for record in SeqIO.parse(input_fasta, 'fasta'):  
+                if (record.seq not in seen_seqs) and (record.id not in seen_ids):
+                    seen_seqs.add(record.seq)
+                    seen_ids.add(record.id)
+                    yield record
+
+        SeqIO.write(unique_records(), output_fasta, 'fasta')
+
+    else:
+        wrappers.runSeqKitNoDup(input_fasta=input_fasta, output_fasta=output_fasta,
+                                export_duplicates=export_duplicates)
 
 def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
     """
