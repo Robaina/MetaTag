@@ -26,7 +26,10 @@ from phyloplacement.database.preprocessing import (assertCorrectSequenceFormat,
 
 
 parser = argparse.ArgumentParser(
-    description='Database preprocessing: removal of duplicated sequences and of sequences with illegal symbols',
+    description=(
+        'Database preprocessing: removal of duplicated sequences and of sequences with illegal symbols. '
+        'To preferentially keep one duplicate sequence over another, place preferred sequences first.'
+        ),
     epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
     )
 
@@ -40,6 +43,8 @@ optional.add_argument('--dna', dest='dna', action='store_true', default=False,
                       help='declare if sequences are nucleotides. Defaults to peptide sequences.')
 optional.add_argument('--translate', dest='translate', action='store_true', default=False,
                       help='choose whether nucleotide sequences are translated with prodigal')
+optional.add_argument('--export-duplicates', dest='export_dup', action='store_true', default=False,
+                      help='choose whether duplicated sequences are exported to file (same directory than outfile)')
 optional.add_argument('--outfile', dest='outfile', type=str,
                       help='path to output fasta file')
 optional.add_argument('--relabel', dest='relabel',
@@ -83,7 +88,9 @@ def main():
         print('* Removing duplicates...')
         removeDuplicatesFromFasta(
             input_fasta=data_path,
-            output_fasta=tmp_file_path
+            output_fasta=tmp_file_path,
+            method='seqkit',
+            export_duplicates=args.export_dup
         )
         print('* Asserting correct sequence format...')
         assertCorrectSequenceFormat(
