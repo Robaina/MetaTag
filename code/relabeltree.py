@@ -7,10 +7,11 @@ Relabel tree and msa from label dicts as pickle files
 
 import os
 import argparse
+from typing import Tuple, Dict
 
 from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
 from phyloplacement.database.preprocessing import setOriginalRecordIDsInFASTA
-from phyloplacement.database.parsers.mardb import MMPtaxonomyAssigner
+from phyloplacement.taxonomy import TaxonomyAssigner
 from phyloplacement.phylotree import relabelTree
 
 
@@ -76,18 +77,16 @@ def initializeLabelDict(args) -> dict:
         }
     return label_dict
 
-def assignTaxonomyToLabels(label_dict: dict) -> tuple[dict]:
+def assignTaxonomyToLabels(label_dict: dict) -> Tuple[Dict]:
     """
     Assign GTDB taxonomy to tree labels
     """
     taxo_dict, export_label_dict, tree_label_dict = {}, {}, {}
-    taxonomy = MMPtaxonomyAssigner()
+    taxonomy = TaxonomyAssigner(
+        taxo_file='./data/taxonomy/merged_taxonomy.tsv'
+    )
     for k, label in label_dict.items():
-        taxopath = taxonomy.assignTaxonomyToLabel(
-            label, root_level='kingdom',
-            only_taxonomy=True,
-            separator=';'
-            )
+        taxopath = taxonomy.assignTaxonomyToLabel(label)
         taxo_dict[k] = taxopath
         export_label_dict[label] = taxopath
     

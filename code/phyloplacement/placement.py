@@ -16,7 +16,7 @@ from Bio import Phylo
 import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import (setDefaultOutputPath,
                                   TemporaryFilePath)
-from phyloplacement.database.parsers.mardb import MMPtaxonomyAssigner
+from phyloplacement.taxonomy import TaxonomyAssigner, Taxopath
 from phyloplacement.alignment import alignShortReadsToReferenceMSA
 from phyloplacement.phylotree import getIqTreeModelFromLogFile
 from phyloplacement.database.manipulation import getFastaRecordIDs, splitReferenceFromQueryAlignments
@@ -140,66 +140,6 @@ class JplaceParser():
             if place_object['p']['edge_num'] in ref_dict.keys()
         }
         return labeled_placements
-
-
-class Taxopath():
-    """
-    Object to contain taxopath
-    """
-    def __init__(self, taxopath_str: str = None, delimiter: str = ";"):
-        self._taxopath = taxopath_str
-        self._delimiter = delimiter
-        self._tax_levels = [
-            'kingdom', 'phylum', 'class',
-            'order', 'family', 'genus', 'species'
-            ]
-        self.taxodict = self._dictFromTaxopath()
-
-    def _dictFromTaxopath(self):
-        if self._taxopath is None:
-            taxolist = []
-        else:
-            taxolist = [elem.strip() for elem in self._taxopath.split(self._delimiter)]
-        taxolist.extend([None for _ in range(len(self._tax_levels) - len(taxolist))])
-        return {taxlevel: taxon for taxlevel, taxon in zip(self._tax_levels, taxolist)}
-
-    @classmethod
-    def from_dict(cls, taxodict: dict, delimiter: str = ";") -> Taxopath:
-        """
-        Instantiate Taxopath object from dict
-        """
-        taxa = []
-        for taxon in taxodict.values():
-            if taxon is None:
-                break
-            else:
-                taxa.append(taxon)
-        taxostr = delimiter.join(taxa)
-        return cls(taxopath_str=taxostr, delimiter=delimiter)
-
-    @classmethod
-    def getLowestCommonTaxopath(cls, taxopaths: list[str]) -> Taxopath:
-        """
-        compute lowest common taxopath (ancestor) of a list 
-        of taxopaths
-        """
-        taxopath_dicts = [cls(taxostr).taxodict for taxostr in taxopaths]
-        common_taxodict = cls().taxodict
-        for taxlevel in cls().taxlevels:
-            taxa = set([taxdict[taxlevel] for taxdict in taxopath_dicts])
-            if len(taxa) > 1:
-                break
-            else:
-                common_taxodict[taxlevel] = list(taxa)[0]
-        return cls.from_dict(common_taxodict)
-
-    @property
-    def taxostring(self):
-        return self._taxopath
-
-    @property
-    def taxlevels(self):
-        return self._tax_levels
 
 
 class TaxAssignParser():
@@ -419,10 +359,9 @@ def assignLabelsToPlacements(jplace: str, id_dict: dict,
     query_taxo_out = os.path.join(output_dir, output_prefix + 'assignments.tsv')
 
     with TemporaryFilePath() as temptax:
-        taxonomy = MMPtaxonomyAssigner(
-            complete='data/taxonomy/CurrentComplete.tsv',
-            partial='data/taxonomy/CurrentPartial.tsv'
-            )
+        taxonomy = TaxonomyAssigner(
+            taxo_file='./data/taxonomy/merged_taxonomy.tsv'
+        )
         taxonomy.buildGappaTaxonomyTable(id_dict, output_file=temptax)
         if has_cluster_id:
             addClustersToTaxTable(
@@ -430,7 +369,7 @@ def assignLabelsToPlacements(jplace: str, id_dict: dict,
                 clusters=ref_clusters,
                 out_taxtable=temptax
             )
-            clusters_taxopath = taxonomy.assignLowestCommonTaxonomyToCluster(
+            clusters_taxopath = taxonomy.assignLowestCommonTaxonomyToClusters(
                 clusters=ref_clusters_as_keys,
                 label_dict=id_dict
             )
