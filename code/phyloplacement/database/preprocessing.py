@@ -15,6 +15,7 @@ import re
 from Bio import SeqIO
 import pyfastx
 
+
 import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import (saveToPickleFile, setDefaultOutputPath,
                                   terminalExecute, handle_exceptions)
