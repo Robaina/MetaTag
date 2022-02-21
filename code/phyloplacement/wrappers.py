@@ -13,6 +13,23 @@ from phyloplacement.utils import terminalExecute, setDefaultOutputPath
 papara_exec = '/home/robaina/Software/papara/papara'
 
 
+def runSeqKitNoDup(input_fasta: str, output_fasta: str = None,
+                   export_duplicates: bool = False):
+    """
+    Simpe CLI wrapper to seqkit rmdup
+    """
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fasta, tag="_no_duplicates")
+    if export_duplicates:
+        dup_file = setDefaultOutputPath(input_fasta, tag="_duplicates", extension=".txt")
+        dup_str = f"-D {dup_file}"
+    else:
+        dup_str = ""
+    cmd_str = (
+        f"seqkit rmdup {input_fasta} -s {dup_str} -o {output_fasta}"
+    )
+    terminalExecute(cmd_str)
+
 def runFastP(input_fastq1: str, input_fastq2: str = None,
              merge: bool = False, merged_out: str = None,
              output_dir: str = None,

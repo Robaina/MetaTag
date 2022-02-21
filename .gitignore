@@ -14,8 +14,6 @@ data/OceanDNA/*
 data/Paoli/*
 data/metadata/*
 data/preprocessedDatabases/*
-!data/taxonomy/CurrentComplete.tsv
-!data/taxonomy/PartialComplete.tsv
 **/nxr_genomes/
 genes/**/data/*
 genes/**/papers/*
