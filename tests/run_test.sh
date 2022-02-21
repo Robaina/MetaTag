@@ -75,7 +75,7 @@ python3 code/placesequences.py \
  --query tests/test_results/query_cleaned.faa \
  --outdir tests/test_results/ \
  --aln_method "papara" \
- --tree_model tests/test_results/ref_database.log
+--tree_model tests/test_results/ref_database.log
 
 # Assign taxonomy to placed sequences
 python3 code/labelplacements.py \
