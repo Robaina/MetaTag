@@ -5,6 +5,8 @@
 Functions and classes for general purposes
 """
 
+from __future__ import annotations
+from typing import List
 import os
 import shutil
 import random
@@ -135,6 +137,7 @@ def readFromPickleFile(path_to_file='object.pkl'):
     """
     in_file = open(path_to_file,'rb')
     python_object = pickle.load(in_file)
+    in_file.close()
     return python_object
 
 def terminalExecute(command_str: str,
@@ -215,3 +218,43 @@ def easyPatternMatching(text: str, left_pattern: str, right_pattern: str = None)
     else:
         matched_text = left_subtext
     return matched_text
+
+
+
+class DictMerger():
+    def __init__(self, dicts: List[dict]) -> None:
+        """
+        Toos to merge python dictionaries into a single one
+        """
+        self._dict_list = dicts
+    
+    @classmethod
+    def fromPicklePaths(cls, dict_paths: List[str]) -> DictMerger:
+        """
+        Initialize class from list of paths to dictionaries (pickle)
+        """
+        dict_list = [
+            cls.readFromPickleFile(dict_path.strip()) for dict_path in dict_paths
+        ]
+        return cls(dicts=dict_list)
+    
+    @staticmethod
+    def readFromPickleFile(path_to_file='object.pkl'):
+        """
+        Load python object from pickle file.
+        Returns python object.
+        """
+        in_file = open(path_to_file,'rb')
+        python_object = pickle.load(in_file)
+        in_file.close()
+        return python_object
+
+    def merge(self) -> dict:
+        """
+        Merge dictionaries
+        """
+        return {
+            key: value 
+            for dict_object in self._dict_list 
+            for (key, value) in dict_object.items()
+            }
