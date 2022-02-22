@@ -127,13 +127,18 @@ class TaxonomyAssigner():
         else:
             return 'Undefined'
 
-    def assignLowestCommonTaxonomyToClusters(self, clusters: dict, label_dict: dict) -> dict:
+    def assignLowestCommonTaxonomyToClusters(self, clusters: dict, label_dict: dict = None) -> dict:
         """
         Find lowest possible common taxonomy to reference labels in clusters
+        If reference labels do not contain genome IDs, a dictionary, label_dict,
+        of reference labels and genome ids (or labels with genome ids) must be passed
         """
         clusters_taxopath = {}
         for cluster_id, cluster in clusters.items():
-            cluster_labels = [label_dict[ref_id] for ref_id in cluster]
+            if label_dict is not None:
+                cluster_labels = [label_dict[ref_id] for ref_id in cluster]
+            else:
+                cluster_labels = cluster
             taxopath = self.assignLowestCommonTaxonomyToLabels(cluster_labels)
             clusters_taxopath[cluster_id] = taxopath
         return clusters_taxopath
