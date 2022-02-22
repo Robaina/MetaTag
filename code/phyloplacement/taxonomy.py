@@ -82,8 +82,8 @@ class TaxonomyAssigner():
     """
     def __init__(self, taxo_file: str):
         self._taxodata = pd.read_csv(
-            os.path.abspath(taxo_file), sep='\t', index_col='genome'
-            )
+            os.path.abspath(taxo_file), sep='\t'
+            ).drop_duplicates(subset='genome').set_index('genome')
     
     @staticmethod
     def lowestCommonTaxonomy(taxopaths: List[str]) -> str:
