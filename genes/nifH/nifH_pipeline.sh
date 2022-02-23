@@ -4,6 +4,8 @@
 #                           nifH pipeline                           #
 # ***************************************************************** #
 
+# Notes: TIGR01287 only returns 221 hits with full database
+
 rm -r /home/robaina/Documents/TRAITS/genes/nifH/results/; mkdir /home/robaina/Documents/TRAITS/genes/nifH/results/
 
 # # Make database
@@ -11,7 +13,6 @@ python3 ./code/makedatabase.py \
  --in data/final_ref_database.fasta \
  --outdir genes/nifH/results/ \
  --hmm genes/nifH/hmms/TIGR01287.1.HMM \
- --min_seq_length 50 \
  --max_size 800 \
  --relabel
 
@@ -35,6 +36,7 @@ python3 ./code/classifyNifHsequences.py \
  --aln genes/nifH/results/ref_database.faln \
  --indict genes/nifH/results/ref_database_id_dict.pickle \
  --outdict genes/nifH/results/ref_database_id_dict_clustered.pickle \
+ --clusters_file genes/nifH/data/clusters.tsv
 
 # Relabel reference tree and msa
 python3 ./code/relabeltree.py \
