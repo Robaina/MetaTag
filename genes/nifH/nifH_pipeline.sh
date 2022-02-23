@@ -4,12 +4,14 @@
 #                           nifH pipeline                           #
 # ***************************************************************** #
 
+rm -r /home/robaina/Documents/TRAITS/genes/nifH/results/; mkdir /home/robaina/Documents/TRAITS/genes/nifH/results/
 
-# Make database
+# # Make database
 python3 ./code/makedatabase.py \
  --in data/final_ref_database.fasta \
  --outdir genes/nifH/results/ \
  --hmm genes/nifH/hmms/TIGR01287.1.HMM \
+ --min_seq_length 50 \
  --max_size 800 \
  --relabel
 
@@ -40,10 +42,10 @@ python3 ./code/relabeltree.py \
  --aln genes/nifH/results/ref_database.faln \
  --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
 
-# Commit to GitHub
-git add .
-git commit -m "Add nifH results, clustered"
-git push origin main
+# # Commit to GitHub
+# git add .
+# git commit -m "Add nifH results, clustered"
+# git push origin main
 
 # Send notification
-python3 ./code/notify.py --klink https://github.com/Robaina/TRAITS/
+python3 ./code/notify.py --link https://github.com/Robaina/TRAITS/
