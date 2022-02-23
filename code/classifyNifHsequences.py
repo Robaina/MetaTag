@@ -21,9 +21,6 @@ def getnifHclusterID(seq: list, cart_model=dict) -> str:
 
     """
     aa_pos = list(cart_model.keys())
-    print("aa_pos")
-    print(aa_pos)
-    print(cart_model)
     if len(seq) < max(aa_pos):
         return '0'
     if seq[aa_pos[0]] in cart_model[aa_pos[0]]:
@@ -117,7 +114,8 @@ def addClusterToNifHfasta(input_fasta: str, input_alignment: str,
 def addClusterToNifHdict(input_fasta: str,
                          input_alignment: str,
                          input_dict: str,
-                         output_dict: str = None) -> None:
+                         output_dict: str = None,
+                         out_clusters_file: str = None) -> None:
     """
     Add assigned cluster to nifH sequence alignments
     in reference ID dictionary
@@ -138,6 +136,13 @@ def addClusterToNifHdict(input_fasta: str,
         ref_dict[record.id] += f'_cluster_{cluster_id}'
     
     saveToPickleFile(ref_dict, output_dict)
+    if out_clusters_file is not None:
+        lines = ['id\tcluster\n']
+        with open(out_clusters_file,'w') as file:
+            for ref_id, label in ref_dict.items():
+                cluster_id = '_'.join(label.split('_')[-2:])
+                lines.append(f'{ref_id}\t{cluster_id}\n')
+            file.writelines(lines)
 
 
 if __name__ == '__main__':
@@ -159,6 +164,8 @@ if __name__ == '__main__':
                         help='path to input dictionary with reference IDs and labels')
     optional.add_argument('--outdict', dest='outdict', type=str,
                         help='path to output ID dictionary in pickle format')
+    optional.add_argument('--clusters_file', dest='clusters_file', type=str,
+                        help='path to output tsv file containing defined clusters')
 
     args = parser.parse_args()
     if args.outdict is None:
@@ -169,5 +176,6 @@ if __name__ == '__main__':
 
     
     print('* Classifying nifH sequences according to CART model')
-    addClusterToNifHdict(args.seqs, args.aln, args.indict, outdict)
+    addClusterToNifHdict(args.seqs, args.aln, args.indict,
+                         output_dict=outdict, out_clusters_file=args.clusters_file)
     
