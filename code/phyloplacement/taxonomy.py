@@ -101,13 +101,20 @@ class TaxonomyAssigner():
                     break
         return ';'.join(lowest_tax)
 
+    def _extractGenomeIDfromLabel(self, label: str) -> str:
+        labelParser = MARdbLabelParser()
+        mmp_id = labelParser.extractMMPid(label)
+        if mmp_id:
+            genome_id = mmp_id
+        else:
+            genome_id = label.split('__')[0]
+        return genome_id
+
     def assignTaxonomyToLabel(self, label: str) -> str:
         """
         Assign GTDB taxonomy to label based on genome ID
         """
-        labelParser = MARdbLabelParser()
-        mmp_id = labelParser.extractMMPid(label)
-        genome_id = mmp_id if mmp_id else label.split('__')[0]
+        genome_id = self._extractGenomeIDfromLabel(label)
         if genome_id in self._taxodata.index:
             return self._taxodata.loc[genome_id].item()
         else:
