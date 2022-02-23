@@ -225,6 +225,8 @@ class DictMerger():
     def __init__(self, dicts: List[dict]) -> None:
         """
         Toos to merge python dictionaries into a single one
+        @param
+        dicts: list of dictionaries to be merged
         """
         self._dict_list = dicts
     
@@ -249,12 +251,20 @@ class DictMerger():
         in_file.close()
         return python_object
 
-    def merge(self) -> dict:
+    def merge(self, dict_prefixes: List[str] = None) -> dict:
         """
         Merge dictionaries
+        @params
+        dict_prefixes: list of strings containing prefixes to be added to
+                values in each dict (optional)
         """
+        if dict_prefixes is None:
+            dict_prefixes = ['' for _ in range(len(self._dict_list))]
+        else:
+            dict_prefixes = dict_prefixes
+
         return {
-            key: value 
-            for dict_object in self._dict_list 
+            key: prefix + value
+            for prefix, dict_object in zip(dict_prefixes, self._dict_list) 
             for (key, value) in dict_object.items()
             }

@@ -9,7 +9,7 @@ import os
 import argparse
 from typing import Tuple, Dict
 
-from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
+from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath, DictMerger
 from phyloplacement.database.preprocessing import setOriginalRecordIDsInFASTA
 from phyloplacement.taxonomy import TaxonomyAssigner
 from phyloplacement.phylotree import relabelTree
@@ -67,17 +67,12 @@ def initializeLabelDict(args) -> dict:
     else:
         label_pre = args.labelprefixes
 
-    label_dicts = [
-        readFromPickleFile(label_path.strip()) for label_path in args.labels
-        ]
-    label_dict = {
-        k: prefix + label
-        for prefix, labels in zip(label_pre, label_dicts) 
-        for (k, label) in labels.items()
-        }
-    return label_dict
+    label_dict = DictMerger.fromPicklePaths(args.labels).merge()
+    prefix_label_dict = DictMerger.fromPicklePaths(args.labels).merge(dict_prefixes=label_pre)
 
-def assignTaxonomyToLabels(label_dict: dict) -> Tuple[Dict]:
+    return label_dict, prefix_label_dict
+
+def assignTaxonomyToLabels(prefix_label_dict, label_dict: dict) -> Tuple[Dict]:
     """
     Assign GTDB taxonomy to tree labels
     """
@@ -88,9 +83,9 @@ def assignTaxonomyToLabels(label_dict: dict) -> Tuple[Dict]:
     for k, label in label_dict.items():
         taxopath = taxonomy.assignTaxonomyToLabel(label)
         taxo_dict[k] = taxopath
-        export_label_dict[label] = taxopath
+        export_label_dict[prefix_label_dict[k]] = taxopath
     
-    for k, label in label_dict.items():
+    for k, label in prefix_label_dict.items():
         tree_label_dict[k] = f'{label}_{taxo_dict[k]}'
 
     return tree_label_dict, export_label_dict
@@ -111,9 +106,9 @@ def main():
 
     print('* Relabelling tree...')
 
-    label_dict = initializeLabelDict(args)
+    label_dict, prefix_label_dict = initializeLabelDict(args)
     if args.taxonomy:
-        tree_label_dict, export_label_dict = assignTaxonomyToLabels(label_dict)
+        tree_label_dict, export_label_dict = assignTaxonomyToLabels(prefix_label_dict, label_dict)
         exportTaxonomyTable(export_label_dict, taxoout)
     else:
         tree_label_dict = label_dict
