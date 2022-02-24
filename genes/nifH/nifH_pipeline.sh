@@ -35,19 +35,53 @@
 #  --outdir genes/nifH/results/ \
 #  --aln genes/nifH/results/ref_database.faln
 
-# Classify nifH sequences according to CART model
-python3 ./code/classifyNifHsequences.py \
- --seqs genes/nifH/results/ref_database.faa \
- --aln genes/nifH/results/ref_database.faln \
- --indict genes/nifH/results/ref_database_id_dict.pickle \
- --outdict genes/nifH/results/ref_database_id_dict_clustered.pickle \
- --clusters_file genes/nifH/data/clusters.tsv
+# # Classify nifH sequences according to CART model
+# python3 ./code/classifyNifHsequences.py \
+#  --seqs genes/nifH/results/ref_database.faa \
+#  --aln genes/nifH/results/ref_database.faln \
+#  --indict genes/nifH/results/ref_database_id_dict.pickle \
+#  --outdict genes/nifH/results/ref_database_id_dict_clustered.pickle \
+#  --clusters_file genes/nifH/data/clusters.tsv
 
-# Relabel reference tree and msa
-python3 ./code/relabeltree.py \
- --tree genes/nifH/results/ref_database_shrink.newick \
- --aln genes/nifH/results/ref_database.faln \
- --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
+# # Relabel reference tree and msa
+# python3 ./code/relabeltree.py \
+#  --tree genes/nifH/results/ref_database_shrink.newick \
+#  --aln genes/nifH/results/ref_database.faln \
+#  --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
+
+# Preprocess query sequences
+python3 code/preprocess.py \
+ --in tests/test_data/query.faa \
+ --outfile tests/test_results/query_cleaned.faa \
+ --idprefix "query_" --relabel
+
+# Place query sequences
+python3 code/placesequences.py \
+ --aln tests/test_results/ref_database_shrink.faln \
+ --tree tests/test_results/ref_database_shrink.newick \
+ --query tests/test_results/query_cleaned.faa \
+ --outdir tests/test_results/ \
+ --aln_method "papara" \
+--tree_model tests/test_results/ref_database.log
+
+# Assign taxonomy to placed sequences
+python3 code/labelplacements.py \
+ --jplace tests/test_results/epa_result.jplace \
+ --labels tests/test_results/test_ref_database_id_dict.pickle \
+          tests/test_results/outliers_short_ids_id_dict.pickle \
+ --ref_clusters tests/test_data/clusters.tsv \
+ --ref_cluster_scores tests/test_data/cluster_scores.tsv \
+ --outgroup tests/test_results/data/outliers_short_ids.faa \
+ --prefix "test_placed_tax_" \
+ --outdir tests/test_results/gappa/
+
+# Count placements (filter by taxon, cluster id and quality score)
+python3 code/countplacements.py \
+ --taxtable tests/test_results/gappa/test_placed_tax_assignments.tsv \
+ --taxlevel "family" \
+ --cluster_ids "G1" "G2" \
+ --score_threshold 0.6 \
+ --outfile tests/test_results/gappa/test_placed_family_tax_counts.tsv
 
 # # Commit to GitHub
 # git add .
