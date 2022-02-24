@@ -14,6 +14,7 @@ data/OceanDNA/*
 data/Paoli/*
 data/metadata/*
 data/preprocessedDatabases/*
+data/environmental/*
 **/nxr_genomes/
 genes/**/data/*
 genes/**/papers/*
