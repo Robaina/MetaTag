@@ -24,6 +24,8 @@ genes/**/results/*
 !genes/**/*.contree
 !genes/**/*.pickle
 !genes/**/iTOL_colors.txt
+!genes/**/clusters.tsv
+!genes/**/cluster_scores.tsv
 !genes**/placement_results
 tests/test_results
 tests/hmm_outputs
