@@ -10,6 +10,7 @@ Tools to create peptide-specific sequence databases
 
 import os
 import warnings
+from typing import List
 from collections import defaultdict
 
 import pandas as pd
@@ -17,7 +18,7 @@ from Bio import SearchIO, SeqIO, AlignIO
 import pyfastx
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import setDefaultOutputPath
+from phyloplacement.utils import setDefaultOutputPath, terminalExecute
 from phyloplacement.database.parsers.mardb import MARdbLabelParser
 
 
@@ -222,7 +223,7 @@ class LinkedHMMfilter():
         self._hmm_hits = hmm_hits
     
     @staticmethod
-    def parseLinkageString(link_str: str) -> list[list]:
+    def parseLinkageString(link_str: str) -> List[list]:
         """
         Parse linkage structure string. A linkage structure
         is a string like the following:
@@ -373,13 +374,13 @@ class LinkedHMMfilter():
 def filterFastaByHMMstructure(hmm_structure: str,
                               target_hmm: str,
                               input_fasta: str,
-                              input_hmms: list[str],
+                              input_hmms: List[str],
                               output_fasta: str = None,
                               output_dir: str = None,
                               hmmer_output_dir: str = None,
                               reuse_hmmer_results: bool = True,
                               method: str = 'hmmsearch',
-                              additional_args: list[str] = None) -> None:
+                              additional_args: List[str] = None) -> None:
     """
     Generate protein-specific database by filtering sequence database
     to only contain sequences which satisfy the provided (gene/hmm)

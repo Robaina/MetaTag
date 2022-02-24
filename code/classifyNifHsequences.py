@@ -14,7 +14,7 @@ from Bio import SeqIO
 from phyloplacement.utils import readFromPickleFile, saveToPickleFile
 
 
-def getnifHclusterID(seq: list, cart_model=dict) -> str:
+def getnifHclusterID(seq: list, cart_model: dict) -> str:
     """
     Assign cluster to nifH sequence based on CART model in
     https://sfamjournals.onlinelibrary.wiley.com/doi/10.1111/1758-2229.12455
@@ -67,7 +67,7 @@ def adjustCARTmodel(input_fasta: str, input_alignment: str):
     azo_nifH = seq_dict[first_id]
     azo_nifh_aln = ''.join(aln_dict[first_id])
     
-    left_offset, right_offset = 0, 9
+    left_offset, right_offset = 1, 7
     for aa_pos, aas in CART.items():
         pos_pattern = ''.join(azo_nifH)[aa_pos - left_offset: aa_pos + right_offset]
         adj_aa_pos = azo_nifh_aln.find(pos_pattern)  # -1 because doesn't find pattern (extra - ?)
@@ -76,12 +76,13 @@ def adjustCARTmodel(input_fasta: str, input_alignment: str):
     
     DOING this MANUALLY for now...
     """
-    aln_offset = 68
-
+    aln_offset_1 = 68  # offset looking at azotobacter nifH alignment
+    aln_offset_2 = 43
+    aln_offset_3 = 43
     adjusted_CART = {
-        (109 + aln_offset): ['F', 'W', 'Y'], 
-        (49 + aln_offset): ['A', 'D', 'I'],  
-        (53 + aln_offset): ['L', 'M', 'W'] 
+        (109 + aln_offset_1): ['F', 'W', 'Y'], 
+        (49 + aln_offset_2): ['A', 'D', 'I'],  
+        (53 + aln_offset_3): ['L', 'M', 'W'] 
     }
 
     return adjusted_CART
