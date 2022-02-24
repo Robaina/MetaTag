@@ -76,13 +76,10 @@ def adjustCARTmodel(input_fasta: str, input_alignment: str):
     
     DOING this MANUALLY for now...
     """
-    aln_offset_1 = 68  # offset looking at azotobacter nifH alignment
-    aln_offset_2 = 43
-    aln_offset_3 = 43
     adjusted_CART = {
-        (109 + aln_offset_1): ['F', 'W', 'Y'], 
-        (49 + aln_offset_2): ['A', 'D', 'I'],  
-        (53 + aln_offset_3): ['L', 'M', 'W'] 
+        (177): ['F', 'W', 'Y'], 
+        (92): ['A', 'D', 'I'],  
+        (96): ['L', 'M', 'W'] 
     }
 
     return adjusted_CART
