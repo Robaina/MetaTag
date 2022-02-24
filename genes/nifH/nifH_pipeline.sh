@@ -49,6 +49,16 @@
 #  --aln genes/nifH/results/ref_database.faln \
 #  --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
 
+
+from phyloplacement.database.manipulation import sliceFasta
+
+
+sliceFasta(
+    input_file="/home/robaina/Documents/TRAITS/data/environmental/remedios/P14401_101_S5_L002_P_001.fasta",
+    output_file="/home/robaina/Documents/TRAITS/data/environmental/remedios/P14401_101_S5_L002_P_001_sliced_1000.fasta",
+    N=1000
+)
+
 # Preprocess query sequences
 python3 code/preprocess.py \
  --in tests/test_data/query.faa \
