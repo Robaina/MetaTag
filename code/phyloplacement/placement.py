@@ -148,6 +148,11 @@ class TaxAssignParser():
     """
     def __init__(self, tax_assign_path: str):
                  self._tax_assign = pd.read_csv(tax_assign_path, sep='\t')
+                 self._tax_assign = self._tax_assign[self._tax_assign.cluster_id != 'DISTANT']
+                 self._tax_assign.cluster_score = self._tax_assign.cluster_score.apply(lambda x: float(x))
+                 self._tax_assign.cluster_taxopath = self._tax_assign.cluster_taxopath.apply(lambda x: "Undefined" if pd.isna(x) else x)
+                 self._tax_assign.taxopath = self._tax_assign.taxopath.apply(lambda x: "Undefined" if pd.isna(x) else x)
+
     
     @property
     def taxlevels(self):
@@ -166,7 +171,8 @@ class TaxAssignParser():
                         to use lowest common taxopath of the reference tree cluster
         """
         if score_threshold is None:
-            score_threshold =0.0
+            score_threshold = 0.0
+
         taxohits = self._tax_assign[
             (
                 (self._tax_assign.cluster_id.isin(cluster_ids)) &

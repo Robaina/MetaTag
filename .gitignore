@@ -18,7 +18,7 @@ data/environmental/*
 **/nxr_genomes/
 genes/**/data/*
 genes/**/papers/*
-genes/**/results/*
+# genes/**/results/*
 !genes/**/*.sh
 !genes/**/*.faln
 !genes/**/*.contree

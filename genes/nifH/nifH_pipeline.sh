@@ -49,49 +49,37 @@
 #  --aln genes/nifH/results/ref_database.faln \
 #  --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
 
+# # Preprocess query sequences
+# python3 code/preprocess.py \
+#  --in data/environmental/remedios/P14401_101_S5_L002_P_001_sliced_1000.fasta \
+#  --outfile genes/nifH/data/query_cleaned.faa \
+#  --idprefix "query_" --relabel --translate
 
-from phyloplacement.database.manipulation import sliceFasta
+# # Place query sequences
+# python3 code/placesequences.py \
+#  --aln genes/nifH/results/ref_database_shrink.faln \
+#  --tree genes/nifH/results/ref_database_shrink.newick \
+#  --query genes/nifH/data/query_cleaned.faa \
+#  --outdir genes/nifH/results/remedios/ \
+#  --aln_method "papara" \
+# --tree_model genes/nifH/results/ref_database.log
 
-
-sliceFasta(
-    input_file="/home/robaina/Documents/TRAITS/data/environmental/remedios/P14401_101_S5_L002_P_001.fasta",
-    output_file="/home/robaina/Documents/TRAITS/data/environmental/remedios/P14401_101_S5_L002_P_001_sliced_1000.fasta",
-    N=1000
-)
-
-# Preprocess query sequences
-python3 code/preprocess.py \
- --in tests/test_data/query.faa \
- --outfile tests/test_results/query_cleaned.faa \
- --idprefix "query_" --relabel
-
-# Place query sequences
-python3 code/placesequences.py \
- --aln tests/test_results/ref_database_shrink.faln \
- --tree tests/test_results/ref_database_shrink.newick \
- --query tests/test_results/query_cleaned.faa \
- --outdir tests/test_results/ \
- --aln_method "papara" \
---tree_model tests/test_results/ref_database.log
-
-# Assign taxonomy to placed sequences
-python3 code/labelplacements.py \
- --jplace tests/test_results/epa_result.jplace \
- --labels tests/test_results/test_ref_database_id_dict.pickle \
-          tests/test_results/outliers_short_ids_id_dict.pickle \
- --ref_clusters tests/test_data/clusters.tsv \
- --ref_cluster_scores tests/test_data/cluster_scores.tsv \
- --outgroup tests/test_results/data/outliers_short_ids.faa \
- --prefix "test_placed_tax_" \
- --outdir tests/test_results/gappa/
+# # Assign taxonomy to placed sequences  (--outgroup tests/test_results/data/outliers_short_ids.faa \)
+# python3 code/labelplacements.py \
+#  --jplace genes/nifH/results/remedios/epa_result.jplace \
+#  --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
+#  --ref_clusters genes/nifH/data/clusters.tsv \
+#  --ref_cluster_scores genes/nifH/data/cluster_scores.tsv \
+#  --prefix "placed_tax_" \
+#  --outdir genes/nifH/results/remedios/
 
 # Count placements (filter by taxon, cluster id and quality score)
 python3 code/countplacements.py \
- --taxtable tests/test_results/gappa/test_placed_tax_assignments.tsv \
+ --taxtable genes/nifH/results/remedios/placed_tax_assignments.tsv \
  --taxlevel "family" \
- --cluster_ids "G1" "G2" \
- --score_threshold 0.6 \
- --outfile tests/test_results/gappa/test_placed_family_tax_counts.tsv
+ --cluster_ids "cluster_I" "cluster_II" "cluster_III" "cluster_IV" \
+ --score_threshold 0.5 \
+ --outfile genes/nifH/results/remedios/placed_family_tax_counts.tsv
 
 # # Commit to GitHub
 # git add .
