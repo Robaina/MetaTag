@@ -29,7 +29,7 @@ required.add_argument('--cluster_ids', dest='cluster_ids', type=str, required=Tr
                       nargs='+',
                       help=(
                           'list of space-separated target cluster ids of the reference tree '
-                          'corresponding to the selecte function to filter counts'
+                          'corresponding to the selected function to filter counts'
                           )
                     )
 optional.add_argument('--score_threshold', dest='score_threshold', type=float,
