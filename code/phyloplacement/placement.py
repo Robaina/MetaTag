@@ -150,40 +150,51 @@ class TaxAssignParser():
                  self._tax_assign = pd.read_csv(tax_assign_path, sep='\t')
                  self._tax_assign = self._tax_assign[self._tax_assign.cluster_id != 'DISTANT']
                  self._tax_assign.cluster_score = self._tax_assign.cluster_score.apply(lambda x: float(x))
-                 self._tax_assign.cluster_taxopath = self._tax_assign.cluster_taxopath.apply(lambda x: "Undefined" if pd.isna(x) else x)
-                 self._tax_assign.taxopath = self._tax_assign.taxopath.apply(lambda x: "Undefined" if pd.isna(x) else x)
-
+                 self._tax_assign.cluster_taxopath = self._tax_assign.cluster_taxopath.apply(lambda x: "Unspecified" if pd.isna(x) else x)
+                 self._tax_assign.taxopath = self._tax_assign.taxopath.apply(lambda x: "Unspecified" if pd.isna(x) else x)
     
     @property
     def taxlevels(self):
         return Taxopath().taxlevels
 
-    def countHits(self, cluster_ids: list[str], 
-                  taxlevel: str = 'family', score_threshold: float = None,
+    def countHits(self, taxlevel: str = 'family', 
+                  cluster_ids: list[str] = None, score_threshold: float = None,
                   taxopath_type: str = 'taxopath', normalize=True) -> pd.Series:
         """
         Count hits within given cluster ids and at specificied taxon level
         @Params:
         normalize=True, then results are reported as fractions of total
+        cluster_ids: IDs of tree clusters to be included in the counting of placements
         score_threshold: global placement score threshold to filter
                          low-quality placements out
         taxopath_type: 'taxopath' to use gappa-assign taxopath or 'cluster_taxopath'
                         to use lowest common taxopath of the reference tree cluster
         """
+        if cluster_ids is None:
+            cluster_ids = self._tax_assign.cluster_id.unique()
         if score_threshold is None:
             score_threshold = 0.0
 
-        taxohits = self._tax_assign[
+        taxopath_hits = self._tax_assign[
             (
                 (self._tax_assign.cluster_id.isin(cluster_ids)) &
                 (self._tax_assign.cluster_score >= score_threshold)
                 )
             ][taxopath_type].values
-        if len(taxohits) == 0:
+        if len(taxopath_hits) == 0:
             raise ValueError('No placement hits returned for the provided filter parameters')
-        taxodicts = [Taxopath(taxostr).taxodict for taxostr in taxohits]
-        taxohits = pd.DataFrame(taxodicts).applymap(lambda x: 'Unespecified' if x is None else x)
+        taxodicts = [Taxopath(taxopath_str).taxodict for taxopath_str in taxopath_hits]
+        taxohits = pd.DataFrame(taxodicts).applymap(lambda x: 'Unspecified' if x is None else x)
         counts = taxohits[taxlevel].value_counts(normalize=normalize)
+        
+        # Merge counts from "Unspecified" and empty tax level, e.g., "f__"
+        matched_row = counts.index[counts.index.str.fullmatch("[a-zA-Z]__")]
+        if not matched_row.empty:
+            empty_tax_level = matched_row.item()
+            counts[counts.index == 'Unspecified'] = counts[counts.index == 'Unspecified'] + counts[empty_tax_level].item()
+            counts = counts.drop(labels=empty_tax_level)
+
+        counts.index.name = taxlevel
         return counts
 
 
@@ -309,7 +320,7 @@ def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
                 else:
                     cluster_taxopath = ''
                 if not cluster_taxopath:
-                    cluster_taxopath = 'Undefined'
+                    cluster_taxopath = 'Unspecified'
                 taxopath = cluster_taxopath + '\t' + ';'.join(elems[1:])
             else:
                 cluster_id, taxopath = '', row.taxopath
