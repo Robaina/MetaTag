@@ -50,4 +50,6 @@ counts = taxparser.countHits(
     taxlevel=args.taxlevel,
     normalize=True, taxopath_type='taxopath'
     )
-counts.to_csv(args.outfile, header=None, sep='\t')
+    
+column_id = 'frequency'
+counts.to_csv(args.outfile, header=[column_id], index=True, sep='\t')
