@@ -1,428 +1,428 @@
 query_id	cluster_id	cluster_score	cluster_taxopath	taxopath
-query_46	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_77	DISTANT	None	Undefined	
-query_120	cluster_IV	0.0	Undefined	
-query_162	DISTANT	None	Undefined	
-query_229	cluster_IV	0.0	Undefined	
-query_249	DISTANT	None	Undefined	
-query_293	DISTANT	None	Undefined	
-query_340	DISTANT	None	Undefined	
-query_411	DISTANT	None	Undefined	
-query_42	cluster_II	1.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__PWKZ01;f__;g__;s__
-query_102	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
-query_152	DISTANT	None	Undefined	
-query_190	cluster_III	1.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales
-query_243	cluster_IV	0.0	Undefined	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
-query_305	DISTANT	None	Undefined	
+query_46	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_77	DISTANT	None	Unspecified	
+query_120	cluster_IV	0.0	Unspecified	
+query_162	DISTANT	None	Unspecified	
+query_229	cluster_IV	0.0	Unspecified	
+query_249	DISTANT	None	Unspecified	
+query_293	DISTANT	None	Unspecified	
+query_340	DISTANT	None	Unspecified	
+query_411	DISTANT	None	Unspecified	
+query_42	cluster_II	1.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__PWKZ01;f__;g__;s__
+query_102	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
+query_152	DISTANT	None	Unspecified	
+query_190	cluster_III	1.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales
+query_243	cluster_IV	0.0	Unspecified	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
+query_305	DISTANT	None	Unspecified	
 query_359	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Methylococcales;f__Methylomonadaceae;g__Methylomonas;s__Methylomonas methanica_B
-query_422	DISTANT	None	Undefined	
+query_422	DISTANT	None	Unspecified	
 query_47	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Cyanobacteria;c__Cyanobacteriia;o__Cyanobacteriales;f__Microcystaceae;g__Atelocyanobacterium;s__Atelocyanobacterium thalassa_A
-query_94	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_117	DISTANT	None	Undefined	
-query_161	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_211	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_266	cluster_II	1.0	Undefined	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Acetivibrionales;f__Acetivibrionaceae;g__Ruminiclostridium_A;s__Ruminiclostridium_A papyrosolvens
-query_320	DISTANT	None	Undefined	
-query_376	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_425	DISTANT	None	Undefined	
-query_51	DISTANT	None	Undefined	
-query_101	cluster_IV	0.0	Undefined	
-query_158	cluster_II	1.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__PWKZ01;f__;g__;s__
-query_221	DISTANT	None	Undefined	
-query_256	DISTANT	None	Undefined	
-query_311	DISTANT	None	Undefined	
-query_362	cluster_II	1.0	Undefined	
-query_392	DISTANT	None	Undefined	
+query_94	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_117	DISTANT	None	Unspecified	
+query_161	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_211	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_266	cluster_II	1.0	Unspecified	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Acetivibrionales;f__Acetivibrionaceae;g__Ruminiclostridium_A;s__Ruminiclostridium_A papyrosolvens
+query_320	DISTANT	None	Unspecified	
+query_376	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_425	DISTANT	None	Unspecified	
+query_51	DISTANT	None	Unspecified	
+query_101	cluster_IV	0.0	Unspecified	
+query_158	cluster_II	1.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__PWKZ01;f__;g__;s__
+query_221	DISTANT	None	Unspecified	
+query_256	DISTANT	None	Unspecified	
+query_311	DISTANT	None	Unspecified	
+query_362	cluster_II	1.0	Unspecified	
+query_392	DISTANT	None	Unspecified	
 query_21	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Photobacterium;s__Photobacterium gaetbulicola
-query_67	cluster_IV	0.0	Undefined	
-query_127	cluster_IV	0.0	Undefined	d__Bacteria
-query_184	cluster_II	1.0	Undefined	
+query_67	cluster_IV	0.0	Unspecified	
+query_127	cluster_IV	0.0	Unspecified	d__Bacteria
+query_184	cluster_II	1.0	Unspecified	
 query_222	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Cyanobacteria;c__Cyanobacteriia;o__Cyanobacteriales;f__Microcystaceae;g__Atelocyanobacterium;s__Atelocyanobacterium thalassa_A
-query_255	cluster_IV	0.0	Undefined	d__Bacteria
-query_322	DISTANT	None	Undefined	
-query_364	DISTANT	None	Undefined	
+query_255	cluster_IV	0.0	Unspecified	d__Bacteria
+query_322	DISTANT	None	Unspecified	
+query_364	DISTANT	None	Unspecified	
 query_412	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Photobacterium;s__Photobacterium gaetbulicola
-query_61	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042
-query_116	DISTANT	None	Undefined	
-query_136	DISTANT	None	Undefined	
-query_174	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_218	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_283	DISTANT	None	Undefined	
-query_316	DISTANT	None	Undefined	
-query_368	DISTANT	None	Undefined	
-query_423	cluster_IV	0.0	Undefined	
-query_33	DISTANT	None	Undefined	
-query_92	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042
-query_137	cluster_IV	0.0	Undefined	d__Bacteria;p__Nitrospinota;c__2-12-FULL-45-22;o__2-12-FULL-45-22;f__;g__;s__
-query_183	DISTANT	None	Undefined	
-query_230	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_295	DISTANT	None	Undefined	
+query_61	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042
+query_116	DISTANT	None	Unspecified	
+query_136	DISTANT	None	Unspecified	
+query_174	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_218	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_283	DISTANT	None	Unspecified	
+query_316	DISTANT	None	Unspecified	
+query_368	DISTANT	None	Unspecified	
+query_423	cluster_IV	0.0	Unspecified	
+query_33	DISTANT	None	Unspecified	
+query_92	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042
+query_137	cluster_IV	0.0	Unspecified	d__Bacteria;p__Nitrospinota;c__2-12-FULL-45-22;o__2-12-FULL-45-22;f__;g__;s__
+query_183	DISTANT	None	Unspecified	
+query_230	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_295	DISTANT	None	Unspecified	
 query_339	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Photobacterium;s__Photobacterium gaetbulicola
-query_389	cluster_IV	0.0	Undefined	
-query_11	cluster_IV	0.0	Undefined	
-query_55	DISTANT	None	Undefined	
-query_170	DISTANT	None	Undefined	
-query_238	DISTANT	None	Undefined	
-query_350	DISTANT	None	Undefined	
-query_384	cluster_IV	0.0	Undefined	
-query_140	DISTANT	None	Undefined	
-query_246	DISTANT	None	Undefined	
-query_273	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042
-query_327	DISTANT	None	Undefined	
-query_386	DISTANT	None	Undefined	
-query_4	DISTANT	None	Undefined	
-query_23	cluster_III	1.0	Undefined	d__Bacteria;p__Desulfobacterota_A;c__Desulfovibrionia;o__Desulfovibrionales;f__Desulfovibrionaceae;g__Desulfovibrio_H;s__Desulfovibrio_H frigidus
-query_85	DISTANT	None	Undefined	
-query_156	cluster_IV	0.0	Undefined	
-query_203	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_237	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_294	cluster_IV	0.0	Undefined	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
-query_331	cluster_II	1.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA3505;f__UBA3505;g__UBA3505;s__UBA3505 sp002728755
-query_382	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_394	cluster_IV	0.0	Undefined	
-query_12	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
-query_146	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
-query_182	DISTANT	None	Undefined	
-query_232	DISTANT	None	Undefined	
+query_389	cluster_IV	0.0	Unspecified	
+query_11	cluster_IV	0.0	Unspecified	
+query_55	DISTANT	None	Unspecified	
+query_170	DISTANT	None	Unspecified	
+query_238	DISTANT	None	Unspecified	
+query_350	DISTANT	None	Unspecified	
+query_384	cluster_IV	0.0	Unspecified	
+query_140	DISTANT	None	Unspecified	
+query_246	DISTANT	None	Unspecified	
+query_273	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042
+query_327	DISTANT	None	Unspecified	
+query_386	DISTANT	None	Unspecified	
+query_4	DISTANT	None	Unspecified	
+query_23	cluster_III	1.0	Unspecified	d__Bacteria;p__Desulfobacterota_A;c__Desulfovibrionia;o__Desulfovibrionales;f__Desulfovibrionaceae;g__Desulfovibrio_H;s__Desulfovibrio_H frigidus
+query_85	DISTANT	None	Unspecified	
+query_156	cluster_IV	0.0	Unspecified	
+query_203	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_237	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_294	cluster_IV	0.0	Unspecified	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
+query_331	cluster_II	1.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA3505;f__UBA3505;g__UBA3505;s__UBA3505 sp002728755
+query_382	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_394	cluster_IV	0.0	Unspecified	
+query_12	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
+query_146	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
+query_182	DISTANT	None	Unspecified	
+query_232	DISTANT	None	Unspecified	
 query_270	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Methylococcales;f__Methylomonadaceae;g__Methylomonas;s__Methylomonas methanica_B
-query_308	DISTANT	None	Undefined	
-query_378	DISTANT	None	Undefined	
-query_1	DISTANT	None	Undefined	
-query_44	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanolobus;s__Methanolobus vulcani
-query_99	DISTANT	None	Undefined	
-query_143	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_192	cluster_III	1.0	Undefined	d__Bacteria
+query_308	DISTANT	None	Unspecified	
+query_378	DISTANT	None	Unspecified	
+query_1	DISTANT	None	Unspecified	
+query_44	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanolobus;s__Methanolobus vulcani
+query_99	DISTANT	None	Unspecified	
+query_143	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_192	cluster_III	1.0	Unspecified	d__Bacteria
 query_233	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria
-query_279	cluster_IV	0.0	Undefined	
-query_372	cluster_IV	0.0	Undefined	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
-query_2	DISTANT	None	Undefined	
-query_48	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_151	cluster_IV	0.0	Undefined	
-query_189	cluster_III	1.0	Undefined	d__Bacteria;p__Desulfobacterota_A;c__Desulfovibrionia;o__Desulfovibrionales;f__Desulfovibrionaceae;g__Desulfovibrio_F;s__Desulfovibrio_F fructosivorans
-query_245	DISTANT	None	Undefined	
-query_291	DISTANT	None	Undefined	
-query_330	DISTANT	None	Undefined	
-query_407	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_7	DISTANT	None	Undefined	
-query_71	DISTANT	None	Undefined	
-query_104	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_223	cluster_IV	0.0	Undefined	
-query_286	cluster_IV	0.0	Undefined	
+query_279	cluster_IV	0.0	Unspecified	
+query_372	cluster_IV	0.0	Unspecified	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
+query_2	DISTANT	None	Unspecified	
+query_48	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_151	cluster_IV	0.0	Unspecified	
+query_189	cluster_III	1.0	Unspecified	d__Bacteria;p__Desulfobacterota_A;c__Desulfovibrionia;o__Desulfovibrionales;f__Desulfovibrionaceae;g__Desulfovibrio_F;s__Desulfovibrio_F fructosivorans
+query_245	DISTANT	None	Unspecified	
+query_291	DISTANT	None	Unspecified	
+query_330	DISTANT	None	Unspecified	
+query_407	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_7	DISTANT	None	Unspecified	
+query_71	DISTANT	None	Unspecified	
+query_104	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_223	cluster_IV	0.0	Unspecified	
+query_286	cluster_IV	0.0	Unspecified	
 query_317	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Cyanobacteria;c__Cyanobacteriia;o__Cyanobacteriales;f__Microcystaceae;g__Atelocyanobacterium;s__Atelocyanobacterium thalassa_A
-query_361	DISTANT	None	Undefined	
-query_402	DISTANT	None	Undefined	
-query_24	cluster_IV	0.0	Undefined	d__Bacteria
-query_110	DISTANT	None	Undefined	
-query_217	DISTANT	None	Undefined	
-query_281	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_401	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales
-query_34	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042
-query_113	DISTANT	None	Undefined	
-query_163	DISTANT	None	Undefined	
-query_202	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_280	DISTANT	None	Undefined	
-query_377	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_414	DISTANT	None	Undefined	
-query_39	cluster_III	1.0	Undefined	d__Bacteria
-query_123	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
-query_228	cluster_II	1.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__PWKZ01;f__;g__;s__
-query_301	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_365	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_419	DISTANT	None	Undefined	
-query_81	cluster_IV	0.0	Undefined	d__Archaea
+query_361	DISTANT	None	Unspecified	
+query_402	DISTANT	None	Unspecified	
+query_24	cluster_IV	0.0	Unspecified	d__Bacteria
+query_110	DISTANT	None	Unspecified	
+query_217	DISTANT	None	Unspecified	
+query_281	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_401	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales
+query_34	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042
+query_113	DISTANT	None	Unspecified	
+query_163	DISTANT	None	Unspecified	
+query_202	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_280	DISTANT	None	Unspecified	
+query_377	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_414	DISTANT	None	Unspecified	
+query_39	cluster_III	1.0	Unspecified	d__Bacteria
+query_123	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
+query_228	cluster_II	1.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__PWKZ01;f__;g__;s__
+query_301	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_365	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_419	DISTANT	None	Unspecified	
+query_81	cluster_IV	0.0	Unspecified	d__Archaea
 query_118	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Methylococcales;f__Methylomonadaceae;g__Methylomonas;s__Methylomonas methanica_B
-query_288	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_385	DISTANT	None	Undefined	
+query_288	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_385	DISTANT	None	Unspecified	
 query_32	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Photobacterium;s__Photobacterium gaetbulicola
-query_119	cluster_IV	0.0	Undefined	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
-query_171	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_227	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanosarcina;s__Methanosarcina acetivorans
-query_307	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanocaldococcaceae;g__Methanocaldococcus
-query_69	DISTANT	None	Undefined	
-query_166	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__HR1;g__HR1;s__HR1 sp002926195
-query_309	DISTANT	None	Undefined	
-query_373	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
-query_79	cluster_IV	0.0	Undefined	
-query_188	DISTANT	None	Undefined	
-query_251	DISTANT	None	Undefined	
+query_119	cluster_IV	0.0	Unspecified	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
+query_171	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_227	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanosarcina;s__Methanosarcina acetivorans
+query_307	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanocaldococcaceae;g__Methanocaldococcus
+query_69	DISTANT	None	Unspecified	
+query_166	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__HR1;g__HR1;s__HR1 sp002926195
+query_309	DISTANT	None	Unspecified	
+query_373	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
+query_79	cluster_IV	0.0	Unspecified	
+query_188	DISTANT	None	Unspecified	
+query_251	DISTANT	None	Unspecified	
 query_298	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Methylococcales;f__Methylomonadaceae;g__Methylomonas;s__Methylomonas methanica_B
-query_381	DISTANT	None	Undefined	
-query_424	DISTANT	None	Undefined	
-query_95	DISTANT	None	Undefined	
-query_145	DISTANT	None	Undefined	
-query_196	DISTANT	None	Undefined	
-query_326	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_18	DISTANT	None	Undefined	
-query_64	cluster_III	1.0	Undefined	d__Bacteria
-query_231	DISTANT	None	Undefined	
-query_383	cluster_IV	0.0	Undefined	
+query_381	DISTANT	None	Unspecified	
+query_424	DISTANT	None	Unspecified	
+query_95	DISTANT	None	Unspecified	
+query_145	DISTANT	None	Unspecified	
+query_196	DISTANT	None	Unspecified	
+query_326	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_18	DISTANT	None	Unspecified	
+query_64	cluster_III	1.0	Unspecified	d__Bacteria
+query_231	DISTANT	None	Unspecified	
+query_383	cluster_IV	0.0	Unspecified	
 query_30	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Methylococcales;f__Methylomonadaceae;g__Methylomonas;s__Methylomonas methanica_B
-query_65	cluster_III	1.0	Undefined	d__Bacteria;p__Verrucomicrobiota;c__Lentisphaeria;o__Victivallales;f__Victivallaceae;g__;s__
-query_240	cluster_IV	0.0	Undefined	
-query_345	DISTANT	None	Undefined	
-query_111	DISTANT	None	Undefined	
-query_421	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_289	DISTANT	None	Undefined	
-query_337	DISTANT	None	Undefined	
-query_388	DISTANT	None	Undefined	
-query_97	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_142	cluster_II	1.0	Undefined	d__Bacteria;p__Desulfobacterota;c__Thermodesulfobacteria;o__Thermodesulfobacteriales
-query_335	DISTANT	None	Undefined	
-query_390	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanocaldococcaceae;g__Methanocaldococcus
-query_22	DISTANT	None	Undefined	
-query_107	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_169	DISTANT	None	Undefined	
-query_200	DISTANT	None	Undefined	
-query_242	cluster_IV	0.0	Undefined	
+query_65	cluster_III	1.0	Unspecified	d__Bacteria;p__Verrucomicrobiota;c__Lentisphaeria;o__Victivallales;f__Victivallaceae;g__;s__
+query_240	cluster_IV	0.0	Unspecified	
+query_345	DISTANT	None	Unspecified	
+query_111	DISTANT	None	Unspecified	
+query_421	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_289	DISTANT	None	Unspecified	
+query_337	DISTANT	None	Unspecified	
+query_388	DISTANT	None	Unspecified	
+query_97	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_142	cluster_II	1.0	Unspecified	d__Bacteria;p__Desulfobacterota;c__Thermodesulfobacteria;o__Thermodesulfobacteriales
+query_335	DISTANT	None	Unspecified	
+query_390	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanocaldococcaceae;g__Methanocaldococcus
+query_22	DISTANT	None	Unspecified	
+query_107	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_169	DISTANT	None	Unspecified	
+query_200	DISTANT	None	Unspecified	
+query_242	cluster_IV	0.0	Unspecified	
 query_314	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Methylococcales;f__Methylomonadaceae;g__Methylomonas;s__Methylomonas methanica_B
-query_398	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
+query_398	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
 query_20	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Photobacterium;s__Photobacterium gaetbulicola
-query_90	DISTANT	None	Undefined	
-query_268	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_90	DISTANT	None	Unspecified	
+query_268	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
 query_310	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria
-query_125	cluster_IV	0.0	Undefined	d__Archaea
-query_180	cluster_IV	0.0	Undefined	
-query_338	DISTANT	None	Undefined	
-query_404	DISTANT	None	Undefined	
-query_9	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_88	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_185	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_284	DISTANT	None	Undefined	
-query_408	cluster_III	1.0	Undefined	d__Bacteria;p__Desulfobacterota;c__Desulfobulbia;o__Desulfobulbales
-query_38	DISTANT	None	Undefined	
+query_125	cluster_IV	0.0	Unspecified	d__Archaea
+query_180	cluster_IV	0.0	Unspecified	
+query_338	DISTANT	None	Unspecified	
+query_404	DISTANT	None	Unspecified	
+query_9	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_88	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_185	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_284	DISTANT	None	Unspecified	
+query_408	cluster_III	1.0	Unspecified	d__Bacteria;p__Desulfobacterota;c__Desulfobulbia;o__Desulfobulbales
+query_38	DISTANT	None	Unspecified	
 query_124	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Methylococcales;f__Methylomonadaceae;g__Methylomonas;s__Methylomonas methanica_B
 query_197	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__UBA5335;f__UBA5335;g__UBA5335;s__UBA5335 sp002410145
-query_261	DISTANT	None	Undefined	
-query_299	DISTANT	None	Undefined	
-query_13	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales;f__Methanospirillaceae;g__Methanospirillum;s__Methanospirillum lacunae
-query_75	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
-query_160	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae;g__Methanococcus;s__Methanococcus maripaludis_C
-query_206	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota
-query_285	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_356	DISTANT	None	Undefined	
-query_37	DISTANT	None	Undefined	
-query_100	cluster_IV	0.0	Undefined	d__Bacteria
-query_236	DISTANT	None	Undefined	
-query_302	DISTANT	None	Undefined	
-query_417	DISTANT	None	Undefined	
+query_261	DISTANT	None	Unspecified	
+query_299	DISTANT	None	Unspecified	
+query_13	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales;f__Methanospirillaceae;g__Methanospirillum;s__Methanospirillum lacunae
+query_75	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
+query_160	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae;g__Methanococcus;s__Methanococcus maripaludis_C
+query_206	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota
+query_285	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_356	DISTANT	None	Unspecified	
+query_37	DISTANT	None	Unspecified	
+query_100	cluster_IV	0.0	Unspecified	d__Bacteria
+query_236	DISTANT	None	Unspecified	
+query_302	DISTANT	None	Unspecified	
+query_417	DISTANT	None	Unspecified	
 query_96	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Aquificota;c__Desulfurobacteriia;o__Desulfurobacteriales;f__Desulfurobacteriaceae;g__Desulfurobacterium_A;s__Desulfurobacterium_A atlanticum
-query_272	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_132	cluster_IV	0.0	Undefined	d__Bacteria;p__Desulfobacterota;c__Desulfobacteria;o__Desulfobacterales;f__Desulfatibacillaceae;g__Desulfatibacillum;s__Desulfatibacillum aliphaticivorans
-query_15	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales
-query_352	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota
-query_35	DISTANT	None	Undefined	
-query_17	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
-query_74	cluster_IV	0.0	Undefined	d__Bacteria
-query_175	cluster_IV	0.0	Undefined	d__Bacteria
-query_115	DISTANT	None	Undefined	
-query_354	DISTANT	None	Undefined	
-query_216	cluster_IV	0.0	Undefined	
-query_141	cluster_IV	0.0	Undefined	
-query_336	cluster_IV	0.0	Undefined	d__Archaea
-query_248	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_73	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_147	DISTANT	None	Undefined	
-query_25	cluster_IV	0.0	Undefined	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
-query_165	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_164	cluster_IV	0.0	Undefined	
-query_304	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_16	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_59	cluster_II	1.0	Undefined	d__Bacteria;p__Desulfobacterota;c__Thermodesulfobacteria;o__Thermodesulfobacteriales
-query_253	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_109	cluster_IV	0.0	Undefined	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
-query_126	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
-query_318	cluster_IV	0.0	Undefined	
-query_68	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_0	cluster_IV	0.0	Undefined	
-query_334	cluster_IV	0.0	Undefined	
-query_325	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_178	DISTANT	None	Undefined	
-query_225	cluster_IV	0.0	Undefined	
-query_29	cluster_IV	0.0	Undefined	
-query_413	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_207	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_3	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanocaldococcaceae;g__Methanocaldococcus;s__Methanocaldococcus vulcanius
-query_215	DISTANT	None	Undefined	
+query_272	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_132	cluster_IV	0.0	Unspecified	d__Bacteria;p__Desulfobacterota;c__Desulfobacteria;o__Desulfobacterales;f__Desulfatibacillaceae;g__Desulfatibacillum;s__Desulfatibacillum aliphaticivorans
+query_15	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales
+query_352	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota
+query_35	DISTANT	None	Unspecified	
+query_17	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
+query_74	cluster_IV	0.0	Unspecified	d__Bacteria
+query_175	cluster_IV	0.0	Unspecified	d__Bacteria
+query_115	DISTANT	None	Unspecified	
+query_354	DISTANT	None	Unspecified	
+query_216	cluster_IV	0.0	Unspecified	
+query_141	cluster_IV	0.0	Unspecified	
+query_336	cluster_IV	0.0	Unspecified	d__Archaea
+query_248	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_73	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_147	DISTANT	None	Unspecified	
+query_25	cluster_IV	0.0	Unspecified	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
+query_165	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_164	cluster_IV	0.0	Unspecified	
+query_304	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_16	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_59	cluster_II	1.0	Unspecified	d__Bacteria;p__Desulfobacterota;c__Thermodesulfobacteria;o__Thermodesulfobacteriales
+query_253	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_109	cluster_IV	0.0	Unspecified	d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
+query_126	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
+query_318	cluster_IV	0.0	Unspecified	
+query_68	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_0	cluster_IV	0.0	Unspecified	
+query_334	cluster_IV	0.0	Unspecified	
+query_325	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_178	DISTANT	None	Unspecified	
+query_225	cluster_IV	0.0	Unspecified	
+query_29	cluster_IV	0.0	Unspecified	
+query_413	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_207	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_3	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanocaldococcaceae;g__Methanocaldococcus;s__Methanocaldococcus vulcanius
+query_215	DISTANT	None	Unspecified	
 query_50	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Methylococcales;f__Methylomonadaceae;g__Methylomonas;s__Methylomonas methanica_B
-query_363	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_235	DISTANT	None	Undefined	
-query_54	cluster_IV	0.0	Undefined	d__Bacteria
-query_80	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_129	DISTANT	None	Undefined	
-query_357	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales;f__Methanocullaceae;g__UBA206
-query_403	DISTANT	None	Undefined	
-query_262	DISTANT	None	Undefined	
-query_40	cluster_IV	0.0	Undefined	
-query_157	cluster_III	1.0	Undefined	d__Bacteria
-query_247	cluster_III	1.0	Undefined	d__Bacteria;p__Cyanobacteria;c__Cyanobacteriia;o__Cyanobacteriales;f__Geitlerinemaceae;g__Phormidium_A;s__Phormidium_A willei
-query_282	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales;f__Methanocullaceae;g__UBA206;s__
-query_346	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_26	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_86	DISTANT	None	Undefined	
-query_154	cluster_IV	0.0	Undefined	d__Bacteria
-query_328	DISTANT	None	Undefined	
+query_363	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_235	DISTANT	None	Unspecified	
+query_54	cluster_IV	0.0	Unspecified	d__Bacteria
+query_80	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_129	DISTANT	None	Unspecified	
+query_357	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales;f__Methanocullaceae;g__UBA206
+query_403	DISTANT	None	Unspecified	
+query_262	DISTANT	None	Unspecified	
+query_40	cluster_IV	0.0	Unspecified	
+query_157	cluster_III	1.0	Unspecified	d__Bacteria
+query_247	cluster_III	1.0	Unspecified	d__Bacteria;p__Cyanobacteria;c__Cyanobacteriia;o__Cyanobacteriales;f__Geitlerinemaceae;g__Phormidium_A;s__Phormidium_A willei
+query_282	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales;f__Methanocullaceae;g__UBA206;s__
+query_346	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_26	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_86	DISTANT	None	Unspecified	
+query_154	cluster_IV	0.0	Unspecified	d__Bacteria
+query_328	DISTANT	None	Unspecified	
 query_19	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Cyanobacteria;c__Cyanobacteriia;o__Cyanobacteriales
-query_53	DISTANT	None	Undefined	
-query_341	cluster_IV	0.0	Undefined	
-query_58	DISTANT	None	Undefined	
-query_114	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_324	cluster_IV	0.0	Undefined	
-query_369	DISTANT	None	Undefined	
-query_6	DISTANT	None	Undefined	
-query_254	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanosarcina;s__Methanosarcina mazei
-query_360	cluster_III	1.0	Undefined	d__Bacteria
-query_393	cluster_IV	0.0	Undefined	d__Bacteria;p__Thermotogota;c__Thermotogae;o__Petrotogales;f__Petrotogaceae;g__Oceanotoga;s__Oceanotoga teriensis
-query_8	DISTANT	None	Undefined	
-query_56	DISTANT	None	Undefined	
+query_53	DISTANT	None	Unspecified	
+query_341	cluster_IV	0.0	Unspecified	
+query_58	DISTANT	None	Unspecified	
+query_114	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_324	cluster_IV	0.0	Unspecified	
+query_369	DISTANT	None	Unspecified	
+query_6	DISTANT	None	Unspecified	
+query_254	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanosarcina;s__Methanosarcina mazei
+query_360	cluster_III	1.0	Unspecified	d__Bacteria
+query_393	cluster_IV	0.0	Unspecified	d__Bacteria;p__Thermotogota;c__Thermotogae;o__Petrotogales;f__Petrotogaceae;g__Oceanotoga;s__Oceanotoga teriensis
+query_8	DISTANT	None	Unspecified	
+query_56	DISTANT	None	Unspecified	
 query_83	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria
-query_224	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae;g__Methanococcus;s__Methanococcus vannielii
-query_257	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_296	DISTANT	None	Undefined	
-query_319	DISTANT	None	Undefined	
-query_103	DISTANT	None	Undefined	
-query_135	DISTANT	None	Undefined	
-query_172	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_186	DISTANT	None	Undefined	
-query_252	DISTANT	None	Undefined	
-query_370	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_139	DISTANT	None	Undefined	
-query_239	cluster_IV	0.0	Undefined	
-query_371	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__SXNM01;s__
-query_397	cluster_IV	0.0	Undefined	
-query_14	cluster_II	1.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae
-query_36	DISTANT	None	Undefined	
-query_133	cluster_IV	0.0	Undefined	
-query_269	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_351	DISTANT	None	Undefined	
-query_399	DISTANT	None	Undefined	
+query_224	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae;g__Methanococcus;s__Methanococcus vannielii
+query_257	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_296	DISTANT	None	Unspecified	
+query_319	DISTANT	None	Unspecified	
+query_103	DISTANT	None	Unspecified	
+query_135	DISTANT	None	Unspecified	
+query_172	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_186	DISTANT	None	Unspecified	
+query_252	DISTANT	None	Unspecified	
+query_370	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_139	DISTANT	None	Unspecified	
+query_239	cluster_IV	0.0	Unspecified	
+query_371	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__SXNM01;s__
+query_397	cluster_IV	0.0	Unspecified	
+query_14	cluster_II	1.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae
+query_36	DISTANT	None	Unspecified	
+query_133	cluster_IV	0.0	Unspecified	
+query_269	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_351	DISTANT	None	Unspecified	
+query_399	DISTANT	None	Unspecified	
 query_60	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Photobacterium;s__Photobacterium gaetbulicola
-query_226	DISTANT	None	Undefined	
-query_259	DISTANT	None	Undefined	
-query_358	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
-query_395	DISTANT	None	Undefined	
-query_128	DISTANT	None	Undefined	
-query_208	DISTANT	None	Undefined	
-query_234	DISTANT	None	Undefined	
-query_265	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_342	cluster_II	1.0	Undefined	
-query_41	DISTANT	None	Undefined	
-query_306	cluster_IV	0.0	Undefined	d__Bacteria
-query_333	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_375	DISTANT	None	Undefined	
-query_52	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_219	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_267	DISTANT	None	Undefined	
-query_343	DISTANT	None	Undefined	
-query_410	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_31	cluster_IV	0.0	Undefined	
-query_66	DISTANT	None	Undefined	
-query_177	DISTANT	None	Undefined	
-query_418	DISTANT	None	Undefined	
-query_159	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae;g__Methanothermococcus_A;s__Methanothermococcus_A aeolicus
-query_263	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales
-query_380	DISTANT	None	Undefined	
-query_260	DISTANT	None	Undefined	
-query_415	cluster_IV	0.0	Undefined	d__Bacteria;p__Nitrospinota;c__2-12-FULL-45-22;o__2-12-FULL-45-22;f__;g__;s__
-query_153	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_244	DISTANT	None	Undefined	
-query_274	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_287	DISTANT	None	Undefined	
-query_366	DISTANT	None	Undefined	
-query_387	DISTANT	None	Undefined	
-query_420	DISTANT	None	Undefined	
-query_27	DISTANT	None	Undefined	
-query_122	cluster_IV	0.0	Undefined	d__Bacteria
-query_43	DISTANT	None	Undefined	
-query_108	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanohalobium;s__Methanohalobium evestigatum
-query_179	DISTANT	None	Undefined	
-query_76	DISTANT	None	Undefined	
-query_155	DISTANT	None	Undefined	
-query_278	DISTANT	None	Undefined	
-query_355	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_199	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_312	DISTANT	None	Undefined	
-query_347	DISTANT	None	Undefined	
-query_406	DISTANT	None	Undefined	
-query_87	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_106	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_131	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales;f__Methanomicrobiaceae
-query_195	DISTANT	None	Undefined	
-query_213	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__SXNM01;s__
-query_62	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
-query_121	DISTANT	None	Undefined	
-query_150	DISTANT	None	Undefined	
-query_194	DISTANT	None	Undefined	
-query_277	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales
-query_332	cluster_IV	0.0	Undefined	d__Bacteria;p__Firmicutes_I;c__Bacilli_A;o__Paenibacillales;f__Paenibacillaceae;g__Paenibacillus;s__Paenibacillus durus
-query_321	cluster_IV	0.0	Undefined	
-query_405	DISTANT	None	Undefined	
-query_181	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_82	DISTANT	None	Undefined	
-query_409	DISTANT	None	Undefined	
-query_84	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
-query_187	cluster_IV	0.0	Undefined	
-query_264	DISTANT	None	Undefined	
-query_167	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042
-query_149	DISTANT	None	Undefined	
-query_241	DISTANT	None	Undefined	
-query_426	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
-query_10	cluster_IV	0.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
-query_78	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_112	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_226	DISTANT	None	Unspecified	
+query_259	DISTANT	None	Unspecified	
+query_358	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
+query_395	DISTANT	None	Unspecified	
+query_128	DISTANT	None	Unspecified	
+query_208	DISTANT	None	Unspecified	
+query_234	DISTANT	None	Unspecified	
+query_265	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_342	cluster_II	1.0	Unspecified	
+query_41	DISTANT	None	Unspecified	
+query_306	cluster_IV	0.0	Unspecified	d__Bacteria
+query_333	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_375	DISTANT	None	Unspecified	
+query_52	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_219	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_267	DISTANT	None	Unspecified	
+query_343	DISTANT	None	Unspecified	
+query_410	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_31	cluster_IV	0.0	Unspecified	
+query_66	DISTANT	None	Unspecified	
+query_177	DISTANT	None	Unspecified	
+query_418	DISTANT	None	Unspecified	
+query_159	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae;g__Methanothermococcus_A;s__Methanothermococcus_A aeolicus
+query_263	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales
+query_380	DISTANT	None	Unspecified	
+query_260	DISTANT	None	Unspecified	
+query_415	cluster_IV	0.0	Unspecified	d__Bacteria;p__Nitrospinota;c__2-12-FULL-45-22;o__2-12-FULL-45-22;f__;g__;s__
+query_153	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_244	DISTANT	None	Unspecified	
+query_274	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_287	DISTANT	None	Unspecified	
+query_366	DISTANT	None	Unspecified	
+query_387	DISTANT	None	Unspecified	
+query_420	DISTANT	None	Unspecified	
+query_27	DISTANT	None	Unspecified	
+query_122	cluster_IV	0.0	Unspecified	d__Bacteria
+query_43	DISTANT	None	Unspecified	
+query_108	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanohalobium;s__Methanohalobium evestigatum
+query_179	DISTANT	None	Unspecified	
+query_76	DISTANT	None	Unspecified	
+query_155	DISTANT	None	Unspecified	
+query_278	DISTANT	None	Unspecified	
+query_355	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_199	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_312	DISTANT	None	Unspecified	
+query_347	DISTANT	None	Unspecified	
+query_406	DISTANT	None	Unspecified	
+query_87	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_106	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_131	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales;f__Methanomicrobiaceae
+query_195	DISTANT	None	Unspecified	
+query_213	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__SXNM01;s__
+query_62	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
+query_121	DISTANT	None	Unspecified	
+query_150	DISTANT	None	Unspecified	
+query_194	DISTANT	None	Unspecified	
+query_277	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales
+query_332	cluster_IV	0.0	Unspecified	d__Bacteria;p__Firmicutes_I;c__Bacilli_A;o__Paenibacillales;f__Paenibacillaceae;g__Paenibacillus;s__Paenibacillus durus
+query_321	cluster_IV	0.0	Unspecified	
+query_405	DISTANT	None	Unspecified	
+query_181	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_82	DISTANT	None	Unspecified	
+query_409	DISTANT	None	Unspecified	
+query_84	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae;g__Methanococcoides;s__Methanococcoides vulcani
+query_187	cluster_IV	0.0	Unspecified	
+query_264	DISTANT	None	Unspecified	
+query_167	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042
+query_149	DISTANT	None	Unspecified	
+query_241	DISTANT	None	Unspecified	
+query_426	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
+query_10	cluster_IV	0.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
+query_78	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_112	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
 query_204	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Photobacterium;s__Photobacterium gaetbulicola
-query_400	cluster_IV	0.0	Undefined	
-query_144	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_349	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
-query_297	DISTANT	None	Undefined	
-query_303	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_400	cluster_IV	0.0	Unspecified	
+query_144	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_349	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
+query_297	DISTANT	None	Unspecified	
+query_303	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
 query_91	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Photobacterium;s__Photobacterium gaetbulicola
 query_191	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Desulfuromonadota;c__Desulfuromonadia;o__Desulfuromonadales;f__Pelobacteraceae_A;g__Pelobacter_A;s__Pelobacter_A carbinolicus
-query_416	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
-query_300	DISTANT	None	Undefined	
-query_379	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
-query_134	DISTANT	None	Undefined	
-query_198	DISTANT	None	Undefined	
-query_315	DISTANT	None	Undefined	
-query_220	DISTANT	None	Undefined	
-query_391	cluster_IV	0.0	Undefined	
-query_45	DISTANT	None	Undefined	
-query_292	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae;g__Methanothermococcus_A;s__Methanothermococcus_A aeolicus
-query_89	DISTANT	None	Undefined	
-query_210	DISTANT	None	Undefined	
-query_290	DISTANT	None	Undefined	
-query_57	cluster_III	1.0	Undefined	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales
-query_49	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_367	cluster_IV	0.0	Undefined	
-query_396	DISTANT	None	Undefined	
-query_5	cluster_IV	0.0	Undefined	d__Bacteria
-query_344	cluster_IV	0.0	Undefined	d__Bacteria
-query_271	DISTANT	None	Undefined	
-query_348	DISTANT	None	Undefined	
-query_148	DISTANT	None	Undefined	
-query_72	DISTANT	None	Undefined	
-query_209	DISTANT	None	Undefined	
-query_193	DISTANT	None	Undefined	
-query_275	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__SXNM01;s__
-query_313	DISTANT	None	Undefined	
-query_353	cluster_IV	0.0	Undefined	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
-query_250	DISTANT	None	Undefined	
-query_138	cluster_II	1.0	Undefined	d__Bacteria;p__Myxococcota;c__UBA9042;o__PWKZ01;f__;g__;s__
-query_212	DISTANT	None	Undefined	
-query_173	DISTANT	None	Undefined	
-query_63	DISTANT	None	Undefined	
-query_105	DISTANT	None	Undefined	
-query_130	cluster_IV	0.0	Undefined	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Lachnospirales;f__Lachnospiraceae;g__Hungatella;s__
+query_416	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
+query_300	DISTANT	None	Unspecified	
+query_379	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
+query_134	DISTANT	None	Unspecified	
+query_198	DISTANT	None	Unspecified	
+query_315	DISTANT	None	Unspecified	
+query_220	DISTANT	None	Unspecified	
+query_391	cluster_IV	0.0	Unspecified	
+query_45	DISTANT	None	Unspecified	
+query_292	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae;g__Methanothermococcus_A;s__Methanothermococcus_A aeolicus
+query_89	DISTANT	None	Unspecified	
+query_210	DISTANT	None	Unspecified	
+query_290	DISTANT	None	Unspecified	
+query_57	cluster_III	1.0	Unspecified	d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales
+query_49	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_367	cluster_IV	0.0	Unspecified	
+query_396	DISTANT	None	Unspecified	
+query_5	cluster_IV	0.0	Unspecified	d__Bacteria
+query_344	cluster_IV	0.0	Unspecified	d__Bacteria
+query_271	DISTANT	None	Unspecified	
+query_348	DISTANT	None	Unspecified	
+query_148	DISTANT	None	Unspecified	
+query_72	DISTANT	None	Unspecified	
+query_209	DISTANT	None	Unspecified	
+query_193	DISTANT	None	Unspecified	
+query_275	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__SXNM01;s__
+query_313	DISTANT	None	Unspecified	
+query_353	cluster_IV	0.0	Unspecified	d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
+query_250	DISTANT	None	Unspecified	
+query_138	cluster_II	1.0	Unspecified	d__Bacteria;p__Myxococcota;c__UBA9042;o__PWKZ01;f__;g__;s__
+query_212	DISTANT	None	Unspecified	
+query_173	DISTANT	None	Unspecified	
+query_63	DISTANT	None	Unspecified	
+query_105	DISTANT	None	Unspecified	
+query_130	cluster_IV	0.0	Unspecified	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Lachnospirales;f__Lachnospiraceae;g__Hungatella;s__
 query_201	cluster_I	1.0	d__Bacteria	d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Rhizobiales;f__Cohaesibacteraceae;g__Cohaesibacter;s__
-query_258	cluster_III	1.0	Undefined	d__Bacteria;p__Desulfobacterota;c__Desulfobacteria;o__Desulfobacterales;f__Desulfobacteraceae
-query_93	DISTANT	None	Undefined	
-query_323	cluster_IV	0.0	Undefined	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Caminicellaceae;g__Paramaledivibacter;s__Paramaledivibacter caminithermalis
-query_70	cluster_IV	0.0	Undefined	
-query_329	DISTANT	None	Undefined	
-query_214	cluster_IV	0.0	Undefined	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
-query_374	DISTANT	None	Undefined	
-query_28	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
-query_176	DISTANT	None	Undefined	
-query_205	cluster_IV	0.0	Undefined	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanocaldococcaceae;g__Methanocaldococcus_A;s__Methanocaldococcus_A infernus
-query_98	DISTANT	None	Undefined	
-query_276	DISTANT	None	Undefined	
-query_168	DISTANT	None	Undefined	
+query_258	cluster_III	1.0	Unspecified	d__Bacteria;p__Desulfobacterota;c__Desulfobacteria;o__Desulfobacterales;f__Desulfobacteraceae
+query_93	DISTANT	None	Unspecified	
+query_323	cluster_IV	0.0	Unspecified	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Caminicellaceae;g__Paramaledivibacter;s__Paramaledivibacter caminithermalis
+query_70	cluster_IV	0.0	Unspecified	
+query_329	DISTANT	None	Unspecified	
+query_214	cluster_IV	0.0	Unspecified	d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_374	DISTANT	None	Unspecified	
+query_28	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
+query_176	DISTANT	None	Unspecified	
+query_205	cluster_IV	0.0	Unspecified	d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanocaldococcaceae;g__Methanocaldococcus_A;s__Methanocaldococcus_A infernus
+query_98	DISTANT	None	Unspecified	
+query_276	DISTANT	None	Unspecified	
+query_168	DISTANT	None	Unspecified	

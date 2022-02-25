@@ -23,7 +23,7 @@ class Taxopath():
         self._taxopath = taxopath_str
         self._delimiter = delimiter
         self._tax_levels = [
-            'kingdom', 'phylum', 'class',
+            'domain', 'phylum', 'class',
             'order', 'family', 'genus', 'species'
             ]
         self.taxodict = self._dictFromTaxopath()
@@ -132,7 +132,7 @@ class TaxonomyAssigner():
         if taxopaths:
             return self.lowestCommonTaxonomy(taxopaths)
         else:
-            return 'Undefined'
+            return 'Unspecified'
 
     def assignLowestCommonTaxonomyToClusters(self, clusters: dict, label_dict: dict = None) -> dict:
         """
@@ -162,7 +162,7 @@ class TaxonomyAssigner():
             lines = []
             for ref_id, label in ref_id_dict.items():
                 taxon_str = self.assignTaxonomyToLabel(label)
-                taxon_str = 'Undefined' if ('No_taxonomy_found' in taxon_str) else taxon_str
-                if taxon_str != 'Undefined':
+                taxon_str = 'Unspecified' if ('No_taxonomy_found' in taxon_str) else taxon_str
+                if taxon_str != 'Unspecified':
                     lines.append(f'{ref_id}\t{taxon_str}\n')
             outfile.writelines(lines)
