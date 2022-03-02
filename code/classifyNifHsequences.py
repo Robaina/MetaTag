@@ -77,9 +77,9 @@ def adjustCARTmodel(input_fasta: str, input_alignment: str):
     DOING this MANUALLY for now...
     """
     adjusted_CART = {
-        (177 - 1): ['F', 'W', 'Y'], 
-        (92 - 1): ['A', 'D', 'I'],  
-        (96 - 1): ['L', 'M', 'W'] 
+        (224 - 1): ['F', 'W', 'Y'], 
+        (135 - 1): ['A', 'D', 'I'],  
+        (139 - 1): ['L', 'M', 'W'] 
     }
 
     return adjusted_CART
@@ -132,6 +132,13 @@ def addClusterToNifHdict(input_fasta: str,
     for record in SeqIO.parse(input_alignment, 'fasta'):
         cluster_id = getnifHclusterID(list(record.seq), cart_model)
         ref_dict[record.id] += f'_cluster_{cluster_id}'
+
+    # Temporary fix to remove ref_dict entries not found in alignment
+    ref_dict = {
+        ref_id: label
+        for ref_id, label in ref_dict.items()
+        if '_cluster_' in label
+    }
     
     saveToPickleFile(ref_dict, output_dict)
     if out_clusters_file is not None:
@@ -162,7 +169,7 @@ if __name__ == '__main__':
                         help='path to input dictionary with reference IDs and labels')
     optional.add_argument('--outdict', dest='outdict', type=str,
                         help='path to output ID dictionary in pickle format')
-    optional.add_argument('--clusters_file', dest='clusters_file', type=str,
+    optional.add_argument('--out_clusters_file', dest='clusters_file', type=str,
                         help='path to output tsv file containing defined clusters')
 
     args = parser.parse_args()
