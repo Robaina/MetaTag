@@ -251,7 +251,7 @@ class DictMerger():
         in_file.close()
         return python_object
 
-    def merge(self, dict_prefixes: List[str] = None) -> dict:
+    def merge(self, dict_prefixes: List[str] = None, save_pickle_path: str = None) -> dict:
         """
         Merge dictionaries
         @params
@@ -263,8 +263,12 @@ class DictMerger():
         else:
             dict_prefixes = dict_prefixes
 
-        return {
+        merged_dict =  {
             key: prefix + value
             for prefix, dict_object in zip(dict_prefixes, self._dict_list) 
             for (key, value) in dict_object.items()
             }
+
+        if save_pickle_path is not None:
+            saveToPickleFile(merged_dict, save_pickle_path)
+        return merged_dict

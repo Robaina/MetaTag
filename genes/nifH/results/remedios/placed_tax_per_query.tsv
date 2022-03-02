@@ -3,13 +3,13 @@ query_46	0.2843	0.9817	0.2843	0.9817	cluster_IV;d__Archaea;p__Halobacterota;c__S
 query_77	0.002353	1	0.002353	1	DISTANT
 query_120	0.04391	0.7145	0.04391	0.7145	cluster_IV
 query_162	0.003976	0.9876	0.003976	0.9876	DISTANT
-query_229	0.03082	0.7194	0.04172	0.9739	cluster_IV
+query_229	0.03641	0.9702	0.03641	0.9702	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_249	0.0489	0.9267	0.0489	0.9267	DISTANT
 query_293	0.1236	0.3999	0.1236	0.3999	DISTANT
 query_340	0.03857	0.4462	0.03857	0.4462	DISTANT
 query_411	0.001326	0.5637	0.001326	0.5637	DISTANT
 query_42	0.01611	0.6138	0.01611	0.6138	cluster_II;d__Bacteria;p__Myxococcota;c__UBA9042;o__PWKZ01;f__;g__;s__
-query_102	0.001566	0.5	0.001566	0.5	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
+query_102	0.003132	1	0.003132	1	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_152	0.002347	1	0.002347	1	DISTANT
 query_190	0.03181	0.2887	0.04163	0.3778	cluster_III;d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales
 query_243	0.571	0.5983	0.571	0.5983	cluster_IV;d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
@@ -26,7 +26,7 @@ query_320	0.03535	0.4045	0.03535	0.4045	DISTANT
 query_376	0.01252	0.2592	0.01252	0.2592	cluster_IV;d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
 query_425	0.09308	0.602	0.09308	0.602	DISTANT
 query_51	0.004135	1	0.004135	1	DISTANT
-query_101	0.004658	1	0.004658	1	cluster_IV
+query_101	0.004658	1	0.004658	1	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_158	0.07722	0.8327	0.07722	0.8327	cluster_II;d__Bacteria;p__Myxococcota;c__UBA9042;o__PWKZ01;f__;g__;s__
 query_221	0.1609	0.7216	0.1609	0.7216	DISTANT
 query_256	0.232	1	0.232	1	DISTANT
@@ -52,13 +52,13 @@ query_316	0.002358	1	0.002358	1	DISTANT
 query_368	0.03835	0.4396	0.03835	0.4396	DISTANT
 query_423	0.05118	0.733	0.05118	0.733	cluster_IV
 query_33	0.04475	0.5254	0.04475	0.5254	DISTANT
-query_92	0.03403	0.244	0.05825	0.4176	cluster_IV;d__Bacteria;p__Myxococcota;c__UBA9042
-query_137	0.002556	0.5366	0.002556	0.5366	cluster_IV;d__Bacteria;p__Nitrospinota;c__2-12-FULL-45-22;o__2-12-FULL-45-22;f__;g__;s__
+query_92	0.0419	0.3005	0.0419	0.3005	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
+query_137	0.002208	1	0.002208	1	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_183	0.002358	1	0.002358	1	DISTANT
 query_230	0.01217	0.3276	0.01217	0.3276	cluster_IV;d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
 query_295	0.005911	0.6178	0.005911	0.6178	DISTANT
 query_339	0.08922	0.4523	0.08922	0.4523	cluster_I;d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Photobacterium;s__Photobacterium gaetbulicola
-query_389	0.03441	0.3537	0.09224	0.948	cluster_IV
+query_389	0.04559	0.4686	0.04559	0.4686	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_11	0.09549	0.7895	0.09549	0.7895	cluster_IV
 query_55	0.6492	0.8707	0.6492	0.8707	DISTANT
 query_170	0.1044	0.5441	0.1044	0.5441	DISTANT
@@ -93,7 +93,7 @@ query_99	0.002804	0.5532	0.002804	0.5532	DISTANT
 query_143	0.04939	0.4709	0.04939	0.4709	cluster_IV;d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
 query_192	0.04313	0.4003	0.09962	0.9246	cluster_III;d__Bacteria
 query_233	0.001198	0.5101	0.001198	0.5102	cluster_I;d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria
-query_279	0.02915	0.3721	0.06662	0.8503	cluster_IV
+query_279	0.03837	0.4897	0.03837	0.4897	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_372	0.2695	0.8977	0.2695	0.8977	cluster_IV;d__Bacteria;p__Planctomycetota;c__PUPC01;o__;f__;g__;s__
 query_2	0.002804	0.5532	0.002804	0.5532	DISTANT
 query_48	0.5789	0.7709	0.5789	0.7709	cluster_IV;d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
@@ -142,7 +142,7 @@ query_69	0.002353	1	0.002353	1	DISTANT
 query_166	0.001775	0.866	0.001775	0.866	cluster_IV;d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__HR1;g__HR1;s__HR1 sp002926195
 query_309	0.002804	0.5532	0.002804	0.5532	DISTANT
 query_373	0.009067	0.9421	0.009067	0.9421	cluster_IV;d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
-query_79	0.1236	0.3845	0.2417	0.7518	cluster_IV
+query_79	0.1236	0.5464	0.1236	0.5464	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_188	0.03146	0.3523	0.03146	0.3523	DISTANT
 query_251	0.002353	1	0.002353	1	DISTANT
 query_298	0.04815	0.3796	0.04815	0.3796	cluster_I;d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Methylococcales;f__Methylomonadaceae;g__Methylomonas;s__Methylomonas methanica_B
@@ -173,7 +173,7 @@ query_22	0.001035	0.5341	0.001035	0.5341	DISTANT
 query_107	0.3947	0.946	0.3947	0.946	cluster_IV;d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
 query_169	0.1036	0.7245	0.1036	0.7245	DISTANT
 query_200	0.002052	0.8741	0.002052	0.8741	DISTANT
-query_242	0.002708	1	0.002708	1	cluster_IV
+query_242	0.002708	1	0.002708	1	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_314	0.424	0.8551	0.424	0.8551	cluster_I;d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Methylococcales;f__Methylomonadaceae;g__Methylomonas;s__Methylomonas methanica_B
 query_398	0.06406	0.5604	0.07076	0.6189	cluster_IV;d__Archaea;p__Halobacterota;c__Methanosarcinia;o__Methanosarcinales;f__Methanosarcinaceae
 query_20	0.1079	0.3608	0.1079	0.3608	cluster_I;d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Photobacterium;s__Photobacterium gaetbulicola
@@ -181,7 +181,7 @@ query_90	0.03618	0.3976	0.03618	0.3976	DISTANT
 query_268	0.05282	0.5005	0.05282	0.5005	cluster_IV;d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
 query_310	0.001584	0.6747	0.001584	0.6747	cluster_I;d__Bacteria;p__Proteobacteria
 query_125	0.01938	0.8153	0.01938	0.8153	cluster_IV;d__Archaea
-query_180	0.002087	0.627	0.002301	0.6911	cluster_IV
+query_180	0.002087	0.6699	0.002087	0.6699	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_338	0.01978	1	0.01978	1	DISTANT
 query_404	0.009458	1	0.009458	1	DISTANT
 query_9	0.1038	0.5439	0.152	0.7967	cluster_IV;d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
@@ -195,7 +195,7 @@ query_197	0.001171	0.4994	0.001171	0.4994	cluster_I;d__Bacteria;p__Proteobacteri
 query_261	0.00989	1	0.00989	1	DISTANT
 query_299	0.006624	1	0.006624	1	DISTANT
 query_13	0.5464	0.7206	0.5464	0.7206	cluster_IV;d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales;f__Methanospirillaceae;g__Methanospirillum;s__Methanospirillum lacunae
-query_75	0.001566	0.5	0.001566	0.5	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
+query_75	0.003132	1	0.003132	1	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_160	0.02273	0.5135	0.02273	0.5135	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae;g__Methanococcus;s__Methanococcus maripaludis_C
 query_206	0.02306	0.7068	0.03033	0.9298	cluster_IV;d__Archaea;p__Halobacterota
 query_285	0.146	0.6684	0.146	0.6684	cluster_IV;d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales
@@ -234,7 +234,7 @@ query_126	0.4603	0.9999	0.4603	0.9999	cluster_IV;d__Archaea;p__Halobacterota;c__
 query_318	0.5642	0.8696	0.5824	0.8975	cluster_IV
 query_68	0.6512	0.8256	0.6512	0.8256	cluster_IV;d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
 query_0	0.4982	0.5175	0.9235	0.9593	cluster_IV
-query_334	0.08546	0.5396	0.1584	1	cluster_IV
+query_334	0.08546	0.5485	0.08546	0.5485	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_325	0.06439	0.4833	0.06439	0.4833	cluster_IV;d__Archaea;p__Halobacterota;c__Syntrophoarchaeia;o__ANME-1;f__ANME-1;g__;s__
 query_178	0.05369	0.5133	0.05369	0.5133	DISTANT
 query_225	0.6856	0.8078	0.7422	0.8745	cluster_IV
@@ -322,7 +322,7 @@ query_159	0.003855	0.5257	0.003855	0.5257	cluster_IV;d__Archaea;p__Euryarchaeota
 query_263	0.1308	0.9035	0.1308	0.9035	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales
 query_380	0.001336	0.569	0.001336	0.569	DISTANT
 query_260	0.0823	0.4823	0.0823	0.4823	DISTANT
-query_415	0.003989	0.5	0.003989	0.5	cluster_IV;d__Bacteria;p__Nitrospinota;c__2-12-FULL-45-22;o__2-12-FULL-45-22;f__;g__;s__
+query_415	0.003989	1	0.003989	1	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_153	0.01047	0.505	0.01047	0.505	cluster_IV;d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__UBA9042;s__
 query_244	0.02329	0.3516	0.02329	0.3516	DISTANT
 query_274	0.1741	0.5088	0.1741	0.5088	cluster_IV;d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Marinifilaceae;g__Labilibaculum;s__Labilibaculum filiforme
@@ -348,7 +348,7 @@ query_106	0.3192	0.458	0.6765	0.9706	cluster_IV;d__Archaea;p__Halobacterota;c__M
 query_131	0.1591	0.2685	0.2654	0.4478	cluster_IV;d__Archaea;p__Halobacterota;c__Methanomicrobia;o__Methanomicrobiales;f__Methanomicrobiaceae
 query_195	0.002387	1	0.002387	1	DISTANT
 query_213	0.01853	0.5874	0.01853	0.5874	cluster_IV;d__Bacteria;p__Myxococcota;c__UBA9042;o__UBA9042;f__UBA9042;g__SXNM01;s__
-query_62	0.001566	0.5	0.001566	0.5	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
+query_62	0.003132	1	0.003132	1	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_121	0.002747	0.7067	0.002747	0.7067	DISTANT
 query_150	0.1255	1	0.1255	1	DISTANT
 query_194	0.005877	0.7156	0.005877	0.7156	DISTANT
@@ -384,7 +384,7 @@ query_134	0.00258	0.6078	0.00258	0.6078	DISTANT
 query_198	0.02986	0.3324	0.02986	0.3324	DISTANT
 query_315	0.02116	1	0.02116	1	DISTANT
 query_220	0.00237	1	0.00237	1	DISTANT
-query_391	0.08669	0.3679	0.2027	0.8603	cluster_IV
+query_391	0.1086	0.6357	0.1086	0.6357	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_45	0.2684	0.5589	0.2684	0.5589	DISTANT
 query_292	0.05274	0.4517	0.05274	0.4517	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanococcaceae;g__Methanothermococcus_A;s__Methanothermococcus_A aeolicus
 query_89	0.003345	0.7572	0.003345	0.7572	DISTANT
@@ -416,11 +416,11 @@ query_201	0.009896	0.7056	0.009896	0.7056	cluster_I;d__Bacteria;p__Proteobacteri
 query_258	0.03511	0.2521	0.08242	0.592	cluster_III;d__Bacteria;p__Desulfobacterota;c__Desulfobacteria;o__Desulfobacterales;f__Desulfobacteraceae
 query_93	0.003192	0.7271	0.003192	0.7271	DISTANT
 query_323	0.0008045	0.5192	0.0008045	0.5192	cluster_IV;d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Caminicellaceae;g__Paramaledivibacter;s__Paramaledivibacter caminithermalis
-query_70	0.002875	1	0.002875	1	cluster_IV
+query_70	0.002875	1	0.002875	1	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_329	0.3616	0.5644	0.3616	0.5644	DISTANT
 query_214	0.004283	0.6545	0.004283	0.6545	cluster_IV;d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
 query_374	0.003345	0.7572	0.003345	0.7572	DISTANT
-query_28	0.001566	0.5	0.001566	0.5	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
+query_28	0.003132	1	0.003132	1	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanopyri;o__Methanopyrales;f__Methanopyraceae;g__Methanopyrus;s__Methanopyrus kandleri
 query_176	0.003589	1	0.003589	1	DISTANT
 query_205	0.2186	0.4255	0.2186	0.4255	cluster_IV;d__Archaea;p__Euryarchaeota;c__Methanococci;o__Methanococcales;f__Methanocaldococcaceae;g__Methanocaldococcus_A;s__Methanocaldococcus_A infernus
 query_98	0.5241	1	0.5241	1	DISTANT
