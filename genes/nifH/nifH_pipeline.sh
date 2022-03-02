@@ -14,8 +14,8 @@
 # # Make database
 # python3 ./code/makedatabase.py \
 #  --in data/final_ref_database.fasta \
-#  --outdir genes/nifH/results/ \
-#  --hmm genes/nifH/hmms/TIGR01287.1.HMM \
+#  --outdir /home/robaina/Documents/TRAITS/ \
+#  --hmm /home/robaina/Documents/Databases/TIGR01287.1.HMM \
 #  --max_size 800 \
 #  --relabel
 
@@ -23,7 +23,7 @@
 # python3 ./code/makedatabase.py \
 #  --in data/final_ref_database.fasta \
 #  --outdir genes/nifH/results/ \
-#  --hmm genes/nifH/hmms/TIGR02016.1.HMM \
+#  --hmm /home/robaina/Documents/Databases/hmm_PGAP/TIGR02016.1.HMM \
 #  --max_size 100 \
 #  --prefix "out_"
 
@@ -88,23 +88,23 @@
 #  --aln_method "papara" \
 # --tree_model genes/nifH/results/ref_database.log
 
-# Assign taxonomy to placed sequences
-python3 code/labelplacements.py \
- --jplace genes/nifH/results/remedios/epa_result.jplace \
- --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
- --ref_clusters genes/nifH/data/clusters.tsv \
- --ref_cluster_scores genes/nifH/data/cluster_scores.tsv \
- --outgroup genes/nifH/results/outgroup_short_ids.faa \
- --prefix "placed_tax_" \
- --outdir genes/nifH/results/remedios/
+# # Assign taxonomy to placed sequences
+# python3 code/labelplacements.py \
+#  --jplace genes/nifH/results/remedios/epa_result.jplace \
+#  --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
+#  --ref_clusters genes/nifH/data/clusters.tsv \
+#  --ref_cluster_scores genes/nifH/data/cluster_scores.tsv \
+#  --outgroup genes/nifH/results/outgroup_short_ids.faa \
+#  --prefix "placed_tax_" \
+#  --outdir genes/nifH/results/remedios/
 
-# Count placements (filter by taxon, cluster id and quality score)
-python3 code/countplacements.py \
- --taxtable genes/nifH/results/remedios/placed_tax_assignments.tsv \
- --taxlevel "family" \
- --cluster_ids "cluster_I" "cluster_II" "cluster_III" "cluster_IV" \
- --score_threshold 0.5 \
- --outfile genes/nifH/results/remedios/placed_family_tax_counts.tsv
+# # Count placements (filter by taxon, cluster id and quality score)
+# python3 code/countplacements.py \
+#  --taxtable genes/nifH/results/remedios/placed_tax_assignments.tsv \
+#  --taxlevel "family" \
+#  --cluster_ids "cluster_I" "cluster_II" "cluster_III" "cluster_IV" \
+#  --score_threshold 0.5 \
+#  --outfile genes/nifH/results/remedios/placed_family_tax_counts.tsv
 
 # # Commit to GitHub
 # git add .
