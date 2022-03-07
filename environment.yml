@@ -6,6 +6,7 @@ channels:
   - defaults
   - cruizperez
 dependencies:
+  - cython
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=1_gnu
   - backcall=0.2.0=pyh9f0ad1d_0
@@ -79,7 +80,6 @@ dependencies:
     - charset-normalizer==2.0.6
     - click==8.0.1
     - cycler==0.10.0
-    - cython==0.29.24
     - docstring-parser==0.7.3
     - emperor==1.0.3
     - empress==1.2.0
@@ -93,7 +93,7 @@ dependencies:
     - hug==2.6.1
     - idna==3.2
     - importlib-metadata==4.8.1
-    - iow==0.1.3
+    - iow>=0.1.3
     - ipython==7.28.0
     - jinja2==3.0.1
     - joblib==1.0.1

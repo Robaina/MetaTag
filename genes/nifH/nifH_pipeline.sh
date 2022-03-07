@@ -14,8 +14,8 @@
 # # Make database
 # python3 ./code/makedatabase.py \
 #  --in data/final_ref_database.fasta \
-#  --outdir genes/nifH/results/ \
-#  --hmm genes/nifH/hmms/TIGR01287.1.HMM \
+#  --outdir /home/robaina/Documents/TRAITS/ \
+#  --hmm /home/robaina/Documents/Databases/TIGR01287.1.HMM \
 #  --max_size 800 \
 #  --relabel
 
@@ -23,7 +23,7 @@
 # python3 ./code/makedatabase.py \
 #  --in data/final_ref_database.fasta \
 #  --outdir genes/nifH/results/ \
-#  --hmm genes/nifH/hmms/TIGR02016.1.HMM \
+#  --hmm /home/robaina/Documents/Databases/hmm_PGAP/TIGR02016.1.HMM \
 #  --max_size 100 \
 #  --prefix "out_"
 
