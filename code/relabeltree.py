@@ -5,11 +5,11 @@
 Relabel tree and msa from label dicts as pickle files
 """
 
+from __future__ import annotations
 import os
 import argparse
-from typing import Tuple, Dict
 
-from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath, DictMerger
+from phyloplacement.utils import setDefaultOutputPath, DictMerger
 from phyloplacement.database.preprocessing import setOriginalRecordIDsInFASTA
 from phyloplacement.taxonomy import TaxonomyAssigner
 from phyloplacement.phylotree import relabelTree
@@ -72,7 +72,7 @@ def initializeLabelDict(args) -> dict:
 
     return label_dict, prefix_label_dict
 
-def assignTaxonomyToLabels(prefix_label_dict, label_dict: dict) -> Tuple[Dict]:
+def assignTaxonomyToLabels(prefix_label_dict, label_dict: dict) -> tuple[dict]:
     """
     Assign GTDB taxonomy to tree labels
     """
