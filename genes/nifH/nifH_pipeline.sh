@@ -9,45 +9,45 @@
 # Manually finding key amino acids positions in alignment
 # Adding outgroup bchX (TIGR02016)
 
-# rm -r /home/robaina/Documents/TRAITS/genes/nifH/results/; mkdir /home/robaina/Documents/TRAITS/genes/nifH/results/
+rm -r /home/robaina/Documents/TRAITS/genes/nifH/results/; mkdir /home/robaina/Documents/TRAITS/genes/nifH/results/
 
-# # Make database
-# python3 ./code/makedatabase.py \
-#  --in data/final_ref_database.fasta \
-#  --outdir /home/robaina/Documents/TRAITS/ \
-#  --hmm /home/robaina/Documents/Databases/TIGR01287.1.HMM \
-#  --max_size 800 \
-#  --relabel
+# Make database
+python3 ./code/makedatabase.py \
+ --in data/final_ref_database.fasta \
+ --outdir /home/robaina/Documents/TRAITS/ \
+ --hmm /home/robaina/Documents/Databases/TIGR01287.1.HMM \
+ --max_size 800 \
+ --relabel
 
-# # Add outgroup: search for sequences
-# python3 ./code/makedatabase.py \
-#  --in data/final_ref_database.fasta \
-#  --outdir genes/nifH/results/ \
-#  --hmm /home/robaina/Documents/Databases/hmm_PGAP/TIGR02016.1.HMM \
-#  --max_size 100 \
-#  --prefix "out_"
+# Add outgroup: search for sequences
+python3 ./code/makedatabase.py \
+ --in data/final_ref_database.fasta \
+ --outdir genes/nifH/results/ \
+ --hmm /home/robaina/Documents/Databases/hmm_PGAP/TIGR02016.1.HMM \
+ --max_size 100 \
+ --prefix "out_"
 
-# # Add outgroup: preprocess
-# python3 ./code/preprocess.py \
-#  --in genes/nifH/results/out_ref_database.faa \
-#  --outfile genes/nifH/results/outgroup_short_ids.faa \
-#  --idprefix "out_" --relabel
+# Add outgroup: preprocess
+python3 ./code/preprocess.py \
+ --in genes/nifH/results/out_ref_database.faa \
+ --outfile genes/nifH/results/outgroup_short_ids.faa \
+ --idprefix "out_" --relabel
 
-# # Merge outgroup to nifH database
-# cp genes/nifH/results/outgroup_short_ids.faa genes/nifH/results/merge/
-# cp genes/nifH/results/ref_database.faa genes/nifH/results/merge/
+# Merge outgroup to nifH database
+cp genes/nifH/results/outgroup_short_ids.faa genes/nifH/results/merge/
+cp genes/nifH/results/ref_database.faa genes/nifH/results/merge/
 
-# python3 ./code/preprocess.py \
-#  --in genes/nifH/results/merge/ \
-#  --outfile genes/nifH/results/ref_database_merge.faa
+python3 ./code/preprocess.py \
+ --in genes/nifH/results/merge/ \
+ --outfile genes/nifH/results/ref_database_merge.faa
 
-# # Alignment and tree
-# python3 ./code/buildtree.py \
-#  --in genes/nifH/results/ref_database_merge.faa \
-#  --outdir genes/nifH/results/ \
-#  --msa_method "muscle" \
-#  --tree_model "LG+I+G4" \
-#  --tree_method "iqtree"
+# Alignment and tree
+python3 ./code/buildtree.py \
+ --in genes/nifH/results/ref_database_merge.faa \
+ --outdir genes/nifH/results/ \
+ --msa_method "muscle" \
+ --tree_model "LG+I+G4" \
+ --tree_method "iqtree"
 
 # Multi to single line fasta aln
 # awk '{if(NR==1) {print $0} else {if($0 ~ /^>/) {print "\n"$0} else {printf $0}}}' genes/nifH/results/ref_database.faln > singleLine.faln
