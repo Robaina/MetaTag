@@ -30,7 +30,7 @@ python3 code/makedatabase.py \
  --outdir tests/test_results \
  --hmms tests/test_data/TIGR01287.1.HMM \
         tests/test_data/TIGR02016.1.HMM \
- --max_sizes 20 None \
+ --max_sizes 20 5 \
  --min_seq_length 10 --max_seq_length 2000 \
  --relabel_prefixes "ref_" "out_" \
  --relabel
