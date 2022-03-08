@@ -91,5 +91,5 @@ python3 code/relabeltree.py \
  --tree tests/test_results/epa_result.newick \
  --labels tests/test_results/ref_database_id_dict.pickle \
           tests/test_results/query_cleaned_id_dict.pickle \
- --label_prefixes "ref_" "out_" "query_" \
+ --label_prefixes "ref_" "query_" \
  --taxonomy
