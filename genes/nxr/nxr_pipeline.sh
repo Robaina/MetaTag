@@ -4,25 +4,15 @@
 #                           Nxr pipeline                            #
 # ***************************************************************** #
 
-# Preprocess
-python3 ./code/preprocess.py \
- --in data/MAR_HQ \
- --outfile data/marhq_cleaned.faa
 
 # Make database
 python3 ./code/makedatabase.py \
- --in data/marhq_cleaned.faa \
+ --in data/final_ref_database.fasta \
  --outdir genes/nxr/results/ \
- --hmm genes/nxr/hmms/narGTIGR01580.1.hmm \
- --prefix "narG_" --relabel \
- --max_size 300
-
-python3 ./code/makedatabase.py \
- --in data/marhq_cleaned.faa \
- --outdir genes/nxr/results/ \
- --hmm genes/nxr/hmms/Molybdopterin.hmm \
- --prefix "molyb_" --relabel \
- --max_size 300
+ --hmms genes/nxr/hmms/narGTIGR01580.1.hmm \
+        genes/nxr/hmms/Molybdopterin.hmm \
+ --label_prefixes "narG_" "molyb_" --relabel \
+ --max_sizes 300 300
 
 # Merge narG, molyb and remove possible duplicated seqs
 mkdir -p genes/nxr/results/molyb_narG/
