@@ -83,7 +83,8 @@ python3 code/countplacements.py \
  --taxlevel "family" \
  --cluster_ids "G1" "G2" \
  --score_threshold 0.6 \
- --outfile tests/test_results/gappa/placed_family_tax_counts.tsv
+ --outfile tests/test_results/gappa/placed_family_tax_counts.tsv \
+ --outpdf tests/test_results/gappa/placed_family_tax_counts.pdf
 
 # Relabel tree and alignment
 python3 code/relabeltree.py \
