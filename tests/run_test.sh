@@ -27,27 +27,13 @@ python3 code/preprocess.py \
 # Make database
 python3 code/makedatabase.py \
  --in tests/test_results/test_data_cleaned.faa \
- --outdir tests/test_results/ \
- --hmm tests/test_data/TIGR01580.1.HMM \
- --max_size 1000 \
+ --outdir tests/test_results \
+ --hmms tests/test_data/TIGR01287.1.HMM \
+        tests/test_data/TIGR02016.1.HMM \
+ --max_sizes 20 5 \
  --min_seq_length 10 --max_seq_length 2000 \
- --prefix "test_" \
+ --relabel_prefixes "ref_" "out_" \
  --relabel
-
-# Add outgroup: preprocess
-python3 ./code/preprocess.py \
- --in tests/test_data/outlier_data.faa \
- --outfile tests/test_results/outliers_short_ids.faa \
- --idprefix "ref_out_" --relabel
-
-# Merge outgroup to reference database
-mkdir tests/test_results/data 
-mv tests/test_results/test_ref_database.faa tests/test_results/data/
-mv tests/test_results/outliers_short_ids.faa tests/test_results/data/
-
-python3 ./code/preprocess.py \
- --in tests/test_results/data/ \
- --outfile tests/test_results/ref_database.faa
 
 # Alignment and tree
 python3 code/buildtree.py \
@@ -78,30 +64,31 @@ python3 code/placesequences.py \
  --aln_method "papara" \
 --tree_model tests/test_results/ref_database.log
 
+# Extract outgroup IDs for gappa examine assign (temporary fix)
+grep "out_" tests/test_results/ref_database.faa | cut -c 2- > tests/test_results/outgroup_ids.txt
+
 # Assign taxonomy to placed sequences
 python3 code/labelplacements.py \
  --jplace tests/test_results/epa_result.jplace \
- --labels tests/test_results/test_ref_database_id_dict.pickle \
-          tests/test_results/outliers_short_ids_id_dict.pickle \
+ --labels tests/test_results/ref_database_id_dict.pickle \
  --ref_clusters tests/test_data/clusters.tsv \
  --ref_cluster_scores tests/test_data/cluster_scores.tsv \
- --outgroup tests/test_results/data/outliers_short_ids.faa \
- --prefix "test_placed_tax_" \
+ --outgroup tests/test_results/outgroup_ids.txt \
+ --prefix "placed_tax_" \
  --outdir tests/test_results/gappa/
 
 # Count placements (filter by taxon, cluster id and quality score)
 python3 code/countplacements.py \
- --taxtable tests/test_results/gappa/test_placed_tax_assignments.tsv \
+ --taxtable tests/test_results/gappa/placed_tax_assignments.tsv \
  --taxlevel "family" \
  --cluster_ids "G1" "G2" \
  --score_threshold 0.6 \
- --outfile tests/test_results/gappa/test_placed_family_tax_counts.tsv
+ --outfile tests/test_results/gappa/placed_family_tax_counts.tsv
 
 # Relabel tree and alignment
 python3 code/relabeltree.py \
  --tree tests/test_results/epa_result.newick \
- --labels tests/test_results/test_ref_database_id_dict.pickle \
-          tests/test_results/outliers_short_ids_id_dict.pickle \
+ --labels tests/test_results/ref_database_id_dict.pickle \
           tests/test_results/query_cleaned_id_dict.pickle \
  --label_prefixes "ref_" "out_" "query_" \
  --taxonomy

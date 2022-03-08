@@ -8,9 +8,9 @@ Tools to create peptide-specific sequence databases
 2. Filter fasta files based on query sequences
 """
 
+from __future__ import annotations
 import os
 import warnings
-from typing import List
 from collections import defaultdict
 
 import pandas as pd
@@ -223,7 +223,7 @@ class LinkedHMMfilter():
         self._hmm_hits = hmm_hits
     
     @staticmethod
-    def parseLinkageString(link_str: str) -> List[list]:
+    def parseLinkageString(link_str: str) -> list[list]:
         """
         Parse linkage structure string. A linkage structure
         is a string like the following:
@@ -374,13 +374,13 @@ class LinkedHMMfilter():
 def filterFastaByHMMstructure(hmm_structure: str,
                               target_hmm: str,
                               input_fasta: str,
-                              input_hmms: List[str],
+                              input_hmms: list[str],
                               output_fasta: str = None,
                               output_dir: str = None,
                               hmmer_output_dir: str = None,
                               reuse_hmmer_results: bool = True,
                               method: str = 'hmmsearch',
-                              additional_args: List[str] = None) -> None:
+                              additional_args: list[str] = None) -> None:
     """
     Generate protein-specific database by filtering sequence database
     to only contain sequences which satisfy the provided (gene/hmm)

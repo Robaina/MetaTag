@@ -129,8 +129,8 @@ def assertCorrectSequenceFormat(fasta_file: str,
                 outfile.write(f'>{record_name}\n{record_seq}\n')
 
 def setTempRecordIDsInFASTA(input_fasta: str,
-                          output_dir: str = None,
-                          prefix: str = None):
+                            output_dir: str = None,
+                            prefix: str = None):
     """
     Change record ids for numbers and store then in a dictionary
     """
@@ -152,7 +152,6 @@ def setTempRecordIDsInFASTA(input_fasta: str,
     output_dict = f'{os.path.join(output_dir, dict_file)}'
     
     fasta = SeqIO.parse(input_fasta, 'fasta')
-    # new_ids = map(lambda n: f'{prefix_str}{n}', range(len(fasta)))
     id_dict = dict()
     with open(output_fasta, 'w') as outfasta:
         for n, record in enumerate(fasta):
