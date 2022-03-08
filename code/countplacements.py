@@ -35,7 +35,9 @@ required.add_argument('--cluster_ids', dest='cluster_ids', type=str, required=Tr
 optional.add_argument('--score_threshold', dest='score_threshold', type=float,
                       help='cluster score threshold value to filter placement results')
 optional.add_argument('--outfile', dest='outfile', type=str,
-                      help='path to output file')
+                      help='path to output results file')
+optional.add_argument('--outpdf', dest='outpdf', type=str,
+                      help='path to output results figure')
 
 
 args = parser.parse_args()
@@ -53,3 +55,7 @@ counts = taxparser.countHits(
     
 column_id = 'frequency'
 counts.to_csv(args.outfile, header=[column_id], index=True, sep='\t')
+
+if args.outpdf is not None:
+    fig = counts.plot.pie(figsize=(15,15), title=f"Represented {args.taxlevel}").get_figure()
+    fig.savefig(args.outpdf, format='pdf')
