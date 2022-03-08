@@ -26,10 +26,10 @@ python3 code/preprocess.py \
 
 # Make database
 python3 code/makedatabase.py \
- --in /home/robaina/Documents/TRAITS/data/final_ref_database.fasta \
+ --in tests/test_results/test_data_cleaned.faa \
  --outdir tests/test_results \
- --hmms tests/test_data/TIGR01580.1.HMM \
-        tests/test_data/TIGR01581.1.HMM \
+ --hmms tests/test_data/TIGR01287.1.HMM \
+        tests/test_data/TIGR02016.1.HMM \
  --max_sizes 20 5 \
  --min_seq_length 10 --max_seq_length 2000 \
  --relabel_prefixes "ref_" "out_" \
