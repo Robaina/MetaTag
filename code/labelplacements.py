@@ -69,12 +69,12 @@ def main():
 
     if args.outgroup is not None:
         if is_fasta(args.outgroup):
-            output_file = setDefaultOutputPath(args.outgroup,
-                                               tag='_record_ids', extension='.txt')
-            writeRecordNamesToFile(args.outgroup, output_file)
+            outgroup_file = setDefaultOutputPath(args.outgroup,
+                                                 tag='_record_ids', extension='.txt')
+            writeRecordNamesToFile(args.outgroup, outgroup_file)
         else:
-            output_file = args.outgroups
-        args_str = f'--resolve-missing-paths --root-outgroup {output_file}'
+            outgroup_file = args.outgroup
+        args_str = f'--resolve-missing-paths --root-outgroup {outgroup_file}'
     else:
         args_str = '--resolve-missing-paths'
 
