@@ -45,11 +45,13 @@ optional.add_argument('--relabel_prefixes', dest='relabel_prefixes', type=str,
                       )
                       )
 optional.add_argument('--max_sizes', dest='maxsizes',
-                      default=None, type=int, nargs='+',
+                      default=None, type=str, nargs='+',
                       help=(
                           'maximum size of representative set of sequences for each hmm model. '
-                          'Each (space-separated) number corresponds to a hmm model inputed in "--hmms", '
-                          'thus, sorted in the same order.'
+                          'Each (space-separated) integer corresponds to a hmm model inputed in "--hmms", '
+                          'thus, sorted in the same order. A value of "None" may be given to a hmm model '
+                          'in the list, in which case the maximum number of sequences is unlimited '
+                          'for that hmm.'
                           'Defaults to full set of sequences for all hmm modells inputed.'
                           )
                     )
@@ -80,6 +82,8 @@ parser.add_argument('--relabel', dest='relabel', action='store_true',
 args = parser.parse_args()
 if args.maxsizes is None:
     args.maxsizes = [None for _ in args.hmms]
+else:
+    args.maxsizes = [int(arg) if arg.isdigit() else None for arg in args.maxsizes]
 if args.relabel_prefixes is None:
     args.relabel_prefixes = [None for _ in args.hmms]
 if args.outdir is None:
