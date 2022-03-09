@@ -4,20 +4,27 @@
 #                           Nxr pipeline                            #
 # ***************************************************************** #
 
-
 # Make database
 python3 ./code/makedatabase.py \
  --in data/final_ref_database.fasta \
  --outdir genes/nxr/results/ \
  --hmms genes/nxr/hmms/narGTIGR01580.1.hmm \
-        genes/nxr/hmms/Molybdopterin.hmm \
- --label_prefixes "narG_" "molyb_" --relabel \
- --max_sizes 300 300
+ --relabel_prefixes "narG_" --relabel \
+ --prefix "narG_" \
+ --max_sizes 400
+
+ python3 ./code/makedatabase.py \
+ --in data/final_ref_database.fasta \
+ --outdir genes/nxr/results/ \
+ --hmms genes/nxr/hmms/Molybdopterin.hmm \
+ --relabel_prefixes "molyb_" --relabel \
+ --prefix "molyb_" \
+ --max_sizes 400
 
 # Merge narG, molyb and remove possible duplicated seqs
 mkdir -p genes/nxr/results/molyb_narG/
 mv genes/nxr/results/narG_ref_database.faa genes/nxr/results/molyb_narG/
-mv genes/nxr/results/molyb_ref_database.faa genes/nxr/results/molyb_narG/
+mv genes/nxr/results/molyb_ref_database.faa genes/nxr/resu/home/robaina/Documents/TRAITS/genes/nxr/resultslts/molyb_narG/
 
 # Add nxr-classified sequences from Nitzinger, 2021
 python3 ./code/preprocess.py \
