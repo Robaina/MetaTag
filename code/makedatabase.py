@@ -74,7 +74,7 @@ parser.add_argument('--relabel', dest='relabel', action='store_true',
                     required=False,
                     default=False,
                     help=(
-                        'relabel record IDs with numeral ids. '
+                        'relabel record IDs with numerical ids. '
                         'Unrequired to build database, but highly recommended '
                         'to avoid possible conflicts downstream the pipeline.'))
 
