@@ -7,10 +7,11 @@ Taxonomic and function al labelling of placed sequences:
 2) Assign function to placed sequences
 """
 
+import os
 import argparse
 
-from phyloplacement.utils import setDefaultOutputPath, readFromPickleFile
-from phyloplacement.database.preprocessing import is_fasta, writeRecordNamesToFile
+from phyloplacement.utils import setDefaultOutputPath, DictMerger
+from phyloplacement.database.preprocessing import is_fasta, is_file, writeRecordNamesToFile
 from phyloplacement.placement import assignLabelsToPlacements
 
 
@@ -51,7 +52,8 @@ optional.add_argument('--outgroup', dest='outgroup', type=str,
                       help=(
                           'path to text file containing IDs of sequences to be considered '
                           'as an outgroup to root the tree. It can also be a fasta file from '
-                          'which sequence names will be extracted. The outgroup will be used to '
+                          'which sequence names will be extracted. It can also be a string containing '
+                          'a tag to filter record labels by it. The outgroup will be used to '
                           'recover missing taxonomic infomation by gappa examine assign. ')
                           )
 optional.add_argument('--prefix', dest='prefix', type=str,
@@ -67,27 +69,34 @@ if args.outdir is None:
 
 def main():
 
+    label_dict = DictMerger.fromPicklePaths(args.labels).merge()
+
     if args.outgroup is not None:
-        if is_fasta(args.outgroup):
-            outgroup_file = setDefaultOutputPath(args.outgroup,
-                                                 tag='_record_ids', extension='.txt')
-            writeRecordNamesToFile(args.outgroup, outgroup_file)
+        outgroup_file_generated = False
+        if is_file(args.outgroup):
+            if is_fasta(args.outgroup):
+                outgroup_file = setDefaultOutputPath(args.jplace,
+                                                     tag='_outgroup_ids', extension='.txt')
+                writeRecordNamesToFile(args.outgroup, output_file=outgroup_file)
+                outgroup_file_generated = True
+            else:
+                outgroup_file = args.outgroup
         else:
-            outgroup_file = args.outgroup
+            matched_labels = [f'{ref}\n' for ref in label_dict.keys() if args.outgroup in ref]
+            if not matched_labels:
+                raise ValueError('No matched labels for given outgroup pattern')
+            outgroup_file = setDefaultOutputPath(args.jplace,
+                                                 tag='_outgroup_ids', extension='.txt')
+            with open(outgroup_file, 'w') as outfile:
+                outfile.writelines(matched_labels)
+            outgroup_file_generated = True
+       
         args_str = f'--resolve-missing-paths --root-outgroup {outgroup_file}'
     else:
         args_str = '--resolve-missing-paths'
 
     args_str = None
-    label_dicts = [
-        readFromPickleFile(label_path.strip()) for label_path in args.labels
-    ]
-    label_dict = {
-        k: label 
-        for labels in label_dicts 
-        for (k, label) in labels.items()
-        }
-    
+
     assignLabelsToPlacements(
         jplace=args.jplace,
         id_dict=label_dict,
@@ -98,6 +107,9 @@ def main():
         ref_cluster_scores_file=args.ref_cluster_scores,
         gappa_additional_args=args_str
     )
+
+    if outgroup_file_generated:
+        os.remove(outgroup_file)
 
 if __name__ == '__main__':
     main()

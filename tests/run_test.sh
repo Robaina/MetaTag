@@ -64,16 +64,13 @@ python3 code/placesequences.py \
  --aln_method "papara" \
 --tree_model tests/test_results/ref_database.log
 
-# Extract outgroup IDs for gappa examine assign (temporary fix)
-grep "out_" tests/test_results/ref_database.faa | cut -c 2- > tests/test_results/outgroup_ids.txt
-
 # Assign taxonomy to placed sequences
 python3 code/labelplacements.py \
  --jplace tests/test_results/epa_result.jplace \
  --labels tests/test_results/ref_database_id_dict.pickle \
  --ref_clusters tests/test_data/clusters.tsv \
  --ref_cluster_scores tests/test_data/cluster_scores.tsv \
- --outgroup tests/test_results/outgroup_ids.txt \
+ --outgroup "out_" \
  --prefix "placed_tax_" \
  --outdir tests/test_results/gappa/
 

@@ -180,18 +180,26 @@ def setOriginalRecordIDsInFASTA(input_fasta: str,
 
     SeqIO.write(relabel_records(), output_fasta, 'fasta')
 
-def writeRecordNamesToFile(input_fasta: str, output_file: str = None):
+def writeRecordNamesToFile(input_fasta: str,
+                           filter_by_tag: str = None,
+                           output_file: str = None):
     """
     Write a txt file containing a list of record IDs in fasta
+    @params:
+    filter_by_tag: set to str containing a pattern to match
+    in record labels. In this case, only matched record labels
+    are returned.
     """
     if output_file is None:
         output_file = setDefaultOutputPath(input_fasta, extension='.txt')
-    with open(output_file, 'w') as file:
-        lines = []
-        records = SeqIO.parse(input_fasta, 'fasta')
-        for record in records:
-            lines.append(record.name + '\n')
-        file.writelines(lines)
+    if filter_by_tag is not None:
+        pattern = filter_by_tag
+    else:
+        pattern = ">"
+    cmd_str = (
+        f"grep '{pattern}' {input_fasta} | cut -c 2- > {output_file}"
+    )
+    terminalExecute(cmd_str, suppress_shell_output=False)
 
 def fastq2fasta(input_fastq: str, output_fasta: str = None,
                 unzip: bool = True) -> None:
@@ -210,7 +218,13 @@ def fastq2fasta(input_fastq: str, output_fasta: str = None,
     cmd_str = f"sed -n '1~4s/^@/>/p;2~4p' {input_fastq} > {output_fasta}"
     terminalExecute(cmd_str, suppress_shell_output=False)
 
+def is_file(filename):
+    return os.path.exists(filename)
+    
 def is_fasta(filename):
-    with open(filename, "r") as handle:
-        fasta = SeqIO.parse(handle, "fasta")
-        return any(fasta) 
+    if is_file(filename):
+        with open(filename, "r") as handle:
+            fasta = SeqIO.parse(handle, "fasta")
+            return any(fasta)
+    else:
+        return False
