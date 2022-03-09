@@ -4,18 +4,15 @@
 #                           ureC pipeline                           #
 # ***************************************************************** #
 
-# # Preprocess
-# python3 ./code/preprocess.py \
-#  --in data/MAR_HQ \
-#  --outfile data/marhq_cleaned.faa
 
 # Make database
 python3 ./code/makedatabase.py \
- --in data/marhq_cleaned.faa \
+ --in data/final_ref_database.fasta \
  --outdir genes/ureC/results/ \
- --hmm genes/ureC/hmms/alpha_TIGR01792.1.HMM \
+ --hmms genes/ureC/hmms/alpha_TIGR01792.1.HMM \
  --prefix "ureC_" --relabel \
- --max_size 600
+ --relabel_prefixes "ureC" \
+ --max_sizes 800
 
 # Add Koper 2004 ureC sequences
 python3 ./code/preprocess.py \
@@ -30,6 +27,7 @@ python3 ./code/preprocess.py \
  --idprefix "ref_ho97_" --relabel
 
 # Move databases to directory to merge
+mkdir -p genes/ureC/results/mardb_ko04_ho97/
 mv genes/ureC/results/ureC_ref_database.faa genes/ureC/results/mardb_ko04_ho97/
 mv genes/ureC/results/koper2004_seqs_short_ids.faa genes/ureC/results/mardb_ko04_ho97/
 mv genes/ureC/results/holn1997_seqs_short_ids.faa genes/ureC/results/mardb_ko04_ho97/
