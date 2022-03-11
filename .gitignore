@@ -31,7 +31,8 @@ genes/**/results/*
 tests/test_results
 tests/hmm_outputs
 tests/test_data_dna
-
+genes/rho/*
+genes/rho
 # Files
 trimal.html
 code/accesory/run_papara.py

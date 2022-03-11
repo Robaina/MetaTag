@@ -22,7 +22,7 @@ from phyloplacement.utils import setDefaultOutputPath, terminalExecute
 from phyloplacement.database.parsers.mardb import MARdbLabelParser
 
 
-def filterFastaBySequenceLength(input_fasta: str, minLength: int = None,
+def filterFASTABySequenceLength(input_fasta: str, minLength: int = None,
                                 maxLength: int = None,
                                 output_fasta: str = None) -> None:
     """
