@@ -48,7 +48,7 @@ optional.add_argument('--ref_cluster_scores', dest='ref_cluster_scores', type=st
                           'and another (tab-separated) column named "score"'
                           )
                       )
-optional.add_argument('--outgroup', dest='outgroup', type=str,
+optional.add_argument('--outgroup', dest='outgroup', type=str, default=None,
                       help=(
                           'path to text file containing IDs of sequences to be considered '
                           'as an outgroup to root the tree. It can also be a fasta file from '
@@ -70,9 +70,9 @@ if args.outdir is None:
 def main():
 
     label_dict = DictMerger.fromPicklePaths(args.labels).merge()
-
+    outgroup_file_generated = False
+    
     if args.outgroup is not None:
-        outgroup_file_generated = False
         if is_file(args.outgroup):
             if is_fasta(args.outgroup):
                 outgroup_file = setDefaultOutputPath(args.jplace,
