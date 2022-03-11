@@ -25,18 +25,19 @@ required.add_argument('--taxtable', dest='taxtable', type=str, required=True,
 
 required.add_argument('--taxlevel', dest='taxlevel', type=str, required=True,
                       help='specify tax level to count hits')
-required.add_argument('--cluster_ids', dest='cluster_ids', type=str, required=True,
+optional.add_argument('--cluster_ids', dest='cluster_ids', type=str, default=None,
                       nargs='+',
                       help=(
                           'list of space-separated target cluster ids of the reference tree '
-                          'corresponding to the selected function to filter counts'
+                          'corresponding to the selected function to filter counts. If not '
+                          'provided, then all clusters in the tree are considered for counting.'
                           )
                     )
-optional.add_argument('--score_threshold', dest='score_threshold', type=float,
+optional.add_argument('--score_threshold', dest='score_threshold', type=float, default=None,
                       help='cluster score threshold value to filter placement results')
-optional.add_argument('--outfile', dest='outfile', type=str,
+optional.add_argument('--outfile', dest='outfile', type=str, default=None,
                       help='path to output results file')
-optional.add_argument('--outpdf', dest='outpdf', type=str,
+optional.add_argument('--outpdf', dest='outpdf', type=str, default=None,
                       help='path to output results figure')
 
 
