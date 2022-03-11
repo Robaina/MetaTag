@@ -14,7 +14,7 @@ import argparse
 
 from phyloplacement.utils import setDefaultOutputPath, TemporaryFilePath
 from phyloplacement.database.preprocessing import setTempRecordIDsInFASTA
-from phyloplacement.database.manipulation import filterFastaByHMMstructure, filterFastaBySequenceLength
+from phyloplacement.database.manipulation import filterFastaByHMMstructure, filterFASTABySequenceLength
 from phyloplacement.database.reduction import reduceDatabaseRedundancy
 
 
@@ -127,7 +127,7 @@ def main():
         
         if (args.minseqlength is not None) or (args.maxseqlength is not None):
             print("* Filtering sequences by established length bounds...")
-            filterFastaBySequenceLength(
+            filterFASTABySequenceLength(
                 input_fasta=tempfasta,
                 minLength=args.minseqlength,
                 maxLength=args.maxseqlength,
