@@ -1,4 +1,4 @@
->ref_113
+>OceanDNA_b20992__012_035_044748_045575_pos_cluster_II
 -----------------------------------------------MHKIAVYGKGGIG
 KSTISSHLSAVFAE-KNLKVLHVGCDPKHDSTMRIAPKDGVP-TVIQMLRENP-------
 ----GWLRSRA---FVQKG------------RFGIDLVECGGPEPGAGCGGRGVAKMFEM
@@ -17,7 +17,7 @@ TA----------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_204
+>OceanDNA_b20993__0627_01_00001_00843_neg_cluster_II
 -----------------------------------------------MQKIAIYGKGGSG
 KSTISAALSVTYAQ-AGLKVLHVGCDPKADSTFTITGGKRIR-TLLDLLGE---------
 ----GHLRPSAEE-FVVRG------------RFGIDCIEAGGPRPGAGCGGRGIARMFEL
@@ -36,7 +36,7 @@ SF----------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_118
+>Enhygromyxa_salina_strain_SWB007_MMP08580376__PVNL01000142.1_0MMP08580376_29_032891_034015_neg_cluster_IV
 -----------------------------------------------MERIVIFGKGGIG
 KSTVACGISASLAA-AGKRVLHVGCDPKHDSTAALLRGKLIE-PVVDRIEK---------
 ----VKGVTA-ED-IVVRS------------PLGVDCVEAGGPTAGVGCGGRGITRMLEI
@@ -55,7 +55,7 @@ QRLRAAFPEHASKLGAEELTA---------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_139
+>TARA_SAMEA2619970_METAG_JOMOCMFK__148_01_00193_01959_pos_cluster_IV
 -----------------------------------------MSGNSKSRQIAFYGKGGIG
 KSTVAANVAVALAE-MGLKVFQMGCSPKVDSTSLLLGGKIIEHDILGHLKGGT-------
 ----TGEKGL-QE-CIVEG------------YRGVLCAESGGPEPATGCAGKGVSYALDV
@@ -74,7 +74,7 @@ NNMRGIPNEDKIVEEVAALMGLPLVAHIPRSDTVQASEFLAQTVVQAYPDSAQAEVYREL
 AHRILENDTVYIPNAISLKEIKPIVQKYVGE-----------------------------
 ------------------------------------------------------------
 ------------------------------------
->out_7
+>TARA_SAMEA2619970_METAG_JOMOCMFK__148_01_00193_01959_pos_cluster_IV
 -----------------------------------------MSGNSKSRQIAFYGKGGIG
 KSTVAANVAVALAE-MGLKVFQMGCSPKVDSTSLLLGGKIIEHDILGHLKGGT-------
 ----TGEKGL-QE-CIVEG------------YRGVLCAESGGPEPATGCAGKGVSYALDV
@@ -93,7 +93,7 @@ NNMRGIPNEDKIVEEVAALMGLPLVAHIPRSDTVQASEFLAQTVVQAYPDSAQAEVYREL
 AHRILENDTVYIPNAISLKEIKPIVQKYVGE-----------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_222
+>Desulfatibacillum_aliphaticivorans_CV2803_MMP02441551__NZ_AUCT01000007.1_139_177105_179333_pos_cluster_IV
 ------------------------------------------------MRIAVYGKGGIG
 KSTLSANLAAALAQ-DDKRVLQIGCDPKQDSTRLLLGGTHPR-PVLEYLRETR-------
 ----REEQQL-AD-ILHRG------------WKGVHCVEAGGPEPGVGCAGRGILSAFAI
@@ -112,7 +112,7 @@ QLPAYLDHLGRVLQDFLTGKFGCTFTQNPFPSGFHETERWLREIADFFDRGSLAEQAFDA
 LRGEYLQAIDDLRPHLAGKRLMLVTYIHDVDWILETAFDLDMEVVKVGILNYTQDNRYRT
 RYKDRLTVDVGYDPQRRADDIMKLKPDLFLGNYQPSGLPETTHYDTVPLCPNTGHLGGLA
 LAQRWRRLINAPLQEGWRKDEARLMRAEGVNQGGAL
->ref_159
+>Desulfosarcina_BuS5_MMP02441126__NZ_00000KI421466.1_24_019386_021602_pos_cluster_I
 ------------------------------------------------MRIAIYGKGGIG
 KSTITANLAAALAE-RGKRVLQIGCDPKHDSTRLLLNGKRVM-TALDYLRDVP-------
 ----PVMQRL-SE-VLHTG------------YKGVVCAEAGGPEPGVGCAGRGILSTFAF
@@ -131,7 +131,7 @@ NLPAFNDHFGRVLINFLQERFQISFAQNAFPVGFYESERWLNEIAVFFEKETEAERVIGL
 FRKEYRERMEPFRKALEGKRIMIITYIHDTDWILETAFDMGMEVVKVCILNYSQDNLFRT
 RYPGRFEVETNYPPQKRDDDLRRLKPNLLLCNYTPQDLPLALHADTIPLCPDVGFYGGLA
 FAGRWAALLKSPVKEGWKYESEKFA-----------
->ref_41
+>Desulfobacterium_autotrophicum_MMP02603282__CP001087.1_0873_0996994_0999234_pos_cluster_IV
 ------------------------------------------------MKIAIYGKGGIG
 KSTISANLSAALAV-SGKKVLQIGCDPKHDSTRLLLGGKRIV-TALDYMKATP-------
 ----VALQRL-DQ-VLHVG------------YGGIVCVEAGGPEPGVGCAGRGILSTFAM
@@ -150,7 +150,7 @@ NLVAYIDYFGRLMADFIEERLGVPTASLPFPVGFTESAAWVREIAAFFEKQAAGEKLITG
 CHGHYRSMIKKYGPALGGQRLMIITYVQNVDWIVEAAFDLGMEVVKVCLLGHCQGPLFTT
 RYPGRFEVETDYNPAKRDKDVARLKPDLLLGNYTPGNLSLPVHVDMIPMCPDVGFYGGIA
 FAHRWATLIKAPIVEGWKTDGI--------------
->ref_135
+>Desulfobacterium_vacuolatum_IbRM_MMP02746065__FWXY01000001.1_MMP02746065_294_351543_353747_pos_cluster_IV
 ------------------------------------------------MKIAIYGKGGIG
 KSTISANLSAALAK-AGKKVLQIGCDPKHDSTRLLLGGKRIM-TALDYMKNTP-------
 ----VGLQRL-DR-VLHVG------------YKGIVCAEAGGPEPGVGCAGRGILSTFAL
@@ -169,7 +169,7 @@ NLPAYTDYFGRLMADFIDERLGIPTAKQPFPVGFSESVAWVREIADFFHESMAGERVIDT
 HRRHYETMIKTYGHTLKGRRLMILTYMHNVDWIVEAAFDLGMEVIKVCILNFSQDNLFIT
 RYPERFEVETNYDPAKRDKDLERLKPDLLLGNYTPKNLPYPLHVDIIPMCPDVGFYGGLA
 FAHRWATLIKAPVTEGWKNDAL--------------
->ref_144
+>Labilibaculum_filiforme_59_16B_MMP06266691__MVDD01000011.1_0MMP06266691_14_015968_018238_pos_cluster_IV
 ------------------------------------------MAKSKLTQVAIYGKGGIG
 KSTISANVSAALAA-CNKKILQVGCDPKHDSTRLLMNGRNIT-TALDYLKATE-------
 ----PNDYNL-ND-IVFHG------------YRDVACVEAGGPEPGVGCAGRGIISTFKL
@@ -188,7 +188,7 @@ NILAMDDYMGRMLKDFLENEYGAKFFPHRLPVGFYETKQWLQGLASLYQKEDVLTDMLLA
 KEDEFTRRLNELKPYLKGKKILIVMYMRNIDWLLETIFALEMEVIQVNIINSCMDDRFLS
 RYLDRVKLVENYEFVNEGEELAELQPDILLTNYNTTVIKGDFFCDTIPYNPGCGFFSGLD
 LASRWKEIFNKNIKESWKNDREHFTKYFA-------
->ref_4
+>Archaeoglobales_archaeon_B5_G16_MMP09214939__QMZC01000041.1_0MMP09214939_6_04728_05456_pos_cluster_IV
 ------------------------------------------------------------
 ---MAANLAAALTE-MEKKVMLVGCDPKRDST-ITLTGKYLK-PLLEVLMEGG-------
 --------EV-GE-VIEEG------------YKGVLCIEIGGPEPGIGCAGRGLLLAFKK
@@ -207,7 +207,7 @@ PKV-LTLNE------------LNT------------------------LML---------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_43
+>Methanoplanus_petrolearius_MMP00017400__CP002117.1_2229_2246002_2248302_pos_cluster_IV
 ----------------------------------MFRHYCSYSKEAAAIKIAVYGKGGIG
 KSTISANISAALSL-NGNRILQVGCDPKHDSTRLLLGGRVPE-TVLDYIREVA-------
 ----PEQRSL-DD-IVFCG------------FGNVACVEAGGPEPGVGCAGRGIITTFGL
@@ -226,7 +226,7 @@ LPAHGDFTSAMISEIVAGNSSLPFLNMPFPTGFGETSAWLTKIAEFFGKTKKAEELIESE
 EKIYRKKISGLKVSTKGKKLLVSTYSRNIDWIIELACDLGMEIVRIGLMHSP--EKEPLR
 TRYEDLPVRDDYDPEIRREEIGLLSPDLVLLDRPAPGQGEYVRYDTIPYSAGFGFQAGLF
 WAERWSRVMKLPPAEEWRYDGEDVC-----------
->ref_216
+>OceanDNA_b22022__1869_02_00334_01677_pos_cluster_IV
 -----------------------------------------------MTQIAIYGKGGIG
 KSTLAANLSVSLSQ-MGKSVLQIGCDPKRDSTRLLLNGQKIT-PVLEYLRDVD-------
 ----RDQHNL-ED-LIQTG------------YGQVDCVEAGGPEPGIGCAGRGILSTFDL
@@ -245,7 +245,7 @@ IDHALTLQPEIIFVITTCPSAIIGDDVQSVIARRSAAQNGCRIIPIATDGNIEGDYL---
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_64
+>Methanosarcina_sp_MMP03074591__NZ_CP009505.1_1945_2377717_2380104_neg_cluster_IV
 -----------------------------------------------MIQIALYGKGGIG
 KSTISANLSAALAE-SGKSILQVGCDPKSDSTRLLLGGRKIP-TVLDYLRKTP-------
 ----PDKQNL-ES-LLFKG------------FKGAACVETGGPKPGVGCAGRGILSSFEA
@@ -264,7 +264,7 @@ LLAHNSLENRLLRDYLSEYFGLGFFEHPFPVGFRDSSRWVKALSKCLTPEKDPMPFLEAR
 EQMYRIELSKYSPHLEGKKVLVVSYSQDIGWVLDTIRDLGMELVKVGIRASSFGKDKQLA
 LFPEDIPFVENYTDRQRAEDIKSLKPDLVLSGYAPLIPEENVHCDTIPFSPKVGFMSGLE
 LAKRWSTLLRLPVVEGWKYDGGEEE-----------
->ref_69
+>Methanosarcina_sp_MMP03074593__NZ_CP009504.1_1728_1996245_1998554_neg_cluster_IV
 -----------------------------------------------MIQIALYGKGGIG
 KSTVAANLSAALAG-LKKRVLQVGCDPKHDSTRLLLGGAGIP-TVLDYMLKTP-------
 ----LEAQQL-EA-LVFEG------------YGGTACVEAGGPKPGVGCAGRGILSSFEV
@@ -283,7 +283,7 @@ LLACNDPETRALQTYLSERFGLEFFELPFPVGFRKSSIWIKTLAARLLPGKDLSFLLQEQ
 EEAYKAGIGKYAPHLSGKRVLLVSYTKDISWILDTIRDLGMEILKVGIPVSFFGRESPGL
 LSHEGFQVERNYTDERRARDVRDLRPDLVLSSYVPSVPEEGVHYDTIPFSPQVGFLSGLE
 LAKRWSTLLRLPVMEGWKYDGGDES-----------
->ref_160
+>Methanosarcina_mazei_1_F_M_0_5_MMP02708967__JJQE01000011.1_014_017363_019630_neg_cluster_IV
 -----------------------------------------------MIQIALYGKGGIG
 KSTVSANLSAALSD-LKKRVLQIGCDPKHDSTRLLLGGAVIP-TVLDYMRETP-------
 ----QEMQQL-EA-LVFEG------------YGGTACVEAGGPKPGIGCAGRGILSSFEV
@@ -302,7 +302,7 @@ LLAFDDPETRTLQAYLSGRFKLEFFELPFPVGFRESSIWIKTLAERLLPGKDFSPLLQEQ
 EELYRAEIAKYIHHLLGKRVLVVSYTEEIGWILDTIRDLGMEIIKVGISVSFFGKVSPNL
 LSHEDFSLERDYTDEKRAKDVRTLMPDLVLSNYAPSGHEEGVHYDTIPFSPQVGFLSGLE
 LAKRWSTLLRLPVVEGWKYDGGEEC-----------
->ref_24
+>Methanosarcina_siciliae_MMP03074588__CP009507.1_1487_1747890_1750157_pos_cluster_IV
 -----------------------------------------------MIQIALYGKGGIG
 KSTVSANLSAALAD-LNKRVLQVGCDPKHDSTRLLLGGTAIP-TVLDYMRETP-------
 ----GETQQL-EA-LVFEG------------YGRTACVEAGGPKPGIGCAGRGILSSFEV
@@ -321,7 +321,7 @@ MLACDDPDTRALQAYLSDRFGLEFFELPFPVGFRESSLWVKALTAHLIPGEDPSPLLEEQ
 KEHYRAGIEKYAPQLSGKRVLVVSYTEDIGWVLDTIRDLGMEIVKVGISVSFFGGGSPGF
 LSSDAFHVERDYTDEKRARDVRILMPDLVLSNYAPSVPEDGVHYDTIPFSPQVGFLSGLE
 LAKRWSTLLRLPVTEGWKYDRGDES-----------
->ref_143
+>Methanococcoides_vulcani_strain_SLH33_MMP5522912__NZ_CAAGSJ010000003.1_MMP5522912_279_278371_280566_neg_cluster_IV
 -----------------------------------------------MIQIALYGKGGIG
 KSTVSSNLSAALAE-SGKKVLQIGCDPKHDSTRLLTNGNSIT-TVMEYIRDTL-------
 ----PEDRLL-GD-ILFDG------------YKGVSCVEAGGPEPGVGCAGRGILSMFEL
@@ -340,7 +340,7 @@ NILAKKDDSSQLVRDHLENCFNASFTDMNFPIGFNETSKWLEELSHLSGRKNDAEMIIEK
 EKQIYDAEMTRLRPFLQGKKVLINTYSRSIDWLLDIIFDLGMDVLKIGLLHSSAEEGFSS
 KYAGKVHVEDNYTAQQREKDILDHRPHLVLSNYPPMFASDGVHYDSIPFCPEVGFRNDIF
 MAQRWSRLLRLPEIEGWKIDGEVIR-----------
->ref_141
+>Methanosarcina_acetivorans_MMP03081414__AE010299.1_1676_1955192_1956043_pos_cluster_IV
 -----------------------------------------------MRQIAIYGKGGIG
 KSTISSNLSAALHE-MGHTVMQVGCDPKRDSTRILAEGKFIP-AVLEEHREQLRIGKD--
 ----EYAINL-KN-IVFKS------------PGGIYLVEAGGPEPGIGCAGRGVLTALQI
@@ -359,7 +359,7 @@ PTPINDLAE------------LET------------------------MYRQ--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_39
+>Methanolacinia_paynteri_DSM_2545_MMP03196739__0000KN360930.1_041_040620_042815_neg_cluster_IV
 --------------------------------------------MVIGIRIAVYGKGGIG
 KSTISANVSAALAG-KGLKVLQIGCDPKHDSTRLLLGGNIPT-TVLDYIKCAL-------
 ----PEDRHL-ED-IVFTG------------HGGVACVEAGGPEPGVGCAGRGVITTFEL
@@ -378,7 +378,7 @@ NLPADAEDTSLSIKTLLSSASDVPFFDKSLPTGFRESEEWLLNIAELFNEENTAKEIIAE
 EKEKYQQKIERLKPHFEGKKVLITSYPKSVDWICDLAHDLDMKILKIGLTYSPISESFTS
 RYEGEIEIEKNYPLEKRTEDINELKPDLVLHTYPRLRPADKARGVQIPYCPGFGFQAAVD
 QAEKWSRLMKVPVIEGWRSDGEVVL-----------
->ref_70
+>OceanDNA_b21001__267_05_08017_08901_pos_cluster_IV
 ----------------------------------------------MARSLAFYGKGGVG
 KSTVVSNLSAAYAS-MGRKVLQIGCDPKRDSSRNLIKVFPPV-TLMDLLSEGR-------
 ----SD-LVP-ED-ILMDG------------GENIECIEVGGPKPGVGCAGRGLGRLFEE
@@ -397,7 +397,7 @@ TGVDTASGAEVAATP---------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_189
+>OceanDNA_b21000__1309_02_00288_01136_neg_cluster_IV
 ----------------------------------------------MSRSMAFYGKGGVG
 KSTVVSNLTAAYAK-MGRKVLQIGCDPKRDSSRNLIKVFPPT-TLMDLLSEGR-------
 ----SN-LVP-DD-IIMDG------------GENVDCIEVGGPKPGVGCAGRGLGRLFEE
@@ -416,7 +416,7 @@ PTP-MNDRE------------LDV------------------------FLEDL-------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_59
+>OceanDNA_b21004__008_08_09819_10706_neg_cluster_IV
 ----------------------------------------------MRRSMAFYGKGGVG
 KSTVVSNLTTALAH-MGRQVLQVGCDPKRDSSRNLVKVFPPI-TLMELLAEGR-------
 ----KD-LVP-ED-IVMDG------------GTNIDCIEVGGPKPGVGCAGRGLGRLFEE
@@ -435,7 +435,7 @@ IGCDVSDAPKTLSLQRH-------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_77
+>OceanDNA_b20998__0301_02_01090_01941_neg_cluster_IV
 ----------------------------------------------MSRSMAFYGKGGVG
 KSTVVANLTATLAA-GGKRVLQVGCDPKRDSSRNLIKVFPPI-TMMELLAEGR-------
 ----TN-LVP-ED-IVMDG------------GDGVDCIEAGGPRPGVGCAGRGLGRMFEE
@@ -454,7 +454,7 @@ GGCG--------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_188
+>Paenibacillus_durus_MMP03010338__CP009288.1_4522_5128808_5129674_neg_cluster_IV
 -------------------------------------------MAKATKHIAIYGKGGIG
 KSTTTSNISAALAE-AGYRVIQIGCDPKSDSTNTLRGGDYLP-TVIDSLRD-S-------
 ----SK-VKL-QD-VSAIG------------FKGVLCIEAGGPVPGVGCAGRGINAAVGL
@@ -473,7 +473,7 @@ SFSASAR-----------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_192
+>Rhodobacter_azotoformans_YLK20_MMP08097991__NZ_00PHSI01000053.1_MMP08097991_8_010760_011686_neg_cluster_IV
 ------------------------MTSGGARAAPFPHPKVRPVSNRQPRHIAIYGKGGIG
 KSTTTSNIAAALAE-AGHRVIQIGCDPKSDSTTILRGGAELP-TVLDSLRDRS-------
 ----RK-PKL-EE-ISATG------------FGGVLCIEAGGPVPGVGCAGRGISAAVDL
@@ -492,7 +492,7 @@ AATGGGI-----------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_194
+>Paenibacillus_durus_MMP03010338__CP009288.1_2561_2980733_2981611_pos_cluster_IV
 -------------------------------------------MAKKIKQIAIYGKGGIG
 KSTTTSNISAALSV-AGYKVMQFGCDPKSDSTNTLRGGEYIP-TVLDTLRD-K-------
 ----QI-VRA-HD-VIFEG------------FNGIYCVEAGGPAPGVGCAGRGIITSVSL
@@ -511,7 +511,7 @@ ELETGVLSPAAAGNL---------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_38
+>Methanosarcina_mazei_1_H_M_2_1_MMP02708980__JJQU01000021.1_54_62607_63512_pos_cluster_IV
 --------------------------------------------MTKTRNIAIYGKGGIG
 KSTTASNISAALSE-QGYHVMQIGCDPKSDSTNTLRGGTFIP-TILDTLRT-N-------
 ----RK-VEI-DE-IVHNG------------FNDILCVEAGGPEPGVGCAGRGIITAIEL
@@ -530,7 +530,7 @@ EISPGCRLNYLAQEA--------EISSGN-------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_140
+>Methanospirillum_lacunae_strain_Ki8_1_MMP09236929__QGMY01000009.1_0MMP09236929_81_069768_070682_pos_cluster_IV
 ----------------------------------MTFVSELGENMTGTRNIAIYGKGGIG
 KSTTTSNISAALAD-SGLKVIQIGCDPKSDSTNNLRGGKSIP-SVLDAIRS-G-------
 ----KK-VEI-ED-IVYEG------------FGGVLCIEAGGPEPGVGCAGRGIIAAIEL
@@ -549,7 +549,7 @@ E-EQTHRSKTAIAAT---------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_220
+>Methanosarcina_mazei_1_H_M_2_1_MMP02708980__JJQU01000021.1_06_11314_12243_neg_cluster_IV
 --------------------------------------------MTKARNIAIYGKGGIG
 KSTTSSNLSAALSD-LGLTVMQIGCDPKSDSTNNLRGGKSIP-SVLDALRS-G-------
 ----KR-IET-SD-IVYEG------------FNGILCVEAGGPEPGVGCAGRGIITAIEL
@@ -568,7 +568,7 @@ HVQQGEVKRSSIEGKRSSIEGRTLVSSEA-------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_128
+>Methanopyrus_kandleri_MMP02603235__AE009439.1_1529_1444991_1445791_neg_cluster_IV
 -----------------------------------------------MKRIAVYGKGGIG
 KSTIAANVAAALAE-EGYRVMLVGCDPKADST-LTLAGRRIP-TVMHEYRRKG-------
 ----EG-LKL-ED-IIVEG------------DFGVLCVESGGPKPGVGCAGRGVLKALEM
@@ -587,7 +587,7 @@ PQP-LEEEE------------VLR------------------------LA----------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_172
+>Methanohalobium_evestigatum_MMP00015125__CP002069.1_0558_0553270_0554151_neg_cluster_IV
 ------------------------------------MNNKTNDNNQKQKRIALYGKGGIG
 KSSTASNVAAACAD-EGYKVMIIGCDPKSDSSITLLGGKRIP-TILDLLRD---------
 ----GEGLNE-ED-VVFEG------------YNGVKCVEVGGPEPGIGCAGRGIIVAINQ
@@ -606,7 +606,7 @@ NKKTIRTE----------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_137
+>Methanosarcina_sp_MMP03074591__NZ_0CP009505.1_938_1085776_1086573_neg_cluster_IV
 --------------------------------------------MKKQKIIAIYGKGGIG
 KSSTASNVAAACAE-AGKKVMIIGCDPKSDSSITLLGGKRIP-TILDLLRE---------
 ----GIEVTE-ED-MVFEG------------YAGVKCIEAGGPEPGIGCAGRGIIVAVQK
@@ -625,7 +625,7 @@ ADS-LTDER------------LRE------------------------LTK---------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_149
+>Methanosarcina_siciliae_MMP03074589__NZ_CP009506.1_3038_3613033_3613830_pos_cluster_IV
 --------------------------------------------MKKQKIVAIYGKGGIG
 KSSTASNVAAACAE-TGKKVMIIGCDPKSDSSITLLRGRRIP-TILDLLRE---------
 ----GVDIQE-KD-VVFEG------------YAGVKCVEAGGPEPGIGCAGRGIIVAIQK
@@ -644,7 +644,7 @@ ASH-LSDER------------LRE------------------------MTK---------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_73
+>Methanolobus_vulcani_PL_12_M_MMP04488589__FNCA01000001.1_208_243649_244446_pos_cluster_IV
 ---------------------------------------------MEQKRIAIYGKGGIG
 KSSTASNVAAACAD-EGYKVMIIGCDPKSDSSITLLGGKRVQ-TILDLLRQ---------
 ----KIDVKE-ED-IVHEG------------YKGVKCVEVGGPEPGIGCAGRGIIVAIQK
@@ -663,7 +663,7 @@ PSS-LEDER------------LRE------------------------LTRK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_106
+>Methanococcoides_vulcani_strain_SLH33_MMP5522912__NZ_CAAGSJ010000003.1_MMP5522912_237_236314_237108_neg_cluster_IV
 --------------------------------------------MNVHKRIAIYGKGGIG
 KSSTASNVAAACAD-EGYKVMIIGCDPKSDSSITLLGGKRIP-TILDLLRD---------
 ----GVDVKE-ED-VIFKG------------YKGVQCVEVGGPEPGIGCAGRGIIVAIQT
@@ -682,7 +682,7 @@ PKA-LDDER------------LRE------------------------LTR---------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_178
+>Methanohalophilus_halophilus_DSM_3094_MMP10345420__NZ_RJJG01000003.1_MMP10345420_207_189596_190393_pos_cluster_IV
 --------------------------------------------MNPQKRIAIYGKGGIG
 KSSTASNVAAACAD-EGYNVMIIGCDPKSDSSITLLGGKRIP-TILDLLRD---------
 ----GMEIEE-EDEVVFEG------------YKGVKCVEVGGPEPGIGCAGRGIIVAIQK
@@ -701,7 +701,7 @@ PRA-LEDER------------LRE------------------------LTR---------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_162
+>OceanDNA_b20931__0237_01_00003_00683_neg_cluster_IV
 -----------------------------------------------MRQIGIYGKGGIG
 KSTVSSNLSAALAV-LGHRILQVGCDPKADSTRNLLGGKHPK-PILELLKDKD-------
 ----REDLRR-ED-YTSTG------------FNGIDCIEVGGPEPGIGCAGRGVVLLFDV
@@ -720,7 +720,7 @@ AERKAQTVLQ--------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_121
+>Photobacterium_gaetbulicola_MMP03379852__NZ_CP005974.1_2543_2855891_2856709_neg_cluster_I
 -----------------------------------------------MLKLAIYGKGGIG
 KSTTSANLSVALAE-MGYKVMQIGCDPKADSTKNLTGGVKIA-SVLSITKDKR-------
 ----IHEISI-ED-VVHEG------------YKGVYCVEAGGPEPGIGCAGRGVISVLEF
@@ -739,7 +739,7 @@ PTP-MDDQA------------FES------------------------MLNA--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_55
+>ANME_1_cluster_archaeon_CONS3730B06UFb1_MMP08574241__QENH01000192.1_0MMP08574241_8_06644_07546_neg_cluster_IV
 -------------------------------------------MVRKNREIAFYGKGGIG
 KSTMVSNVAAALAE-EGKRVLVVGCDPKSDCTRNLRGDVVMP-TVTKILLEKTSAPLELS
 EFVYGKEIKA-ED-IVYEG------------FKGIACIEVGGPEPGVGCAGRGVSLAIDL
@@ -758,7 +758,7 @@ ETAEGSR-----------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_10
+>Methanospirillum_lacunae_strain_Ki8_1_MMP09236929__QGMY01000002.1_MMP09236929_362_400219_401058_neg_cluster_IV
 -----------------------------------------------MKQIAIYGKGGIG
 KSTTSSNLSAALAD-RNLAVMQIGCDPKRDSTRMLMQGRLIP-TVLDLIREKG-------
 ----EANLGS-SD-VIFEG------------YRGIRCVEAGGPEPGVGCAGRGIIATFQL
@@ -777,7 +777,7 @@ R-----------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_101
+>Methanoculleus_taiwanensis_strain_CYW4_MMP03856099__LHQS01000001.1_0MMP03856099_817_0804549_0805379_neg_cluster_IV
 -------------------------------------------MGSQMKQIALYGKGGIG
 KSTTSANLSAALAK-SGLEILQIGCDPKHDSTRMLMHGTWIP-TVLDLIRERG-------
 ----DANLTV-DD-VVYPG------------FSGVRCVEAGGPEPGIGCAGRGIIATFQL
@@ -796,7 +796,7 @@ PTP-FDMDE------------LEA------------------------FALE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_100
+>Methanomicrobiaceae_archaeon_UBA206_MMP06027567__DAQY01000047.1_04_03715_04533_pos_cluster_IV
 -----------------------------------------------MKQIALYGKGGIG
 KSTTAANLSAALAG-EGLDILQIGCDPKHDSTRMLMHGSWIP-TVLDLIRERG-------
 ----DANITA-DD-VVFRG------------FRGVRCVEAGGPEPGIGCAGRGIIATFQL
@@ -815,7 +815,7 @@ PTP-LEMDE------------LES------------------------FALE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_111
+>Methanoculleus_sediminis_S3Fa_MMP03288802__JXOJ01000002.1_251_257430_258248_pos_cluster_IV
 -----------------------------------------------MKQIALYGKGGIG
 KSTTAANLSAALAG-EGLDILQIGCDPKHDSTRMLMHGTWIP-TVLDLIRERG-------
 ----DESITA-DD-VVYRG------------FRGVRCVEAGGPEPGIGCAGRGIIATFQL
@@ -834,7 +834,7 @@ PTP-LEMDE------------LES------------------------FALE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_171
+>Methanolacinia_paynteri_DSM_2545_MMP03196739__AXDV01000036.1_033_031870_032694_pos_cluster_IV
 -----------------------------------------------MKQIALYGKGGIG
 KSTTSANLSAALSE-KSLEILQIGCDPKHDSTRMLMHGEWIP-TVLDLVRKKG-------
 ----EANIAV-DE-IVFKG------------YNGIRCVEAGGPEPGIGCAGRGIIATFQL
@@ -853,7 +853,7 @@ PVP-MEMDE------------LES------------------------LSLK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_210
+>Methanoculleus_MMP04125645__LKUD01000004.1_043_37069_37881_neg_cluster_IV
 -----------------------------------------------MKQIALYGKGGIG
 KSTTSANLSAALSD-RGLDIMQIGCDPKHDSTRMLMHGTWIP-TVLDLVRARG-------
 ----DTAISV-EE-VVFRG------------YNGIRCVEAGGPEPGVGCAGRGIIATFQL
@@ -872,7 +872,7 @@ PIP-METDD------------LEN------------------------LALE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_86
+>Deltaproteobacteria_bacterium_UBA3076_MMP06455131__DFBQ01000120.1_03_01204_02028_pos_cluster_II
 -----------------------------------------------MRKIGIYGKGGIG
 KSTTTQNMAAAMAVSFGKKVMIHGCDPKADATRMILGVMSQE-TVLDTLREFG-------
 ----KENVTV-DK-VVKLG------------FAGIRAVESGGPEPGVGCAGRGIITAIDL
@@ -891,7 +891,7 @@ PKPIMKMDE------------LED------------------------LVMK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_48
+>Methanocaldococcus_sp_MMP02598520__CP001901.1_0032_0026352_0027209_pos_cluster_II
 -------------------------------------MSVYDEIAPNAKKVAIYGKGGIG
 KSTTTQNTAAALAYYYKLKGMIHGCDPKADSTRMILHGKPQE-TVMDVLREEG-------
 ----EEGVTL-EK-IRKVG------------FGGILCVESGGPEPGVGCAGRGVITAVNL
@@ -910,7 +910,7 @@ PTP-LSMDQ------------LEK------------------------LVEK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_40
+>Methanococcus_aeolicus_MMP00623051__CP000743.1_1450_1488055_1488906_neg_cluster_II
 --------------------------------------MSFDEIAPEAKKIAIYGKGGIG
 KSTTTQNMAAALAHFLGHKVMIHGCDPKADSTRMILHGMGQN-TVMDVLRDEG-------
 ----EDAITL-EK-VRKQG------------FGGIYCVESGGPEPGVGCAGRGVITAVDT
@@ -929,7 +929,7 @@ PTP-LSMEE------------LEQ------------------------LVEK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_119
+>Methanothermococcus_thermolithotrophicus_DSM_2095_MMP02440415__AQXV01000055.1_132_138263_139117_neg_cluster_II
 --------------------------------------MSFDEIAPDAKKVAIYGKGGIG
 KSTTTQNTAAALAYFFDKKVMIHGCDPKADSTRMILHGKPQD-TVMDVLREEG-------
 ----EEAVTL-EK-VRKIG------------FKDILCVESGGPEPGVGCAGRGVITAVDM
@@ -948,7 +948,7 @@ PTP-MTMDE------------LEE------------------------LVVK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_15
+>Methanobacterium_sp_MMP05928841__CP017767.1_MMP05928841_1198_1238778_1239605_neg_cluster_II
 ----------------------------------------------MVRKIAIYGKGGIG
 KSTTTQNTASAMAHFHDQKVMIHGCDPKADSTRMILGGKMQT-TMMDTLREEG-------
 ----EEACMDLDK-IMSVG------------YEGIKCVESGGPEPGVGCAGRGVITAITI
@@ -967,7 +967,7 @@ PNP-MSMEE------------LEE------------------------MVMK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_151
+>Methanococcus_vannielii_MMP02598403__CP000742.1_0067_0063631_0064458_neg_cluster_II
 ----------------------------------------------MVRKIAIYGKGGIG
 KSTTTQNTVAAMAYFHDKKVFIHGCDPKADSTRLILHGKQQT-TMMDTLREKG-------
 ----EDECTP-DK-VIETG------------FCGVRCVESGGPEPGVGCAGRGVITAITL
@@ -986,7 +986,7 @@ PTP-MTMDE------------LEE------------------------LTSK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_166
+>Chloroherpeton_thalassium_MMP02598461__CP001100.1_1869_2166146_2166970_pos_cluster_II
 -----------------------------------------------MKKIAFYGKGGIG
 KSTTQQNTAAAMAYFHNQKVFIHGCDPKADSTRMILGGMNQA-TIMDVLRDEG-------
 ----AEKITA-DK-IIKGG------------FGNIRCVESGGPEPGVGCAGRGVITAIDM
@@ -1005,7 +1005,7 @@ PKP-LNINE------------LES------------------------MVLK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_112
+>Desulfovibrio_dechloracetivorans_BerOc1_MMP04041570__NZ_LKAQ01000004.1_2355_2584072_2584899_neg_cluster_II
 ----------------------------------------------MTRKIAIYGKGGIG
 KSTTTQNTAAAMANFHDKKIFIHGCDPKADSTRLILGGKPQE-TLMDVLRDQG-------
 ----AEKVTK-EK-VIRTG------------YKGIQCVESGGPEPGVGCAGRGVITAIDL
@@ -1024,7 +1024,7 @@ PTP-LTMDE------------LEA------------------------MVVK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_9
+>Rhodovulum_sp_MMP06610252__CP020384.1_MMP06610252_3359_3587645_3588472_neg_cluster_II
 ----------------------------------------------MTRKIAIYGKGGIG
 KSTTTQNTAAALAYFHDQNVFIHGCDPKADSTRLILGGLPQQ-TVMDTLRIEG-------
 ----AEKVTV-DK-VVKTG------------FKDIRCVESGGPEPGVGCAGRGVITAIDL
@@ -1043,7 +1043,7 @@ PKP-LAMDE------------LEA------------------------MVVK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_108
+>Rhodopseudomonas_palustris_strain_XCP_MMP09388146__QKQS01000006.1_0MMP09388146_443_0503310_0504137_pos_cluster_II
 ----------------------------------------------MTRKVAIYGKGGIG
 KSTTTQNTAAALAFYHDKNIFIHGCDPKADSTRLILGGKPQD-TVMDTLRTLG-------
 ----AEKVTL-EN-VVKSG------------FKDIRCVESGGPEPGVGCAGRGVITAIDL
@@ -1062,7 +1062,7 @@ PKP-LTMDE------------LEK------------------------MVVK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_184
+>Thiorhodococcus_drewsii_AZ1_MMP02256531__AFWT01000026.1_004_004289_005116_pos_cluster_II
 ----------------------------------------------MTRKVAIYGKGGIG
 KSTTTQNTAAALAHFHGQKVFIHGCDPKADSTRLILGGKPQQ-TLMDVLRDKG-------
 ----AEKITN-DQ-VIKAG------------FKDIRCVESGGPEPGVGCAGRGVITAIDL
@@ -1081,7 +1081,7 @@ PNP-LSMEQ------------LED------------------------MVVK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_196
+>Raoultella_ornithinolytica_BAL286_MMP03072844__NZ_JXXF01000028.1_83_091043_091870_neg_cluster_II
 ----------------------------------------------MTRKLAIYGKGGIG
 KSTTTQNTAAALAYFHAKKVFIHGCDPKADSTRLILGGKPQE-TLMDILRDQG-------
 ----AEKITN-EM-VVKTG------------CFDIRCVESGGPEPGVGCAGRGVITAIDL
@@ -1100,7 +1100,7 @@ PRP-LTMDQ------------LEK------------------------MVVK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_26
+>Methanosarcina_acetivorans_MMP03081414__AE010299.1_1240_1437519_1438346_pos_cluster_II
 ----------------------------------------------MTRKIAFYGKGGIG
 KSTTQQNTAAAMAYYHGKNVFIHGCDPKADCTRLALGGVPQT-TIMDTLRELG-------
 ----EEAVTV-DN-VVNTG------------FKGIRCVESGGPEPGVGCAGRGVITAINL
@@ -1119,7 +1119,7 @@ PKP-LSMDQ------------LEK------------------------MVAR--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_209
+>Paenibacillus_durus_MMP03010338__CP009288.1_2261_2665496_2666323_pos_cluster_II
 ----------------------------------------------MTRKIAIYGKGGIG
 KSTTQQNTASAMAYFHKKQVFIHGCDPKADSTRMILGGKPQE-TLMDTLRETG-------
 ----EESITV-DS-VVKTG------------YQGIRCVESGGPEPGVGCAGRGVITAINL
@@ -1138,7 +1138,7 @@ PTP-LTMDE------------LED------------------------MVTK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_224
+>Desulfobacter_curvatus_AcRM3_MMP02441374__NZ_0KB893046.1_40_044833_045660_neg_cluster_II
 ----------------------------------------------MTRKVAFYGKGGIG
 KSTTQQNTAAAMAYFYDSKIFIHGCDPKADSNRLILGGMHQK-TLMDTLRDEG-------
 ----EDKVTV-EN-VVKTG------------YGNIRCVESGGPEPGVGCAGRGVITAINL
@@ -1157,7 +1157,7 @@ PTP-LAMDE------------LEH------------------------MVAK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_33
+>Calderihabitans_maritimus_KKC1_MMP00053944__BDGJ01000179.1_00MMP00053944_3_001736_002563_pos_cluster_II
 ----------------------------------------------MTRKIAIYGKGGIG
 KSTTQQNTAAALAHFYGKKVLIHGCDPKADCTRLILGGKPQE-TVMDTLREYG-------
 ----EEAVTV-DK-VVKTG------------FGGIKCVESGGPEPGVGCAGRGVITAINL
@@ -1176,7 +1176,7 @@ PKP-MTMDE------------MEN------------------------LVVK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_18
+>Thermodesulfatator_autotrophicus_S606_MMP04478079__LSFI01000005.1_34_34192_35019_pos_cluster_II
 ---------------------------------------------MATRKIGIYGKGGIG
 KSTTTQNLAAALAYYHNKKVMIHGCDPKADSTRLILGGKPQE-TVLDVMREEG-------
 ----EENVTL-EK-VVKVG------------FGDIRCVESGGPEPGVGCAGRGVITAINL
@@ -1195,7 +1195,7 @@ PKP-LTMDE------------LEN------------------------LVVK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_132
+>Thermosulfurimonas_dismutans_S95_MMP04623574__LWLG01000003.1_042_024588_025421_pos_cluster_II
 -------------------------------------------MGEGTRKIGIYGKGGIG
 KSTTCQNLAAALAHYYNKKVMIHGCDPKADATRLILGGKPQE-TVLDLLREEG-------
 ----EENLTL-EK-VVKTG------------FGGIRCVESGGPEPGVGCAGRGVITAINL
@@ -1214,7 +1214,7 @@ PKP-LSMDE------------LES------------------------LVVK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_96
+>archaeon_BMS3Bbin15_MMP00081392__BDTY01000116.1_0MMP00081392_7_05892_06713_pos_cluster_IV
 -----------------------------------------------MRQVAFYGKGGIG
 KSTTQQNTAASLAR-IGKKIMVVGCDPKADCTRLLLNGKRQP-TVLDTLREEGP------
 ----EN-VSL-NK-VLADG------------YGGVKCVESGGPEPGVGCGGRGVITSIQT
@@ -1233,7 +1233,7 @@ PTP-ITIDE------------LED------------------------LMKE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_80
+>Kyrpidia_sp_MMP08045872__CP024955.1_MMP08045872_1592_1585160_1586071_pos_cluster_I
 -----------------------------------------------MRQIAFYGKGGIG
 KSTTSQNTIAALAG-MGKKIMIVGCDPKADATRLILHQKSQE-TVLHLAAARGSV-----
 ----ED-LVL-DD-VLQTG------------FRDIKCVESGGPEPGVGCAGRGIITSITF
@@ -1252,7 +1252,7 @@ TQLRKLEQMEQEQAAKEEQEAEKLAAN---------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_205
+>Nitrospirae_bacterium_strain_SZUA_242_MMP09287790__QJVM01000189.1_14_11030_11971_pos_cluster_I
 --------------MPLRVGTAIAEGTLLLVKSRTSVRDHSCEEVMDMRQIAIYGKGGIG
 KSTTTQNLVAGLAE-AGRKVMIVGCDPKADSTRLMLHAKAQT-TVMDLARERGSV-----
 ----ED-LEL-EE-VMMTG------------FRGVRCVESGGPEPGVGCAGRGVITAINF
@@ -1271,7 +1271,7 @@ VAA---------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_58
+>OceanDNA_b13342__04_064_058763_059677_neg_cluster_I
 --------------------------------------------MSDLRQIAFYGKGGIG
 KSTTSQNTLAAMCHYYGKKILIVGCDPKADSTRLILHEKAQC-TIMQLASEAGTV-----
 ----ED-LEL-ED-VCKPGAGEFHPENNDITEGYINCTESGGPEPGVGCAGRGVITAINF
@@ -1290,7 +1290,7 @@ EENLGK--------KAEEA-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_95
+>Epsilonproteobacteria_bacterium_tcs_49_MMP03267309__LLYS01000005.1_139_145827_146744_neg_cluster_I
 --------------------------------------------MSELRQIAFYGKGGIG
 KSTTSQNTLAAMAHYYGQKILIVGCDPKADSTRLILHEKAQS-TIMQLASEAGTV-----
 ----ED-LEL-ED-VCKPGAAEFDPEDDTI-DGFIMCTESGGPEPGVGCAGRGVITAINF
@@ -1309,7 +1309,7 @@ QDMIGK--------KAEEA-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_12
+>Sulfurimonas_sp__strain_BM502_MMP07982697__PPDH01000028.1_MMP07982697_227_199728_200633_neg_cluster_I
 --------------------------------------------MAALRQIAFYGKGGIG
 KSTTSQNTLASMAYYFDKNIMIVGCDPKADSTRLILHEKAQN-TILQLAAEMGTV-----
 ----ED-LEL-ED-ALKPGAGIFAPEAP---HGWINCTESGGPEPGVGCAGRGVITAINF
@@ -1328,7 +1328,7 @@ IDNIGK--------AAEA------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_197
+>Lebetimonas_JS032_MMP02203751__NZ_ATHS01000001.1_1624_1497051_1497962_pos_cluster_I
 --------------------------------------------MAELRQIAFYGKGGIG
 KSTTSQNALASMAYYFGKNIMIVGCDPKADSTRLILHEKAQD-TILHLAAEAGTV-----
 ----ED-LEL-ED-VLKHGAGIFSPDTK---GGWINCAESGGPEPGVGCAGRGVITAINF
@@ -1347,7 +1347,7 @@ EDEVGK--------SAEPVL----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_221
+>Desulfurobacterium_atlanticum_SL22_MMP06265340__FZOB01000004.1_0MMP06265340_89_085182_086075_neg_cluster_I
 ----------------------------------------MPTKLERMRQCATYGKGGIG
 KSTTTQNTVAALGE-MGYHCMIVGCDPKADSTRLILHAKAQA-TVMDLAREAGSV-----
 ----ED-LEL-ED-VLLTG------------VFGIKCVESGGPEPGVGCAGRGVITAINF
@@ -1366,7 +1366,7 @@ EGAAEP--------TDPKLKQ---------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_200
+>Azoarcus_toluclasticus_MF63_MMP02441344__NZ_KB899493.1_262_290533_291402_pos_cluster_I
 ---------------------------------------------MSLRQIAFYGKGGIG
 KSTTSQNTLAALAE-MGQKILIVGCDPKADSTRLILHAKAQD-TVLSLAADAGSV-----
 ----ED-LEL-ED-VLRVG------------YRDIRCVESGGPEPGVGCAGRGVITAINF
@@ -1385,7 +1385,7 @@ ESIVGK--------AKAA------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_124
+>BGEO_SAMN07136900_METAG_AHODOJNB__200_07_04832_05713_neg_cluster_I
 --------------------------------------------AMSLRQIAFYGKGGIG
 KSPPSQNTRAALAE-MGQKILIVGCDPKADSTRLILHAKAQD-TILSLAAEAGSV-----
 ----ED-LEI-ED-VMKIG------------FRDIRCVESGGPEPGVGCAGRGVITSINF
@@ -1404,7 +1404,7 @@ ESQVGK--------TAAELVA---------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_87
+>OceanDNA_b26754__080_017_009061_009948_pos_cluster_I
 ---------------------------------------------MSLRQIAFYGKGGIG
 KSTTSQNTLAALAE-MGHRILIVGCDPKADSTRLMLHAKAQD-TILSLAAQEGSV-----
 ----ED-LEI-ED-VMKIG------------YKDIKCVESGGPEPGVGCAGRGVITSINF
@@ -1423,7 +1423,7 @@ ESQVGL--------TAAELEAASA------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_81
+>Methylocaldum_marinum_MMP00066775__NZ_AP017928.1_MMP00066775_5260_5859781_5860662_pos_cluster_I
 --------------------------------------------MSDLRQIAFYGKGGIG
 KSTTSQNTLAALAE-MGQRILIVGCDPKADSTRLILHSKAQD-TILSLAASAGSV-----
 ----ED-LEL-ED-VMKVG------------YRDIRCVESGGPEPGVGCAGRGVITSINF
@@ -1442,7 +1442,7 @@ ESQVGK--------TAAELAA---------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_67
+>OceanDNA_b24881__0011_04_3577_4461_neg_cluster_I
 --------------------------------------------MSSLRQIAFYGKGGIG
 KSTTSQNTLAALAE-MGQRIMIVGCDPKADSTRLMLHAKAQD-TILSLAAEAGSV-----
 ----ED-LEL-ED-VLKIG------------YKDIKCVESGGPEPGVGCAGRGVITSINF
@@ -1461,7 +1461,7 @@ ESVVGK--------TAAELAVG--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_152
+>Roseospirillum_parvum_930I_MMP05421742__FNCV01000009.1_003_003365_004252_neg_cluster_I
 --------------------------------------------MAKPRQIAFYGKGGIG
 KSTTSQNTLAALVE-LEQQILIVGCDPKADSTRLILNTKLQD-TVLHLAAEAGSV-----
 ----ED-LDV-ED-VVKIG------------YQGIRCAESGGPEPGVGCAGRGVITAINF
@@ -1480,7 +1480,7 @@ QELAEA--------ARLEAAANA-------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_167
+>Rhodobacter_aestuarii_DSM_19945_MMP05421580__NZ_FTOG01000008.1_MMP05421580_109_115158_116045_pos_cluster_I
 --------------------------------------------MSQLRQIAFYGKGGIG
 KSTTSQNTLAALVE-MGQKILIVGCDPKADSTRLILNTKLQD-TVLHLAAEAGSV-----
 ----ED-LEV-ED-VVKIG------------YKGIKCTEAGGPEPGVGCAGRGVITAINF
@@ -1499,7 +1499,7 @@ DREKQI--------AEMEAKMKA-------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_28
+>Afifella_marina_BN_126_MMP03080610__FMVW01000002.1_552_0584494_0585393_pos_cluster_I
 --------------------------------------------MSSLRQIAFYGKGGIG
 KSTTSQNTLAALVE-MGQKILIVGCDPKADSTRLILNTKMQD-TVLSLAAEAGSV-----
 ----ED-LEL-ED-VLKLG------------YKGIKCTESGGPEPGVGCAGRGVITAINF
@@ -1518,7 +1518,7 @@ QALAEL--------QAKEAAKAAEAAA---------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_94
+>Rhodopseudomonas_palustris_BAL398_MMP03072170__NZ_0JXXE01000460.1_1_00534_01430_pos_cluster_I
 ---------------------------------------------MALRQIAFYGKGGIG
 KSTTSQNTLAALVD-LGQKILIVGCDPKADSTRLILNTKMQD-TVLSLAAEAGSV-----
 ----ED-LEL-ED-VMKVG------------YKGIKCTEAGGPEPGVGCAGRGVITAINF
@@ -1537,7 +1537,7 @@ QALAEL--------AAKEAAKLAAATA---------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_117
+>Rhodovulum_robiginosum_strain_DSM_12329_MMP10523751__RWGU01000040.1_0MMP10523751_19_016365_017249_neg_cluster_I
 --------------------------------------------MSALRQIAFYGKGGIG
 KSTTSQNTLAALVE-MDQKILIVGCDPKADSTRLILNTKMQD-TVLHLAAEMGSV-----
 ----ED-LEL-ED-VLKVG------------YKGIKCTESGGPEPGVGCAGRGVITAINF
@@ -1556,7 +1556,7 @@ DRLAAI--------AAEETKSA--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_49
+>OceanDNA_b29508__025_032_032366_033508_pos_cluster_I
 --------------------------------------------MSELRQIAFYGKGGIG
 KSTTSQNTLAALVE-MGQKILIVGCDPKADSTRLILNSKAQD-TVLHLAAEMGSV-----
 ----ED-LEL-ED-VLKIG------------YQDIKCVESGGPEPGVGCAGRGVITSINF
@@ -1575,7 +1575,7 @@ VVPTHRSPGPEFEGSRPPPPTVVRRSQKDGQGSRNRTGRLRGPHRGSP------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_165
+>Denitrovibrio_acetiphilus_MMP02598464__CP001968.1_1043_1094846_1095718_pos_cluster_I
 ---------------------------------------------MALRQIAFYGKGGIG
 KSTTSQNTLAAMAE-MGKKIMIVGCDPKADSTRLILHSKAQS-TIMELAAEAGSV-----
 ----ED-LEL-DD-VLKAG------------YLDIRCVEAGGPEPGVGCAGRGVITAINF
@@ -1594,7 +1594,7 @@ EAIVGK--------KAHEA-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_52
+>Desulfuromusa_kysingii_Kysw2_MMP05660420__FNQN01000010.1_114_132114_132995_neg_cluster_I
 -----------------------------------------MSEKKKLRQIAIYGKGGIG
 KSTTTQNTVAGLAS-LGKRILIIGCDPKADSTRLILHAKAQD-TVMDKVRELGTV-----
 ----ED-LEL-DD-VCRRG------------YGDVMCVESGGPEPGVGCAGRGVITAINF
@@ -1613,7 +1613,7 @@ ESIIGV--------AEGA------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_107
+>Pelobacter_carbinolicus_MMP02598295__CP000142.2_2166_2447668_2448546_pos_cluster_I
 -------------------------------------------MAKKLRQLAIYGKGGIG
 KSTTTQNTVAGLAS-LGKKIMIIGCDPKADSTRLMLHAKAQD-TVMDKVRELGTV-----
 ----ED-LEL-ED-VLRTG------------YGDVKCVESGGPEPGVGCAGRGVITAINF
@@ -1632,7 +1632,7 @@ ETIIGK--------AESAS-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_177
+>Malonomonas_rubra_GraMal1_MMP02745165__NZ_0FQZT01000024.1_29_024762_025643_neg_cluster_I
 -----------------------------------------MEKSKKMRQIAIYGKGGIG
 KSTTTQNTVAGLAS-LGKKVMIVGCDPKADSTRLILHAKAQE-TVMDKVRELGTV-----
 ----ED-LEL-ED-VLKWG------------YGDVKCVESGGPEPGVGCAGRGVITAINF
@@ -1651,7 +1651,7 @@ ESIVGK--------AENE------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_198
+>Desulfuromonas_acetoxidans_11070_MMP02441806__NZ_0AAEW02000007.1_89_089895_090773_neg_cluster_I
 ------------------------------------------MAEKKMRQIAIYGKGGIG
 KSTTTQNTVAGLAS-LGKKVMIIGCDPKADSTRLILHAKAQE-TVMDKVRELGTV-----
 ----ED-LEL-ED-VLKWG------------YGDVKCVESGGPEPGVGCAGRGVITAINF
@@ -1670,7 +1670,7 @@ EENVGK--------AEGE------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_30
+>bacterium_BMS3Abin11_MMP00081371__BDTD01000018.1_0MMP00081371_18_013623_014513_pos_cluster_I
 ---------------------------------------------MATRQCAIYGKGGIG
 KSTTTQNLVAAMAE-LGKKVMIVGCDPKSDSTRLMLHAKVQN-TIMEMAAEAGSI-----
 ----ED-LEL-ED-VLKVG------------YGDVKCVESGGPEPGVGCAGRGVITAINF
@@ -1689,7 +1689,7 @@ ESIVGK--------TAEEEVAAGGA-----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_134
+>bacterium_BMS3Abin12_MMP00081372__BDTE01000067.1_00MMP00081372_3_001555_002448_pos_cluster_I
 ---------------------------------------------MALRQCAIYGKGGIG
 KSTTTQNLVAALAE-AGKKVMIVGCDPKSDSTRLILHAKAQN-TIMQLASEAGSV-----
 ----ED-LEL-ED-VLKIG------------YADIKCVESGGPEPGVGCAGRGVITSINF
@@ -1708,7 +1708,7 @@ ESIVGK--------TAAEESLVSATA----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_63
+>Vibrio_mangrovi_CECT_7927_MMP103894552__FXXI01000001.1_0MMP103894552_400_0471812_0472696_pos_cluster_I
 ---------------------------------------------MAIRQCAIYGKGGIG
 KSTTTQNLVAALAE-AGKQVMIIGCDPKADSTRLILHSKAQN-TIMEMAAEAGTV-----
 ----ED-IEL-ED-VLKVG------------FGGVRCVESGGPEPGVGCAGRGVITAINF
@@ -1727,7 +1727,7 @@ ESIIGK--------KADEETVAA-------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_173
+>Agarivorans_gilvus_MMP04215004__NZ_0CP013021.1_348_0365630_0366508_pos_cluster_I
 ---------------------------------------------MAIRQCAIYGKGGIG
 KSTTTQNLVGALAE-AGKKVMIIGCDPKADSTRLILHAKAQN-TIMEMAAEAGSV-----
 ----ED-IEL-ED-VLKVG------------YGGVRCVESGGPEPGVGCAGRGVITAINF
@@ -1746,7 +1746,7 @@ ESIIGK--------TAEE--VTA-------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_158
+>OceanDNA_b42830__008_16_11138_12028_neg_cluster_I
 ---------------------------------------------MSLRQAAIYGKGGIG
 KSTTTQNLVAALAE-MGKKVMIVGCDPKADSTRLILHSKAQT-TVMHLAAEAGTV-----
 ----ED-LEL-ED-VLSVG------------YGDVKCVESGGPEPGVGCAGRGVITAINF
@@ -1765,7 +1765,7 @@ ESIVGK--------T-AEELAAEASA----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_181
+>Thioalbus_denitrificans_DSM_26407_MMP09074856__NZ_QPJY01000002.1_MMP09074856_343_391482_392375_pos_cluster_I
 ---------------------------------------------MALRQCAIYGKGGIG
 KSTTTQNLVSALAE-AGKKVMIVGCDPKADSTRLILHAKAQE-TIMHLAAEAGSV-----
 ----ED-LEL-ED-VLKAG------------YAGIKCVESGGPEPGVGCAGRGVITAINF
@@ -1784,7 +1784,7 @@ ESIVGK--------SAADELVAGATA----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_105
+>Magnetovibrio_blakemorei_MV_1_MMP05467120__NZ_0MCGG01000036.1_73_077784_078683_pos_cluster_I
 ---------------------------------------------MALRQAAIYGKGGIG
 KSTTTQNLVAAIAE-LGKKVMIVGCDPKADSTRLILHAKAQN-TIMQMAADAGSV-----
 ----ED-LEL-ED-VLKIG------------YGDIACVESGGPEPGVGCAGRGVITAINF
@@ -1803,7 +1803,7 @@ ESIVGQKAADLEAAAAAASA----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_217
+>OceanDNA_b39175__0683_02_0789_1418_neg_cluster_I
 ------------------------------------------------------------
 ------------------------------------------------------------
 ---------------------------------DIKCVESGGPEPGVGCAGRGVITAINF
@@ -1822,7 +1822,7 @@ ESIVGQ--------TATAQA----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_25
+>Deltaproteobacteria_bacterium_strain_SZUA_265_MMP09287813__QJWJ01000429.1_038_029025_029900_pos_cluster_I
 -----------------------------------------------MRQCAIYGKGGIG
 KSTTTQNLVAALAE-LGKKVMIVGCDPKADSTRLILHAKAQN-TIMHLAAEAGSV-----
 ----ED-LEL-EE-VLKVG------------YANIKCVESGGPEPGVGCAGRGVITAINF
@@ -1841,7 +1841,7 @@ ETIIGQ--------TAAQEATA--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_61
+>Methyloprofundus_sedimenti_WF1_MMP04347413__LPUF01000003.1_00MMP04347413_52_0045716_0046591_neg_cluster_I
 ---------------------------------------------MALRQCAIYGKGGIG
 KSTTTQNLVAAIAE-QGKKVMIVGCDPKADSTRLILHSKAQT-TIMSLAAEAGSV-----
 ----ED-LEL-ED-VLKAG------------YGGIKCVESGGPEPGVGCAGRGVITAINF
@@ -1860,7 +1860,7 @@ ESIVGL--------TAAAEA----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_75
+>Methylovulum_miyakonense_HT12_MMP02261317__NZ_KB913025.1_1521_1550138_1551019_neg_cluster_I
 ---------------------------------------------MALRQCAIYGKGGIG
 KSTTTQNLVSALAE-LGNKVMIVGCDPKADSTRLILHAKAQT-TIMSLAAEAGSV-----
 ----ED-LEL-ED-VLKVG------------YGGIKCVESGGPEPGVGCAGRGVITAINF
@@ -1879,7 +1879,7 @@ ESVIGK--------TAAEEATA--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_202
+>Mangrovibacter_MFB070_MMP02719562__NZ_JJMI01000022.1_316_348130_349011_pos_cluster_I
 ---------------------------------------------MAMRQCAIYGKGGIG
 KSTTTQNLVAALAE-LGKKVMIVGCDPKADSTRLILHAKAQN-TIMEMAAEVGSV-----
 ----ED-LEL-ED-VLQIG------------YGNVRCAESGGPEPGVGCAGRGVITAINF
@@ -1898,7 +1898,7 @@ TSIIGK--------TAAEENAA--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_azo
+>001_WP_039801084.1 MULTISPECIES: nitrogenase iron protein [Azotobacter]_cluster_I 001_WP_039801084.1 MULTISPECIES: nitrogenase iron protein [Azotobacter]_cluster_I
 ---------------------------------------------MALRQCAIYGKGGIG
 KSTTTQNLVAALAE-AGKKVMIVGCDPKADSTRLILHSKAQN-TVMEMAASAGSV-----
 ----ED-LEL-ED-VLQIG------------YGGVKCVESGGPEPGVGCAGRGVITAINF
@@ -1917,7 +1917,7 @@ ESIVGK--------AAAEG-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_123
+>Thiobacillus_prosperus_LM3_MMP02990926__NZ_0JQSG01000018.1_41_038284_039177_pos_cluster_I
 ---------------------------------------------MVMRQCAIYGKGGIG
 KSTTTQNLVAGLAE-MGKKVMIVGCDPKADSTRLILHSKAQN-TIMELAAEAGSV-----
 ----ED-LEL-ED-VLKSG------------YAEIKCVESGGPEPGVGCAGRGVITSINF
@@ -1936,7 +1936,7 @@ LSIVGK--------TAADEAVAEATA----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_125
+>Methylomonas_methanica_MMP00713628__CP002738.1_1471_1601392_1602276_pos_cluster_I
 --------------------------------------------MAKLRQCAIYGKGGIG
 KSTTTQNLVAGLAE-LGKKVMIVGCDPKADSTRLILHAKAQN-SIMQMAADAGSV-----
 ----ED-LEL-ED-VLKVG------------YRDIKCVESGGPEPGVGCAGRGVITAINF
@@ -1955,7 +1955,7 @@ ESTVGV--------TAAAEATA--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_208
+>OceanDNA_b34120__221_04_02508_03410_pos_cluster_I
 --------------------------------------------MAKLRQAAIYGKGGIG
 KSTTTQNLVAALAE-AGKKVMIVGCDPKADSTRLILHSKAQN-SVMELAAEAGSV-----
 ----ED-LEL-ED-VMSVG------------FGDVKCVESGGPEPGVGCAGRGVITAINF
@@ -1974,7 +1974,7 @@ TAIIGK--------TAAELAADAAAAAA--------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_42
+>Magnetococcus_marinus_MMP02598452__CP000471.1_1246_1497890_1498780_neg_cluster_I
 ---------------------------------------------MALRQCAIYGKGGIG
 KSTTTQNLVAGLAE-AGNKIMIVGCDPKADSTRLILHAKAQN-TIMEMAAQAGSV-----
 ----ED-LEL-ED-VLKAG------------FGGIKCVESGGPEPGVGCAGRGVITAINF
@@ -1993,7 +1993,7 @@ ETIVGK--------TAEEEAAAATA-----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_7
+>Marinobacter_ES1_MMP02345631__NZ_0AXBV01000086.1_37_030116_030997_neg_cluster_I
 ---------------------------------------------MALRQAAIYGKGGIG
 KSTTTQNLVAALAE-MGKNVMIVGCDPKADSTRLILHSKAQT-TVMNLAAEAGSV-----
 ----ED-LEL-ED-VMAVG------------YGNVKCVESGGPEPGVGCAGRGVITAINF
@@ -2012,7 +2012,7 @@ ESIVGK--------RADEAVVA--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_14
+>Magnetofaba_australis_IT_1_MMP04574817__LVJN01000019.1_00MMP04574817_95_0098648_0099529_pos_cluster_I
 ---------------------------------------------MALRQCAIYGKGGIG
 KSTTTQNLCAAIAE-AGKKIMIVGCDPKADSTRLILHSKAQE-TIMSLAAEAGSV-----
 ----ED-LEL-DD-VLKEG------------FGGIKCVESGGPEPGVGCAGRGVITAINF
@@ -2031,7 +2031,7 @@ ESIVGK--------TAQEEATA--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_1
+>OceanDNA_b40975__0123_3_1561_2442_pos_cluster_I
 ---------------------------------------------MAMRQCAIYGKGGIG
 KSTTTQNLVAALAE-LGKKVMIVGCDPKADSTRLILHSKAQN-TIMEMAAEAGTV-----
 ----ED-LEL-ED-VLKTG------------YGDIKCVESGGPEPGVGCAGRGVITAINF
@@ -2050,7 +2050,7 @@ MTIVGK--------TAAEEVVA--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_5
+>Simiduia_agarivorans_strain_GTF_13_MMP09873689__QWEZ01000002.1_0MMP09873689_753_0811723_0812607_neg_cluster_I
 ---------------------------------------------MTLRQCAIYGKGGIG
 KSTTTQNLVAALAE-AGKKVMIVGCDPKADSTRLILHSKAQT-TVMEKAAELGTV-----
 ----ED-LEL-ED-VLSVG------------YGDVKCVESGGPEPGVGCAGRGVITAINF
@@ -2069,7 +2069,7 @@ ESIVGK--------TAAELAAEG-------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_84
+>Chromatiales_bacterium_strain_SZUA_493_MMP09288041__QKFD01000024.1_189_207481_208260_neg_cluster_I
 ------------------------------------------------------------
 --------------------MIVGCDPKADSTRLILHSKAQT-TVMHLAAEAGTV-----
 ----ED-LEL-ED-VLSVG------------YGGVKCVESGGPEPGVGCAGRGVITAINF
@@ -2088,7 +2088,7 @@ TSIIGQ--------TAAEAVVA--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_35
+>Gammaproteobacteria_bacterium_UBA3067_MMP06450394__DFBZ01000118.1_088_084298_085173_pos_cluster_I
 ---------------------------------------------MAMRQCAIYGKGGIG
 KSTTTQNLVAAMAE-LGKKVMIVGCDPKADSTRLILHSKAQN-TIMEMAAEAGTV-----
 ----ED-LEL-ED-VLKTG------------YGDIKCVESGGPEPGVGCAGRGVITAINF
@@ -2107,7 +2107,7 @@ ESIVGQ--------TAAVDA----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_185
+>OceanDNA_b35228__012_028_024201_025091_neg_cluster_I
 ---------------------------------------------MAIRQCAIYGKGGIG
 KSTTTQNLVAALAE-LKQKVMIIGCDPKADSTRLILHSKMQN-TIMEMAAEAGSV-----
 ----ED-LEL-ED-VLLTG------------YGDVKCVESGGPEPGVGCAGRGVITAINF
@@ -2126,7 +2126,7 @@ ETIVGK--------TAKELADEAAA-----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_74
+>Alteromonadales_BS08_MMP05661223__NZ_MRUG01000033.1_220_252950_253837_neg_cluster_I
 ---------------------------------------------MAMRQCAIYGKGGIG
 KSTTTQNLVAALAE-AGQKVMIVGCDPKADSTRLILHAKAQN-TIMEMAAEAGTV-----
 ----ED-LEL-ED-VLRTG------------YGDIKCVESGGPEPGVGCAGRGVITAINF
@@ -2145,7 +2145,7 @@ ESIIGK--------TAAELEAEAV------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_85
+>Thiocystis_violascens_MMP02232062__CP003154.1_3618_3977040_3977921_pos_cluster_I
 ---------------------------------------------MAMRQCAIYGKGGIG
 KSTTTQNLVAGLAE-LGKKVMIVGCDPKADSTRLILHAKAQN-TIMEMAAEAGSV-----
 ----ED-LEL-ED-VLKVG------------YRDIKCVESGGPEPGVGCAGRGVITAINF
@@ -2164,7 +2164,7 @@ ESIIGK--------TAAEEVAA--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_122
+>Cohaesibacter_sp_MMP04515647__LT907844.1_MMP04515647_3192_3477542_3478426_pos_cluster_I
 ---------------------------------------------MALRQCAIYGKGGIG
 KSTTTQNLVAGLAE-LGKKVMIVGCDPKADSTRLILHAKAQT-TIMHLAAEAGSV-----
 ----ED-LEL-ED-VLKVG------------YGDIKCVESGGPEPGVGCAGRGVITAINF
@@ -2183,7 +2183,7 @@ EAIVGQ--------TATDAGAAA-------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_215
+>Mariprofundus_ferrooxydans_M34_MMP02256458__NZ_0KB902160.1_14_010309_011199_neg_cluster_I
 ---------------------------------------------MAMRQCAIYGKGGIG
 KSTTTQNLVAAIAE-LGKKVMIVGCDPKADSTRLILHSKAQN-TIMEMAAEVGTV-----
 ----ED-LEL-ED-VLKSG------------YQDVKCVESGGPEPGVGCAGRGVITAINF
@@ -2202,7 +2202,7 @@ EAIVGK--------TAAELAAEAAA-----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_54
+>Thiorhodovibrio_970_MMP02261404__JH603170.1_0743_0773006_0773893_pos_cluster_I
 ---------------------------------------------MALRQCAIYGKGGIG
 KSTTTQNLVAGLAE-IGKKVMIVGCDPKADSTRLILHSKAQD-TIMQMAADAGSV-----
 ----ED-LEL-ED-VMATG------------YGGIKCVESGGPEPGVGCAGRGVITAINF
@@ -2221,7 +2221,7 @@ ESIVGK--------TAADEQAVAA------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_156
+>OceanDNA_b34233__154_03_02032_02922_neg_cluster_I
 ---------------------------------------------MALRQCAIYGKGGIG
 KSTTTQNLVAGLAE-LGKKVMIVGCDPKADSTRLILHSKAQN-TIMEMAAEAGTV-----
 ----ED-LEL-ED-VLKTG------------YGDIKCVESGGPEPGVGCAGRGVITAINF
@@ -2240,7 +2240,7 @@ ESIIGQ--------TASAEVAVPAP-----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_93
+>Paenibacillus_durus_MMP03010338__CP009288.1_4446_5051676_5052560_neg_cluster_I
 --------------------------------------------MAKARQIAFYGKGGIG
 KSTTSQNTLAQLATTFGQKIMIVGCDPKADSTRLILNTKAQQ-TVLHMAAELGSV-----
 ----ED-LEL-ED-VVATG------------FGDILCVESGGPEPGVGCAGRGIITSINF
@@ -2259,7 +2259,7 @@ TAIKKL--------EAKEATGA--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_191
+>Paenibacillus_donghaensis_MMP06833332__CP021780.1_MMP06833332_5208_5625196_5626062_neg_cluster_I
 -----------------------------------------------MRQIAFYGKGGIG
 KSTTSQNTLAQLATKFGQKTMIVGCDPKADSTRLILNTKAQN-SVLQLAAERGTV-----
 ----ED-LEL-ED-VVQLG------------YGDILNVECGGPEPGVGCAGRGIITAINF
@@ -2278,7 +2278,7 @@ TALKKL-----------QASGQ--------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_21
+>Lyngbya_aestuarii_BL_J_MMP02469313__AUZM01000010.1_063_071771_072673_neg_cluster_I
 -----------------------------------------------MRQIAFYGKGGIG
 KSTTSQNTLAGMAQN-GNRIMIVGCDPKADSTRLILNTKAQV-TVLALAAERGSV-----
 ----ED-IEL-ED-VLLEG------------FEGIKCVESGGPEPGVGCAGRGIITSINF
@@ -2297,7 +2297,7 @@ EYAKVR--------EADEKEQELLKATNVKKA----------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_98
+>Crocosphaera_watsonii_WH_0003_MMP02471692__AESD01000434.1_11_08778_09668_pos_cluster_I
 -----------------------------------------------MRQIAFYGKGGIG
 KSTTSQNTLAGMAQS-GNRIMIVGCDPKADSTRLILNCKAQV-TVLHLAAEMGSV-----
 ----ED-LEL-ED-VMLDG------------FEGIKCVESGGPEPGVGCAGRGIITSINF
@@ -2316,7 +2316,7 @@ EYKKVM--------EADRAAQALTKNSK--------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_157
+>Trichodesmium_erythraeum_MMP02598485__CP000393.1_4388_6380808_6381698_pos_cluster_I
 -----------------------------------------------MRQIAFYGKGGIG
 KSTTSQNTLAAMANRHGQRIMIVGCDPKADSTRLILNAKAQT-TVLHVAAERGAV-----
 ----ED-VEL-DE-VLKPG------------FGGIKCVESGGPEPGVGCAGRGIITAINF
@@ -2335,7 +2335,7 @@ DRQKQI--------AAQDAAIKATAAK---------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_37
+>Geitlerinema_BBD_1991_9_MMP04892670__LWRO01000008.1_070_098447_099319_pos_cluster_I
 -------------------------------------------MTEKIRQIAFYGKGGIG
 KSTTSQNTISALAEM-GKRIMIVGCDPKADSTRLILNSKAQT-TILHLAAERGSV-----
 ----ED-LEL-EE-VMLTG------------YKGVRCVESGGPEPGVGCAGRGIITGINF
@@ -2354,7 +2354,7 @@ DEEQVA--------VTAG------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_114
+>Leptolyngbya_PCC_7375_MMP02256520__NZ_JH993797.1_1067_1160216_1161094_pos_cluster_I
 -----------------------------------------------MRQIAFYGKGGIG
 KSTTSQNTLAAMAEQ-GQRIMIVGCDPKADSTRLMLHSKAQT-SVLQLAAELGAV-----
 ----ED-VEL-DQ-VLQEG------------YRGVKCVESGGPEPGVGCAGRGIITAINF
@@ -2373,7 +2373,7 @@ KYQEAL--------ASDTTAVAAV------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_34
+>Anabaena_PCC_7108_MMP02261341__NZ_KB235896.1_4764_5418428_5419327_pos_cluster_I
 -----------------------------------------MATDSNIRQIAFYGKGGIG
 KSTTSQNTLAAMAEM-GQRIMIVGCDPKADSTRLMLHSKAQT-TVLSLAAERGAV-----
 ----ED-LEL-SE-VLLTG------------FRGVKCVESGGPEPGVGCAGRGIITAINF
@@ -2392,7 +2392,7 @@ NTEKLV--------GKSATEAPVKK-----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_97
+>OceanDNA_b16098__003_13_11720_12610_neg_cluster_I
 ------------------------------------------MTDENIRQIAFYGKGGIG
 KSTTSQNTLAAMAEM-GQRIMIVGCDPKADSTRLMLHSKAQT-TVLHLAAERGAV-----
 ----ED-LEL-EE-VMLSG------------FRGVRCVESGGPEPGVGCAGRGIITAINF
@@ -2411,7 +2411,7 @@ KNKETV--------GKPAEASAK-------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_206
+>Rivularia_sp_MMP02232049__CP003549.1_6271_8056704_8057534_neg_cluster_I
 ------------------------------------------MTDENIRQIAFYGKGGIG
 KSTTSQNTLAAMAEM-GQRIMIVGCDPKADSTRLMLHSKAQT-TVLSLAAERGAV-----
 ----ED-LEL-EE-VMLEG------------FRGVRCVESGGPEPGVGCAGRGIITSINF
@@ -2430,7 +2430,7 @@ PTP-NELTT------------LTF------------------------VICS--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_190
+>OceanDNA_b16152__0080_07_05424_06302_neg_cluster_I
 -----------------------------------------------MRQIAFYGKGGIG
 KSTTSQNTIAALSE--TQRVMIVGCDPKADSTRLMLHTKAQT-TILHLAAERGSV-----
 ----ED-LEL-DE-VLLTG------------YNNVRCVESGGPEPGVGCAGRGIITAINF
@@ -2449,7 +2449,7 @@ EYQKAL--------AADKAKATAVV-----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_174
+>filamentous_cyanobacterium_CCP2_MMP08617412__PVWD01000233.1_0MMP08617412_1_00037_00933_neg_cluster_I
 ------------------------------------------MTDESIRQIAFYGKGGIG
 KSTTSQNTIAGMSEL-GQRVMIVGCDPKADSTRLMLHSKAQT-TILHLAAERGAV-----
 ----ED-LEL-EE-VLLTG------------YNNVRCVESGGPEPGVGCAGRGIITAINF
@@ -2468,7 +2468,7 @@ EYQKAI--------QQGTKAPAGIA-----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_17
+>Geitlerinema_BBD_1991_9_MMP04892670__LWRO01000015.1_117_130376_131260_pos_cluster_I
 -----------------------------------------------MRQIAFYGKGGIG
 KSTTSQNTIAGLAD--TQRIMIVGCDPKADSTRLMLHSKAQT-TILHLAAERGAV-----
 ----ED-LEL-DE-VLLTG------------YKGVKCVESGGPEPGVGCAGRGIITAINF
@@ -2487,7 +2487,7 @@ EYEKAI--------AADQAT--GKDPVVV-------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_193
+>OceanDNA_b16046__0137_07_06875_07753_pos_cluster_I
 -----------------------------------------------MRQIAFYGKGGIG
 KSTTSQNTIAALAD--TSRVMIVGCDPKADSTRLMLHTKAQT-TILHLAAERGSV-----
 ----ED-LEL-DE-VLLTG------------YKNVRCVESGGPEPGVGCAGRGIITAINF
@@ -2506,7 +2506,7 @@ EYQKVL--------EADKAKELTTA-----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_22
+>Cyanothece_ATCC_51472_MMP02256525__NZ_AGJC02000001.1_1582_1701851_1702834_pos_cluster_I
 ----------MGRNSQGFLTTIRIIVTSATDQPSNFIHSLSNKRESTMRQIAFYGKGGIG
 KSTTSQNTIAALAE--TNRIMIVGCDPKADSTRLMLHTKAQT-TILHLAAERGTV-----
 ----ED-IEL-EE-VLLEG------------YQGVKCVESGGPEPGVGCAGRGIITAINF
@@ -2525,7 +2525,7 @@ EYEKAL--------QADKAA--TKA-----------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_225
+>OceanDNA_b16050__1_043_053889_054758_pos_cluster_I
 -----------------------------------------------MRQIAFYGKGGIG
 KSTTSQNTIAALSE--NNRIMIVGCDPKADSTRLMLHCKAQT-TVLHLAAERGTV-----
 ----ED-IEL-DE-VVIPG------------YNNVLCVESGGPEPGVGCAGRGIITAINF
@@ -2544,7 +2544,7 @@ EYEKAL--------EADKAS--GK------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_127
+>ANME_2_cluster_archaeon_HR1_MMP06562579__MZXQ01000108.1_0MMP06562579_3_02148_02891_pos_cluster_IV
 ------------------------------------------------------------
 ---------------MGNKIMQIGCDPKADSTRMLMGGRRQP-TVLDTLREVG-------
 ----AENVTL-EE-ILHTG------------FGGIRCVEAGGPEPGVGCAGRGVITAIKL
@@ -2563,7 +2563,7 @@ PKP-ITMDE------------LEG------------------------MMTE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_150
+>ANME_1_cluster_archaeon_CONS3730B06UFb1_MMP08574241__QENH01000146.1_MMP08574241_17_11820_12641_pos_cluster_IV
 -----------------------------------------------MRQIAIYGKGGIG
 KSTTTQNLTAALAT-MDKKILQIGCDPKADSTRMLVGGVRQP-TVLDTLREVG-------
 ----TENVTL-EE-VVHTG------------FGGIKCVEAGGPEPGVGCAGRGVITAINL
@@ -2582,7 +2582,7 @@ PRP-LEYDE------------LED------------------------LMQE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_145
+>Ilyobacter_polytropus_MMP00116458__CP002281.1_1424_1525367_1526206_neg_cluster_III
 -----------------------------------------MAEEKKLRQLAIYGKGGIG
 KSTTTQNTVGALME-MGKHIMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-IEL-DD-ILKDG------------FKGVKCVESGGPQPGVGCAGRGIITSISM
@@ -2601,7 +2601,7 @@ PTP-LTTDE------------LES------------------------LMMD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_32
+>Methanosarcina_mazei_1_F_A_1A_3_MMP02708932__JJQA01000122.1_063_066530_067351_neg_cluster_III
 -----------------------------------------------MRQIAIYGKGGIG
 KSTTTQNLTAALAT-MGNKILLVGCDPKADSTRMLLGGLNQK-TVLDTLRSEG-------
 ----DEGVNL-DV-VVQPG------------FGNIKCVESGGPEPGVGCAGRGIITSIGL
@@ -2620,7 +2620,7 @@ PTP-LPMEE------------LEA------------------------MMVE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_44
+>Methanolobus_vulcani_PL_12_M_MMP04488589__FNCA01000003.1_233_234386_235207_pos_cluster_III
 -----------------------------------------------MRQVAIYGKGGIG
 KSTTTQNLTGALAT-MGKKILLVGCDPKADSTRMLLGGLNQK-TVLDTLRSEG-------
 ----DESIEL-DK-LIQPG------------FGGIKCVESGGPEPGVGCAGRGIITSIGL
@@ -2639,7 +2639,7 @@ PTP-LDMDD------------LEA------------------------MMVE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_138
+>Clostridium_acetobutylicum_strain_WA_MMP08111980__NZ_0PIQQ01000006.1_MMP08111980_24_024392_025210_pos_cluster_III
 -----------------------------------------------MRQVAIYGKGGIG
 KSTTTQNLTSGLAE-LGKKIMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VDL-DT-IMKTG------------FGNIKCVESGGPEPGVGCAGRGIITSINM
@@ -2658,7 +2658,7 @@ PKP-MAQDK------------LEA------------------------ILME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_218
+>OceanDNA_b17183__213_05_02961_03779_neg_cluster_II
 -----------------------------------------------MRQVAIYGKGGIG
 KSTTTQNLTAGLAE-MGKHIMIVGCDPKADSTRLILGGLAQK-TVLDTLRDEG-------
 ----DD-IEL-SA-VLKQG------------YGGIKGVESGGPEPGVGCAGRGIITSINL
@@ -2677,7 +2677,7 @@ PNP-MKIDE------------LEE------------------------ILMQ--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_13
+>Clostridium_beijerinckii_strain_WB_MMP08107721__NZ_0PIQP01000015.1_MMP08107721_42_047795_048649_neg_cluster_III
 ------------------------------------------MAEKTLRQVAIYGKGGIG
 KSTTTQNLTAGLAE-LGKNVMVVGCDPKADSTRLLLGGLAQR-TVLDTLREEG-------
 ----ED-IEL-EA-IMKIG------------FKGIKCVESGGPEPGVGCAGRGIITSIGM
@@ -2696,7 +2696,7 @@ PKP-MTQDR------------LEE------------------------ILIE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_76
+>OceanDNA_b17187__1865_02_00289_01068_neg_cluster_III
 ------------------------------------------------------------
 -STTTQNLTAGLGE-MGKKVMIVGCDPKADSTRLVLGGLAQK-SVLDTLREEG-------
 ----ED-IEL-DY-IMKDG------------VFGIKCVESGGPEPGVGCAGRGIITSINM
@@ -2715,7 +2715,7 @@ PKP-MVQDR------------LEE------------------------ILMA--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_130
+>Clostridia_bacterium_strain_SZUA_610_MMP09288158__QKJQ01000027.1_185_233241_234059_neg_cluster_III
 -----------------------------------------------MRQVAIYGKGGIG
 KSTTTQNLTAGLAE-MGKKIMIVGCDPKADSTRLVLGGLAQK-TVLDTLREEG-------
 ----ED-IDL-DF-IMKEG------------YGGIKGVESGGPEPGVGCAGRGIITSINL
@@ -2734,7 +2734,7 @@ PKP-MKIER------------LEE------------------------ILME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_27
+>Clostridium_papyrosolvens_DSM_2782_MMP00002727__NZ_0ACXX02000015.1_82_082730_083551_pos_cluster_II
 -----------------------------------------------MRQVAIYGKGGIG
 KSTTTQNLTAGLGE-MGKKIMIVGCDPKADSTRLILGGLAQQ-TVLDTLREEG-------
 ----ED-IDL-DL-VMKKG------------FSEINCVESGGPEPGVGCAGRGIITSIGL
@@ -2753,7 +2753,7 @@ PKP-LKQER------------LEE------------------------LLME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_79
+>Clostridium_beijerinckii_strain_WB_MMP08107721__NZ_0PIQP01000020.1_MMP08107721_30_029706_030527_neg_cluster_III
 -----------------------------------------------MRQVAIYGKGGIG
 KSTTTQNLTSALAE-MGKNIMIVGCDPKADSTRLVLGGLAQK-TVLDTLREEG-------
 ----DD-IEL-DA-ILKTG------------YGNIRCVESGGPEPGVGCAGRGIITSIGM
@@ -2772,7 +2772,7 @@ PKP-MKQER------------LEE------------------------ILME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_186
+>Clostridium_grantii_A_1_MMP02745207__NZ_0FQXM01000009.1_72_087100_087936_pos_cluster_III
 -----------------------------------------------MRQVAIYGKGGIG
 KSTTTQNLTAGLAE-MGKKIMVVGCDPKADSTRLLLGGLAQK-TVLDTLRDEG-------
 ----ED-IEL-DA-ILKPG------------YGDIRCVESGGPEPGVGCAGRGIITSINM
@@ -2791,7 +2791,7 @@ PKP-MAQDR------------LEE------------------------ILME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_211
+>Clostridiales_bacterium_MMP4890528__NZ_LR130778.1_MMP4890528_2255_2459170_2459991_pos_cluster_II
 -----------------------------------------------MRQIAIYGKGGIG
 KSTTTQNLTAALAE-MGKEIMIVGCDPKADSTRLILNGLAQQ-TVLDTLREEG-------
 ----ED-IEL-EN-ILKPG------------YGGIRCVESGGPEPGVGCAGRGIITSINM
@@ -2810,7 +2810,7 @@ PKP-MSQER------------LEE------------------------ILME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_110
+>Defluviitalea_phaphyphila_Alg1_MMP03165200__NZ_JWID01000003.1_205_206895_207719_neg_cluster_II
 -----------------------------------------------MRQVAIYGKGGIG
 KSTTTQNLTAALGE-MGKKIMIVGCDPKADSTRLILGGLAQK-TVLDTLREEG-------
 ----DD-IDL-DE-IMKIG------------FKGIKCVESGGPEPGVGCAGRGIITSISM
@@ -2829,7 +2829,7 @@ PKP-MTQER------------LEE------------------------ILME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_90
+>Thermoanaerobacterium_saccharolyticum_NTOU1_MMP00018622__NZ_0BBKT01000028.1_10_007883_008701_neg_cluster_III
 -----------------------------------------------MRQVAIYGKGGIG
 KSTTTQNTVAALSE-MGKKVMVVGCDPKADSTRLLLHGLNQK-TVLDTIRDEG-------
 ----ED-IEL-DD-IMRSG------------YGNTKCVESGGPEPGVGCAGRGIITSINM
@@ -2848,7 +2848,7 @@ PNP-MPTDE------------LEK------------------------LLIE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_142
+>Desulfotomaculum_reducens_MMP02598304__CP000612.1_3002_3061934_3062752_neg_cluster_III
 -----------------------------------------------MRQIAIYGKGGIG
 KSTTTQNTVAALAE-AGKKIMVVGCDPKADSTRLLLHGLNQK-TVLDTLRDEG-------
 ----ED-IDL-ED-VLKTG------------YGDTKCVESGGPEPGVGCAGRGIITSINL
@@ -2867,7 +2867,7 @@ PKP-MTQDR------------LEE------------------------LLMA--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_183
+>Desulfotomaculum_arcticum_15_MMP05660649__FOOX01000003.1_087_092633_093451_pos_cluster_III
 -----------------------------------------------MRQIAIYGKGGIG
 KSTTTQNTVAALAE-LGKKVLVVGCDPKADSTRLLLHGLNQK-TVLDTLRDEG-------
 ----ED-IDL-ED-IMREG------------YGSSKCVESGGPEPGVGCAGRGIITSINM
@@ -2886,7 +2886,7 @@ PRP-MTTDR------------LEE------------------------LLME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_155
+>Methanospirillum_lacunae_strain_Ki8_1_MMP09236929__QGMY01000002.1_MMP09236929_550_585021_585848_pos_cluster_III
 -----------------------------------------------MRQVAIYGKGGIG
 KSTTTQNTVAALAV-AGKKIMVVGCDPKADSTRLLLHGLCQK-TVMATLRDEG-------
 ----DD-LEL-DD-ILKPG------------FMDVKCVESGGPEPGVGCAGRGIITSINL
@@ -2905,7 +2905,7 @@ PKP-MEQDR------------LEE------------------------LMMQ--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_168
+>Methanoculleus_taiwanensis_strain_CYW4_MMP03856099__LHQS01000002.1_0MMP03856099_293_0284468_0285289_pos_cluster_III
 -----------------------------------------------MRQVAIYGKGGIG
 KSTTTQNTVAALAE-GGKQIMVVGCDPKADSTRLLLHGLCQK-TVLDTLRDEG-------
 ----DD-IEL-EE-ILKPG------------FGDTRCVESGGPEPGVGCAGRGIITSINL
@@ -2924,7 +2924,7 @@ PKP-MTQDR------------LEE------------------------LMME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_116
+>Coleofasciculus_chthonoplastes_PCC_7420_MMP02436227__NZ_0DS989843.1_36_054196_055020_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLVE-LGRKVMIVGCDPKADSTRLLLGGLHQK-SVLDTLREEG-------
 ----DD-VDL-DE-IRKEG------------YGKTLCVESGGPEPGVGCAGRGIITSISM
@@ -2943,7 +2943,7 @@ PTP-MKNDE------------LEQ------------------------LLVK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_148
+>Phormidium_sp__HE10JO_MMP33079168__NZ_0FSSI02000041.1_MMP33079168_16_015720_016550_pos_cluster_III
 -----------------------------------------------MRKIAVYGKGGIG
 KSTTTQNTVAGLVE-LGRKVMIVGCDPKADSTRLLLGGLHQK-SVLDSLREEG-------
 ----DE-VEL-DD-IRKEG------------FGKTLCVESGGPEPGVGCAGRGIITSISM
@@ -2962,7 +2962,7 @@ PKP-LANEE------------LET------------------------LLME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_129
+>Dissulfuribacter_thermophilus_S69_MMP05251087__NZ_0MAGO01000009.1_83_090094_090918_pos_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGKRVMIVGCDPKADATRLMLGGMAQK-TVLDTMREEG-------
 ----ED-VEL-DD-VMKEG------------FKGVRCVESGGPEPGVGCAGRGIITSISL
@@ -2981,7 +2981,7 @@ PKP-MTQDE------------LES------------------------LLME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_187
+>Deferrisoma_camini_S3R1_MMP02584914__NZ_JAFN01000001.1_2219_2542481_2543305_neg_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAGLAE-AGKKVMVVGCDPKADSTRLLLGGLAQK-SVLDTLRDEG-------
 ----ED-VEL-ED-VAKAG------------FGEAVCVESGGPEPGVGCAGRGIITSINL
@@ -3000,7 +3000,7 @@ PKP-LPIPE------------LEK------------------------LLMD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_131
+>Spirochaetales_bacterium_strain_SZUA_475_MMP09288023__QKEL01000008.1_525_628807_629631_pos_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAALAE-MGKNVMVVGCDPKADSTRLLLNGLSQK-TVLDTLREEG-------
 ----ED-LDL-ED-VVKPG------------FKNTRCVESGGPEPGVGCAGRGIITSINL
@@ -3019,7 +3019,7 @@ PKP-LAIEE------------LEK------------------------LLME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_50
+>Desulfobacterales_C00003104_MMP05263723__MANV01000104.1_12_10798_11622_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGKKIMVVGCDPKADSTRLLLGGLAQT-SVLDTLREEG-------
 ----ED-VDL-ET-IRKVG------------FGDILCVESGGPEPGVGCAGRGIITAINM
@@ -3038,7 +3038,7 @@ PTP-LEMQD------------LEK------------------------LIIE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_199
+>Deltaproteobacteria_bacterium_strain_E20SeepSRB2_MMP08435001__PQXE01000038.1_0MMP08435001_17_014038_014862_pos_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNLVAGLIE-MGEKVMVVGCDPKADSTRLLLGGLHQQ-SVLDTLREEG-------
 ----ED-VEL-DD-VRKEG------------YGGTLCVESGGPEPGVGCAGRGIITSINL
@@ -3057,7 +3057,7 @@ PKP-MPTDD------------LEK------------------------ILIE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_71
+>Desulfacinum_infernum_DSM_9756_MMP02745206__NZ_00FQVB01000048.1_6_004820_005644_pos_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGKRVMVVGCDPKADSTRLLLGGLAQR-SVLDTLREEG-------
 ----ED-VDL-ED-IRKEG------------FGGTLCVESGGPEPGVGCAGRGIITSINM
@@ -3076,7 +3076,7 @@ PTP-LDTDQ------------LES------------------------LLME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_195
+>Geofilum_rubicundum_JCM_15548_MMP00000449__NZ_BAZW01000003.1_124_136813_137637_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-LGKKVMIVGCDPKADSTRLLLHGMAQR-TVLDTLREEG-------
 ----ED-IDL-ED-VLKPG------------FGDTRCVESGGPEPGVGCAGRGIITSINL
@@ -3095,7 +3095,7 @@ PTP-LEMEE------------LES------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_207
+>Desulfoluna_spongiiphila_AA1_MMP05216233__FMUX01000042.1_007_009539_010363_pos_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-SGEKVMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VEL-SD-VLKEG------------FGSAVCTESGGPEPGVGCAGRGIITSINL
@@ -3114,7 +3114,7 @@ PTP-IEIEE------------LET------------------------LLMN--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_103
+>bacterium_BMS3Abin10_MMP00081370__BDTC01000011.1_0MMP00081370_11_011212_012036_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLVE-LGKKVMVVGCDPKADSTRLLLGGLAQN-TVLDTLRAEG-------
 ----ED-VEL-ED-IRKTG------------YAGVVCVESGGPEPGVGCAGRGIITSINL
@@ -3133,7 +3133,7 @@ PEP-ITTEE------------LEN------------------------LLIK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_51
+>OceanDNA_b3572__041_014_012808_013632_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTIAGLVE-AGKKVKIVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VEL-ED-IVKAG------------YGGVRCVESGGPEPGVGCAGRGIITAINL
@@ -3152,7 +3152,7 @@ PNP-LEMED------------LED------------------------LLVN--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_68
+>Desulfotignum_balticum_SAX_MMP02440581__NZ_ATWO01000001.1_3710_4010799_4011692_pos_cluster_III
 -----------------------MIIAFMTSRRLDGLYLINLKRKSKMRKIAIYGKGGIG
 KSTTTQNLVAGLVE-AGNKIMVVGCDPKADSTRLLLDGLAQR-TVLDTLREEG-------
 ----ED-VVL-ED-VLKLG------------YGGTMCTESGGPEPGVGCAGRGIITSINL
@@ -3171,7 +3171,7 @@ PTP-ITIEA------------LES------------------------LLIK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_47
+>Desulfobacter_postgatei_2ac9_MMP02261381__CM001488.1_3185_3471324_3472148_pos_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAGLVE-AGKKIMIVGCDPKSDSTRLMLNGLAQK-TVLDTLREEG-------
 ----ED-VEL-ED-VRKEG------------YGGVLCTESGGPEPGVGCAGRGIITSINL
@@ -3190,7 +3190,7 @@ PTP-LEIEE------------LEA------------------------LLIK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_219
+>Desulfospira_joergensenii_B331_MMP02440566__NZ_ATUG01000002.1_1628_1883900_1884724_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLVE-AGKNIMVVGCDPKADSTRLLLNGLAQK-TVLDTLREEG-------
 ----ED-VLL-DD-VRKVG------------YGGTLCTESGGPEPGVGCAGRGIITSINL
@@ -3209,7 +3209,7 @@ PTP-IAIEE------------LES------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_31
+>Ancylomarina_sp__A4_MMP09721042__QTZN01000004.1_MMP09721042_286_375050_375931_pos_cluster_III
 ---------------MVRFMNTAWQLLTQIKITD-------------MRKIAIYGKGGIG
 KSTTTQNTVAGLVE-AGKNIMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VDL-DD-IVRPG------------YGGVRCVESGGPEPGVGCAGRGIITSINM
@@ -3228,7 +3228,7 @@ PTP-LEMEE------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_0
+>Bacteroidetes_bacterium_strain_SZUA_561_MMP09288109__QKHT01000160.1_005_002565_003389_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAA-MGKNVLVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-IDI-DD-IIKEG------------YGNTRCVESGGPEPGVGCAGRGIITSINL
@@ -3247,7 +3247,7 @@ PTP-LEMDD------------LEK------------------------LLMD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_46
+>Mangrovibacterium_marinum_strain_DSM_28823_MMP08778574__QAAD01000014.1_0MMP08778574_51_074841_075797_pos_cluster_III
 ---MGVQYISVLCVCGSRLFFIFWQVGTRLVIRGSKAKNVEPSKFKKMRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGKNVMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VEL-DD-IIKRG------------YGNTRCVESGGPEPGVGCAGRGIITSINL
@@ -3266,7 +3266,7 @@ PNP-LEIEE------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_212
+>Cytophaga_fermentans_DSM_9555_MMP02597284__NZ_0KI912107.1_4073_5049605_5050429_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLVE-LGKNIIVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VEL-ED-VVKEG------------YGNVRCVESGGPEPGVGCAGRGIITSINL
@@ -3285,7 +3285,7 @@ PTP-LEMES------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_82
+>Lutibacter_agarilyticus_KYW566_MMP06265371__FZNT01000008.1_MMP06265371_161_195005_195829_pos_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGKKVMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VVF-ED-IVKPG------------YGNTSCTESGGPEPGVGCAGRGIITSINM
@@ -3304,7 +3304,7 @@ PTP-LEIEE------------LEG------------------------LLIE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_161
+>Desulfovibrio_inopinatus_HHQ_20_MMP02441548__NZ_AUBP01000007.1_118_146208_147032_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MDKKVMVVGCDPKADSTRLLLGGLNQS-TVLETLREEG-------
 ----ED-VEL-ED-ILLEG------------FKGTVCTESGGPEPGVGCAGRGIITAINL
@@ -3323,7 +3323,7 @@ PNP-LEIEQ------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_154
+>Desulfovibrio_X2_MMP02207452__NZ_0ATHV01000020.1_10_010166_010990_neg_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAGLAE-MGKNVMVVGCDPKADSTRLLLGGLNQA-TVLDTLREEG-------
 ----ED-VEL-ED-VCLKG------------YAGTTCVESGGPEPGVGCAGRGIITSINL
@@ -3342,7 +3342,7 @@ PKP-LAIEE------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_133
+>Desulfovibrio_fructosovorans_JJ_MMP00103625__NZ_0AECZ01000014.1_94_105509_106333_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGNRIMVVGCDPKADSTRLLLGGLQQK-TVLDTLREEG-------
 ----ED-VDL-DD-ILKVG------------YKDTRCTESGGPEPGVGCAGRGIITSINL
@@ -3361,7 +3361,7 @@ PKP-MSINE------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_170
+>Desulfovibrio_fructosovorans_JJ_MMP00103625__NZ_00AECZ01000006.1_4_002452_003276_pos_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGKKVMVVGCDPKADSTRLLLHGLAQK-TVLDTLREEG-------
 ----ED-VDI-DD-ILKEG------------YGGTMCTESGGPEPGVGCAGRGIITSINL
@@ -3380,7 +3380,7 @@ PKP-ISINE------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_213
+>Kiritimatiellales_bacterium_strain_SZUA_380_MMP09287928__QKAU01000017.1_072_080045_080866_pos_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-AGNKVMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VEL-DD-VIKGG------------YGGTRCVESGGPEPGVGCAGRGIITSVNL
@@ -3399,7 +3399,7 @@ PKP-LEIEE------------LET------------------------LLVE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_182
+>Spirochaetes_bacterium_strain_SZUA_423_MMP09287971__QKCL01000069.1_014_013898_014722_pos_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAGLAE-MGKKVMVVGCDPKADSTRLLLGGLAQG-TVLDTLRSEG-------
 ----ED-VEL-ED-IRKVG------------FGGTLCTESGGPEPGVGCAGRGIITSINL
@@ -3418,7 +3418,7 @@ PTP-LEIEE------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_16
+>Spirochaeta_cellobiosiphila_SIP_1_MMP02441512__NZ_AUFW01000017.1_143_140060_140878_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGKKVMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VEL-DD-VIKPG------------YGDSRCVESGGPEPGVGCAGRGIITSINL
@@ -3437,7 +3437,7 @@ PTP-LEIEE------------LEQ------------------------LLIK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_53
+>Chlorobium_phaeobacteroides_MMP02598272__CP001101.1_1780_1893747_1894640_pos_cluster_III
 ------------------------MTDRGSTETVEAKQLSNLNITTLMRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGKKVMVVGCDPKADSTRLLLGGLTQK-TVLDTLREEG-------
 ----ED-VEL-ED-IIKEG------------YGASRCTESGGPEPGVGCAGRGIITSVNM
@@ -3456,7 +3456,7 @@ PKP-LEIEE------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_88
+>Desulfovibrio_africanus_MMP00713616__CP003221.1_0762_0826990_0827814_pos_cluster_III
 -----------------------------------------------MRKIAVYGKGGIG
 KSTTTQNTVAGLAE-MGNKVMVVGCDPKADSTRLLLHGLAQK-TVLDTLREEG-------
 ----ED-VEL-ED-IIKLG------------YGGVMCTESGGPEPGVGCAGRGIITSINL
@@ -3475,7 +3475,7 @@ PKP-LEIEE------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_2
+>OceanDNA_b45389__019_06_04189_05010_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGKKVMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VEI-DD-VIKPG------------YGGTRCVESGGPEPGVGCAGRGIITSITL
@@ -3494,7 +3494,7 @@ PKP-LEIEE------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_91
+>Delta_proteobacterium_NapHS2_MMP02436561__NZ_0ADZZ01000138.1_15_011029_011853_pos_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLTE-LGNKIMVVGCDPKADSTRLLLGGLNQN-TVLDTLREEG-------
 ----ED-VEL-DD-VRKTG------------FGGTLCTESGGPEPGVGCAGRGIITSINL
@@ -3513,7 +3513,7 @@ PKP-LEINE------------LEE------------------------LLIE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_3
+>Desulfatibacillum_aliphaticivorans_CV2803_MMP02441551__NZ_AUCT01000001.1_186_245001_245825_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLSE-MGKKIMVVGCDPKADSTRLLLGGLAQR-TVLDTLREEG-------
 ----ED-VEL-DD-VRKVG------------YAGTLCTESGGPEPGVGCAGRGIITSINL
@@ -3532,7 +3532,7 @@ PSP-LEIEE------------LEK------------------------LLID--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_56
+>Desulfonema_ishimotonii_strain_Tokyo_01_MMP00098745__BEXT01000001.1_MMP00098745_2734_3508842_3509666_pos_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGNKVMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VEL-ED-VRKMG------------FAKTLCTESGGPEPGVGCAGRGIITSINL
@@ -3551,7 +3551,7 @@ PSP-MEIEE------------LES------------------------LLVT--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_102
+>Verrucomicrobia_bacterium_UBA6053_MMP06455374__DIYN01000019.1_087_112261_113124_pos_cluster_III
 ----------------------------------MSTAALEPKTEKTFRKVAIYGKGGIG
 KSTTTQNTVAALAE-MGRKVMVVGCDPKADSTRLLLGGLAQK-TVLDSLREEG-------
 ----ED-LEL-ED-IMKEG------------FRNTLCTESGGPEPGVGCAGRGIITSINM
@@ -3570,7 +3570,7 @@ PTP-LEIEE------------LES------------------------LLIE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_83
+>Verrucomicrobia_bacterium_DG1235_MMP02436317__NZ_DS990592.1_4263_5277521_5278450_neg_cluster_III
 ------------MKKTQDFTTNHNTNQRRNMSATLEAPTTEKTAVKKMRKIAIYGKGGIG
 KSTTTQNTVAALAE-MGKKIMVVGCDPKADSTRLLLGGLAQR-SVLDTLREEG-------
 ----ED-VEL-ED-IRSGG------------FCSTLCVESGGPEPGVGCAGRGIITSINM
@@ -3589,7 +3589,7 @@ PKP-LEIEE------------LEA------------------------LLME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_99
+>Phycisphaerales_bacterium_UBA7800_MMP06457154__DLCK01000088.1_022_024655_025488_neg_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAALAE-MGKKVLVVGCDPKADSTRLLLGGLSQK-SVLDTIRDEG-------
 ----ED-IEL-ED-IRRGG------------FGSCQCVESGGPEPGVGCAGRGIITSINM
@@ -3608,7 +3608,7 @@ PKP-MEIEE------------LES------------------------LLME--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_201
+>Coraliomargarita_akajimensis_MMP02598501__CP001998.1_2849_3449113_3449943_neg_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGKKVMVVGCDPKADSTRLLLGGLAQK-SVLDTLREEG-------
 ----ED-VEL-ED-IRSEG------------YSTSLCVESGGPEPGVGCAGRGIITSINM
@@ -3627,7 +3627,7 @@ PSP-LTIDQ------------LEK------------------------LLMD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_120
+>bacterium_strain_SZUA_421_MMP09287969__QKCJ01000049.1_162_192284_193111_pos_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAALAE-MGKKVMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VEL-ED-IRKEG------------YGGTWNVESGGPEPGVGCAGRGIITSINM
@@ -3646,7 +3646,7 @@ PKP-LAIEE------------LEK------------------------LLMD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_60
+>Desulfotalea_NORP6_MMP07568820__NVXR01000005.1_MMP07568820_140_160182_161012_pos_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAGLAE-MGRKVMVVGCDPKADSTRLLLGGLAQK-TVLDALREEG-------
 ----ED-VEL-DD-IRKAA------------YGGTWAVESGGPEPGVGCAGRGIITSINM
@@ -3665,7 +3665,7 @@ PTP-LEIDE------------LEQ------------------------LLLD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_8
+>Desulfovibrio_piezophilus_MMP2272703__FO203427.1_2870_3151531_3152361_pos_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAGLAE-MGRKIMVVGCDPKADSTRLLLGGLAQK-SVLDTLREEG-------
 ----ED-VEL-DD-IRKPG------------FGGTWCVESGGPEPGVGCAGRGIITSINM
@@ -3684,7 +3684,7 @@ PTP-LEIED------------LEK------------------------LLLE--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_169
+>Uncultured_Desulfofustis_PBSRB1_MMP02303578__AVFQ01000303.1_04_03482_04309_pos_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAGLAE-MGRKVMVVGCDPKADSTRLLLGGLAQR-SVLDTLREEG-------
 ----ED-VEL-DD-IRKPS------------FGGSWSVESGGPEPGVGCAGRGIITSINM
@@ -3703,7 +3703,7 @@ PQP-LEIEE------------LEQ------------------------LLLD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_146
+>Desulfovibrio_frigidus_18_MMP02745701__NZ_0JONL01000005.1_23_029162_030001_pos_cluster_III
 --------------------------------------------MKKMRKVAIYGKGGIG
 KSTTTQNTVAGLAT-MGKKVMVVGCDPKADSTRLLLGGLAQK-SVLDTLREEG-------
 ----ED-VEL-DD-IRKPG------------YGDTWCVESGGPEPGVGCAGRGIITSINM
@@ -3722,7 +3722,7 @@ PKP-LEIEE------------LEQ------------------------LLLD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_147
+>Halodesulfovibrio_sp__strain_SZUA_473_MMP09288021__QKEJ01000123.1_11_10888_11718_neg_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAGLAESLGRKVMVVGCDPKADSTRLLLGGLAQK-TVLDTLREEG-------
 ----ED-VEL-DD-IRKMG------------YGDTWSVESGGPEPGVGCAGRGIITSINM
@@ -3741,7 +3741,7 @@ PTP-LEIEE------------LEQ------------------------LLMD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_176
+>Desulfomicrobium_norvegicum_Norway_4_MMP05421830__FOTO01000012.1_047_043430_044260_pos_cluster_III
 -----------------------------------------------MRKIAIYGKGGIG
 KSTTTQNTVAGLAE-MGKKIMVVGCDPKADSTRLLLGGLAQK-SVLDTLRDEG-------
 ----ED-VEL-PD-IRKAG------------FSGTWCVESGGPEPGVGCAGRGIITSINM
@@ -3760,7 +3760,7 @@ PKP-LEIEE------------LEQ------------------------LLMD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_36
+>Desulfocapsa_sulfexigens_MMP02602964__CP003985.1_0328_0396038_0396868_pos_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAGLVE-LGRKVMVVGCDPKADSTRLLLGGLAQK-SVLDTLREEG-------
 ----ED-VEL-ED-IRKLG------------YGGTWCVESGGPEPGVGCAGRGIITSINM
@@ -3779,7 +3779,7 @@ PTP-MEIEV------------LEE------------------------LLMD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_153
+>bacterium_BMS3Abin13_MMP00081373__BDTF01000103.1_MMP00081373_37_39629_40453_neg_cluster_III
 -----------------------------------------------MRKVAIYGKGGIG
 KSTTTQNTVAGLSE-LGRKIMVVGCDPKSDSTRLLLGGLAQK-TVLDSLREEG-------
 ----ED-VEL-KN-IRKLG------------YGNTWCVESGGPEPGVGCAGRGIITSINM
@@ -3798,7 +3798,7 @@ PTP-IEMEE------------LET------------------------LLMD--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_11
+>Methanobacterium_sp_MMP05928841__CP017767.1_MMP05928841_1454_1507420_1508217_neg_cluster_IV
 --------------------------------------------MSKSKHIAIYGKGGIG
 KSTTVSNLAASYST-D-KDVLVIGCDPKADTTRTLVGR-RIP-TILDILKEK--------
 -----RDAQE-ED-VLFPG------------YGGVMCVESGGPEPGVGCAGRGVIVAMKL
@@ -3817,7 +3817,7 @@ PQP-MDADE------------FDE------------------------FFRG--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_136
+>Methanococcus_voltae_MMP00000040__CP002057.1_0699_0771128_0771964_neg_cluster_IV
 -----------------------------------------------MRKFCIYGKGGIG
 KSTNVGNMAAALAE-DGKKVLVVGCDPKADSTRTLMHG-KIN-TVLDTFRDKG-------
 ----PEYMKI-ED-IVYEG------------FNGVYCVESGGPEPGVGCAGRGVITAVDM
@@ -3836,7 +3836,7 @@ PTP-LSEQG------------LDD------------------------LTES--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_164
+>Methanococcus_aeolicus_MMP00623051__CP000743.1_1238_1292304_1293140_neg_cluster_IV
 ----------------------------------------------MVRKFCVYGKGGIG
 KSTNVSNIAAALAE-SGKKVMVIGCDPKADSTRNLMGR-KIP-TVLDALRKNG-------
 ----ANNLEL-ED-IVFKG------------FGETYCVESGGPEPGVGCAGRGVITAIDI
@@ -3855,7 +3855,7 @@ PKP-LSEEG------------IDE------------------------ITEK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_214
+>Methanothermococcus_okinawensis_MMP00100784__CP002792.1_0828_0825972_0826814_pos_cluster_IV
 ----------------------------------------------MVRKFCIYGKGGIG
 KSTTVSNIAGALAE-SGKKVMVIGCDPKADSTRNLMGR-KIP-TVLDVFRKKG-------
 -----NAIKL-ED-IVFEG------------FCGTYCIESGGPEPGVGCAGRGVITAIEV
@@ -3874,7 +3874,7 @@ IV----------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_23
+>Methanocaldococcus_sp_MMP02951366__CP009149.1_1055_1029206_1030045_neg_cluster_IV
 -----------------------------------------------MRKFCVYGKGGIG
 KSTTVSNIAAALAE-DGKKVLVIGCDPKADTTRNLVGR-KIP-TVLDIFRKKG-------
 ----AENMEL-ED-IVFEG------------FGGVYCVESGGPEPGVGCAGRGVITAVDM
@@ -3893,7 +3893,7 @@ G-----------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_179
+>Methanocaldococcus_vulcanius_MMP02598493__CP001787.1_0882_0865455_0866288_pos_cluster_IV
 -----------------------------------------------MRKFCIYGKGGIG
 KSTTVSNIAAALAE-DKKKVLVIGCDPKADTTRNLVGK-KIP-TVLDVFRKKG-------
 ----AENITL-ED-IIFQG------------FGGVYCVESGGPEPGVGCAGRGVITAVDI
@@ -3912,7 +3912,7 @@ PNP-LTEEE------------LDK------------------------ISEK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_6
+>Methanocaldococcus_infernus_MMP00017484__CP002009.1_0053_0048995_0049783_pos_cluster_IV
 -----------------------------------------------MKQIGFYGKGGIG
 KSTTVCNIAKALSE-E-YRVLVIGCDPKADCTALLR-EEDIK-TVLEVLREK--------
 -----RSVKI-ED-IVVEG------------GKNIYCVEAGGPKPGVGCAGRGVIVAIET
@@ -3931,7 +3931,7 @@ PMP-LSKRE------------LKE------------------------LALK--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_20
+>Methanococcus_maripaludis_MMP00000031__CP000745.1_1163_1116261_1117256_neg_cluster_IV
 --------MDFSINNPIINYISYLDYMYYIVLIKLRESIIFRLIGDILKQIAFYGKGGIG
 KSTTVCNLAAALSK-SGKKVIVVGCDPKHDCTSNLRRGEDIP-TVLDVLREKGIDKLGIE
 TIIRENLLKK-ED-IIYEG------------FNGIYCVEAGGPKPGYGCAGRGVIVVIDL
@@ -3950,7 +3950,7 @@ VE----------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_163
+>Methanococcus_vannielii_MMP02598403__CP000742.1_1184_1166538_1167416_neg_cluster_IV
 -----------------------------------------------MKQIAFYGKGGIG
 KSTTVCNLAAALSK-SGKKVIVVGCDPKHDCTSNLRGGIEIP-TVLDILREKGIDTLGID
 TIIHENLLKK-ED-ILYKG------------FNGIYCVEAGGPKPGYGCAGRGVIVVIDL
@@ -3969,7 +3969,7 @@ LE----------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_175
+>Methanothermococcus_thermolithotrophicus_DSM_2095_MMP02440415__AQXV01000052.1_063_061091_061969_pos_cluster_IV
 -----------------------------------------------MKQIAFYGKGGIG
 KSTTVCNIAAALAD-QGKKVMVVGCDPKHDCTSNLRGGQEIP-TVLDILREKGLDKLGLE
 TIIEKEMIEI-ND-IIYEG------------YNGIYCVEAGGPKPGYGCAGRGVIVVIDL
@@ -3988,7 +3988,7 @@ KN----------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_180
+>Methanocaldococcus_villosus_DSM_22612_MMP02261307__AQUK01000001.1_0647_0569019_0569843_neg_cluster_IV
 -----------------------------------------------MKQIAFYGKGGIG
 KSTVVCNVAAALAD-N-FKVMVVGCDPKHDCTISLRHGEEIP-TVLDVLREK--------
 -----KDVDI-ND-IVYKG------------YKGVYCVEAGGPKPGYGCAGRGVIVAIEL
@@ -4007,7 +4007,7 @@ PEP-LSNKE------------LIE------------------------IGKS--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_19
+>Methanothermococcus_thermolithotrophicus_DSM_2095_MMP02440415__AQXV01000048.1_061_056264_057136_pos_cluster_IV
 -----------------------------------------------MKQIAFYGKGGIG
 KSTTVCNIAAALAD-EGKKVMVIGCDPKHDCTSNLRGGEEIP-TILDTLREKGMEKLSLE
 DAIEGRKIEM-DE-IIHKG------------YNGIYCIEAGGPKPGYGCAGRGVIVAIDL
@@ -4026,7 +4026,7 @@ PNP-LENEE------------IMQ------------------------IGQA--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_66
+>Methanotorris_formicicus_JCM_11930T_MMP02261372__AGJL01000035.1_12_11924_12796_pos_cluster_IV
 -----------------------------------------------MKQIAFYGKGGIG
 KSTTVCNIAAALAD-EGKKVMVIGCDPKHDCTSNLRGGEEIP-TVLDTLREKGMEKMSLN
 DILDGKKIEL-DE-IVYKG------------YKGIYCIEAGGPKPGYGCAGRGVIVAIDL
@@ -4045,7 +4045,7 @@ PNP-LENEE------------IMQ------------------------IGKR--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_104
+>Methanotorris_igneus_MMP00713627__CP002737.1_1438_1449136_1450008_pos_cluster_IV
 -----------------------------------------------MKQIAFYGKGGIG
 KSTTVCNIAAALAD-EGKRVMVVGCDPKHDCTSNLRGGEEIP-TVLDTLREKGMEKLSLE
 DAIEGKKIEM-DE-IVYKG------------YKGIYCIEAGGPKPGYGCAGRGVIVAIDL
@@ -4064,7 +4064,7 @@ PNP-LENKE------------LMQ------------------------IGLA--------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_62
+>ANME_1_cluster_archaeon_CONS3730B06UFb1_MMP08574241__QENH01000197.1_MMP08574241_58_55534_56436_pos_cluster_IV
 -----------------------------------------------MRQIAFYGKGGIG
 KSTISSNIAAAYAE-RGLNTLMIGCDPKSDCTRNLCGEVEIP-TILDVSRDKEIERFGLE
 ELVEGNKIKL-DE-IIYKG------------YSGVYCSECGGPKPGFGCAGRGVIVAIDL
@@ -4083,7 +4083,7 @@ RRASDINTNF--------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_78
+>ANME_1_cluster_archaeon_CONS3730B06UFb1_MMP08574241__QENH01000192.1_MMP08574241_23_22942_23826_neg_cluster_IV
 -----------------------------------------------MRQIAFYGKGGIG
 KSTIGSNIVAALSD-NGLSVMMIGCDPKADCTRNLTGEVQIP-TILDVSRDKGIERLGLE
 ELVEGKEIKL-DE-VVHKG------------YGDVHCAECGGPRPGFGCAGRGVIVAIDL
@@ -4102,7 +4102,7 @@ KVEK--------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_72
+>ANME_1_cluster_archaeon_CONS3730B06UFb1_MMP08574241__QENH01000192.1_MMP08574241_26_25994_26887_neg_cluster_IV
 -------------------------------------------MGNEIRQIAFYGKGGIG
 KSTIASNLAAAYAE-QGLNTMLIGCDPKSDCTRNLCGDVDIP-TVLDVLREKGVAKLGLT
 ELVDGKRIEV-DE-IVHKG------------YNGVLCVEAGGPEPAVGCAGRGVIIAIDL
@@ -4121,7 +4121,7 @@ IGG---------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_45
+>Candidatus_Syntrophoarchaeum_caldarius_BOX2_MMP04880560__LYOS01000002.1_211_197714_198571_pos_cluster_III
 -------------------------------------------MKKP-RQIAIYGKGGIG
 KSTISSNLAAACAM-RGLKVMLLGCDPKADCTRNLRGDLEIP-TVLDVLREREKT-----
 ----GGEIDV-DE-IVYRG------------YNGVLCVEAGGPEPAVGCAGRGIIVAVEL
@@ -4140,7 +4140,7 @@ TR----------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_115
+>Candidatus_Syntrophoarchaeum_WYZ_LMO15_MMP08103062__PIXX01000099.1_MMP08103062_37_30236_31117_neg_cluster_IV
 -------------------------------------------MGKP-RQIAFYGKGGIG
 KSTIASNLAAAWAE-AGLKVLMIGCDPKADCTRNLRGDAEVA-TVLDVLREKEGTKMELA
 ETAGGKTIQL-DE-IVYHG------------YRGVLCVEAGGPEPAVGCAGRGIIVAVDL
@@ -4159,7 +4159,7 @@ GRY---------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_126
+>Desulfovibrio_fructosovorans_JJ_MMP00103625__NZ_0AECZ01000009.1_12_012358_013104_neg_cluster_III
 -----------------------------------------------MIKIAIYGKGGIG
 KSTVTSSLSAALSL-EGRKVMQIGCDPKTDSTINLLRGLTPP-PILQYLQEHG-------
 ----RP-ASL-DE-IARTG------------FGGTTCLEVGGPTPGVGCFGRGMLTAFEL
@@ -4178,7 +4178,7 @@ FEEEGRTIVEG-------------------DPGLPTSLEFRNLARTMMGL----------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_223
+>Clostridium_caminithermale_DViRD3_MMP02745912__NZ_0FRAG01000021.1_13_010267_011025_neg_cluster_IV
 -----------------------------------------------MRKIAVYGKGGIG
 KSTITSSLSAAISK-LGYKVVQIGCDPKADSTINLTNGQKVT-PVIQYLKEKG-------
 ----SC-ESL-DE-IAVKG------------YNDIVCIEAGGPTPGVGCAGRGIIMAFET
@@ -4197,7 +4197,7 @@ YEEQNMTVIQG-------------------DIELPISKTIMDIAKSIVEG----------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_29
+>Lebetimonas_JH292_MMP02203749__NZ_00ATHQ01000001.1_74_0070472_0071221_neg_cluster_IV
 -----------------------------------------------MKKIAIYGKGGIG
 KSTITSNLSAAIAT-MGKRVIQIGCDPKADSTINLLGGVPPK-TILSYIEENG-------
 ----MP-KSI-EE-IVKTG------------FANTVTFEVGGPTPGQGCAGRGIVTALEL
@@ -4216,7 +4216,7 @@ AELLGKTVIEY-------------------DKNAQISKNFYSIAKRILDA----------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_109
+>TARA_SAMN05326645_METAG_PSE00065__361_03_02448_03206_neg_cluster_IV
 -----------------------------------------------MKKLAIYGKGGIG
 KSTTVSNLSAAYAT-LGYKVMQIGCDPKADSTTNLTKGIPCS-TVLDVLREDD-------
 ----D--AEL-ED-IVTVG------------DLGVLCVEAGGPLPGVGCAGRGIITAFET
@@ -4235,7 +4235,7 @@ AESQGKTVVSA-------------------FPDSSMAKAYLDLAQLLITD----------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_65
+>OceanDNA_b17183__133_06_05006_05758_pos_cluster_IV
 -----------------------------------------------MKRIAIYGKGGIG
 KSTTVSNLSAAMAK-MGLTVMQIGCDPKADSTRNLTGGETIP-TVLDVIRDNG-------
 ----D--VEL-DD-IVYKS------------STGVLCVESGGPVPGIGCAGRGIITAFEK
@@ -4254,7 +4254,7 @@ AEKQGKTAVEA-------------------FPDCNISKSYEDLAHLLLKE----------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_203
+>Oceanotoga_teriensis_strain_DSM_24906_MMP08769563__QGGI01000006.1_0MMP08769563_94_094176_094922_neg_cluster_IV
 -----------------------------------------------MKKIAIYGKGGIG
 KSTTTSNISAAMAS-MGFTVMQIGCDPKADSTRNLM-GKKIP-TVLDTLRVNG-------
 ----D--ATL-EE-LVALS------------NTNVLCVEAGGPVPGVGCAGRGIITAFEK
@@ -4273,7 +4273,7 @@ AEIDFKTVIEV-------------------FPESDMSEHYKNLAKLLLED----------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_89
+>Clostridium_botulinum_Walls_8G_MMP03779992__NZ_LFPF01000007.1_138_156891_157640_neg_cluster_IV
 -----------------------------------------------MKKIAIYGKGGIG
 KSTTVSNVSAAMAR-MGLTVMQIGCDPKADSTRNLTGGKNIP-TVLDTLREKG-------
 ----D--IEL-DD-LVFKS------------STGVLCVESGGPVPGVGCAGRGIITAFEK
@@ -4292,7 +4292,7 @@ AEALGKTVVEA-------------------FPECDMAKHYGTLAKILLEG----------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_92
+>Vallitalea_guaymasensis_strain_L81_MMP08944605__NZ_0QMDO01000001.1_MMP08944605_630_0693320_0694084_neg_cluster_IV
 -----------------------------------------------MKKIAIYGKGGIG
 KSTTVSNLSRALAA-TGKTVMQIGCDPKADSTKSLVGGKRIP-TILHTLKEKK-------
 ----KC-TKL-ED-IMVIG------------DGGVLCLEAGGPTPGIGCAGRGIISAFEL
@@ -4311,7 +4311,7 @@ AENLGKTVVEA-------------------FPEDEMSKIYMDLAQKIIKE----------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->ref_57
+>Clostridioides_difficile_strain_CD105HS27_MMP4071729__FRET01000001.1_0MMP4071729_814_0902232_0902981_neg_cluster_IV
 -----------------------------------------------MKKIAIYGKGGIG
 KSTTTSNLSASLSH-LGYKVMQIGCDPKSDSTKNLMKGKFIP-TVLDVLKEKK-------
 ----EE-LKL-ED-IVFEG------------YGGVLCIEAGGPTPGVGCAGRGIIAAFEK
@@ -4330,7 +4330,7 @@ SENNGRTVIEE-------------------DENNEMSEVYIELANKIMKS----------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->out_5
+>Bacteroidetes_bacterium_IN_BCD_1_MMP09708795__QQUU01000057.1_00MMP09708795_8_008926_009954_neg_cluster_IV
 --MGGSKLKDE--VPNLKDYSARLRDEANMDLADIQAEQTSGEPTKKTQIIAIYGKGGIG
 KSFTLANLSHMMAE-MGKRVLLIGCDPKSDTTSLLFGGKACP-TIIETSTRKKLA-----
 ----GEEVKI-GDVCFKRG--------------GVFAMELGGPEVGRGCGGRGIIHGFEL
@@ -4349,7 +4349,7 @@ MRGKHAKPQKSLEVIYDEV-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->out_9
+>Aestuariivita_atlantica_22II_S11_z3_MMP03323757__NZ_AQQZ01000004.1_342_365564_366586_pos_cluster_IV
 --MKDDVIKDKGAPPKLTEFSDRLRDEANEDLADV----IPTEATKKTQIIAIYGKGGIG
 KSFTLANLSHMMAE-QGKRVLLIGCDPKSDTTSLLFGGKACP-TIIETSTKKKLA-----
 ----GEEVQI-GDVCFKRG--------------GVFAMELGGPEVGRGCGGRGIIHGFEL
@@ -4368,7 +4368,7 @@ MRGADAKPKQSLEVIYDDV-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->out_8
+>Ahrensia_R2A130_MMP00010388__NZ_AEEB01000017.1_557_585622_586650_pos_cluster_IV
 MTDVMTREAENKDTAEKVDIFNLLKDEADQEPDPV----HTGPITKETEVIAIYGKGGIG
 KSFSLANLSYNLAK-SGKKVLLIGCDPKSDTTSLLFGGKSCP-TIIETSAAKKAA-----
 ----GEDVKI-SDVCFMRD--------------GVFAMELGGPEVGRGCGGRGIIHGFEL
@@ -4387,7 +4387,7 @@ MCDPSIINKPSLEVIYDAV-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->out_0
+>Afifella_marina_BN_126_MMP03080610__FMVW01000008.1_032_0033069_0034082_neg_cluster_IV
 ----MTLDVDAPGFNRRG-MQDYLRDEAAIEPDPV----ATGPVTRETQIIAIYGKGGIG
 KSFTLANLSYMMAQ-QGKKILLIGCDPKSDTTSLLFGGRACP-TIIETSAVKKAA-----
 ----GEEVKI-GDVCFKRD--------------GVFAMELGGPEVGRGCGGRGIIHGFEL
@@ -4406,7 +4406,7 @@ MCGKAAQEKPSLEVIYDTV-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->out_4
+>Alphaproteobacteria_bacterium_strain_ULC027bin2_MMP08895980__QBMO01000041.1_0MMP08895980_21_020981_021970_neg_cluster_IV
 --MSVTL-LDNR--------A--LRTEAAIEPDPV----PTGEVTKETQIIAIYGKGGSG
 KSFALANLSYMMAQ-QGKRVLLIGCDPKSDTTSLLFGGKACP-TIIETSSRKKAA-----
 ----GDEVRI-EDVCFQRD--------------GVFAMELGGPEVGRGCGGRGIIHGFEL
@@ -4425,7 +4425,7 @@ MRGATYVEKPTLEVIYDAV-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->out_2
+>OceanDNA_b32038__049_014_015026_016030_pos_cluster_IV
 ----MSV-LDNPTLADQA-AL--LRDEAGQEPDPV----HTGEVKKETQIIAIYGKGGSG
 KSFALSNLSYMMAQ-QGKRVLLIGCDPKSDTTSLLFGGKSVP-TIIETSSKKKLA-----
 ----GEEVTI-EDVCFQRD--------------GVFAMELGGPEVGRGCGGRGIIHGFEL
@@ -4444,7 +4444,7 @@ MRGGVFEQRPSLEVIYDEA-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->out_3
+>Blastomonas_ARS_3_MMP07618425__NZAM01000008.1_MMP07618425_201_217240_218238_pos_cluster_IV
 ----MTM-LENS--GPDV-AA--LREEAAHEPDPV----ATGPVTKETQVIAIYGKGGSG
 KSFALSNLSYMMAQ-QGKRVLLIGCDPKSDTTSLLFGGKACP-TIIETSSAKKLA-----
 ----GEEVKI-EDVCFQRD--------------GVFAMELGGPEVGRGCGGRGIIHGFEL
@@ -4463,7 +4463,7 @@ MRGGVFEEKASLEVVYDQV-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->out_1
+>Chlorobium_phaeobacteroides_MMP02598272__CP001101.1_0953_1014004_1015122_neg_cluster_IV
 --------------------------------------------MSTPRTIAIYGKGGIG
 KSFTTTNLSATFAL-MGKRVLQLGCDPKHDSTTSLFGGVSLP-TVTEVFAEKNAR-----
 ----NEELQI-SDIVFRRDIPDF--------PQPIYGVELGGPQVGRGCGGRGIISGFDV
@@ -4482,7 +4482,7 @@ AQEIFSSARTHLRKLFFSV-----------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------
->out_6
+>Chlorobium_phaeovibrioides_MMP02598271__CP000607.1_1260_1392534_1393637_pos_cluster_III
 ---------------------------------------------MSARTIAIYGKGGIG
 KSFTTTNLSATFAL-MQKRVLQLGCDPKHDSTTSLFGGMSLP-TLTDVFSEKNAR-----
 ----NEEVSI-EDIVFRRDIGDF--------PRPIYGIELGGPQVGRGCGGRGIISGFDT
