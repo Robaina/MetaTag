@@ -336,6 +336,26 @@ def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
             lines.append(line)
         file.writelines(lines)
 
+def addQueryLabelsToAssignTable(input_table: str,
+                                query_labels: dict,
+                                output_table: str = None) -> None:
+    """
+    Add new column containing actual query labels to query taxonomy/cluster assignment
+    table
+    """
+    def relabel_query(query_id: str, query_labels: dict) -> str:
+        try:
+            return query_labels[query_id]
+        except:
+            return query_id
+
+    if output_table is None:
+        output_table = setDefaultOutputPath(input_table, tag="_relabel")
+    df = pd.read_csv(input_table, sep="\t")
+    df.insert(1, "query_name", df.query_id.apply(lambda x: relabel_query(x, query_labels)))
+    df = df.set_index("query_id")
+    df.to_csv(output_table, sep="\t")
+
 def assignLabelsToPlacements(jplace: str, id_dict: dict,
                              output_dir: str = None,
                              output_prefix: str = None,
@@ -399,11 +419,19 @@ def assignLabelsToPlacements(jplace: str, id_dict: dict,
             output_prefix=output_prefix,
             only_best_hit=only_best_hit,
             additional_args=gappa_additional_args)
-
+    
+    with TemporaryFilePath() as tempout:
         parseGappaAssignTable(
             input_table=gappa_assign_out,
             has_cluster_id=has_cluster_id,
             cluster_scores=ref_cluster_scores,
-            output_file=query_taxo_out,
+            output_file=tempout,
             clusters_taxopath=clusters_taxopath
         )
+        addQueryLabelsToAssignTable(
+            input_table=tempout,
+            query_labels=id_dict,
+            output_table=query_taxo_out
+        )
+
+    
