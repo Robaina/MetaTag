@@ -14,17 +14,17 @@ rm -r /home/robaina/Documents/TRAITS/genes/nifH/results/; mkdir /home/robaina/Do
 # Make database
 python3 ./code/makedatabase.py \
  --in data/final_ref_database.fasta \
- --outdir /home/robaina/Documents/TRAITS/ \
- --hmm /home/robaina/Documents/Databases/TIGR01287.1.HMM \
- --max_size 800 \
+ --outdir genes/nifH/results/ \
+ --hmm genes/nifH/hmms/TIGR01287.1.HMM \
+ --max_size 1000 \
  --relabel
 
 # Add outgroup: search for sequences
 python3 ./code/makedatabase.py \
  --in data/final_ref_database.fasta \
  --outdir genes/nifH/results/ \
- --hmm /home/robaina/Documents/Databases/hmm_PGAP/TIGR02016.1.HMM \
- --max_size 100 \
+ --hmm genes/nifH/hmms/TIGR02016.1.HMM \
+ --max_size 50 \
  --prefix "out_"
 
 # Add outgroup: preprocess
@@ -34,6 +34,7 @@ python3 ./code/preprocess.py \
  --idprefix "out_" --relabel
 
 # Merge outgroup to nifH database
+mkdir -p genes/nifH/results/merge/
 cp genes/nifH/results/outgroup_short_ids.faa genes/nifH/results/merge/
 cp genes/nifH/results/ref_database.faa genes/nifH/results/merge/
 
@@ -53,11 +54,11 @@ python3 ./code/buildtree.py \
 # awk '{if(NR==1) {print $0} else {if($0 ~ /^>/) {print "\n"$0} else {printf $0}}}' genes/nifH/results/ref_database.faln > singleLine.faln
 # mv singleLine.faln genes/nifH/results/ref_database.faln
 
-# # Remove tree branch outliers
-# python3 ./code/removetreeoutliers.py \
-#  --tree genes/nifH/results/ref_database.newick \
-#  --outdir genes/nifH/results/ \
-#  --aln genes/nifH/results/ref_database.faln
+# Remove tree branch outliers
+python3 ./code/removetreeoutliers.py \
+ --tree genes/nifH/results/ref_database.newick \
+ --outdir genes/nifH/results/ \
+ --aln genes/nifH/results/ref_database.faln
 
 # # Classify nifH sequences according to CART model
 # python3 ./code/classifyNifHsequences.py \
