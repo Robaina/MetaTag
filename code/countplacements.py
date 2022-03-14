@@ -6,6 +6,7 @@ Evaluation of placed sequences:
 1) Count placed sequences
 """
 
+import os
 import argparse
 from phyloplacement.utils import setDefaultOutputPath
 from phyloplacement.placement import TaxAssignParser
@@ -22,9 +23,9 @@ parser._action_groups.append(optional)
 
 required.add_argument('--taxtable', dest='taxtable', type=str, required=True,
                       help='path to placements taxonomy table file')
-
-required.add_argument('--taxlevel', dest='taxlevel', type=str, required=True,
-                      help='specify tax level to count hits')
+required.add_argument('--taxlevels', dest='taxlevels', type=str, required=True,
+                      nargs='+',
+                      help='specify space-separated tax levels to count hits')
 optional.add_argument('--cluster_ids', dest='cluster_ids', type=str, default=None,
                       nargs='+',
                       help=(
@@ -35,28 +36,32 @@ optional.add_argument('--cluster_ids', dest='cluster_ids', type=str, default=Non
                     )
 optional.add_argument('--score_threshold', dest='score_threshold', type=float, default=None,
                       help='cluster score threshold value to filter placement results')
-optional.add_argument('--outfile', dest='outfile', type=str, default=None,
-                      help='path to output results file')
-optional.add_argument('--outpdf', dest='outpdf', type=str, default=None,
-                      help='path to output results figure')
+optional.add_argument('--outdir', dest='outdir', type=str, default=None,
+                      help='path to output directory')
+optional.add_argument('--prefix', dest='outprefix', type=str, default=None,
+                      help='prefix to be added to output files')
 
 
 args = parser.parse_args()
-if args.outfile is None:
-    args.outfile = setDefaultOutputPath(args.taxtable, tag='_counts')
-
+if args.outdir is None:
+    args.outdir = setDefaultOutputPath(args.taxtable, only_dirname=True)
+if args.outprefix is None:
+    args.outprefix = 'placed_'
 
 taxparser = TaxAssignParser(args.taxtable)
-counts = taxparser.countHits(
-    cluster_ids=args.cluster_ids,
-    score_threshold=args.score_threshold,
-    taxlevel=args.taxlevel,
-    normalize=True, taxopath_type='taxopath'
-    )
-    
-column_id = 'frequency'
-counts.to_csv(args.outfile, header=[column_id], index=True, sep='\t')
+for taxlevel in args.taxlevels:
+    outfile = os.path.join(args.outdir, f"{args.outprefix}{taxlevel}_counts.tsv")
+    outpdf = os.path.join(args.outdir, f"{args.outprefix}{taxlevel}_counts.pdf")
 
-if args.outpdf is not None:
-    fig = counts.plot.pie(figsize=(15,15), title=f"Represented {args.taxlevel}").get_figure()
-    fig.savefig(args.outpdf, format='pdf')
+    counts = taxparser.countHits(
+        cluster_ids=args.cluster_ids,
+        score_threshold=args.score_threshold,
+        taxlevel=taxlevel,
+        normalize=False, taxopath_type='taxopath'
+        )
+        
+    column_id = 'frequency'
+    counts.to_csv(outfile, header=[column_id], index=True, sep='\t')
+
+    fig = counts.plot.pie(figsize=(15,15), title=f"Represented {taxlevel}").get_figure()
+    fig.savefig(outpdf, format='pdf')
