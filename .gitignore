@@ -54,4 +54,4 @@ data/final_ref_database.fasta
 *.nex
 *.iqtree
 *.fxi
-*fxi-journal
+*.fxi-journal
