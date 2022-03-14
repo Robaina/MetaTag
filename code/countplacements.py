@@ -50,8 +50,8 @@ if args.outprefix is None:
 
 taxparser = TaxAssignParser(args.taxtable)
 for taxlevel in args.taxlevels:
-    outfile = os.path.join(args.outdir, f"{args.outprefix}_{taxlevel}_counts.tsv")
-    outpdf = os.path.join(args.outdir, f"{args.outprefix}_{taxlevel}_counts.pdf")
+    outfile = os.path.join(args.outdir, f"{args.outprefix}{taxlevel}_counts.tsv")
+    outpdf = os.path.join(args.outdir, f"{args.outprefix}{taxlevel}_counts.pdf")
 
     counts = taxparser.countHits(
         cluster_ids=args.cluster_ids,

@@ -53,3 +53,5 @@ data/final_ref_database.fasta
 *.model.gz
 *.nex
 *.iqtree
+*.fxi
+*.fxi-journal
