@@ -1,8 +1,10 @@
-#!/bin/bash
+# !/bin/bash
 
 # ***************************************************************** #
-#                           Nxr pipeline                            #
+                        #   Nxr pipeline                            #
 # ***************************************************************** #
+rm -r /home/robaina/Documents/TRAITS/genes/nxr/results
+mkdir /home/robaina/Documents/TRAITS/genes/nxr/results
 
 # Make database
 python3 ./code/makedatabase.py \
@@ -24,19 +26,19 @@ python3 ./code/makedatabase.py \
 # Merge narG, molyb and remove possible duplicated seqs
 mkdir -p genes/nxr/results/molyb_narG/
 mv genes/nxr/results/narG_ref_database.faa genes/nxr/results/molyb_narG/
-mv genes/nxr/results/molyb_ref_database.faa genes/nxr/resu/home/robaina/Documents/TRAITS/genes/nxr/resultslts/molyb_narG/
+mv genes/nxr/results/molyb_ref_database.faa genes/nxr/results/molyb_narG/
 
 # Add nxr-classified sequences from Nitzinger, 2021
 python3 ./code/preprocess.py \
  --in genes/nxr/data/Nxr_kitzinger_2021.fasta \
  --outfile genes/nxr/results/Nitzinger21_short_ids.faa \
- --idprefix "ref_Nitz21_" --relabel
+ --idprefix "Nitz21_" --relabel
 
 # Add nxr-classified sequences from Nitzinger, 2018
 python3 ./code/preprocess.py \
  --in genes/nxr/data/Nxr_kitzinger_2018.fasta \
  --outfile genes/nxr/results/Nitzinger18_short_ids.faa \
- --idprefix "ref_Nitz18_" --relabel
+ --idprefix "Nitz18_" --relabel
 
 mv genes/nxr/results/Nitzinger21_short_ids.faa genes/nxr/results/molyb_narG/
 mv genes/nxr/results/Nitzinger18_short_ids.faa genes/nxr/results/molyb_narG/
@@ -56,24 +58,24 @@ python3 ./code/buildtree.py \
 
 # Remove tree branch outliers
 python3 ./code/removetreeoutliers.py \
- --tree genes/nxr/results/ref_database.contree \
+ --tree genes/nxr/results/ref_database.newick \
  --outdir genes/nxr/results/ \
  --aln genes/nxr/results/ref_database.faln
 
 # Relabel reference tree and msa
 python3 ./code/relabeltree.py \
- --tree genes/nxr/results/ref_database_shrink.contree \
- --aln genes/nxr/results/ref_database.faln \
+ --tree genes/nxr/results/ref_database_shrink.newick \
+ --aln genes/nxr/results/ref_database_shrink.faln \
  --labels /home/robaina/Documents/TRAITS/genes/nxr/results/molyb_ref_database_id_dict.pickle \
           /home/robaina/Documents/TRAITS/genes/nxr/results/narG_ref_database_id_dict.pickle \
           /home/robaina/Documents/TRAITS/genes/nxr/results/Nitzinger18_short_ids_id_dict.pickle \
           /home/robaina/Documents/TRAITS/genes/nxr/results/Nitzinger21_short_ids_id_dict.pickle \
- --label_prefixes "molyb_" "narG_" "Nitz18" "Nitz21"
+ --label_prefixes "molyb_" "narG_" "Nitz18_" "Nitz21_"
 
- # Commit to GitHub
-# git add -f /home/robaina/Documents/TRAITS/genes/nxr/results/narG_molyb_nitz18_nitz21/ref_database_shrink_relabel.contree
-# git commit -m "Update data"
-# git push origin robaina_nxr
+#  Commit to GitHub
+git add -f /home/robaina/Documents/TRAITS/genes/nxr/results/narG_molyb_nitz18_nitz21/ref_database_shrink_relabel.contree
+git commit -m "Update data"
+git push origin robaina_nxr
 
-# # Send notification
-# python3 ./code/notify.py --link https://github.com/Robaina/TRAITS/tree/robaina_nxr/genes/nxr/results/narG_molyb_nitz18_nitz21
+# Send notification
+python3 ./code/notify.py --link https://github.com/Robaina/TRAITS/tree/robaina_nxr/genes/nxr/results/narG_molyb_nitz18_nitz21
