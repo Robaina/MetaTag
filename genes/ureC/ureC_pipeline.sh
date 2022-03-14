@@ -3,7 +3,8 @@
 # ***************************************************************** #
 #                           ureC pipeline                           #
 # ***************************************************************** #
-
+rm -r /home/robaina/Documents/TRAITS/genes/ureC/results
+mkdir /home/robaina/Documents/TRAITS/genes/ureC/results
 
 # Make database
 python3 ./code/makedatabase.py \
@@ -11,20 +12,20 @@ python3 ./code/makedatabase.py \
  --outdir genes/ureC/results/ \
  --hmms genes/ureC/hmms/alpha_TIGR01792.1.HMM \
  --prefix "ureC_" --relabel \
- --relabel_prefixes "ureC" \
+ --relabel_prefixes "ureC_" \
  --max_sizes 800
 
 # Add Koper 2004 ureC sequences
 python3 ./code/preprocess.py \
  --in genes/ureC/data/koper_2004_seqs.fasta \
  --outfile genes/ureC/results/koper2004_seqs_short_ids.faa \
- --idprefix "ref_ko04_" --relabel
+ --idprefix "ko04_" --relabel
 
 # Add Holn 1997 amidohydrolases sequences (E.coli and M.jannaschii)
 python3 ./code/preprocess.py \
  --in genes/ureC/data/holn_1997_amidohydrolases.fasta \
  --outfile genes/ureC/results/holn1997_seqs_short_ids.faa \
- --idprefix "ref_ho97_" --relabel
+ --idprefix "ho97_" --relabel
 
 # Move databases to directory to merge
 mkdir -p genes/ureC/results/mardb_ko04_ho97/
@@ -47,14 +48,14 @@ python3 ./code/buildtree.py \
 
 # Remove tree branch outliers
 python3 ./code/removetreeoutliers.py \
- --tree genes/ureC/results/ref_database.contree \
+ --tree genes/ureC/results/ref_database.newick \
  --outdir genes/ureC/results/ \
  --aln genes/ureC/results/ref_database.faln
 
 # Relabel reference tree and msa
 python3 ./code/relabeltree.py \
- --tree genes/ureC/results/ref_database_shrink.contree \
- --aln genes/ureC/results/ref_database.faln \
+ --tree genes/ureC/results/ref_database_shrink.newick \
+ --aln genes/ureC/results/ref_database_shrink.faln \
  --labels genes/ureC/results/ureC_ref_database_id_dict.pickle \
           genes/ureC/results/koper2004_seqs_short_ids_id_dict.pickle \
           genes/ureC/results/holn1997_seqs_short_ids_id_dict.pickle \
