@@ -33,6 +33,8 @@ tests/hmm_outputs
 tests/test_data_dna
 genes/rho/*
 genes/rho
+genes/nifH/daniel/
+genes/nifH/daniel/*
 # Files
 trimal.html
 code/accesory/run_papara.py

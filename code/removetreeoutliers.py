@@ -39,7 +39,7 @@ def main():
         input_tree=args.tree,
         input_aln=args.aln,
         output_dir=args.outdir,
-        additional_args=None
+        additional_args="-q 0.01"
     )
 
 if __name__ == '__main__':

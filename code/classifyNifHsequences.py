@@ -77,9 +77,9 @@ def adjustCARTmodel(input_fasta: str, input_alignment: str):
     DOING this MANUALLY for now...
     """
     adjusted_CART = {
-        (224 - 1): ['F', 'W', 'Y'], 
-        (135 - 1): ['A', 'D', 'I'],  
-        (139 - 1): ['L', 'M', 'W'] 
+        (180 - 1): ['F', 'W', 'Y'], 
+        (95 - 1): ['A', 'D', 'I'],  
+        (99 - 1): ['L', 'M', 'W'] 
     }
 
     return adjusted_CART
