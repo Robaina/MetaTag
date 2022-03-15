@@ -35,6 +35,7 @@ genes/rho/*
 genes/rho
 genes/nifH/daniel/
 genes/nifH/daniel/*
+genes/nifH/jose_tree/
 # Files
 trimal.html
 code/accesory/run_papara.py
@@ -44,6 +45,7 @@ NOTES.md
 code/notify.py
 genes/nxr/commit_to_github.sh
 data/final_ref_database.fasta
+genes/nifH/nifH_pipeline_jose_tree.sh
 
 # File types
 *.sqlite
