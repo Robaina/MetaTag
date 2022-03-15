@@ -9,24 +9,25 @@
 # Manually finding key amino acids positions in alignment
 # Adding outgroup bchX (TIGR02016)
 
-# rm -r /home/robaina/Documents/TRAITS/genes/nifH/results/; mkdir /home/robaina/Documents/TRAITS/genes/nifH/results/
+rm -r /home/robaina/Documents/TRAITS/genes/nifH/results/; mkdir /home/robaina/Documents/TRAITS/genes/nifH/results/
 
-# # Make database
-# python3 ./code/makedatabase.py \
-#  --in data/final_ref_database.fasta \
-#  --outdir genes/nifH/results/ \
-#  --hmms genes/nifH/hmms/TIGR01287.1.HMM \
-#         genes/nifH/hmms/TIGR02016.1.HMM \
-#  --max_sizes 1000 10 \
-#  --relabel_prefixes "ref_" "out_" --relabel
+# Make database
+python3 ./code/makedatabase.py \
+ --in data/final_ref_database.fasta \
+ --outdir genes/nifH/results/ \
+ --hmms genes/nifH/hmms/TIGR01287.1.HMM \
+        genes/nifH/hmms/TIGR02016.1.HMM \
+ --max_sizes 1000 10 \
+ --relabel_prefixes "ref_" "out_" --relabel \
+ --remove_duplicates
 
 # # Alignment and tree
 # python3 ./code/buildtree.py \
 #  --in genes/nifH/results/ref_database.faa \
 #  --outdir genes/nifH/results/ \
 #  --msa_method "muscle" \
-#  --tree_model "TEST" \
-#  --tree_method "fasttree"
+#  --tree_model "iqtest" \
+#  --tree_method "iqtree"
 
 # # Remove tree branch outliers
 # python3 ./code/removetreeoutliers.py \

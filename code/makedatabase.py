@@ -13,7 +13,7 @@ import shutil
 import argparse
 
 from phyloplacement.utils import TemporaryDirectoryPath, fullPathListDir, setDefaultOutputPath, TemporaryFilePath, DictMerger
-from phyloplacement.database.preprocessing import setTempRecordIDsInFASTA, mergeFASTAs
+from phyloplacement.database.preprocessing import setTempRecordIDsInFASTA, mergeFASTAs, removeDuplicatesFromFasta
 from phyloplacement.database.manipulation import filterFASTAByHMM, filterFASTABySequenceLength
 from phyloplacement.database.reduction import reduceDatabaseRedundancy
 
@@ -62,7 +62,7 @@ optional.add_argument('--min_seq_length', dest='minseqlength',
                         'Defaults to zero'
                         )
                     )
-parser.add_argument('--max_seq_length', dest='maxseqlength',
+optional.add_argument('--max_seq_length', dest='maxseqlength',
                     default=None, type=int,
                     required=False,
                     help=(
@@ -70,13 +70,20 @@ parser.add_argument('--max_seq_length', dest='maxseqlength',
                         'Defaults to inf'
                         )
                     )
-parser.add_argument('--relabel', dest='relabel', action='store_true',
+optional.add_argument('--relabel', dest='relabel', action='store_true',
                     required=False,
                     default=False,
                     help=(
                         'relabel record IDs with numerical ids. '
                         'Unrequired to build database, but highly recommended '
-                        'to avoid possible conflicts downstream the pipeline.'))
+                        'to avoid possible conflicts downstream the pipeline.')
+                        )
+optional.add_argument('--remove_duplicates', dest='noduplicates', action='store_true',
+                    required=False,
+                    default=False,
+                    help=(
+                        'remove duplicated sequences from final (merged) database')
+                        )
 
 
 args = parser.parse_args()
@@ -140,11 +147,25 @@ def main():
                         prefix=prefix 
                         )
                     shutil.move(output_fasta_short, tempdir1)
+                else:
+                    shutil.move(tempfasta3, tempdir1)
 
         mergeFASTAs(
             input_fastas_dir=tempdir1,
             output_fasta=output_fasta
-        )
+            )
+        
+        if args.noduplicates:
+            with TemporaryFilePath() as tmp_file_path:
+                print('* Removing duplicates...')
+                removeDuplicatesFromFasta(
+                    input_fasta=output_fasta,
+                    output_fasta=tmp_file_path,
+                    method='seqkit',
+                    export_duplicates=False
+                )
+                shutil.move(tmp_file_path, output_fasta)
+
          
         pickle_dict_paths = [file for file in fullPathListDir(tempdir2) if file.endswith('.pickle')]
         if pickle_dict_paths:

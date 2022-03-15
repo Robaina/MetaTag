@@ -57,6 +57,7 @@ def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
     terminalExecute(
         cmd_str,
         work_dir=input_fastas_dir,
+        suppress_shell_output=False
         )
 
 def assertCorrectFilePath(file_name: str) -> None:
