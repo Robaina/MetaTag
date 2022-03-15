@@ -9,10 +9,25 @@ CART model from: https://sfamjournals.onlinelibrary.wiley.com/doi/10.1111/1758-2
 import os
 import argparse
 
-from Bio import SeqIO
+from Bio import pairwise2, SeqIO
 
 from phyloplacement.utils import readFromPickleFile, saveToPickleFile
 
+
+def findPatternInMSArecord(msa_record: str, subsequence: str) -> int:
+    """
+    Find index of the first character of a match between a 
+    subsequence and a sequence alignment record
+    """
+    alns = pairwise2.align.globalxx(msa_record, subsequence)
+    ind = list(set([a.seqB.index(subsequence[0]) for a in alns]))
+    if len(ind) > 1:
+        raise ValueError("More than one match found for subsequence")
+    elif not ind:
+        raise ValueError("No match for subsequence")
+    elif len(ind) == 1:
+        print(f"Only one for: {subsequence}")
+        return ind[0]
 
 def getnifHclusterID(seq: list, cart_model: dict) -> str:
     """
@@ -42,11 +57,12 @@ def getRecordAlignments(input_alignment: str) -> dict:
             for record in SeqIO.parse(inalign, 'fasta')
         }
 
-def adjustCARTmodel(input_fasta: str, input_alignment: str):
+def adjustCARTmodel(input_fasta: str, input_alignment: str,
+                    azo_id: str = 'ref_azo', substring_length: int = 25):
     """
     Adjust CART aminoacid positions to current alignment.
     CART based on nifH sequence from Azotobacter.
-    NifH sequence of Azotobacter must be first in the fasta file
+    Using global alignment of subsequence to find position in aligment.
     """
     CART = {
         109: ['F', 'W', 'Y'], 
@@ -54,34 +70,23 @@ def adjustCARTmodel(input_fasta: str, input_alignment: str):
         53: ['L', 'M', 'W'] 
     }
 
-    """
-    THIS automated approach is nice, but doesn't work because a number of
-    '-' characters may be located within the pattern sequence in the alignment.
-    Hence 'find' doesn't get a match of the sequence. We would have to do an
-    alignment to get the pattern match and find out the offset in the alignment
-
-    adjusted_CART = {}
-    seq_dict = getRecordAlignments(input_fasta)
-    first_id = list(seq_dict.keys())[0]
-    aln_dict = getRecordAlignments(input_alignment)
-    azo_nifH = seq_dict[first_id]
-    azo_nifh_aln = ''.join(aln_dict[first_id])
+    # adjusted_CART = {}
+    # seq_dict = getRecordAlignments(input_fasta)
+    # aln_dict = getRecordAlignments(input_alignment)
+    # azo_nifH = seq_dict[azo_id]
+    # azo_nifh_aln = ''.join(aln_dict[azo_id])
     
-    left_offset, right_offset = 1, 7
-    for aa_pos, aas in CART.items():
-        pos_pattern = ''.join(azo_nifH)[aa_pos - left_offset: aa_pos + right_offset]
-        adj_aa_pos = azo_nifh_aln.find(pos_pattern)  # -1 because doesn't find pattern (extra - ?)
-        adjusted_CART[adj_aa_pos] = aas
+    # for aa_pos, aas in CART.items():
+    #     pos_pattern = ''.join(azo_nifH)[aa_pos - 1: aa_pos - 1 + substring_length]
+    #     aln_aa_pos = findPatternInMSArecord(azo_nifh_aln, pos_pattern)
+    #     adjusted_CART[aln_aa_pos] = aas
 
-    
-    DOING this MANUALLY for now...
-    """
     adjusted_CART = {
         (180 - 1): ['F', 'W', 'Y'], 
         (95 - 1): ['A', 'D', 'I'],  
         (99 - 1): ['L', 'M', 'W'] 
     }
-
+    print(f"CART adjusted to {adjusted_CART}")
     return adjusted_CART
 
 def addClusterToNifHfasta(input_fasta: str, input_alignment: str,
