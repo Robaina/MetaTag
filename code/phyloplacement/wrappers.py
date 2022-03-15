@@ -297,6 +297,7 @@ def runIqTree(input_algns: str, output_dir: str = None,
               substitution_model: str = 'TEST',
               starting_tree: str = None,
               bootstrap_replicates: int = 1000,
+              overwrite_previous_results: bool = True,
               additional_args: str = None) -> None:
     """
     Simple CLI wrapper to iqtree.
@@ -343,6 +344,10 @@ def runIqTree(input_algns: str, output_dir: str = None,
         start_t_str = f'-t {starting_tree}'
     else:
         start_t_str = ''
+    if overwrite_previous_results:
+        overwrite_str = '-redo'
+    else:
+        overwrite_str = ''
     if additional_args is None:
         additional_args = ''
 
@@ -350,7 +355,7 @@ def runIqTree(input_algns: str, output_dir: str = None,
     cmd_str = (
         f'iqtree -s {input_algns} -st {seq_type} -nt {n_processes} '
         f'-m {substitution_model} -bb {bootstrap_replicates} -mset raxml '
-        f'{output_prefix_str} {start_t_str} {additional_args}'
+        f'{output_prefix_str} {start_t_str} {overwrite_str} {additional_args}'
                )
     terminalExecute(cmd_str, suppress_shell_output=False)
     if not keep_recovery_files:
@@ -453,6 +458,7 @@ def runPapara(tree_nwk: str, msa_phy: str,
 def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
              model: str = None, output_dir: str = None,
              n_threads: int = None,
+             overwrite_previous_results: bool = True,
              additional_args: str = None) -> None:
     """
     Simple CLI wrapper to EPA-ng
@@ -471,6 +477,10 @@ def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
         output_dir = os.path.abspath(output_dir)
     if n_threads is None:
         n_threads = os.cpu_count() - 1
+    if overwrite_previous_results:
+        overwrite_str = '--allow-file-overwriting'
+    else:
+        overwrite_str = ''
     if additional_args is not None:
         args_str = additional_args
     else:
@@ -478,7 +488,7 @@ def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
 
     cmd_str = (
         f'epa-ng --ref-msa {input_aln_ref} --tree {input_tree} --query {input_aln_query} '
-        f'--model {model} --threads {n_threads} --outdir {output_dir} {args_str}'
+        f'--model {model} --threads {n_threads} --outdir {output_dir} {overwrite_str} {args_str}'
         )
     terminalExecute(cmd_str, suppress_shell_output=False)
 
