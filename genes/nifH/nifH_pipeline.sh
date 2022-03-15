@@ -63,23 +63,23 @@
 #  --aln_method "papara" \
 # --tree_model "JTT"
 
-# Assign taxonomy to placed sequences
-python3 code/labelplacements.py \
- --jplace genes/nifH/daniel/epa_result.jplace \
- --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
- --ref_clusters genes/nifH/data/clusters.tsv \
- --ref_cluster_scores genes/nifH/data/cluster_scores.tsv \
- --outgroup "out_" \
- --prefix "placed_tax_" \
- --outdir genes/nifH/daniel/
+# # Assign taxonomy to placed sequences
+# python3 code/labelplacements.py \
+#  --jplace genes/nifH/daniel/epa_result.jplace \
+#  --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
+#  --ref_clusters genes/nifH/data/clusters.tsv \
+#  --ref_cluster_scores genes/nifH/data/cluster_scores.tsv \
+#  --outgroup "out_" \
+#  --prefix "placed_tax_" \
+#  --outdir genes/nifH/daniel/
 
-# Count placements (filter by taxon, cluster id and quality score)
-python3 code/countplacements.py \
- --taxtable genes/nifH/daniel/placed_tax_assignments.tsv \
- --taxlevels "order" "class" "family" "genus" \
- --cluster_ids "cluster_I" "cluster_II" "cluster_III" \
- --score_threshold 0.5 \
- --outdir genes/nifH/daniel/
+# # Count placements (filter by taxon, cluster id and quality score)
+# python3 code/countplacements.py \
+#  --taxtable genes/nifH/daniel/placed_tax_assignments.tsv \
+#  --taxlevels "order" "class" "family" "genus" \
+#  --cluster_ids "cluster_I" "cluster_II" "cluster_III" \
+#  --score_threshold 0.5 \
+#  --outdir genes/nifH/daniel/
 
 # # Commit to GitHub
 # git add .
