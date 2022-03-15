@@ -43,20 +43,20 @@
 #  --aln genes/nifH/results/ref_database.faln \
 #  --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
 
-# # Preprocess query sequences
-# python3 code/preprocess.py \
-#  --in genes/nifH/daniel/DanielNifH.fasta \
-#  --outfile genes/nifH/daniel/query_cleaned.faa \
-#  --idprefix "query_" --relabel
+# Preprocess query sequences
+python3 code/preprocess.py \
+ --in genes/nifH/daniel/DanielNifH.fasta \
+ --outfile genes/nifH/daniel/query_cleaned.faa \
+ --idprefix "query_" --relabel
 
-# # Place query sequences
-# python3 code/placesequences.py \
-#  --aln genes/nifH/results/ref_database.faln \
-#  --tree genes/nifH/results/ref_database.newick \
-#  --query genes/nifH/daniel/query_cleaned.faa \
-#  --outdir genes/nifH/daniel/ \
-#  --aln_method "papara" \
-# --tree_model genes/nifH/results/ref_database.log
+# Place query sequences
+python3 code/placesequences.py \
+ --aln genes/nifH/results/ref_database.faln \
+ --tree genes/nifH/results/ref_database.newick \
+ --query genes/nifH/daniel/query_cleaned.faa \
+ --outdir genes/nifH/daniel/ \
+ --aln_method "papara" \
+--tree_model genes/nifH/results/ref_database.log
 
 # Assign taxonomy to placed sequences
 python3 code/labelplacements.py \
@@ -76,6 +76,14 @@ python3 code/countplacements.py \
  --cluster_ids "cluster_I" "cluster_II" "cluster_III" \
  --score_threshold 0.5 \
  --outdir genes/nifH/daniel/
+
+# Relabel tree and alignment
+python3 code/relabeltree.py \
+ --tree genes/nifH/daniel/epa_result.newick \
+ --labels genes/nifH/results/ref_database_id_dict.pickle \
+          genes/nifH/daniel/query_cleaned_id_dict.pickle \
+ --taxonomy \
+ --label_prefixes "ref_" "query_"
 
 # # Commit to GitHub
 # git add .
