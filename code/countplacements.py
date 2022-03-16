@@ -53,16 +53,13 @@ for taxlevel in args.taxlevels:
     outfile = os.path.join(args.outdir, f"{args.outprefix}{taxlevel}_counts.tsv")
     outpdf = os.path.join(args.outdir, f"{args.outprefix}{taxlevel}_counts.pdf")
 
-    counts = taxparser.countHits(
+    taxlevel_counter = taxparser.countHits(
         cluster_ids=args.cluster_ids,
         score_threshold=args.score_threshold,
-        taxlevel=taxlevel,
         taxopath_type='taxopath'
         )
         
-    counts.to_csv(outfile, sep='\t')
-    
-    # .value_counts(normalize=True)
-    # fig = counts.counts.plot.pie(figsize=(15,15), title=f"Represented {taxlevel}", rotatelabels=True).get_figure()
-    fig = counts.counts.plot.bar(figsize=(15,15), title=f"Represented {taxlevel}", rot=90).get_figure()
-    fig.savefig(outpdf, format='pdf')
+    counts, fig = taxlevel_counter.getCounts(
+        taxlevel=taxlevel, output_tsv=outfile,
+        figure_type="bar", output_pdf=outpdf
+        )
