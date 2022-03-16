@@ -159,7 +159,7 @@ class TaxAssignParser():
 
     def countHits(self, taxlevel: str = 'family', 
                   cluster_ids: list[str] = None, score_threshold: float = None,
-                  taxopath_type: str = 'taxopath', normalize=True) -> pd.Series:
+                  taxopath_type: str = 'taxopath') -> pd.Series:
         """
         Count hits within given cluster ids and at specificied taxon level
         @Params:
@@ -185,7 +185,7 @@ class TaxAssignParser():
             raise ValueError('No placement hits returned for the provided filter parameters')
         taxodicts = [Taxopath(taxopath_str).taxodict for taxopath_str in taxopath_hits]
         taxohits = pd.DataFrame(taxodicts).applymap(lambda x: 'Unspecified' if x is None else x)
-        counts = taxohits[taxlevel].value_counts(normalize=normalize)
+        counts = taxohits[taxlevel].value_counts(normalize=False)
         
         # Merge counts from "Unspecified" and empty tax level, e.g., "f__"
         matched_row = counts.index[counts.index.str.fullmatch("[a-zA-Z]__")]
@@ -195,7 +195,11 @@ class TaxAssignParser():
             counts = counts.drop(labels=empty_tax_level)
 
         counts.index.name = taxlevel
-        return counts
+
+        # Add fraction
+        df = counts.to_frame(name="counts")
+        df["fraction"] = df.counts.apply(lambda x: x / df.counts.sum())
+        return df
 
 
 def placeReadsOntoTree(input_tree: str, 
