@@ -57,11 +57,10 @@ for taxlevel in args.taxlevels:
         cluster_ids=args.cluster_ids,
         score_threshold=args.score_threshold,
         taxlevel=taxlevel,
-        normalize=True, taxopath_type='taxopath'
+        taxopath_type='taxopath'
         )
         
-    column_id = 'frequency'
-    counts.to_csv(outfile, header=[column_id], index=True, sep='\t')
+    counts.to_csv(outfile, sep='\t')
     
     # .value_counts(normalize=True)
     # fig = counts.plot.pie(figsize=(15,15), title=f"Represented {taxlevel}", rotatelabels=True).get_figure()
