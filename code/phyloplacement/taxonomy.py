@@ -166,3 +166,50 @@ class TaxonomyAssigner():
                 if taxon_str != 'Unspecified':
                     lines.append(f'{ref_id}\t{taxon_str}\n')
             outfile.writelines(lines)
+
+
+class TaxonomyCounter():
+    def __init__(self, taxopath_list: list[str]):
+        """
+        Tools to summarize taxonomical diversity in a list of taxopaths
+        """
+        taxodicts = [Taxopath(taxopath_str).taxodict for taxopath_str in taxopath_list]
+        self._taxohits = pd.DataFrame(taxodicts).applymap(lambda x: 'Unspecified' if x is None else x)
+
+    def getCounts(self, taxlevel: str = "family", output_tsv: str = None,
+                  figure_type: str = "bar", output_pdf: str = None) -> pd.DataFrame:
+        """
+        Compute counts and fraction at specified taxonomy levels
+        """
+        counts = self._taxohits[taxlevel].value_counts(normalize=False)
+        # Merge counts from "Unspecified" and empty tax level, e.g., "f__"
+        matched_row = counts.index[counts.index.str.fullmatch("[a-zA-Z]__")]
+        if not matched_row.empty:
+            empty_tax_level = matched_row.item()
+            counts[counts.index == 'Unspecified'] = counts[counts.index == 'Unspecified'] + counts[empty_tax_level].item()
+            counts = counts.drop(labels=empty_tax_level)
+
+        counts.index.name = taxlevel
+        # Add fraction
+        df = counts.to_frame(name="counts")
+        df["fraction"] = df.counts.apply(lambda x: x / df.counts.sum())
+        if output_tsv is not None:
+            df.to_csv(output_tsv, sep='\t')
+        # Make figure
+        fig = self.plotCounts(df, plot_type=figure_type, output_pdf=output_pdf)
+        return df, fig
+
+    def plotCounts(self, count_data: pd.DataFrame, plot_type: str = "bar",
+                   output_pdf: str = None, title: str = None):
+        """
+        Make (and optionally export) barplot ('bar') or pieplot ('pie')
+        figure depicting counting results at specified taxonomic level
+        """
+        taxlevel = count_data.index.name
+        if plot_type == "pie":
+            fig = count_data.counts.plot.pie(figsize=(15,15), title=f"Represented {taxlevel}", rotatelabels=True).get_figure()
+        else:
+            fig = count_data.counts.plot.bar(figsize=(15,15), title=f"Represented {taxlevel}", rot=90).get_figure()
+        if output_pdf is not None:
+           fig.savefig(output_pdf, format='pdf')
+        return fig
