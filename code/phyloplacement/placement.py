@@ -16,7 +16,7 @@ from Bio import Phylo
 import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import (setDefaultOutputPath,
                                   TemporaryFilePath)
-from phyloplacement.taxonomy import TaxonomyAssigner, Taxopath
+from phyloplacement.taxonomy import TaxonomyAssigner, TaxonomyCounter, Taxopath
 from phyloplacement.alignment import alignShortReadsToReferenceMSA
 from phyloplacement.phylotree import getIqTreeModelFromLogFile
 from phyloplacement.database.manipulation import getFastaRecordIDs, splitReferenceFromQueryAlignments
@@ -152,14 +152,13 @@ class TaxAssignParser():
                  self._tax_assign.cluster_score = self._tax_assign.cluster_score.apply(lambda x: float(x))
                  self._tax_assign.cluster_taxopath = self._tax_assign.cluster_taxopath.apply(lambda x: "Unspecified" if pd.isna(x) else x)
                  self._tax_assign.taxopath = self._tax_assign.taxopath.apply(lambda x: "Unspecified" if pd.isna(x) else x)
-    
     @property
     def taxlevels(self):
         return Taxopath().taxlevels
 
-    def countHits(self, taxlevel: str = 'family', 
+    def countHits(self, 
                   cluster_ids: list[str] = None, score_threshold: float = None,
-                  taxopath_type: str = 'taxopath') -> pd.Series:
+                  taxopath_type: str = 'taxopath') -> TaxonomyCounter:
         """
         Count hits within given cluster ids and at specificied taxon level
         @Params:
@@ -183,23 +182,9 @@ class TaxAssignParser():
             ][taxopath_type].values
         if len(taxopath_hits) == 0:
             raise ValueError('No placement hits returned for the provided filter parameters')
-        taxodicts = [Taxopath(taxopath_str).taxodict for taxopath_str in taxopath_hits]
-        taxohits = pd.DataFrame(taxodicts).applymap(lambda x: 'Unspecified' if x is None else x)
-        counts = taxohits[taxlevel].value_counts(normalize=False)
-        
-        # Merge counts from "Unspecified" and empty tax level, e.g., "f__"
-        matched_row = counts.index[counts.index.str.fullmatch("[a-zA-Z]__")]
-        if not matched_row.empty:
-            empty_tax_level = matched_row.item()
-            counts[counts.index == 'Unspecified'] = counts[counts.index == 'Unspecified'] + counts[empty_tax_level].item()
-            counts = counts.drop(labels=empty_tax_level)
 
-        counts.index.name = taxlevel
-
-        # Add fraction
-        df = counts.to_frame(name="counts")
-        df["fraction"] = df.counts.apply(lambda x: x / df.counts.sum())
-        return df
+        taxlevel_counter = TaxonomyCounter(taxopath_list=taxopath_hits)
+        return taxlevel_counter
 
 
 def placeReadsOntoTree(input_tree: str, 
