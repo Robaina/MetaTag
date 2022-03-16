@@ -63,6 +63,6 @@ for taxlevel in args.taxlevels:
     counts.to_csv(outfile, sep='\t')
     
     # .value_counts(normalize=True)
-    # fig = counts.plot.pie(figsize=(15,15), title=f"Represented {taxlevel}", rotatelabels=True).get_figure()
-    fig = counts.plot.bar(figsize=(15,15), title=f"Represented {taxlevel}", rot=90).get_figure()
+    # fig = counts.counts.plot.pie(figsize=(15,15), title=f"Represented {taxlevel}", rotatelabels=True).get_figure()
+    fig = counts.counts.plot.bar(figsize=(15,15), title=f"Represented {taxlevel}", rot=90).get_figure()
     fig.savefig(outpdf, format='pdf')
