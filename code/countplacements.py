@@ -63,4 +63,3 @@ for taxlevel in args.taxlevels:
         taxlevel=taxlevel, output_tsv=outfile,
         figure_type="bar", output_pdf=outpdf
         )
-    
