@@ -478,7 +478,7 @@ def runEPAng(input_tree: str, input_aln_ref: str, input_aln_query: str,
     if n_threads is None:
         n_threads = os.cpu_count() - 1
     if overwrite_previous_results:
-        overwrite_str = '--allow-file-overwriting'
+        overwrite_str = '--redo'
     else:
         overwrite_str = ''
     if additional_args is not None:
