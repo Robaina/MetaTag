@@ -7,7 +7,6 @@ Tools to assign taxonomy to reference and query (placed) sequences
 
 from __future__ import annotations
 import os
-from typing import List
 
 import pandas as pd
 
@@ -86,7 +85,7 @@ class TaxonomyAssigner():
             ).drop_duplicates(subset='genome').set_index('genome')
     
     @staticmethod
-    def lowestCommonTaxonomy(taxopaths: List[str]) -> str:
+    def lowestCommonTaxonomy(taxopaths: list[str]) -> str:
         """
         Find lowest common taxonomy among set of taxopaths
         """
@@ -120,7 +119,7 @@ class TaxonomyAssigner():
         else:
             return 'No_taxonomy_found'
 
-    def assignLowestCommonTaxonomyToLabels(self, labels: List[str]) -> str:
+    def assignLowestCommonTaxonomyToLabels(self, labels: list[str]) -> str:
         """
         Assing taxonomy to set of labels and find lowest common taxonomy
         among them
