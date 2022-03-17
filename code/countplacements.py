@@ -61,5 +61,5 @@ for taxlevel in args.taxlevels:
         
     counts, fig = taxlevel_counter.getCounts(
         taxlevel=taxlevel, output_tsv=outfile,
-        figure_type="bar", output_pdf=outpdf
+        plot_type="bar", output_pdf=outpdf
         )
