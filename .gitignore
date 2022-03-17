@@ -19,7 +19,6 @@ data/environmental/*
 genes/**/data/*
 genes/**/papers/*
 genes/**/results/*
-# !genes/nifH/results/remedios/*
 !genes/**/*.sh
 !genes/**/*.faln
 !genes/**/*.contree
@@ -36,6 +35,7 @@ genes/rho
 genes/nifH/daniel/
 genes/nifH/daniel/*
 genes/nifH/jose_tree/
+select_internal_nodes/
 # Files
 trimal.html
 code/accesory/run_papara.py
