@@ -297,6 +297,7 @@ def runIqTree(input_algns: str, output_dir: str = None,
               substitution_model: str = 'TEST',
               starting_tree: str = None,
               bootstrap_replicates: int = 1000,
+              max_bootstrap_iterations: int = 1000,
               overwrite_previous_results: bool = True,
               additional_args: str = None) -> None:
     """
@@ -355,6 +356,7 @@ def runIqTree(input_algns: str, output_dir: str = None,
     cmd_str = (
         f'iqtree -s {input_algns} -st {seq_type} -nt {n_processes} '
         f'-m {substitution_model} -bb {bootstrap_replicates} -mset raxml '
+        f'-nm {max_bootstrap_iterations} '
         f'{output_prefix_str} {start_t_str} {overwrite_str} {additional_args}'
                )
     terminalExecute(cmd_str, suppress_shell_output=False)
