@@ -6,10 +6,10 @@ Tools to perform phylogenetic tree reconstructions and
 query sequence placements onto trees
 """
 
+from __future__ import annotations
 import os
 import shutil
 import re
-from typing import List
 
 from Bio import Phylo 
 
@@ -207,7 +207,7 @@ class PhyloTree:
         target = next(self._tree.find_clades(target=target_name))
         return [n.name for n in target.get_terminals()]
 
-    def getClosestCommonAncestor(self, target_names: List[str]) -> str:
+    def getClosestCommonAncestor(self, target_names: list[str]) -> str:
         """
         Get name of closest common ancestor given list of leaf names
         """
