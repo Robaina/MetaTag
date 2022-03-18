@@ -27,6 +27,8 @@ required.add_argument('--aln', dest='aln', type=str, required=True,
                       help='path to reference fasta alignment')
 optional.add_argument('--outdir', dest='outdir', type=str,
                       help='path to output directory')
+optional.add_argument('--additional_args', dest='addargs', type=str, default=None,
+                      help='addtional arguments to treeshrink passed as a string')
 
 args = parser.parse_args()
 if args.outdir is None:
@@ -39,7 +41,8 @@ def main():
         input_tree=args.tree,
         input_aln=args.aln,
         output_dir=args.outdir,
-        additional_args="-q 0.01"
+        output_deleted_nodes=True,
+        additional_args=args.addargs
     )
 
 if __name__ == '__main__':
