@@ -7,9 +7,9 @@ Tools to assign taxonomy to reference and query (placed) sequences
 
 from __future__ import annotations
 import os
-from typing import List
 
 import pandas as pd
+from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
 
 from phyloplacement.database.parsers.mardb import MARdbLabelParser
 
@@ -86,7 +86,7 @@ class TaxonomyAssigner():
             ).drop_duplicates(subset='genome').set_index('genome')
     
     @staticmethod
-    def lowestCommonTaxonomy(taxopaths: List[str]) -> str:
+    def lowestCommonTaxonomy(taxopaths: list[str]) -> str:
         """
         Find lowest common taxonomy among set of taxopaths
         """
@@ -120,7 +120,7 @@ class TaxonomyAssigner():
         else:
             return 'No_taxonomy_found'
 
-    def assignLowestCommonTaxonomyToLabels(self, labels: List[str]) -> str:
+    def assignLowestCommonTaxonomyToLabels(self, labels: list[str]) -> str:
         """
         Assing taxonomy to set of labels and find lowest common taxonomy
         among them
@@ -177,7 +177,7 @@ class TaxonomyCounter():
         self._taxohits = pd.DataFrame(taxodicts).applymap(lambda x: 'Unspecified' if x is None else x)
 
     def getCounts(self, taxlevel: str = "family", output_tsv: str = None,
-                  figure_type: str = "bar", output_pdf: str = None) -> pd.DataFrame:
+                  plot_type: str = "bar", output_pdf: str = None) -> pd.DataFrame:
         """
         Compute counts and fraction at specified taxonomy levels
         """
@@ -196,7 +196,7 @@ class TaxonomyCounter():
         if output_tsv is not None:
             df.to_csv(output_tsv, sep='\t')
         # Make figure
-        fig = self.plotCounts(df, plot_type=figure_type, output_pdf=output_pdf)
+        fig = self.plotCounts(df, plot_type=plot_type, output_pdf=output_pdf, title=f'Taxonomy at level: {taxlevel}')
         return df, fig
 
     def plotCounts(self, count_data: pd.DataFrame, plot_type: str = "bar",
@@ -205,11 +205,43 @@ class TaxonomyCounter():
         Make (and optionally export) barplot ('bar') or pieplot ('pie')
         figure depicting counting results at specified taxonomic level
         """
-        taxlevel = count_data.index.name
+        if title is None:
+            title=''
         if plot_type == "pie":
-            fig = count_data.counts.plot.pie(figsize=(15,15), title=f"Represented {taxlevel}", rotatelabels=True).get_figure()
+            fig = count_data.counts.plot.pie(figsize=(15,15), title=title, rotatelabels=True).get_figure()
         else:
-            fig = count_data.counts.plot.bar(figsize=(15,15), title=f"Represented {taxlevel}", rot=90).get_figure()
+            fig = count_data.counts.plot.bar(figsize=(15,15), title=title, rot=90).get_figure()
         if output_pdf is not None:
            fig.savefig(output_pdf, format='pdf')
         return fig
+
+
+def evaluateTaxonomyOfReferenceDatabase(label_dict_pickle: str = None,
+                                        taxlevels: list[str] = None,
+                                        output_dir: str = None,
+                                        plot_results: bool = False) -> None:
+    """
+    Assign taxonomy to sequences and evaluate taxonomical representation
+    """
+    if taxlevels is None:
+        taxlevels = ['class', 'order', 'family', 'genus']
+    if output_dir is None:
+        output_dir = setDefaultOutputPath(label_dict_pickle, only_dir_name=True)
+
+    taxonomy = TaxonomyAssigner(
+        taxo_file='/home/robaina/Documents/TRAITS/data/taxonomy/merged_taxonomy.tsv'
+    )
+    label_dict = readFromPickleFile(label_dict_pickle)
+    taxopaths = [
+        taxonomy.assignTaxonomyToLabel(label)
+        for label in label_dict.values()
+    ]
+    taxcounter = TaxonomyCounter(taxopaths)
+    
+    for taxlevel in taxlevels:
+        if plot_results:
+            outpdf = os.path.join(output_dir, f'ref_taxonomy_counts_{taxlevel}.pdf')
+        else:
+            outpdf = None
+        counts = taxcounter.getCounts(taxlevel, output_tsv=os.path.join(output_dir, f'ref_taxonomy_counts_{taxlevel}.tsv'),
+                                      plot_type='bar', output_pdf=outpdf)

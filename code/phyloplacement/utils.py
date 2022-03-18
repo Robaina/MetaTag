@@ -6,7 +6,6 @@ Functions and classes for general purposes
 """
 
 from __future__ import annotations
-from typing import List
 import os
 import shutil
 import random
@@ -222,7 +221,7 @@ def easyPatternMatching(text: str, left_pattern: str, right_pattern: str = None)
 
 
 class DictMerger():
-    def __init__(self, dicts: List[dict]) -> None:
+    def __init__(self, dicts: list[dict]) -> None:
         """
         Toos to merge python dictionaries into a single one
         @param
@@ -231,7 +230,7 @@ class DictMerger():
         self._dict_list = dicts
     
     @classmethod
-    def fromPicklePaths(cls, dict_paths: List[str]) -> DictMerger:
+    def fromPicklePaths(cls, dict_paths: list[str]) -> DictMerger:
         """
         Initialize class from list of paths to dictionaries (pickle)
         """
@@ -251,7 +250,7 @@ class DictMerger():
         in_file.close()
         return python_object
 
-    def merge(self, dict_prefixes: List[str] = None, save_pickle_path: str = None) -> dict:
+    def merge(self, dict_prefixes: list[str] = None, save_pickle_path: str = None) -> dict:
         """
         Merge dictionaries
         @params
