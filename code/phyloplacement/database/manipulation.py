@@ -182,6 +182,17 @@ def getFastaRecordIDs(fasta_file: str) -> set:
     fasta = pyfastx.Fasta(fasta_file, full_name=True)
     return set(fasta.keys())
 
+def removeRecordsFromFASTA(input_fasta: str, record_ids: list[str], output_fasta: str = None) -> None:
+    """
+    Remove records from Fasta file based on provided list of record IDs.
+    """
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fasta, tag='_reduced')
+    fasta_record_ids = getFastaRecordIDs(input_fasta)
+    records_to_keep = fasta_record_ids - set(record_ids)
+    filterFASTAbyIDs(input_fasta, records_to_keep, output_fasta)
+    return None
+
 def countRecordsInFasta(fasta_file: str) -> int:
     """
     Count records in fasta file
