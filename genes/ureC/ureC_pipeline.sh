@@ -39,12 +39,12 @@
 #  --outfile genes/ureC/results/ref_database.faa
 
 # Alignment and tree
-python3 ./code/buildtree.py \
- --in genes/ureC/results/ref_database_no_outliers.faa \
- --outdir genes/ureC/results/ \
- --msa_method "muscle" \
- --tree_model "LG+F+I+G4" \
- --tree_method "iqtree"
+# python3 ./code/buildtree.py \
+#  --in genes/ureC/results/ref_database_no_outliers.faa \
+#  --outdir genes/ureC/results/ \
+#  --msa_method "muscle" \
+#  --tree_model "LG+F+I+G4" \
+#  --tree_method "iqtree"
 
 # # Remove tree branch outliers
 # python3 ./code/removetreeoutliers.py \
@@ -55,8 +55,8 @@ python3 ./code/buildtree.py \
 
 # Relabel reference tree and msa
 python3 ./code/relabeltree.py \
- --tree genes/ureC/results/ref_database_shrink.newick \
- --aln genes/ureC/results/ref_database_shrink.faln \
+ --tree genes/ureC/results/ref_database.newick \
+ --aln genes/ureC/results/ref_database.faln \
  --labels genes/ureC/results/ureC_ref_database_id_dict.pickle \
           genes/ureC/results/koper2004_seqs_short_ids_id_dict.pickle \
           genes/ureC/results/holn1997_seqs_short_ids_id_dict.pickle \
@@ -67,5 +67,5 @@ python3 ./code/relabeltree.py \
 # git commit -m "Add ureC results"
 # git push origin main
 
-# # Send notification
+# Send notification
 # python3 ./code/notify.py --link https://github.com/Robaina/TRAITS/

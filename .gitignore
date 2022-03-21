@@ -21,7 +21,7 @@ genes/**/papers/*
 genes/**/results/*
 !genes/**/*.sh
 !genes/**/*.faln
-!genes/**/*.contree
+!genes/**/*.newick
 !genes/**/*.pickle
 !genes/**/iTOL_colors.txt
 !genes/**/clusters.tsv
