@@ -39,12 +39,12 @@
 #  --outfile genes/ureC/results/ref_database.faa
 
 # Alignment and tree
-# python3 ./code/buildtree.py \
-#  --in genes/ureC/results/ref_database_no_outliers.faa \
-#  --outdir genes/ureC/results/ \
-#  --msa_method "muscle" \
-#  --tree_model "LG+F+I+G4" \
-#  --tree_method "iqtree"
+python3 ./code/buildtree.py \
+ --in genes/ureC/results/ref_database_no_outliers.faa \
+ --outdir genes/ureC/results/ \
+ --msa_method "muscle" \
+ --tree_model "iqtest" \
+ --tree_method "iqtree"
 
 # # Remove tree branch outliers
 # python3 ./code/removetreeoutliers.py \
