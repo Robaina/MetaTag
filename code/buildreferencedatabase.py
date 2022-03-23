@@ -18,7 +18,7 @@ import pyfastx
 import pandas as pd
 
 from phyloplacement.utils import terminalExecute, extractTarFile, fullPathListDir
-from phyloplacement.database.parsers.mardb import MARdbLabelParser
+from phyloplacement.database.labelparsers import MARdbLabelParser
 
 data_dir = "/home/robaina/Documents/TRAITS/data/"
 work_dir = "/home/robaina/Documents/TRAITS/code/"

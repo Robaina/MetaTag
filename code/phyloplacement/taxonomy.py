@@ -224,7 +224,7 @@ def evaluateTaxonomyOfReferenceDatabase(label_dict_pickle: str = None,
         output_dir = setDefaultOutputPath(label_dict_pickle, only_dir_name=True)
 
     taxonomy = TaxonomyAssigner(
-        taxo_file='/data/taxonomy/merged_taxonomy.tsv'
+        taxo_file='/home/robaina/Documents/TRAITS/data/taxonomy/merged_taxonomy.tsv'
     )
     label_dict = readFromPickleFile(label_dict_pickle)
     taxopaths = [
