@@ -403,7 +403,7 @@ def runTreeShrink(input_tree: str, input_aln: str = None,
         
         cmd_str = (
             f'run_treeshrink.py -i {parent_in_temp} -m per-gene '
-            '-t input.tree {aln_str} --force '
+            f'-t input.tree {aln_str} --force '
             f'-o {temp_out_dir} -O output {args_str}'
                 )
         terminalExecute(cmd_str, suppress_shell_output=False)
