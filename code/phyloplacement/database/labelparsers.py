@@ -35,7 +35,7 @@ class LabelParser():
             genome_id = taxid
         else:
             genome_id_split = label.split('__')
-            if genome_id_split:
+            if len(genome_id_split) > 1:
                 genome_id = genome_id_split[0]
             else:
                 genome_id = ''
@@ -82,7 +82,7 @@ class UniprotLabelParser():
         """
         db_entry = re.compile('(OX=)(\d+)')   
         try:
-            return re.search(db_entry, label).group(2)
+            return f'taxid_{re.search(db_entry, label).group(2)}'
         except Exception:
             return ''
 
