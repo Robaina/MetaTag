@@ -37,6 +37,7 @@ genes/nifH/daniel/*
 genes/nifH/jose_tree/
 select_internal_nodes/
 ms/
+test_data/
 # Files
 trimal.html
 code/accesory/run_papara.py
