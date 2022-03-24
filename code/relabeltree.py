@@ -111,7 +111,7 @@ def main():
         tree_label_dict, export_label_dict = assignTaxonomyToLabels(prefix_label_dict, label_dict)
         exportTaxonomyTable(export_label_dict, taxoout)
     else:
-        tree_label_dict = label_dict
+        tree_label_dict = prefix_label_dict
 
     relabelTree(
         input_newick=args.tree,

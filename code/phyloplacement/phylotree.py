@@ -214,6 +214,12 @@ class PhyloTree:
         clade = self._tree.common_ancestor(target_names)
         return clade.name
 
+    def getAllLeafNames(self) -> list[str]:
+        """
+        Get list of all leaves (terminal nodes names)
+        """
+        return [leaf.name for leaf in self._tree.get_terminals()]
+
     def extractClustersFromInternalNodes(self) -> dict:
         """
         Extract all terminal nodes which are descendants of
