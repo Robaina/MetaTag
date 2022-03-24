@@ -28,24 +28,24 @@
 #  --outfile genes/amt/results/mcdonald2016_RH_short_ids.faa \
 #  --idprefix "mc16rh_" --relabel
 
-# Move databases to directory to merge
-mkdir -p genes/amt/results/merge
-mv genes/amt/results/amt_ref_database.faa genes/amt/results/merge/
-mv genes/amt/results/mcdonald2016_prokaryotes_short_ids.faa genes/amt/results/merge/
-mv genes/amt/results/mcdonald2016_RH_short_ids.faa genes/amt/results/merge/
+# # Move databases to directory to merge
+# mkdir -p genes/amt/results/merge
+# mv genes/amt/results/amt_ref_database.faa genes/amt/results/merge/
+# mv genes/amt/results/mcdonald2016_prokaryotes_short_ids.faa genes/amt/results/merge/
+# mv genes/amt/results/mcdonald2016_RH_short_ids.faa genes/amt/results/merge/
 
-# Merge all four databases into final reference database
-python3 ./code/preprocess.py \
- --in genes/amt/results/merge/ \
- --outfile genes/amt/results/ref_database.faa
+# # Merge all four databases into final reference database
+# python3 ./code/preprocess.py \
+#  --in genes/amt/results/merge/ \
+#  --outfile genes/amt/results/ref_database.faa
 
-# Alignment and tree
-python3 ./code/buildtree.py \
- --in genes/amt/results/ref_database.faa \
- --outdir genes/amt/results/ \
- --msa_method "muscle" \
- --tree_model "iqtest" \
- --tree_method "iqtree"
+# # Alignment and tree
+# python3 ./code/buildtree.py \
+#  --in genes/amt/results/ref_database.faa \
+#  --outdir genes/amt/results/ \
+#  --msa_method "muscle" \
+#  --tree_model "iqtest" \
+#  --tree_method "iqtree"
 
 # Remove tree branch outliers
 python3 ./code/removetreeoutliers.py \
