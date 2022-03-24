@@ -7,50 +7,45 @@
 # rm -r /home/robaina/Documents/TRAITS/genes/amt/results
 # mkdir /home/robaina/Documents/TRAITS/genes/amt/results
 
-# # Make database
-# python3 ./code/makedatabase.py \
-#  --in data/final_ref_database.fasta \
-#  --outdir genes/amt/results/ \
-#  --hmm genes/amt/hmms/TIGR00836.1.HMM \
-#  --prefix "amt_" --relabel \
-#  --relabel_prefixes "amt_" \
-#  --max_size 800
+# Make database
+python3 ./code/makedatabase.py \
+ --in data/final_ref_database.fasta \
+ --outdir genes/amt/results/ \
+ --hmm genes/amt/hmms/TIGR00836.1.HMM \
+ --prefix "amt_" --relabel \
+ --relabel_prefixes "amt_" \
+ --max_size 800
 
-# # Add amt-classified bacterial and archaeal sequences from mcdonald2016 
-# python3 ./code/preprocess.py \
-#  --in genes/amt/data/mcdonald2016_prokaryotes_parsed.fasta \
-#  --outfile genes/amt/results/mcdonald2016_prokaryotes_short_ids.faa \
-#  --idprefix "mc16_" --relabel
+# Add amt-classified bacterial and archaeal sequences from mcdonald2016 
+python3 ./code/preprocess.py \
+ --in genes/amt/data/mcdonald2016_prokaryotes_parsed.fasta \
+ --outfile genes/amt/results/mcdonald2016_prokaryotes_short_ids.faa \
+ --idprefix "mc16_" --relabel
 
-# # Add RH-classified sequences from mcdonald2016 
-# python3 ./code/preprocess.py \
-#  --in genes/amt/data/mcdonald2016_rh_parsed.fasta \
-#  --outfile genes/amt/results/mcdonald2016_RH_short_ids.faa \
-#  --idprefix "mc16rh_" --relabel
+# Add RH-classified sequences from mcdonald2016 
+python3 ./code/preprocess.py \
+ --in genes/amt/data/mcdonald2016_rh_parsed.fasta \
+ --outfile genes/amt/results/mcdonald2016_RH_short_ids.faa \
+ --idprefix "mc16rh_" --relabel
 
-# # Move databases to directory to merge
-# mkdir -p genes/amt/results/merge
-# mv genes/amt/results/amt_ref_database.faa genes/amt/results/merge/
-# mv genes/amt/results/mcdonald2016_prokaryotes_short_ids.faa genes/amt/results/merge/
-# mv genes/amt/results/mcdonald2016_RH_short_ids.faa genes/amt/results/merge/
+# Move databases to directory to merge
+mkdir -p genes/amt/results/merge
+mv genes/amt/results/amt_ref_database.faa genes/amt/results/merge/
+mv genes/amt/results/mcdonald2016_prokaryotes_short_ids.faa genes/amt/results/merge/
+mv genes/amt/results/mcdonald2016_RH_short_ids.faa genes/amt/results/merge/
 
-# # Merge all four databases into final reference database
-# python3 ./code/preprocess.py \
-#  --in genes/amt/results/merge/ \
-#  --outfile genes/amt/results/ref_database.faa
+# Merge all four databases into final reference database
+python3 ./code/preprocess.py \
+ --in genes/amt/results/merge/ \
+ --outfile genes/amt/results/ref_database.faa
 
-# # Alignment and tree
-# python3 ./code/buildtree.py \
-#  --in genes/amt/results/ref_database.faa \
-#  --outdir genes/amt/results/ \
-#  --msa_method "muscle" \
-#  --tree_model "iqtest" \
-#  --tree_method "iqtree"
-
-# Remove tree branch outliers
-python3 ./code/removetreeoutliers.py \
- --tree genes/amt/results/ref_database.newick \
- --outdir genes/amt/results/
+# Alignment and tree
+python3 ./code/buildtree.py \
+ --in genes/amt/results/ref_database.faa \
+ --outdir genes/amt/results/ \
+ --msa_method "muscle" \
+ --tree_model "iqtest" \
+ --tree_method "iqtree"
 
 # Relabel reference tree and msa
 python3 ./code/relabeltree.py \
