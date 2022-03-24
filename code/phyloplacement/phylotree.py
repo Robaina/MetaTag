@@ -17,6 +17,102 @@ from phyloplacement.utils import setDefaultOutputPath, easyPatternMatching
 import phyloplacement.wrappers as wrappers
 
 
+
+class PhyloTree:
+    """
+    Methods to help defining clusters in phylo trees
+    """
+    def __init__(self, tree_path: str, tree_format: str = 'newick', bootstrap_threshold: float = None):
+        self._tree = list(Phylo.parse(tree_path, tree_format))[0]
+        if bootstrap_threshold is not None:
+            self.collapsePoorQualityNodes(bootstrap_threshold)
+        self.nameInternalNodes()
+        self._tree_path = tree_path
+        self._tree_format = tree_format
+
+    def _scaleBootstrapValues(self):
+        """
+        Scale bootstrap values to be percentages if necessary.
+        This is to deal with discrepancies between how fasttree and
+        iqtree report bootstrap values (fractions vs percentages)
+        """
+        conf_values = [
+            c.confidence for c in self._tree.find_clades() 
+            if c.confidence is not None
+            ]
+        if conf_values:
+            max_value = max(conf_values)
+            if max_value < 2:
+                for clade in self._tree.find_clades():
+                    if clade.confidence is not None:
+                        clade.confidence *= 100
+        else:
+            raise ValueError('Tree does not contain confidence values. Change tree or set bootstrap_threshold to None')
+
+    def collapsePoorQualityNodes(self, bootstrap_threshold: float = 95) -> None:
+        """
+        Collapse all nodes with a bootstrap value smaller than threshold
+        """
+        self._scaleBootstrapValues()
+        self._tree.collapse_all(
+            lambda c: c.confidence is not None and c.confidence < bootstrap_threshold
+            )
+
+    def nameInternalNodes(self) -> None:
+        """
+        Give unique identifier to internal nodes
+        including bootstrap value in identifier
+        as: IN_n_b, where n is a unique identifying
+        number and b the bootstrap value (or None
+        if not present)
+        """
+        for n, clade in enumerate(self._tree.get_nonterminals()):
+            if clade.name is None:
+                clade.name = f'IN_{n}_{clade.confidence}'
+                clade.confidence = None
+
+    def getTreeObject(self):
+        return self._tree
+
+    def exportTree(self, outfile: str, tree_format: str = 'newick') -> None:
+        """
+        Export tree object to file
+        """
+        Phylo.write(self._tree, outfile, tree_format)
+
+    def getAllDescendantsOfTargetNode(self, target_name: str) -> list:
+        """
+        Get all leaf names from given target (internal) node name
+        """
+        target = next(self._tree.find_clades(target=target_name))
+        return [n.name for n in target.get_terminals()]
+
+    def getClosestCommonAncestor(self, target_names: list[str]) -> str:
+        """
+        Get name of closest common ancestor given list of leaf names
+        """
+        clade = self._tree.common_ancestor(target_names)
+        return clade.name
+
+    def getAllLeafNames(self) -> list[str]:
+        """
+        Get list of all leaves (terminal nodes names)
+        """
+        return [leaf.name for leaf in self._tree.get_terminals()]
+
+    def extractClustersFromInternalNodes(self) -> dict:
+        """
+        Extract all terminal nodes which are descendants of
+        each internal node in the tree
+        """
+        cluster_dict = {}
+        for clade in self._tree.get_nonterminals():
+            terminal_nodes = clade.get_terminals()
+            cluster_dict[clade.name] = [n.name for n in terminal_nodes]
+        return cluster_dict
+
+        
+
 def inferTree(ref_aln: str,
               method: str = 'iqtree',
               substitution_model: str = 'modeltest',
@@ -136,102 +232,6 @@ def getTreeModelFromModeltestLog(modeltest_log: str, criterion: str = 'BIC') -> 
                 left_pattern='Model:'
                 ).strip()
         return model
-
-
-class PhyloTree:
-    """
-    Methods to help defining clusters in phylo trees
-    """
-    def __init__(self, tree_path: str, tree_format: str = 'newick', bootstrap_threshold: float = None):
-        self._tree = list(Phylo.parse(tree_path, tree_format))[0]
-        if bootstrap_threshold is not None:
-            self.collapsePoorQualityNodes(bootstrap_threshold)
-        self.nameInternalNodes()
-        self._tree_path = tree_path
-        self._tree_format = tree_format
-
-    def _scaleBootstrapValues(self):
-        """
-        Scale bootstrap values to be percentages if necessary.
-        This is to deal with discrepancies between how fasttree and
-        iqtree report bootstrap values (fractions vs percentages)
-        """
-        conf_values = [
-            c.confidence for c in self._tree.find_clades() 
-            if c.confidence is not None
-            ]
-        if conf_values:
-            max_value = max(conf_values)
-            if max_value < 2:
-                for clade in self._tree.find_clades():
-                    if clade.confidence is not None:
-                        clade.confidence *= 100
-        else:
-            raise ValueError('Tree does not contain confidence values. Change tree or set bootstrap_threshold to None')
-
-    def collapsePoorQualityNodes(self, bootstrap_threshold: float = 95) -> None:
-        """
-        Collapse all nodes with a bootstrap value smaller than threshold
-        """
-        self._scaleBootstrapValues()
-        self._tree.collapse_all(
-            lambda c: c.confidence is not None and c.confidence < bootstrap_threshold
-            )
-
-    def nameInternalNodes(self) -> None:
-        """
-        Give unique identifier to internal nodes
-        including bootstrap value in identifier
-        as: IN_n_b, where n is a unique identifying
-        number and b the bootstrap value (or None
-        if not present)
-        """
-        for n, clade in enumerate(self._tree.get_nonterminals()):
-            if clade.name is None:
-                clade.name = f'IN_{n}_{clade.confidence}'
-                clade.confidence = None
-
-    def getTreeObject(self):
-        return self._tree
-
-    def exportTree(self, outfile: str, tree_format: str = 'newick') -> None:
-        """
-        Export tree object to file
-        """
-        Phylo.write(self._tree, outfile, tree_format)
-
-    def getAllDescendantsOfTargetNode(self, target_name: str) -> list:
-        """
-        Get all leaf names from given target (internal) node name
-        """
-        target = next(self._tree.find_clades(target=target_name))
-        return [n.name for n in target.get_terminals()]
-
-    def getClosestCommonAncestor(self, target_names: list[str]) -> str:
-        """
-        Get name of closest common ancestor given list of leaf names
-        """
-        clade = self._tree.common_ancestor(target_names)
-        return clade.name
-
-    def getAllLeafNames(self) -> list[str]:
-        """
-        Get list of all leaves (terminal nodes names)
-        """
-        return [leaf.name for leaf in self._tree.get_terminals()]
-
-    def extractClustersFromInternalNodes(self) -> dict:
-        """
-        Extract all terminal nodes which are descendants of
-        each internal node in the tree
-        """
-        cluster_dict = {}
-        for clade in self._tree.get_nonterminals():
-            terminal_nodes = clade.get_terminals()
-            cluster_dict[clade.name] = [n.name for n in terminal_nodes]
-        return cluster_dict
-
-
 
 def exportTreeClustersToFile(clusters: dict, outfile: str) -> None:
     """
