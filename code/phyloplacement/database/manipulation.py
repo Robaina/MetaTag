@@ -18,8 +18,8 @@ from Bio import SearchIO, SeqIO, AlignIO
 import pyfastx
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import setDefaultOutputPath, terminalExecute
-from phyloplacement.database.parsers.mardb import MARdbLabelParser
+from phyloplacement.utils import setDefaultOutputPath
+from phyloplacement.database.labelparsers import MARdbLabelParser
 
 
 def filterFASTABySequenceLength(input_fasta: str, minLength: int = None,

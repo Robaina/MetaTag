@@ -11,7 +11,7 @@ import os
 import pandas as pd
 from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
 
-from phyloplacement.database.parsers.mardb import MARdbLabelParser
+from phyloplacement.database.labelparsers import LabelParser
 
 
 
@@ -102,12 +102,7 @@ class TaxonomyAssigner():
         return ';'.join(lowest_tax)
 
     def _extractGenomeIDfromLabel(self, label: str) -> str:
-        labelParser = MARdbLabelParser()
-        mmp_id = labelParser.extractMMPid(label)
-        if mmp_id:
-            genome_id = mmp_id
-        else:
-            genome_id = label.split('__')[0]
+        genome_id = LabelParser.extractGenomeID(label)
         return genome_id
 
     def assignTaxonomyToLabel(self, label: str) -> str:
