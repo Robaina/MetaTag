@@ -418,7 +418,7 @@ def runTreeShrink(input_tree: str, input_aln: str = None,
                 os.path.join(output_dir, out_aln)
                 )
         if output_deleted_nodes:
-            out_txt = setDefaultOutputPath(input_aln, tag='_shrink_deleted',
+            out_txt = setDefaultOutputPath(input_tree, tag='_shrink_deleted',
                                            extension='.txt', only_filename=True)
             shutil.move(
                 os.path.join(temp_out_dir, temp_tree_dir, "output.txt"),
