@@ -230,3 +230,23 @@ class PhyloTree:
             terminal_nodes = clade.get_terminals()
             cluster_dict[clade.name] = [n.name for n in terminal_nodes]
         return cluster_dict
+
+
+
+def exportTreeClustersToFile(clusters: dict, outfile: str) -> None:
+    """
+    Write tsv file containing the definition of tree clusters
+    """
+    def getNodeCluster(node_name: str, clusters: dict):
+        for cluster_name, cluster in clusters.items():
+             if node_name in cluster:
+                 return cluster_name
+
+    with open(outfile, "w") as file:
+        lines = ["id\tcluster\n"]
+        node_names = [nname for cluster in clusters.values() for nname in cluster]
+        for nname in node_names:
+            cluster_name = getNodeCluster(nname, clusters)
+            line = f"{nname}\t{cluster_name}\n"
+            lines.append(line)
+        file.writelines(lines)
