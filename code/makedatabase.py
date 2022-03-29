@@ -84,9 +84,17 @@ optional.add_argument('--remove_duplicates', dest='noduplicates', action='store_
                     help=(
                         'remove duplicated sequences from final (merged) database')
                         )
+optional.add_argument('--hmmsearch_args', dest='hmmsearch_args', type=str,
+                      default=None, required=False,
+                      help=(
+                          ('string containing additional arguments to be passed to hmmsearch.'
+                          ' IMPORTANT: the string must start with a space like this: " --arg value". Defaults to " --cut_nc"')
+                          )
+                    )
 
 
 args = parser.parse_args()
+print(args)
 if args.maxsizes is None:
     args.maxsizes = [None for _ in args.hmms]
 else:
@@ -100,6 +108,8 @@ if not os.path.exists(args.outdir):
     os.makedirs(args.outdir)
 output_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database.faa')
 output_pickle_short_ids = os.path.join(args.outdir, f'{args.prefix}ref_database_id_dict.pickle')
+if args.hmmsearch_args is None:
+    args.hmmsearch_args = '--cut_nc'
 
 
 def main():
@@ -117,7 +127,7 @@ def main():
                     input_fasta=args.data,
                     output_fasta=tempfasta,
                     hmmer_output=hmmer_output,
-                    additional_args='--cut_nc'
+                    additional_args=args.hmmsearch_args
                 )
                 
                 if (args.minseqlength is not None) or (args.maxseqlength is not None):
