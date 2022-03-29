@@ -33,7 +33,8 @@ python3 code/makedatabase.py \
  --max_sizes 20 5 \
  --min_seq_length 10 --max_seq_length 2000 \
  --relabel_prefixes "ref_" "out_" \
- --relabel --remove_duplicates
+ --relabel --remove_duplicates \
+ --hmmsearch_args " --cut_nc"
 
 # Alignment and tree
 python3 code/buildtree.py \
