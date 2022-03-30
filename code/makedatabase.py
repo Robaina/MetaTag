@@ -87,14 +87,16 @@ optional.add_argument('--remove_duplicates', dest='noduplicates', action='store_
 optional.add_argument('--hmmsearch_args', dest='hmmsearch_args', type=str,
                       default=None, required=False,
                       help=(
-                          ('string containing additional arguments to be passed to hmmsearch.'
-                          ' IMPORTANT: the string must start with a space like this: " --arg value". Defaults to " --cut_nc"')
+                          ('list of comma-separated strings of additional arguments for each hmm passed to hmmsearch. '
+                          'IMPORTANT: the string must be preceded by a white space. '
+                          'A single string may be provided, in which case the same additinal arguments will be passed for each hmm'
+                          'Defaults to additional arguments string: "--cut_nc". If no additional arguments are needed, provide the value "None"'
+                          )
                           )
                     )
 
 
 args = parser.parse_args()
-print(args)
 if args.maxsizes is None:
     args.maxsizes = [None for _ in args.hmms]
 else:
@@ -108,17 +110,19 @@ if not os.path.exists(args.outdir):
     os.makedirs(args.outdir)
 output_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database.faa')
 output_pickle_short_ids = os.path.join(args.outdir, f'{args.prefix}ref_database_id_dict.pickle')
-if args.hmmsearch_args is None:
-    args.hmmsearch_args = '--cut_nc'
+hmmsearch_args_list = list(map(lambda x: x.strip(), args.hmmsearch_args.split(",")))
+hmmsearch_args_list = list(map(lambda x: '--cut_nc' if x == 'None' else x, hmmsearch_args_list))
+if len(hmmsearch_args_list) < len(args.hmms):
+    hmmsearch_args_list = [hmmsearch_args_list[0] for _ in args.hmms]
 
 
 def main():
     
     print('* Making peptide-specific reference database...')
     with TemporaryDirectoryPath() as tempdir1, TemporaryDirectoryPath() as tempdir2:
-        for hmm, maxsize, prefix in zip(args.hmms, args.maxsizes, args.relabel_prefixes):
+        for hmm, maxsize, prefix, hmmsearch_args in zip(args.hmms, args.maxsizes, args.relabel_prefixes, hmmsearch_args_list):
             hmm_name = os.path.basename(hmm)
-            print(f" * Processing hmm {hmm_name}")
+            print(f" * Processing hmm {hmm_name} with additional arguments: {hmmsearch_args}")
             hmmer_output = os.path.join(args.outdir, f"hmmer_output_{hmm_name}.txt")
 
             with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2, TemporaryFilePath() as tempfasta3:
@@ -127,7 +131,7 @@ def main():
                     input_fasta=args.data,
                     output_fasta=tempfasta,
                     hmmer_output=hmmer_output,
-                    additional_args=args.hmmsearch_args
+                    additional_args=hmmsearch_args
                 )
                 
                 if (args.minseqlength is not None) or (args.maxseqlength is not None):

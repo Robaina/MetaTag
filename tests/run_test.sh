@@ -34,7 +34,7 @@ python3 code/makedatabase.py \
  --min_seq_length 10 --max_seq_length 2000 \
  --relabel_prefixes "ref_" "out_" \
  --relabel --remove_duplicates \
- --hmmsearch_args " --cut_nc"
+ --hmmsearch_args " --cut_nc,--cut_ga" 
 
 # Alignment and tree
 python3 code/buildtree.py \
