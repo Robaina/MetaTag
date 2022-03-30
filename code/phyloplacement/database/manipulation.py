@@ -414,14 +414,14 @@ def filterFastaByHMMstructure(hmm_structure: str,
             setDefaultOutputPath(input_fasta, only_dirname=True), 'hmmer_outputs')
         
     if additional_args is None:
-        additional_args = [None for _ in len(input_hmms)]
+        additional_args = [None for _ in input_hmms]
     
     if type(additional_args) == str:
-        additional_args = [additional_args for _ in len(input_hmms)]
+        additional_args = [additional_args for _ in input_hmms]
 
     elif type(additional_args) == list:
         if len(additional_args) == 1:
-            additional_args = [additional_args[0] for _ in len(input_hmms)]
+            additional_args = [additional_args[0] for _ in input_hmms]
 
         if (len(additional_args) > 1) and (len(additional_args) < len(input_hmms)):
             raise ValueError("Provided additional argument strings are less than the number of input hmms.")
