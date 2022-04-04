@@ -50,6 +50,12 @@ python3 code/removetreeoutliers.py \
  --outdir tests/test_results/ \
  --aln tests/test_results/ref_database.faln
 
+# Relabel reference tree and assign taxonomy
+python3 code/relabeltree.py \
+ --tree tests/test_results/ref_database_shrink.newick \
+ --labels tests/test_results/ref_database_id_dict.pickle \
+ --taxonomy
+
 # Preprocess query sequences
 python3 code/preprocess.py \
  --in tests/test_data/query.faa \
