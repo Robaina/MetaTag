@@ -69,21 +69,21 @@ python3 code/labelplacements.py \
  --prefix "placed_tax_" \
  --outdir genes/nifH/daniel/
 
-# # Count placements (filter by taxon, cluster id and quality score)
-# python3 code/countplacements.py \
-#  --taxtable genes/nifH/daniel/placed_tax_assignments.tsv \
-#  --taxlevels "order" "class" "family" "genus" \
-#  --cluster_ids "cluster_I" "cluster_II" "cluster_III" \
-#  --score_threshold 0.5 \
-#  --outdir genes/nifH/daniel/
+# Count placements (filter by taxon, cluster id and quality score)
+python3 code/countplacements.py \
+ --taxtable genes/nifH/daniel/placed_tax_assignments.tsv \
+ --taxlevels "order" "class" "family" "genus" \
+ --cluster_ids "cluster_I" "cluster_II" "cluster_III" \
+ --score_threshold 0.5 \
+ --outdir genes/nifH/daniel/
 
-# # Relabel tree and alignment
-# python3 code/relabeltree.py \
-#  --tree genes/nifH/daniel/epa_result.newick \
-#  --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
-#           genes/nifH/daniel/query_cleaned_id_dict.pickle \
-#  --taxonomy \
-#  --label_prefixes "ref_" "query_"
+# Relabel tree and alignment
+python3 code/relabeltree.py \
+ --tree genes/nifH/daniel/epa_result.newick \
+ --labels genes/nifH/results/ref_database_id_dict_clustered.pickle \
+          genes/nifH/daniel/query_cleaned_id_dict.pickle \
+ --taxonomy \
+ --label_prefixes "ref_" "query_"
 
 # # Commit to GitHub
 # git add .

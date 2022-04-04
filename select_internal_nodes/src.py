@@ -65,7 +65,10 @@ class PhyloTree:
         """
         for n, clade in enumerate(self._tree.get_nonterminals()):
             if clade.name is None:
-                clade.name = f'IN_{n}_{clade.confidence}'
+                if clade.confidence is not None:
+                    clade.name = f'IN_{n}_{clade.confidence}'
+                else:
+                    clade.name = f'IN_{n}'
                 clade.confidence = None
 
     def getTreeObject(self):
@@ -91,16 +94,35 @@ class PhyloTree:
         clade = self._tree.common_ancestor(target_names)
         return clade.name
 
-    def extractClustersFromInternalNodes(self) -> dict:
+    def extractClustersFromInternalNodes(self, filter_by_pattern: str = None) -> dict:
         """
         Extract all terminal nodes which are descendants of
         each internal node in the tree
+
+        @params
+        filter_by_pattern: filter clusters by leaf name pattern, such that
+        all leaves within a cluster contain the same pattern
         """
         cluster_dict = {}
         for clade in self._tree.get_nonterminals():
             terminal_nodes = clade.get_terminals()
             cluster_dict[clade.name] = [n.name for n in terminal_nodes]
-        return cluster_dict
+        if filter_by_pattern is None:
+            return cluster_dict
+        else:
+            return self.filterClustersByCommonLeafNamePattern(cluster_dict, filter_by_pattern)
+    
+    @staticmethod
+    def filterClustersByCommonLeafNamePattern(clusters: dict, pattern: str) -> dict:
+        """
+        Obtain (if any) tree clusters only containing leaves with leaf
+        names containing specified pattern (sorry)
+        """
+        return {
+            cluster_id: cluster
+            for cluster_id, cluster in clusters.items()
+            if all([pattern in leaf_name for leaf_name in cluster])
+        }   
 
 
 def setDefaultOutputPath(input_path: str, tag: str = None,
@@ -142,3 +164,21 @@ def filterFASTAbyIDs(input_fasta: str, record_ids: list[str],
             except:
                 pass
     os.remove(input_fasta + ".fxi")
+
+def exportTreeClustersToFile(clusters: dict, outfile: str) -> None:
+    """
+    Write tsv file containing the definition of tree clusters
+    """
+    def getNodeCluster(node_name: str, clusters: dict):
+        for cluster_name, cluster in clusters.items():
+             if node_name in cluster:
+                 return cluster_name
+
+    with open(outfile, "w") as file:
+        lines = ["id\tcluster\n"]
+        node_names = [nname for cluster in clusters.values() for nname in cluster]
+        for nname in node_names:
+            cluster_name = getNodeCluster(nname, clusters)
+            line = f"{nname}\t{cluster_name}\n"
+            lines.append(line)
+        file.writelines(lines)
