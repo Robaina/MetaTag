@@ -301,6 +301,8 @@ def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
         header = 'query_id' + '\t' + cluster_str + 'taxopath' + '\n'
         lines.append(header)
         for i, row in table.iterrows():
+            if not ';' in row.taxopath:
+                row.taxopath = row.taxopath + ';Unspecified'
             if has_cluster_id:
                 elems = row.taxopath.split(';')
                 cluster_id = elems[0]

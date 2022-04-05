@@ -149,6 +149,7 @@ class TaxonomyAssigner():
         """
         Build gappa-compatible taxonomy file as specified here:
         https://github.com/lczech/gappa/wiki/Subcommand:-assign
+        Removes references without assigned taxonomy
         """
         if output_file is None:
             output_file = os.path.join(os.getcwd(), 'gappa_taxonomy.tsv')
@@ -158,8 +159,8 @@ class TaxonomyAssigner():
             for ref_id, label in ref_id_dict.items():
                 taxon_str = self.assignTaxonomyToLabel(label)
                 taxon_str = 'Unspecified' if ('No_taxonomy_found' in taxon_str) else taxon_str
-                if taxon_str != 'Unspecified':
-                    lines.append(f'{ref_id}\t{taxon_str}\n')
+                # if taxon_str != 'Unspecified':
+                lines.append(f'{ref_id}\t{taxon_str}\n')
             outfile.writelines(lines)
 
 
