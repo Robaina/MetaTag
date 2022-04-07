@@ -48,6 +48,7 @@ code/notify.py
 genes/nxr/commit_to_github.sh
 data/final_ref_database.fasta
 genes/nifH/nifH_pipeline_jose_tree.sh
+genes/nifH/daniel_placement.sh
 
 # File types
 *.sqlite
