@@ -1,0 +1,41 @@
+name	LWR	fract	aLWR	afract	taxopath
+query_11	0.8149	0.858	0.8149	0.858	cluster_IV;d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_15	0.7882	1	0.7882	1	DISTANT
+query_36	0.1047	0.5846	0.1047	0.5846	DISTANT
+query_20	0.5472	0.6794	0.5472	0.6794	DISTANT
+query_21	0.8509	1	0.8509	1	DISTANT
+query_2	0.3823	0.6697	0.3823	0.6697	DISTANT
+query_13	0.7532	0.9913	0.7532	0.9913	DISTANT
+query_5	0.7351	0.8318	0.7351	0.8318	DISTANT
+query_8	0.5414	0.9787	0.5414	0.9787	DISTANT
+query_16	0.6905	0.8743	0.6905	0.8743	DISTANT
+query_33	0.4245	1	0.4245	1	DISTANT
+query_29	0.6342	1	0.6342	1	DISTANT
+query_22	0.6747	1	0.6747	1	DISTANT
+query_19	0.7571	0.7589	0.8657	0.8677	cluster_IV;d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Rhizobiales
+query_24	0.4647	0.6116	0.4647	0.6116	cluster_IV;d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_10	0.6499	1	0.6499	1	DISTANT
+query_34	0.5946	1	0.5946	1	DISTANT
+query_1	0.6924	1	0.6924	1	DISTANT
+query_4	0.4186	0.9012	0.4186	0.9012	DISTANT
+query_25	0.9094	0.9094	0.9094	0.9094	cluster_IV;d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Sphingomonadales;f__Sphingomonadaceae;g__Blastomonas;s__Blastomonas delafieldii
+query_26	1	1	1	1	DISTANT
+query_23	0.3044	0.5677	0.3044	0.5677	DISTANT
+query_12	0.5767	1	0.5767	1	DISTANT
+query_27	0.557	0.9476	0.557	0.9476	DISTANT
+query_28	0.8388	0.8388	0.8388	0.8388	cluster_IV;d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_32	0.6755	0.6755	1	1	cluster_IV;d__Bacteria
+query_0	0.8604	0.8604	0.8604	0.8604	DISTANT
+query_6	0.9392	0.9392	0.9392	0.9392	cluster_IV;d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_18	0.7763	0.7969	0.7763	0.7969	cluster_IV;d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Rhodobacterales;f__Rhodobacteraceae;g__Loktanella;s__Loktanella sp001420005
+query_31	1	1	1	1	DISTANT
+query_14	0.5708	0.5708	0.5708	0.5708	cluster_IV;d__Bacteria
+query_35	0.5037	0.5037	1	1	cluster_IV
+query_38	0.5593	0.5593	1	1	cluster_IV
+query_7	0.4962	0.4962	0.8458	0.8458	cluster_IV
+query_17	1	1	1	1	cluster_IV;d__Bacteria;p__Myxococcota;c__Polyangia;o__Nannocystales;f__Nannocystaceae;g__Enhygromyxa;s__Enhygromyxa salina_B
+query_37	1	1	1	1	DISTANT
+query_39	0.5689	0.5689	0.5689	0.5689	DISTANT
+query_9	1	1	1	1	DISTANT
+query_3	0.7986	0.7986	0.7986	0.7986	cluster_IV;d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Rhodobacterales;f__Rhodobacteraceae;g__Loktanella;s__Loktanella sp001420005
+query_30	0.511	0.511	0.9512	0.9512	cluster_IV
