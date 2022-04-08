@@ -41,7 +41,8 @@ optional.add_argument('--relabel_prefixes', dest='relabel_prefixes', type=str,
                       nargs='+',
                       help=(
                           'List of space-separated prefixes to be added to each hmm-derived set of '
-                          'sequences after relabelling. Only used if "--relabel" is set'
+                          'sequences after relabelling. Only used if "--relabel" is set. '
+                          'Label prefixes set to "None" are assigned "ref_" by default.'
                       )
                       )
 optional.add_argument('--max_sizes', dest='maxsizes',
@@ -121,6 +122,8 @@ def main():
     print('* Making peptide-specific reference database...')
     with TemporaryDirectoryPath() as tempdir1, TemporaryDirectoryPath() as tempdir2:
         for hmm, maxsize, prefix, hmmsearch_args in zip(args.hmms, args.maxsizes, args.relabel_prefixes, hmmsearch_args_list):
+            if prefix is None:
+                prefix = 'ref_'
             hmm_name = os.path.basename(hmm)
             print(f" * Processing hmm {hmm_name} with additional arguments: {hmmsearch_args}")
             hmmer_output = os.path.join(args.outdir, f"hmmer_output_{hmm_name}.txt")
