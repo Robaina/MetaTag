@@ -46,7 +46,6 @@ class JplaceParser():
         """
         return self.jplace['fields']
 
-    @property
     def tree(self, newick=False):
         """
         Return tree in original or newick format
@@ -73,6 +72,13 @@ class JplaceParser():
         """
         subs_tree = re.sub("\{(\d+)\}", '', tree_str)
         return next(Phylo.parse(StringIO(subs_tree), 'newick'))
+
+    def getReferenceSequences(self) -> list:
+        """
+        Get list of reference sequences in the placement tree
+        """
+        tree = self.tree(newick=True)
+        return [c.name for c in tree.get_terminals()]
     
     def buildBranchDict(self) -> dict:
         """
@@ -385,6 +391,10 @@ def assignLabelsToPlacements(jplace: str, id_dict: dict,
 
     gappa_assign_out = os.path.join(output_dir, output_prefix + 'per_query.tsv')
     query_taxo_out = os.path.join(output_dir, output_prefix + 'assignments.tsv')
+    
+    # Remove references that are not in placement tree
+    ref_in_jplace_tree = JplaceParser(jplace).getReferenceSequences()
+    id_dict = {k: v for k,v in id_dict.items() if k in ref_in_jplace_tree}
 
     with TemporaryFilePath() as temptax:
         taxonomy = TaxonomyAssigner(
