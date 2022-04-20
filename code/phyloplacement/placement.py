@@ -6,6 +6,7 @@ Tools to quantify and assign labels to placed sequences
 """
 from __future__ import annotations
 import os
+import shutil
 import re
 import json
 from io import StringIO
@@ -353,7 +354,9 @@ def addQueryLabelsToAssignTable(input_table: str,
     df = df.set_index("query_id")
     df.to_csv(output_table, sep="\t")
 
-def assignLabelsToPlacements(jplace: str, id_dict: dict,
+def assignLabelsToPlacements(jplace: str,
+                             ref_labels: dict,
+                             query_labels: dict = None,
                              output_dir: str = None,
                              output_prefix: str = None,
                              only_best_hit: bool = True,
@@ -365,6 +368,10 @@ def assignLabelsToPlacements(jplace: str, id_dict: dict,
     taxonomy assigned to tree reference sequences using
     gappa examine assign.
     @parameter
+    ref_labels: dictionary containing short IDs as keys and long labels as values
+                for reference sequences
+    query_labels: dictionary containing short IDs as keys and long labels as values
+                  for query sequences
     only_best_hit: only report taxonomy with largest LWR
                    per query
     ref_clusters: dict (optionally) add tree cluster to the
@@ -394,13 +401,13 @@ def assignLabelsToPlacements(jplace: str, id_dict: dict,
     
     # Remove references that are not in placement tree
     ref_in_jplace_tree = JplaceParser(jplace).getReferenceSequences()
-    id_dict = {k: v for k,v in id_dict.items() if k in ref_in_jplace_tree}
+    ref_labels = {k: v for k,v in ref_labels.items() if k in ref_in_jplace_tree}
 
     with TemporaryFilePath() as temptax:
         taxonomy = TaxonomyAssigner(
             taxo_file='./data/taxonomy/merged_taxonomy.tsv'
         )
-        taxonomy.buildGappaTaxonomyTable(id_dict, output_file=temptax)
+        taxonomy.buildGappaTaxonomyTable(ref_labels, output_file=temptax)
         if has_cluster_id:
             addClustersToTaxTable(
                 in_taxtable=temptax,
@@ -409,7 +416,7 @@ def assignLabelsToPlacements(jplace: str, id_dict: dict,
             )
             clusters_taxopath = taxonomy.assignLowestCommonTaxonomyToClusters(
                 clusters=ref_clusters_as_keys,
-                label_dict=id_dict
+                label_dict=ref_labels
             )
         else:
             clusters_taxopath = None
@@ -429,10 +436,14 @@ def assignLabelsToPlacements(jplace: str, id_dict: dict,
             output_file=tempout,
             clusters_taxopath=clusters_taxopath
         )
-        addQueryLabelsToAssignTable(
-            input_table=tempout,
-            query_labels=id_dict,
-            output_table=query_taxo_out
-        )
+
+        if query_labels is not None:
+            addQueryLabelsToAssignTable(
+                input_table=tempout,
+                query_labels=query_labels,
+                output_table=query_taxo_out
+            )
+        else:
+            shutil.move(tempout, query_taxo_out)
 
     
