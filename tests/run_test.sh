@@ -75,6 +75,7 @@ python3 code/placesequences.py \
 python3 code/labelplacements.py \
  --jplace tests/test_results/epa_result.jplace \
  --labels tests/test_results/ref_database_id_dict.pickle \
+ --query_labels tests/test_results/query_cleaned_id_dict.pickle \
  --ref_clusters tests/test_data/clusters.tsv \
  --ref_cluster_scores tests/test_data/cluster_scores.tsv \
  --outgroup "out_" \
