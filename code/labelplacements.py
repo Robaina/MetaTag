@@ -32,6 +32,12 @@ required.add_argument('--labels', dest='labels', type=str, required=True,
                           'path to label dict in pickle format. '
                           'More than one space-separated path can be input')
                           )
+optional.add_argument('--query_labels', dest='query_labels', type=str, default=None,
+                      nargs='+',
+                      help=(
+                          'path to query label dict in pickle format. '
+                          'More than one space-separated path can be input')
+                          )
 optional.add_argument('--ref_clusters', dest='ref_clusters', type=str,
                       default=None,
                       help=(
@@ -69,7 +75,11 @@ if args.outdir is None:
 
 def main():
 
-    label_dict = DictMerger.fromPicklePaths(args.labels).merge()
+    ref_labels = DictMerger.fromPicklePaths(args.labels).merge()
+    if args.query_labels is not None:
+        query_labels = DictMerger.fromPicklePaths(args.query_labels).merge()
+    else:
+        query_labels = None
     outgroup_file_generated = False
     
     if args.outgroup is not None:
@@ -82,7 +92,7 @@ def main():
             else:
                 outgroup_file = args.outgroup
         else:
-            matched_labels = [f'{ref}\n' for ref in label_dict.keys() if args.outgroup in ref]
+            matched_labels = [f'{ref}\n' for ref in ref_labels.keys() if args.outgroup in ref]
             if not matched_labels:
                 raise ValueError('No matched labels for given outgroup pattern')
             outgroup_file = setDefaultOutputPath(args.jplace,
@@ -99,7 +109,8 @@ def main():
 
     assignLabelsToPlacements(
         jplace=args.jplace,
-        id_dict=label_dict,
+        ref_labels=ref_labels,
+        query_labels=query_labels,
         output_dir=args.outdir,
         output_prefix=args.prefix,
         only_best_hit=True,
