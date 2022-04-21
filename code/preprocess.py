@@ -50,12 +50,14 @@ optional.add_argument('--outfile', dest='outfile', type=str,
 optional.add_argument('--relabel', dest='relabel',
                       default=False, action='store_true',
                       help='relabel record IDs with numeral ids')
-optional.add_argument('--idprefix', dest='idprefix', type=str,
-                      default='',
+optional.add_argument('--idprefix', '--relabel_prefix', dest='idprefix', type=str,
+                      default=None,
                       help='prefix to be added to sequence IDs')
 
 args = parser.parse_args()
 
+if args.idprefix is None:
+    args.idprefix = 'label_'
 if args.outfile is None:
     outfasta = setDefaultOutputPath(args.data, tag='_cleaned')
 else:
