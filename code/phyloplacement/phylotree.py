@@ -19,15 +19,20 @@ import phyloplacement.wrappers as wrappers
 
 
 class PhyloTree:
-    """
-    Methods to help defining clusters in phylo trees
-    """
-    def __init__(self, tree_path: str, tree_format: str = 'newick', bootstrap_threshold: float = None):
-        self._tree = list(Phylo.parse(tree_path, tree_format))[0]
+
+    def __init__(self, tree: str, tree_format: str = 'newick',
+                 bootstrap_threshold: float = None, name_internal_nodes: bool = True):
+        """
+        Methods to help defining clusters in phylo trees
+        @params:
+        tree: str containing either the path to the tree file or directly the tree
+        """
+        self._tree = next(Phylo.parse(tree, tree_format))
         if bootstrap_threshold is not None:
             self.collapsePoorQualityNodes(bootstrap_threshold)
-        self.nameInternalNodes()
-        self._tree_path = tree_path
+        if name_internal_nodes:
+            self.nameInternalNodes()
+        self._tree_path = tree
         self._tree_format = tree_format
 
     def _scaleBootstrapValues(self):
@@ -110,6 +115,22 @@ class PhyloTree:
             terminal_nodes = clade.get_terminals()
             cluster_dict[clade.name] = [n.name for n in terminal_nodes]
         return cluster_dict
+
+    def computeTreeDiameter(self) -> float:
+        """
+        Find maximum (pairwise) distance between two tips
+        (leaves) in the tree
+        """
+        root = self._tree.root
+        max_distance = 0.0
+        tips = self._tree.get_terminals()
+        for tip in tips:
+            self._tree.root_with_outgroup(tip)
+            new_max = max(self._tree.depths().values())
+            if new_max > max_distance:
+                max_distance = new_max
+        self._tree.root_with_outgroup(root)
+        return max_distance
 
         
 
