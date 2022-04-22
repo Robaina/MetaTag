@@ -105,7 +105,7 @@ def main():
     else:
         args_str = '--resolve-missing-paths'
 
-    args_str = None
+    args_str += ' --distant-label'
 
     assignLabelsToPlacements(
         jplace=args.jplace,
@@ -113,7 +113,7 @@ def main():
         query_labels=query_labels,
         output_dir=args.outdir,
         output_prefix=args.prefix,
-        only_best_hit=True,
+        only_best_hit=False,
         ref_clusters_file=args.ref_clusters,
         ref_cluster_scores_file=args.ref_cluster_scores,
         gappa_additional_args=args_str
