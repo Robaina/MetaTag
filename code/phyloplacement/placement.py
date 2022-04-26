@@ -435,7 +435,8 @@ def assignLabelsToPlacements(jplace: str,
                              only_best_hit: bool = True,
                              ref_clusters_file: str = None,
                              ref_cluster_scores_file: str = None,
-                             gappa_additional_args: str = None) -> None:
+                             gappa_additional_args: str = None,
+                             only_unique_cluster: bool = True) -> None:
     """
     Assign taxonomy and/or tree cluster IDs to placed query sequences based on
     taxonomy assigned to tree reference sequences using
@@ -451,6 +452,8 @@ def assignLabelsToPlacements(jplace: str,
                   beginning of the taxopath so query sequences
                   can also be classified according to tree
                   cluster (e.g., assigned function)
+    only_unique_cluster: if True, keep only queries with multiple placement locations
+                         if they were assigned to the same cluster.
     """
     if output_dir is None:
         output_dir = setDefaultOutputPath(jplace, only_dirname=True)
@@ -501,7 +504,7 @@ def assignLabelsToPlacements(jplace: str,
             only_best_hit=only_best_hit,
             additional_args=gappa_additional_args)
     
-    with TemporaryFilePath() as tempout:
+    with TemporaryFilePath() as tempout, TemporaryFilePath() as tempout2:
         parseGappaAssignTable(
             input_table=gappa_assign_out,
             has_cluster_id=has_cluster_id,
@@ -518,5 +521,37 @@ def assignLabelsToPlacements(jplace: str,
             )
         else:
             shutil.move(tempout, query_taxo_out)
+        
+        if only_unique_cluster:
+            filterNonUniquePlacementAssignments(
+                placed_tax_assignments=query_taxo_out,
+                outfile=tempout2
+            )
+            shutil.move(tempout2, query_taxo_out)
+
+def findQueriesPlacedInSeveralClusters(placed_tax_assignments: str) -> tuple[list, pd.DataFrame]:
+    """
+    Find queries placed in more than one cluster
+    """
+    df = pd.read_csv(placed_tax_assignments, sep="\t")
+    dfu = df.groupby("query_id")['cluster_id'].agg(['unique'])
+
+    queries_in_more_than_one_cluster = []
+    for i, row in dfu.iterrows():
+        if len(row.item()) > 1:
+            queries_in_more_than_one_cluster.append(row.name)
+    return queries_in_more_than_one_cluster, dfu
+
+def filterNonUniquePlacementAssignments(placed_tax_assignments: str, outfile: str = None) -> None:
+    """
+    Remove queries that were assigned to more than one cluster from placements assignments table
+    """
+    if outfile is None:
+        outfile = setDefaultOutputPath(placed_tax_assignments, tag="_filtered")
+    
+    df = pd.read_csv(placed_tax_assignments, sep="\t")
+    queries_in_more_than_one_cluster, _ = findQueriesPlacedInSeveralClusters(placed_tax_assignments)
+    fdf = df[~df.query_id.isin(queries_in_more_than_one_cluster)].set_index("query_id")
+    fdf.to_csv(outfile, sep="\t")
 
     

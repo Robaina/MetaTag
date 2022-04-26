@@ -12,7 +12,7 @@ import argparse
 
 from phyloplacement.utils import setDefaultOutputPath, DictMerger
 from phyloplacement.database.preprocessing import is_fasta, is_file, writeRecordNamesToFile
-from phyloplacement.placement import assignLabelsToPlacements
+from phyloplacement.placement import assignLabelsToPlacements, JplaceParser
 
 
 parser = argparse.ArgumentParser(
@@ -67,6 +67,25 @@ optional.add_argument('--prefix', dest='prefix', type=str,
                       help='prefix to be added to output files')
 optional.add_argument('--outdir', dest='outdir', type=str,
                       help='path to output directory')
+optional.add_argument('--only_unique_cluster', dest='only_unique_cluster',
+                      default=False, action='store_true',
+                      help='only keep queries (with multiple placements) that were placed in a single cluster')
+optional.add_argument('--max_placement_distance', dest='max_distance', type=float, default=None,
+                      help=(
+                          'Maximum allowed pendant distance to consider a placement as valid. '
+                          'Change distance measure with parameter: "distance_measure" (defaults to pendant length)'
+                          )
+                          )
+optional.add_argument('--distance_measure', dest='distance_measure', type=str, default='pendant',
+                      choices=['pendant', 'pendant_distal_ratio', 'pendant_diameter_ratio'],
+                      help=(
+                          'Choose distance measure to remove placements with distance larger than '
+                          '"max_placement_distance". Choose among: '
+                          '1. "pendant": corresponding to pendant length of placement '
+                          '2. "pendant_distal_ratio": ratio between pendant and distal distances '
+                          '3. "pendant_diameter_ratio": ratio between pendant and tree diameter (largest pairwise distance) ratio. '
+                          'See https://github.com/lczech/gappa/wiki for a description of distal and pendant lengths.'
+                      ))
 
 args = parser.parse_args()
 if args.outdir is None:
@@ -104,8 +123,24 @@ def main():
         args_str = f'--resolve-missing-paths --root-outgroup {outgroup_file}'
     else:
         args_str = '--resolve-missing-paths'
+   
 
-    args_str += ' --distant-label'
+    if args.max_distance is not None:
+        
+        print(f'Filtering placements by maximum distance: "{args.distance_measure}" of {args.max_distance}')
+        filtered_jplace = setDefaultOutputPath(args.jplace, tag='distance_filtered')
+        parser = JplaceParser(args.jplace)
+        if 'pendant' in args.distance_measure.lower():
+            parser.filterPlacementsByMaxPendantLength(max_pendant_length=args.max_distance, outfile=filtered_jplace)
+        elif 'pendant_distal_ratio' in args.distance_measure.lower():
+            parser.filterPlacementsByMaxPendantToDistalLengthRatio(max_pendant_ratio=args.max_distance, outfile=filtered_jplace)
+        elif 'pendant_diameter_ratio' in args.distance_measure.lower():
+            parser.filterPlacementsByMaxPendantToTreeDiameterRatio(max_pendant_ratio=args.max_distance, outfile=filtered_jplace)
+        else:
+            raise ValueError('Distance measure unavailable. Please choose a valid one.')
+        args.jplace = filtered_jplace
+
+
 
     assignLabelsToPlacements(
         jplace=args.jplace,
@@ -116,7 +151,8 @@ def main():
         only_best_hit=False,
         ref_clusters_file=args.ref_clusters,
         ref_cluster_scores_file=args.ref_cluster_scores,
-        gappa_additional_args=args_str
+        gappa_additional_args=args_str,
+        only_unique_cluster=args.only_unique_cluster
     )
 
     if outgroup_file_generated:
