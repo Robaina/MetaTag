@@ -69,18 +69,19 @@ python3 code/placesequences.py \
  --query tests/test_results/query_cleaned.faa \
  --outdir tests/test_results/ \
  --aln_method "papara" \
---tree_model tests/test_results/ref_database.log
+ --tree_model tests/test_results/ref_database.log
 
 # Assign taxonomy to placed sequences
 python3 code/labelplacements.py \
- --jplace tests/test_results/epa_result.jplace \
+ --jplace tests/test_results/epa_result_max_pendant_0.1.jplace \
  --labels tests/test_results/ref_database_id_dict.pickle \
  --query_labels tests/test_results/query_cleaned_id_dict.pickle \
  --ref_clusters tests/test_data/clusters.tsv \
  --ref_cluster_scores tests/test_data/cluster_scores.tsv \
- --outgroup "out_" \
  --prefix "placed_tax_" \
- --outdir tests/test_results/gappa/
+ --outdir tests/test_results/gappa/ \
+ --only_unique_cluster \
+ --max_placement_distance 0.1 --distance_measure "pendant_diameter_ratio"
 
 # Count placements (filter by taxon, cluster id and quality score)
 python3 code/countplacements.py \
