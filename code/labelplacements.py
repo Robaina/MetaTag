@@ -128,7 +128,7 @@ def main():
     if args.max_distance is not None:
         
         print(f'Filtering placements by maximum distance: "{args.distance_measure}" of {args.max_distance}')
-        filtered_jplace = setDefaultOutputPath(args.jplace, tag='distance_filtered')
+        filtered_jplace = setDefaultOutputPath(args.jplace, tag='_distance_filtered')
         parser = JplaceParser(args.jplace)
         if 'pendant' in args.distance_measure.lower():
             parser.filterPlacementsByMaxPendantLength(max_pendant_length=args.max_distance, outfile=filtered_jplace)

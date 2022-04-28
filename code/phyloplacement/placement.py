@@ -484,6 +484,7 @@ def assignLabelsToPlacements(jplace: str,
             taxo_file='./data/taxonomy/merged_taxonomy.tsv'
         )
         taxonomy.buildGappaTaxonomyTable(ref_labels, output_file=temptax)
+
         if has_cluster_id:
             addClustersToTaxTable(
                 in_taxtable=temptax,
