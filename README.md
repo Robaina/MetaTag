@@ -28,6 +28,18 @@ from phyloplacement.utils import terminalExecute, setDefaultOutputPath
 papara_exec = 'path/to/papara.exe'
 ```
 
+4. Install the latest version of gappa manually
+
+The latest gappa version (>= 0.8.0) can only be installed manually at the moment. To do so, download the source code from [here](https://anaconda.org/bioconda/gappa/0.8.0/download/linux-64/gappa-0.8.0-hd03093a_1.tar.bz2).
+
+Then go to the directory where the source code is located, and:
+
+```
+conda activate traits
+
+conda install gappa-0.8.0-hd03093a_1.tar.bz2
+```
+
 ## Installation test
 To check that everything is working properly, you can run a test what will perform the entire workflow on a minimal dataset. To run it, call bash script:
 ```
