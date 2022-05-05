@@ -121,7 +121,7 @@ def main():
     
     print('* Making peptide-specific reference database...')
     with TemporaryDirectoryPath() as tempdir1, TemporaryDirectoryPath() as tempdir2:
-        for n, (hmm, maxsize, prefix, hmmsearch_args) in zip(args.hmms, args.maxsizes, args.relabel_prefixes, hmmsearch_args_list):
+        for n, (hmm, maxsize, prefix, hmmsearch_args) in enumerate(zip(args.hmms, args.maxsizes, args.relabel_prefixes, hmmsearch_args_list)):
             hmm_name = os.path.basename(hmm)
             if prefix is None:
                 prefix = f'ref_{n}_'

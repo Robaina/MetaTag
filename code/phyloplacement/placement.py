@@ -238,7 +238,8 @@ class TaxAssignParser():
 
     def countHits(self, 
                   cluster_ids: list[str] = None, score_threshold: float = None,
-                  taxopath_type: str = 'taxopath') -> TaxonomyCounter:
+                  taxopath_type: str = 'taxopath',
+                  path_to_query_list: str = None) -> TaxonomyCounter:
         """
         Count hits within given cluster ids and at specificied taxon level
         @Params:
@@ -248,18 +249,25 @@ class TaxAssignParser():
                          low-quality placements out
         taxopath_type: 'taxopath' to use gappa-assign taxopath or 'cluster_taxopath'
                         to use lowest common taxopath of the reference tree cluster
+        path_to_query_list: str, if not None, then a tsv is exported to defined location
+                            containing those queries with correct cluster assignment (
+                                according to defined 'valid' cluster ids or threshold
+                            )
         """
         if cluster_ids is None:
             cluster_ids = self._tax_assign.cluster_id.unique()
         if score_threshold is None:
             score_threshold = 0.0
 
-        taxopath_hits = self._tax_assign[
+        query_hits = self._tax_assign[
             (
                 (self._tax_assign.cluster_id.isin(cluster_ids)) &
                 (self._tax_assign.cluster_score >= score_threshold)
                 )
-            ][taxopath_type].values
+            ]
+        if path_to_query_list is not None:
+            query_hits.to_csv(path_to_query_list, sep="\t", index=False)
+        taxopath_hits = query_hits[taxopath_type].values
         if len(taxopath_hits) == 0:
             raise ValueError('No placement hits returned for the provided filter parameters')
 

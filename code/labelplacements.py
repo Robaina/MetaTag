@@ -122,7 +122,7 @@ def main():
        
         args_str = f'--resolve-missing-paths --root-outgroup {outgroup_file}'
     else:
-        args_str = '--resolve-missing-paths'
+        args_str = ''
    
 
     if args.max_distance is not None:
