@@ -141,7 +141,6 @@ def main():
         args.jplace = filtered_jplace
 
 
-
     assignLabelsToPlacements(
         jplace=args.jplace,
         ref_labels=ref_labels,
