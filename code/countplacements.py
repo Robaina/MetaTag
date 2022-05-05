@@ -40,6 +40,13 @@ optional.add_argument('--outdir', dest='outdir', type=str, default=None,
                       help='path to output directory')
 optional.add_argument('--prefix', dest='outprefix', type=str, default=None,
                       help='prefix to be added to output files')
+optional.add_argument('--export_right_queries', dest='export_right_queries',
+                      default=False, action='store_true',
+                      help=(
+                          'export a tsv file containing queries with cluster assginments '
+                          'that passed provided filters (--score_threshold and/or --cluster_ids)'
+                          )
+                          )
 
 
 args = parser.parse_args()
@@ -47,6 +54,8 @@ if args.outdir is None:
     args.outdir = setDefaultOutputPath(args.taxtable, only_dirname=True)
 if args.outprefix is None:
     args.outprefix = 'placed_'
+if args.export_right_queries:
+    path_to_query_list = os.path.join(args.outdir, f"{args.outprefix}rightly_cassified_queries.tsv")
 
 taxparser = TaxAssignParser(args.taxtable)
 for taxlevel in args.taxlevels:
@@ -56,7 +65,8 @@ for taxlevel in args.taxlevels:
     taxlevel_counter = taxparser.countHits(
         cluster_ids=args.cluster_ids,
         score_threshold=args.score_threshold,
-        taxopath_type='taxopath'
+        taxopath_type='taxopath',
+        path_to_query_list=path_to_query_list
         )
         
     counts, fig = taxlevel_counter.getCounts(
