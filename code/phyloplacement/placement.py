@@ -386,7 +386,7 @@ def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
     table = pd.read_csv(input_table, sep='\t')
     with open(output_file, 'w') as file:
         lines = []
-        header = 'query_id' + '\t' + cluster_str + 'taxopath' + '\n'
+        header = 'query_id' + '\t' + 'LWR' + '\t' + cluster_str + 'taxopath' + '\n'
         lines.append(header)
         for i, row in table.iterrows():
             if not ';' in row.taxopath:
@@ -408,9 +408,9 @@ def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
                     cluster_score = str(cluster_scores[cluster_id])
                 else:
                     cluster_score = str(None)
-                line = row['name'] + '\t' + cluster_id + '\t' + cluster_score + '\t' + taxopath + '\n'
+                line = row['name'] + '\t' + str(row['LWR']) + '\t' + cluster_id + '\t' + cluster_score + '\t' + taxopath + '\n'
             else:
-                line = row['name'] + '\t' + cluster_id + '\t' + taxopath + '\n'
+                line = row['name'] + '\t' + str(row['LWR']) + '\t' + cluster_id + '\t' + taxopath + '\n'
     
             lines.append(line)
         file.writelines(lines)
@@ -513,7 +513,7 @@ def assignLabelsToPlacements(jplace: str,
             only_best_hit=only_best_hit,
             additional_args=gappa_additional_args)
     
-    with TemporaryFilePath() as tempout, TemporaryFilePath() as tempout2:
+    with TemporaryFilePath() as tempout, TemporaryFilePath() as tempout2, TemporaryFilePath() as tempout3:
         parseGappaAssignTable(
             input_table=gappa_assign_out,
             has_cluster_id=has_cluster_id,
@@ -522,21 +522,27 @@ def assignLabelsToPlacements(jplace: str,
             clusters_taxopath=clusters_taxopath
         )
 
+        if only_unique_cluster:
+            filterNonUniquePlacementAssignments(
+                placed_tax_assignments=tempout,
+                outfile=tempout2
+            )
+            shutil.move(tempout2, tempout)
+
+        pickTaxopathWithHighestLWR(
+            placed_tax_assignments=tempout,
+            outfile=tempout3
+        )
+
         if query_labels is not None:
             addQueryLabelsToAssignTable(
-                input_table=tempout,
+                input_table=tempout3,
                 query_labels=query_labels,
                 output_table=query_taxo_out
             )
         else:
-            shutil.move(tempout, query_taxo_out)
-        
-        if only_unique_cluster:
-            filterNonUniquePlacementAssignments(
-                placed_tax_assignments=query_taxo_out,
-                outfile=tempout2
-            )
-            shutil.move(tempout2, query_taxo_out)
+            shutil.move(tempout3, query_taxo_out)
+
 
 def findQueriesPlacedInSeveralClusters(placed_tax_assignments: str) -> tuple[list, pd.DataFrame]:
     """
@@ -563,4 +569,12 @@ def filterNonUniquePlacementAssignments(placed_tax_assignments: str, outfile: st
     fdf = df[~df.query_id.isin(queries_in_more_than_one_cluster)].set_index("query_id")
     fdf.to_csv(outfile, sep="\t")
 
+def pickTaxopathWithHighestLWR(placed_tax_assignments: str, outfile: str = None) -> None:
+    """
+    Pick taxopath assigment with higuest LWR for each placed query
+    """
+    if outfile is None:
+        outfile = setDefaultOutputPath(placed_tax_assignments, tag="_unique_taxopath")
     
+    df = pd.read_csv(placed_tax_assignments, sep="\t")
+    df.groupby('query_id', group_keys=['LWR']).aggregate('max').to_csv(outfile, sep='\t')
