@@ -124,9 +124,12 @@ class TaxonomyAssigner():
             taxopath for taxopath in map(self.assignTaxonomyToLabel, labels)
             if taxopath != 'No_taxonomy_found'
         ]
-        if taxopaths:
-            return self.lowestCommonTaxonomy(taxopaths)
-        else:
+        try:
+            if taxopaths:
+                return self.lowestCommonTaxonomy(taxopaths)
+            else:
+                return 'Unspecified'
+        except:
             return 'Unspecified'
 
     def assignLowestCommonTaxonomyToClusters(self, clusters: dict, label_dict: dict = None) -> dict:
