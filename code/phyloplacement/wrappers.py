@@ -559,7 +559,8 @@ def runGappaGraft(input_jplace: str,
 def runGappaAssign(jplace: str, taxonomy_file: str,
                    output_dir: str = None, output_prefix: str = None,
                    only_best_hit: bool = True,
-                   additional_args: str = None) -> None:
+                   additional_args: str = None,
+                   delete_output_tree: bool = True) -> None:
     """
     Use gappa examine assign to assign taxonomy to placed query sequences
     based on taxonomy assigned to tree reference sequences
@@ -588,6 +589,9 @@ def runGappaAssign(jplace: str, taxonomy_file: str,
         f'--per-query-results {best_str} {args_str}'
         )
     terminalExecute(cmd_str, suppress_shell_output=False)
+    outtree = os.path.join(output_dir, f"{output_prefix}labelled_tree.newick")
+    if delete_output_tree and os.path.exists(outtree):
+        os.remove(outtree)
 
 
 
