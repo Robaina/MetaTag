@@ -63,7 +63,7 @@ optional.add_argument('--outgroup', dest='outgroup', type=str, default=None,
                           'recover missing taxonomic infomation by gappa examine assign. ')
                           )
 optional.add_argument('--prefix', dest='prefix', type=str,
-                      default='',
+                      default='placed_tax_',
                       help='prefix to be added to output files')
 optional.add_argument('--outdir', dest='outdir', type=str,
                       help='path to output directory')
