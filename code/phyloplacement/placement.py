@@ -334,7 +334,7 @@ def parseTreeClusters(clusters_tsv: str, cluster_as_key: bool = True, sep='\t') 
     are lists of reference IDs. If False, dict keys are reference IDs and 
     values the cluster to which they belong.
     """
-    df = pd.read_csv(clusters_tsv, sep='\t')
+    df = pd.read_csv(clusters_tsv, sep='\t', dtype=str)
     if cluster_as_key:
         cluster_ids = df.cluster.unique()
         return {
