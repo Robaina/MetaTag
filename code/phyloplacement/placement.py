@@ -349,6 +349,7 @@ def parseTreeClusterQualityScores(cluster_scores_tsv: str, sep='\t') -> dict:
     Parse cluster quality scores file into dictionary
     """
     df = pd.read_csv(cluster_scores_tsv, sep='\t')
+    df['cluster'] = df['cluster'].astype(str)
     return dict(df.values)
 
 def addClustersToTaxTable(in_taxtable: str, clusters: dict,
@@ -359,7 +360,7 @@ def addClustersToTaxTable(in_taxtable: str, clusters: dict,
     """
     if out_taxtable is None:
         out_taxtable = setDefaultOutputPath(in_taxtable, tag='_clustered')
-    taxtable = pd.read_csv(in_taxtable, sep='\t', header=None)
+    taxtable = pd.read_csv(in_taxtable, sep='\t', header=None, dtype=str)
     for i, row in taxtable.iterrows():
         row[1] = clusters[row[0]] + ';' + row[1]
     taxtable.to_csv(out_taxtable, sep='\t', index=False, header=None)
@@ -548,7 +549,7 @@ def findQueriesPlacedInSeveralClusters(placed_tax_assignments: str) -> tuple[lis
     """
     Find queries placed in more than one cluster
     """
-    df = pd.read_csv(placed_tax_assignments, sep="\t")
+    df = pd.read_csv(placed_tax_assignments, sep="\t", dtype=str)
     dfu = df.groupby("query_id")['cluster_id'].agg(['unique'])
 
     queries_in_more_than_one_cluster = []
