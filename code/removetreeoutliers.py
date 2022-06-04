@@ -52,9 +52,9 @@ def readRefSequencesToRemove(treeshrink_deleted: str, except_prefix: str = None)
     except_prefix: prefix of nodes to be excluded from the list
     """
     df = pd.read_csv(treeshrink_deleted, sep='\t', header=None)
-    outliers = [node_id for node_id in df.values.flatten() if not pd.isna(node_id)]
+    outliers = [str(node_id) for node_id in df.values.flatten() if not pd.isna(node_id)]
     if except_prefix is not None:
-        return [node_id for node_id in outliers if not node_id.startswith(except_prefix)]
+        return [str(node_id) for node_id in outliers if not node_id.startswith(except_prefix)]
     else:
         return outliers
 
