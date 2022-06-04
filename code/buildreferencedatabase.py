@@ -63,7 +63,7 @@ terminalExecute(cmd_str, work_dir=work_dir)
 marparser = MARdbLabelParser()
 mar_taxonomy = os.path.join(data_dir, "taxonomy/MAR_gtdb_taxonomy.tsv")
 filtered_mar_file = os.path.join(data_dir, "preprocessedDatabases/mar.faa")
-genomes_with_taxonomy = set(pd.read_csv(mar_taxonomy, sep="\t").genome.values)
+genomes_with_taxonomy = set(pd.read_csv(mar_taxonomy, sep="\t", dtype=str).genome.values)
 
 with open(filtered_mar_file, "w") as outfile:
     for name, seq in pyfastx.Fasta(all_mar_file, build_index=False, full_name=True):
@@ -98,7 +98,7 @@ terminalExecute(cmd_str, work_dir=work_dir)
 # Remove records without GTDB taxonomy
 paoli_taxonomy = os.path.join(data_dir, "taxonomy/Paoli_gtdb_taxonomy.tsv")
 filtered_paoli_file = os.path.join(data_dir, "preprocessedDatabases/paoli.faa")
-genomes_with_taxonomy = set(pd.read_csv(paoli_taxonomy, sep="\t").genome.values)
+genomes_with_taxonomy = set(pd.read_csv(paoli_taxonomy, sep="\t", dtype=str).genome.values)
 
 with open(filtered_paoli_file, "w") as outfile:
     for name, seq in pyfastx.Fasta(all_paoli_file, build_index=False, full_name=True):
@@ -139,7 +139,7 @@ terminalExecute(cmd_str, work_dir=work_dir)
 # Remove records without GTDB taxonomy
 oceandna_taxonomy = os.path.join(data_dir, "taxonomy/OceanDNA_gtdb_taxonomy.tsv")
 filtered_oceandna_file = os.path.join(data_dir, "preprocessedDatabases/oceandna.faa")
-genomes_with_taxonomy = set(pd.read_csv(oceandna_taxonomy, sep="\t").genome.values)
+genomes_with_taxonomy = set(pd.read_csv(oceandna_taxonomy, sep="\t", dtype=str).genome.values)
 
 with open(filtered_oceandna_file, "w") as outfile:
     for name, seq in pyfastx.Fasta(all_oceandna_file, build_index=False, full_name=True):
