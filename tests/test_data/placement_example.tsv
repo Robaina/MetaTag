@@ -1,0 +1,99 @@
+query_id	query_name	LWR	cluster_id	cluster_score	cluster_taxopath	taxopath
+arctic_0	megahit_1_3-257	0.4999	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Acidaminobacteraceae;g__Acidaminobacter;s__Acidaminobacter hydrogenoformans
+arctic_1	megahit_2_22-306	0.5	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_10	megahit_3_36-317	0.6	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__SZUA-35;g__SZUA-35;s__SZUA-35 sp003231975
+arctic_100	megahit_4_1-405	1.0	Outgroup_2	0.0	Unspecified	d__Bacteria
+arctic_1000	megahit_4_405-530	0.7056	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Acidaminobacteraceae;g__Acidaminobacter;s__Acidaminobacter hydrogenoformans
+arctic_1001	megahit_5_3-281	0.9888	Outgroup	0.0	Unspecified	Unspecified
+arctic_1002	megahit_6_2-283	0.706	Outgroup_alone	0.0	d__Bacteria	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Acidaminobacteraceae;g__Acidaminobacter;s__Acidaminobacter hydrogenoformans
+arctic_1003	megahit_7_2-457	0.5001	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1004	megahit_8_2-289	0.9483	Outgroup_2	0.0	Unspecified	d__Bacteria
+arctic_1005	megahit_9_1-219	0.02624	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pseudomonadales;f__Moraxellaceae;g__Acinetobacter;s__Acinetobacter sp003261585
+arctic_1006	megahit_9_209-373	0.3049	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Acidaminobacteraceae;g__Acidaminobacter;s__Acidaminobacter hydrogenoformans
+arctic_1007	megahit_9_508-579	0.3018	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1008	megahit_10_65-313	0.4502	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1009	megahit_11_2-373	0.5	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_101	megahit_12_2-235	0.625	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1010	megahit_13_1-234	0.5454	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1011	megahit_14_2-352	0.5	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1012	megahit_14_396-602	0.9539	Outgroup_2	0.0	Unspecified	d__Bacteria
+arctic_1013	megahit_15_2-223	0.5912	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Verrucomicrobiota;c__Verrucomicrobiae;o__Pedosphaerales;f__AAA164-E04;g__AAA164-E04;s__AAA164-E04 sp002690655
+arctic_1014	megahit_16_1-369	0.1419	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1015	megahit_17_2-550	0.01824	Outgroup_2	0.0	Unspecified	Unspecified
+arctic_1016	megahit_18_1-516	0.1003	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1017	megahit_19_68-385	0.6281	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1018	megahit_20_1-255	0.1004	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1019	megahit_22_3-767	0.3001	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_102	megahit_22_791-1342	0.1005	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1020	megahit_23_3-206	0.1002	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1021	megahit_24_207-281	0.2405	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1022	megahit_25_93-341	0.4133	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1023	megahit_25_345-431	0.8842	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Verrucomicrobiota;c__Verrucomicrobiae;o__Pedosphaerales;f__AAA164-E04;g__AAA164-E04;s__AAA164-E04 sp002690655
+arctic_1024	megahit_26_3-164	0.5	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1025	megahit_27_3-164	0.9799	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Acidaminobacteraceae;g__Acidaminobacter;s__Acidaminobacter hydrogenoformans
+arctic_1026	megahit_28_2-406	0.1001	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1027	megahit_29_1-222	0.2991	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1028	megahit_30_1-369	0.6	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__SZUA-35;g__SZUA-35;s__SZUA-35 sp003231975
+arctic_1029	megahit_31_1-174	0.6656	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_103	megahit_32_1-147	0.35	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1030	megahit_32_156-350	1.0	Outgroup	0.0	Unspecified	Unspecified
+arctic_1031	megahit_33_3-569	0.6655	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1032	megahit_34_3-152	0.304	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1033	megahit_35_174-401	0.2031	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1034	megahit_36_2-205	1.0	Outgroup_2	0.0	Unspecified	d__Bacteria
+arctic_1035	megahit_37_1-213	0.8333	Outgroup_2	0.0	Unspecified	d__Bacteria
+arctic_1036	megahit_38_3-338	0.08831	Outgroup_DMSO	0.0	Unspecified	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pseudomonadales;f__Moraxellaceae;g__Acinetobacter;s__Acinetobacter guillouiae
+arctic_1037	megahit_39_1-213	0.2717	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1038	megahit_40_2-328	0.1001	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1039	megahit_41_2-355	0.5454	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_104	megahit_42_1-495	0.981	Outgroup_alone	0.0	d__Bacteria	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Acidaminobacteraceae;g__Acidaminobacter;s__Acidaminobacter hydrogenoformans
+arctic_1040	megahit_44_1-309	0.2998	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1041	megahit_45_84-329	0.1006	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1042	megahit_48_2-184	0.1652	Outgroup_alone	0.0	d__Bacteria	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Acidaminobacteraceae;g__Acidaminobacter;s__Acidaminobacter hydrogenoformans
+arctic_1043	megahit_49_1-345	0.4971	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Acidaminobacteraceae;g__Acidaminobacter;s__Acidaminobacter hydrogenoformans
+arctic_1044	megahit_50_1-762	0.3018	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1045	megahit_51_13-222	0.4	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1046	megahit_52_33-200	0.1001	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1047	megahit_53_1-357	0.3001	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1048	megahit_54_3-326	0.5	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1049	megahit_55_3-404	0.5454	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_105	megahit_55_548-637	0.3001	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1050	megahit_56_3-677	0.5048	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Verrucomicrobiota;c__Verrucomicrobiae;o__Pedosphaerales;f__AAA164-E04;g__AAA164-E04;s__AAA164-E04 sp002690655
+arctic_1051	megahit_56_911-1237	0.1502	Outgroup_alone	0.0	d__Bacteria	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Acidaminobacteraceae;g__Acidaminobacter;s__Acidaminobacter hydrogenoformans
+arctic_1052	megahit_57_3-380	0.3235	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1053	megahit_58_190-609	0.3637	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1054	megahit_59_3-242	0.1032	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1055	megahit_60_2-466	0.35	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1056	megahit_61_2-514	0.5	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1057	megahit_62_1-411	0.3009	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1058	megahit_63_3-260	0.6111	Outgroup_alone	0.0	d__Bacteria	d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Peptostreptococcales;f__Acidaminobacteraceae;g__Acidaminobacter;s__Acidaminobacter hydrogenoformans
+arctic_1059	megahit_64_101-199	0.3007	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_106	megahit_65_1-282	0.3182	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1060	megahit_66_353-1015	0.4	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1061	megahit_67_255-701	0.3	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1062	megahit_68_1-99	0.5385	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Acidobacteriota;c__Thermoanaerobaculia;o__UBA5704;f__UBA5704;g__SZUA-115;s__SZUA-115 sp003231035
+arctic_1063	megahit_69_576-659	0.35	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1064	megahit_70_1-306	0.1001	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1065	megahit_71_1-285	0.293	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1066	megahit_72_67-324	0.35	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1067	megahit_73_3-227	0.9629	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Acidobacteriota;c__Thermoanaerobaculia;o__UBA5704;f__UBA5704;g__SZUA-115;s__SZUA-115 sp003231035
+arctic_1068	megahit_74_1-312	0.9959	Outgroup	0.0	Unspecified	Unspecified
+arctic_1069	megahit_75_3-257	0.35	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_107	megahit_75_254-409	0.5	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1070	megahit_76_1-216	1.0	Outgroup_2	0.0	Unspecified	d__Bacteria
+arctic_1071	megahit_77_62-241	0.3006	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1072	megahit_78_32-400	0.1005	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1073	megahit_79_2-271	0.1997	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1074	megahit_79_273-677	0.1009	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1075	megahit_79_670-945	0.1004	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1076	megahit_79_942-1682	0.6	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1077	megahit_79_1630-2406	1.0	Outgroup	0.0	Unspecified	Unspecified
+arctic_1078	megahit_79_2406-3431	0.1796	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Verrucomicrobiota;c__Verrucomicrobiae;o__Pedosphaerales;f__AAA164-E04;g__AAA164-E04;s__AAA164-E04 sp002690655
+arctic_1079	megahit_79_3436-3885	0.1001	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_108	megahit_80_105-290	0.3005	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1080	megahit_81_1-216	0.9659	Outgroup	0.0	Unspecified	Unspecified
+arctic_1081	megahit_82_84-536	1.0	Outgroup_2	0.0	Unspecified	d__Bacteria
+arctic_1082	megahit_83_71-232	0.3916	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1083	megahit_84_1-240	0.36	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__Microtrichales;f__UBA11606;g__SZUA-87;s__SZUA-87 sp003231645
+arctic_1084	megahit_84_237-416	0.3396	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
+arctic_1085	megahit_85_1-276	0.2001	Outgroup_2	0.0	Unspecified	d__Bacteria;p__Actinobacteriota;c__Acidimicrobiia;o__UBA5794;f__UBA5794;g__SZUA-442;s__SZUA-442 sp003235475
