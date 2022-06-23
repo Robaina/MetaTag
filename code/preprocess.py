@@ -53,6 +53,9 @@ optional.add_argument('--relabel', dest='relabel',
 optional.add_argument('--idprefix', '--relabel_prefix', dest='idprefix', type=str,
                       default=None,
                       help='prefix to be added to sequence IDs')
+optional.add_argument('--duplicate_method', dest='duplicate_method', type=str,
+                      default='seqkit',
+                      help='choose method to remove duplicates: seqkit or biopython')
 
 args = parser.parse_args()
 
@@ -91,7 +94,7 @@ def main():
         removeDuplicatesFromFasta(
             input_fasta=data_path,
             output_fasta=tmp_file_path,
-            method='seqkit',
+            method=args.duplicate_method,
             export_duplicates=args.export_dup
         )
         print('* Asserting correct sequence format...')
