@@ -7,8 +7,9 @@ Replace SqueezeMeta's taxonomy by placement-derived taxonomy
 import argparse
 from pathlib import Path
 
-from phyloplacement.squeezemeta import SqueezeMetaParser
+import pandas as pd
 
+from phyloplacement.squeezemeta import SqueezeMetaOutputParser, SqueezeMetaTaxonomyParser
 
 parser = argparse.ArgumentParser(
     description=("Replace SqueezeMeta's taxonomy by placement-derived taxonomy"),
@@ -28,12 +29,17 @@ optional.add_argument("--outfile", "-o", dest="outfile", default=None, type=Path
 args = parser.parse_args()
 
 def main():
-    metaparser = SqueezeMetaParser(args.squeeze_table)
+    with open(args.squeeze_table) as f:
+        next(f); dataline = next(f)
+    if len(dataline.split("\t")) > 2: 
+        metaparser = SqueezeMetaOutputParser(args.squeeze_table)
+    else:
+        metaparser = SqueezeMetaTaxonomyParser(args.squeeze_table)
     metaparser.replaceByPlacementTaxopath(
         placement_assignments=args.taxplacement_table,
         output_file=args.outfile
     )
-    print("Finished!")
 
 if __name__ == '__main__':
     main()
+    print("Finished!")
