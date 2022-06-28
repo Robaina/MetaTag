@@ -72,6 +72,8 @@ def filterFASTAbyIDs(input_fasta: str, record_ids: list,
     """
     if output_fasta is None:
        output_fasta = setDefaultOutputPath(input_fasta, '_fitered')
+    if os.path.exists(input_fasta + ".fxi"):
+        os.remove(input_fasta + ".fxi")
     record_ids = set(record_ids)
     fa = pyfastx.Fasta(input_fasta)
     with open(output_fasta, 'w') as fp:
