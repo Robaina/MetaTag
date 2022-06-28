@@ -88,7 +88,8 @@ optional.add_argument('--remove_duplicates', dest='noduplicates', action='store_
 optional.add_argument('--hmmsearch_args', dest='hmmsearch_args', type=str,
                       default=None, required=False,
                       help=(
-                          ('list of comma-separated strings of additional arguments for each hmm passed to hmmsearch. '
+                          ('a string of comma-separated additional arguments for each hmm passed to hmmsearch. ', 
+                          'e.g. inputing 3 hmms: " --cut_ga --cpu 4, --cut_nc, None"'
                           'IMPORTANT: the string must be preceded by a white space. '
                           'A single string may be provided, in which case the same additinal arguments will be passed for each hmm'
                           'Defaults to additional arguments string: "--cut_nc". If no additional arguments are needed, provide the value "None"'
