@@ -15,6 +15,7 @@ data/Paoli/*
 data/metadata/*
 data/preprocessedDatabases/*
 data/environmental/*
+data/rmdup_test.sh
 **/nxr_genomes/
 genes/**/data/*
 genes/**/papers/*
