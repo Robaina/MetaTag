@@ -412,7 +412,6 @@ def parseGappaAssignTable(input_table: str, has_cluster_id: bool = True,
                 line = row['name'] + '\t' + str(row['LWR']) + '\t' + cluster_id + '\t' + cluster_score + '\t' + taxopath + '\n'
             else:
                 line = row['name'] + '\t' + str(row['LWR']) + '\t' + cluster_id + '\t' + taxopath + '\n'
-    
             lines.append(line)
         file.writelines(lines)
 
