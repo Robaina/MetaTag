@@ -67,9 +67,6 @@ optional.add_argument('--prefix', dest='prefix', type=str,
                       help='prefix to be added to output files')
 optional.add_argument('--outdir', dest='outdir', type=str,
                       help='path to output directory')
-optional.add_argument('--only_unique_cluster', dest='only_unique_cluster',
-                      default=False, action='store_true',
-                      help='only keep queries (with multiple placements) that were placed in a single cluster')
 optional.add_argument('--max_placement_distance', dest='max_distance', type=float, default=None,
                       help=(
                           'Maximum allowed pendant distance to consider a placement as valid. '
@@ -150,8 +147,7 @@ def main():
         only_best_hit=False,
         ref_clusters_file=args.ref_clusters,
         ref_cluster_scores_file=args.ref_cluster_scores,
-        gappa_additional_args=args_str,
-        only_unique_cluster=args.only_unique_cluster
+        gappa_additional_args=args_str
     )
 
     if outgroup_file_generated:
