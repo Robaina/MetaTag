@@ -223,6 +223,30 @@ def relabelTree(input_newick: str,
             leaf.name = sanity_check(label_dict[leaf.name])
     Phylo.write(tree, output_file, 'newick')
 
+def newRelabelTree(input_newick: str,
+                   label_dict: dict,
+                   output_file: str = None,
+                   iTOL=True) -> None: 
+    """
+    Relabel tree leaves with labels from 
+    provided dictionary. If iTOL is set, then
+    labels are checked for iTOL compatibility
+    """
+    if output_file is None:
+        output_file = setDefaultOutputPath(
+            input_newick, tag='_relabel'
+        )
+    if iTOL:
+        sanity_check = sanityCheckForiTOL
+    else:
+        sanity_check = lambda x: x
+    with open(input_newick, "r") as file:
+        data = file.read()
+    with open(output_file, "w") as file:
+        for k, v in label_dict.items():
+            data = data.replace(k, sanity_check(v))
+        file.write(data)
+
 def getIqTreeModelFromLogFile(iqtree_log: str) -> str:
     """
     Parse iqtree log file and return best fit model
