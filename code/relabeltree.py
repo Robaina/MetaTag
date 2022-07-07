@@ -12,7 +12,7 @@ import argparse
 from phyloplacement.utils import setDefaultOutputPath, DictMerger
 from phyloplacement.database.preprocessing import setOriginalRecordIDsInFASTA
 from phyloplacement.taxonomy import TaxonomyAssigner
-from phyloplacement.phylotree import relabelTree
+from phyloplacement.phylotree import relabelTree, newRelabelTree
 
 
 parser = argparse.ArgumentParser(
@@ -113,7 +113,7 @@ def main():
     else:
         tree_label_dict = prefix_label_dict
 
-    relabelTree(
+    newRelabelTree(
         input_newick=args.tree,
         label_dict=tree_label_dict,
         output_file=treeout

@@ -44,15 +44,15 @@ python3 code/buildtree.py \
  --tree_model "iqtest" \
  --tree_method "iqtree"
 
-# Remove tree branch outliers
-python3 code/removetreeoutliers.py \
- --tree tests/test_results/ref_database.newick \
- --outdir tests/test_results/ \
- --aln tests/test_results/ref_database.faln
+# # Remove tree branch outliers
+# python3 code/removetreeoutliers.py \
+#  --tree tests/test_results/ref_database.newick \
+#  --outdir tests/test_results/ \
+#  --aln tests/test_results/ref_database.faln
 
 # Relabel reference tree and assign taxonomy
 python3 code/relabeltree.py \
- --tree tests/test_results/ref_database_shrink.newick \
+ --tree tests/test_results/ref_database.newick \
  --labels tests/test_results/ref_database_id_dict.pickle \
  --taxonomy
 
@@ -64,8 +64,8 @@ python3 code/preprocess.py \
 
 # Place query sequences
 python3 code/placesequences.py \
- --aln tests/test_results/ref_database_shrink.faln \
- --tree tests/test_results/ref_database_shrink.newick \
+ --aln tests/test_results/ref_database.faln \
+ --tree tests/test_results/ref_database.newick \
  --query tests/test_results/query_cleaned.faa \
  --outdir tests/test_results/ \
  --aln_method "papara" \
@@ -80,7 +80,6 @@ python3 code/labelplacements.py \
  --ref_cluster_scores tests/test_data/cluster_scores.tsv \
  --prefix "placed_tax_" \
  --outdir tests/test_results/gappa/ \
- --only_unique_cluster \
  --max_placement_distance 0.1 --distance_measure "pendant_diameter_ratio"
 
 # Count placements (filter by taxon, cluster id and quality score)
