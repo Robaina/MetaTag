@@ -5,7 +5,6 @@
 open empress tree with placements in browser. Only if script runs locally.
 """
 
-import os
 import argparse
 
 from phyloplacement.utils import setDefaultOutputPath

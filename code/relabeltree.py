@@ -12,7 +12,7 @@ import argparse
 from phyloplacement.utils import setDefaultOutputPath, DictMerger
 from phyloplacement.database.preprocessing import setOriginalRecordIDsInFASTA
 from phyloplacement.taxonomy import TaxonomyAssigner
-from phyloplacement.phylotree import relabelTree, newRelabelTree
+from phyloplacement.phylotree import newRelabelTree
 
 
 parser = argparse.ArgumentParser(

@@ -6,7 +6,6 @@ Shrink reference tree:
 1) Run shrinkTree to remove outlier branches from reference tree and msa
 """
 
-import os
 import argparse
 
 import pandas as pd

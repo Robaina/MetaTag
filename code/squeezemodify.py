@@ -7,8 +7,6 @@ Replace SqueezeMeta's taxonomy by placement-derived taxonomy
 import argparse
 from pathlib import Path
 
-import pandas as pd
-
 from phyloplacement.squeezemeta import SqueezeMetaOutputParser, SqueezeMetaTaxonomyParser
 
 parser = argparse.ArgumentParser(
