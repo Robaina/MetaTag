@@ -44,12 +44,6 @@ python3 code/buildtree.py \
  --tree_model "iqtest" \
  --tree_method "iqtree"
 
-# # Remove tree branch outliers
-# python3 code/removetreeoutliers.py \
-#  --tree tests/test_results/ref_database.newick \
-#  --outdir tests/test_results/ \
-#  --aln tests/test_results/ref_database.faln
-
 # Relabel reference tree and assign taxonomy
 python3 code/relabeltree.py \
  --tree tests/test_results/ref_database.newick \
@@ -91,10 +85,18 @@ python3 code/countplacements.py \
  --outdir tests/test_results/gappa/ \
  --export_right_queries
 
-# Relabel tree with placements (note: tree retrieved with gappa examine graft, which selects placements with highest LWR)
+# Relabel tree with placements 
+# (note: tree retrieved with gappa examine graft, which selects placements with highest LWR)
 python3 code/relabeltree.py \
  --tree tests/test_results/epa_result.newick \
  --labels tests/test_results/ref_database_id_dict.pickle \
           tests/test_results/query_cleaned_id_dict.pickle \
  --label_prefixes "ref_" "query_" \
  --taxonomy
+
+# Plot tree
+python3 code/plottree.py \
+ --tree tests/test_results/epa_result.newick \
+ --labels tests/test_results/ref_database_id_dict.pickle \
+          tests/test_results/query_cleaned_id_dict.pickle \
+ --outdir tests/test_results/ \
