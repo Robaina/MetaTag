@@ -12,7 +12,7 @@ import argparse
 
 from phyloplacement.utils import setDefaultOutputPath, DictMerger
 from phyloplacement.database.preprocessing import is_fasta, is_file, writeRecordNamesToFile
-from phyloplacement.placement import assignLabelsToPlacements, JplaceParser
+from phyloplacement.placement import assignLabelsToPlacements, addDuplicatedQueryIDsToAssignments, JplaceParser
 
 
 parser = argparse.ArgumentParser(
@@ -83,6 +83,8 @@ optional.add_argument('--distance_measure', dest='distance_measure', type=str, d
                           '3. "pendant_diameter_ratio": ratio between pendant and tree diameter (largest pairwise distance) ratio. '
                           'See https://github.com/lczech/gappa/wiki for a description of distal and pendant lengths.'
                       ))
+optional.add_argument("--duplicated_query_ids", dest="duplicated_query_ids", type=str, default=None,
+                      help="path to text file containing duplicated query ids as output by seqkit rmdup")
 
 args = parser.parse_args()
 if args.outdir is None:
@@ -90,7 +92,7 @@ if args.outdir is None:
 
 
 def main():
-
+    taxtable = os.path.join(args.outdir, args.prefix + 'assignments.tsv')
     ref_labels = DictMerger.fromPicklePaths(args.labels).merge()
     if args.query_labels is not None:
         query_labels = DictMerger.fromPicklePaths(args.query_labels).merge()
@@ -149,6 +151,9 @@ def main():
         ref_cluster_scores_file=args.ref_cluster_scores,
         gappa_additional_args=args_str
     )
+
+    if args.duplicated_query_ids is not None:
+        addDuplicatedQueryIDsToAssignments(taxtable, args.duplicated_query_ids)
 
     if outgroup_file_generated:
         os.remove(outgroup_file)
