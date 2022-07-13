@@ -16,54 +16,54 @@
 #                                                                                        #
 # ************************************************************************************** #
 
-# rm -r tests/test_results; mkdir tests/test_results; mkdir tests/test_results/gappa/
+rm -r tests/test_results; mkdir tests/test_results; mkdir tests/test_results/gappa/
 
-# # Preprocess
-# python3 code/preprocess.py \
-#  --in tests/test_data/database/ \
-#  --outfile tests/test_results/test_data_cleaned.faa \
-#  --export-duplicates
+# Preprocess
+python3 code/preprocess.py \
+ --in tests/test_data/database/ \
+ --outfile tests/test_results/test_data_cleaned.faa \
+ --export-duplicates
 
-# # Make database
-# python3 code/makedatabase.py \
-#  --in tests/test_results/test_data_cleaned.faa \
-#  --outdir tests/test_results \
-#  --hmms tests/test_data/TIGR01287.1.HMM \
-#         tests/test_data/TIGR02016.1.HMM \
-#  --max_sizes 20 5 \
-#  --min_seq_length 10 --max_seq_length 2000 \
-#  --relabel_prefixes "ref_" "out_" \
-#  --relabel --remove_duplicates \
-#  --hmmsearch_args " None, --cut_ga" 
+# Make database
+python3 code/makedatabase.py \
+ --in tests/test_results/test_data_cleaned.faa \
+ --outdir tests/test_results \
+ --hmms tests/test_data/TIGR01287.1.HMM \
+        tests/test_data/TIGR02016.1.HMM \
+ --max_sizes 20 5 \
+ --min_seq_length 10 --max_seq_length 2000 \
+ --relabel_prefixes "ref_" "out_" \
+ --relabel --remove_duplicates \
+ --hmmsearch_args " None, --cut_ga" 
 
-# # Alignment and tree
-# python3 code/buildtree.py \
-#  --in tests/test_results/ref_database.faa \
-#  --outdir tests/test_results/ \
-#  --msa_method "muscle" \
-#  --tree_model "iqtest" \
-#  --tree_method "iqtree"
+# Alignment and tree
+python3 code/buildtree.py \
+ --in tests/test_results/ref_database.faa \
+ --outdir tests/test_results/ \
+ --msa_method "muscle" \
+ --tree_model "iqtest" \
+ --tree_method "iqtree"
 
-# # Relabel reference tree and assign taxonomy
-# python3 code/relabeltree.py \
-#  --tree tests/test_results/ref_database.newick \
-#  --labels tests/test_results/ref_database_id_dict.pickle \
-#  --taxonomy
+# Relabel reference tree and assign taxonomy
+python3 code/relabeltree.py \
+ --tree tests/test_results/ref_database.newick \
+ --labels tests/test_results/ref_database_id_dict.pickle \
+ --taxonomy
 
-# # Preprocess query sequences
-# python3 code/preprocess.py \
-#  --in tests/test_data/query.faa \
-#  --outfile tests/test_results/query_cleaned.faa \
-#  --idprefix "query_" --relabel --export-duplicates
+# Preprocess query sequences
+python3 code/preprocess.py \
+ --in tests/test_data/query.faa \
+ --outfile tests/test_results/query_cleaned.faa \
+ --idprefix "query_" --relabel --export-duplicates
 
-# # Place query sequences
-# python3 code/placesequences.py \
-#  --aln tests/test_results/ref_database.faln \
-#  --tree tests/test_results/ref_database.newick \
-#  --query tests/test_results/query_cleaned.faa \
-#  --outdir tests/test_results/ \
-#  --aln_method "papara" \
-#  --tree_model tests/test_results/ref_database.log
+# Place query sequences
+python3 code/placesequences.py \
+ --aln tests/test_results/ref_database.faln \
+ --tree tests/test_results/ref_database.newick \
+ --query tests/test_results/query_cleaned.faa \
+ --outdir tests/test_results/ \
+ --aln_method "papara" \
+ --tree_model tests/test_results/ref_database.log
 
 # Assign taxonomy to placed sequences
 python3 code/labelplacements.py \
