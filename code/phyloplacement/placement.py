@@ -552,7 +552,7 @@ def addDuplicatedQueryIDsToAssignments(taxtable: str, query_duplicates: str) -> 
     """
     df = pd.read_csv(query_duplicates, sep="\t", header=None).head()
     dup_labels = {
-        dup_pair[1].split(",")[0].strip(): dup_pair[1].split(",")[1].strip()
+        dup_pair[1].split(",")[0].strip(): ",".join(dup_pair[1].split(",")[1:]).strip()
         for dup_pair in df.values
         }
     assigns = pd.read_csv(taxtable, sep="\t")
