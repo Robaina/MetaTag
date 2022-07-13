@@ -543,6 +543,23 @@ def assignLabelsToPlacements(jplace: str,
         else:
             shutil.move(tempout3, query_taxo_out)
 
+def addDuplicatedQueryIDsToAssignments(taxtable: str, query_duplicates: str) -> None:
+    """
+    Add a column with the query IDs of duplicated sequences to the taxonomy assignments file.
+    @params:
+    taxtable: tsv with query taxonomic and cluster assignments as output by labelplacements.py
+    query_duplicates: text file containing query duplicate IDs as output by seqkit rmdup
+    """
+    df = pd.read_csv(query_duplicates, sep="\t", header=None).head()
+    dup_labels = {
+        dup_pair[1].split(",")[0].strip(): dup_pair[1].split(",")[1].strip()
+        for dup_pair in df.values
+        }
+    assigns = pd.read_csv(taxtable, sep="\t")
+    assigns["query_duplicate"] = assigns["query_name"].apply(
+        lambda x: dup_labels[x] if x in dup_labels else ""
+        )
+    assigns.to_csv(taxtable, sep="\t", index=False)
 
 def findQueriesPlacedInSeveralClusters(placed_tax_assignments: str) -> tuple[list, pd.DataFrame]:
     """
