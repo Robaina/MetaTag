@@ -16,39 +16,39 @@
 #                                                                                        #
 # ************************************************************************************** #
 
-rm -r tests/test_results; mkdir tests/test_results; mkdir tests/test_results/gappa/
+# rm -r tests/test_results; mkdir tests/test_results; mkdir tests/test_results/gappa/
 
-# Preprocess
-python3 code/preprocess.py \
- --in tests/test_data/database/ \
- --outfile tests/test_results/test_data_cleaned.faa \
- --export-duplicates
+# # Preprocess
+# python3 code/preprocess.py \
+#  --in tests/test_data/database/ \
+#  --outfile tests/test_results/test_data_cleaned.faa \
+#  --export-duplicates
 
-# Make database
-python3 code/makedatabase.py \
- --in tests/test_results/test_data_cleaned.faa \
- --outdir tests/test_results \
- --hmms tests/test_data/TIGR01287.1.HMM \
-        tests/test_data/TIGR02016.1.HMM \
- --max_sizes 20 5 \
- --min_seq_length 10 --max_seq_length 2000 \
- --relabel_prefixes "ref_" "out_" \
- --relabel --remove_duplicates \
- --hmmsearch_args " None, --cut_ga" 
+# # Make database
+# python3 code/makedatabase.py \
+#  --in tests/test_results/test_data_cleaned.faa \
+#  --outdir tests/test_results \
+#  --hmms tests/test_data/TIGR01287.1.HMM \
+#         tests/test_data/TIGR02016.1.HMM \
+#  --max_sizes 20 5 \
+#  --min_seq_length 10 --max_seq_length 2000 \
+#  --relabel_prefixes "ref_" "out_" \
+#  --relabel --remove_duplicates \
+#  --hmmsearch_args " None, --cut_ga" 
 
-# Alignment and tree
-python3 code/buildtree.py \
- --in tests/test_results/ref_database.faa \
- --outdir tests/test_results/ \
- --msa_method "muscle" \
- --tree_model "iqtest" \
- --tree_method "iqtree"
+# # Alignment and tree
+# python3 code/buildtree.py \
+#  --in tests/test_results/ref_database.faa \
+#  --outdir tests/test_results/ \
+#  --msa_method "muscle" \
+#  --tree_model "iqtest" \
+#  --tree_method "iqtree"
 
-# Relabel reference tree and assign taxonomy
-python3 code/relabeltree.py \
- --tree tests/test_results/ref_database.newick \
- --labels tests/test_results/ref_database_id_dict.pickle \
- --taxonomy
+# # Relabel reference tree and assign taxonomy
+# python3 code/relabeltree.py \
+#  --tree tests/test_results/ref_database.newick \
+#  --labels tests/test_results/ref_database_id_dict.pickle \
+#  --taxonomy
 
 # Preprocess query sequences
 python3 code/preprocess.py \
@@ -70,7 +70,7 @@ python3 code/labelplacements.py \
  --jplace tests/test_results/epa_result.jplace \
  --labels tests/test_results/ref_database_id_dict.pickle \
  --query_labels tests/test_results/query_cleaned_id_dict.pickle \
- --duplicated_query_ids tests/test_data/query_duplicates.txt \
+ --duplicated_query_ids tests/test_results/query_cleaned_duplicates.txt \
  --ref_clusters tests/test_data/clusters.tsv \
  --ref_cluster_scores tests/test_data/cluster_scores.tsv \
  --prefix "placed_tax_" \

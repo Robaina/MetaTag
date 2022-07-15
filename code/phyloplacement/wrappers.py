@@ -14,14 +14,18 @@ papara_exec = '/home/robaina/Software/papara/papara'
 
 
 def runSeqKitNoDup(input_fasta: str, output_fasta: str = None,
-                   export_duplicates: bool = False):
+                   export_duplicates: bool = False,
+                   duplicates_file: str = None):
     """
     Simpe CLI wrapper to seqkit rmdup
     """
     if output_fasta is None:
         output_fasta = setDefaultOutputPath(input_fasta, tag="_no_duplicates")
     if export_duplicates:
-        dup_file = setDefaultOutputPath(input_fasta, tag="_duplicates", extension=".txt")
+        if duplicates_file is None:
+            dup_file = setDefaultOutputPath(input_fasta, tag="_duplicates", extension=".txt")
+        else:
+            dup_file = duplicates_file
         dup_str = f"-D {dup_file}"
     else:
         dup_str = ""

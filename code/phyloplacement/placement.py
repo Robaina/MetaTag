@@ -550,7 +550,7 @@ def parseDuplicatesFromSeqkit(query_duplicates: str) -> None:
     taxtable: tsv with query taxonomic and cluster assignments as output by labelplacements.py
     query_duplicates: text file containing query duplicate IDs as output by seqkit rmdup
     """
-    df = pd.read_csv(query_duplicates, sep="\t", header=None).head()
+    df = pd.read_csv(query_duplicates, sep="\t", header=None)
     dup_labels = {
         dup_pair[1].split(",")[0].strip(): ",".join(dup_pair[1].split(",")[1:]).strip()
         for dup_pair in df.values
