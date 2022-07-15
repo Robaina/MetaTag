@@ -12,7 +12,7 @@ import argparse
 
 from phyloplacement.utils import setDefaultOutputPath, DictMerger
 from phyloplacement.database.preprocessing import is_fasta, is_file, writeRecordNamesToFile
-from phyloplacement.placement import assignLabelsToPlacements, addDuplicatedQueryIDsToAssignments, JplaceParser
+from phyloplacement.placement import assignLabelsToPlacements, addDuplicatesToAssignmentTable, JplaceParser
 
 
 parser = argparse.ArgumentParser(
@@ -153,7 +153,7 @@ def main():
     )
 
     if args.duplicated_query_ids is not None:
-        addDuplicatedQueryIDsToAssignments(taxtable, args.duplicated_query_ids)
+        addDuplicatesToAssignmentTable(taxtable, args.duplicated_query_ids)
 
     if outgroup_file_generated:
         os.remove(outgroup_file)

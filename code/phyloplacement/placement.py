@@ -543,7 +543,7 @@ def assignLabelsToPlacements(jplace: str,
         else:
             shutil.move(tempout3, query_taxo_out)
 
-def addDuplicatedQueryIDsToAssignments(taxtable: str, query_duplicates: str) -> None:
+def parseDuplicatesFromSeqkit(query_duplicates: str) -> None:
     """
     Add a column with the query IDs of duplicated sequences to the taxonomy assignments file.
     @params:
@@ -555,11 +555,28 @@ def addDuplicatedQueryIDsToAssignments(taxtable: str, query_duplicates: str) -> 
         dup_pair[1].split(",")[0].strip(): ",".join(dup_pair[1].split(",")[1:]).strip()
         for dup_pair in df.values
         }
-    assigns = pd.read_csv(taxtable, sep="\t")
-    assigns["query_duplicate"] = assigns["query_name"].apply(
-        lambda x: dup_labels[x] if x in dup_labels else ""
-        )
-    assigns.to_csv(taxtable, sep="\t", index=False)
+    return dup_labels
+    
+def addDuplicatesToAssignmentTable(taxtable: str, query_duplicates: str,
+                                   output_file: str = None) -> None: 
+    """
+    Add duplicated query IDs to cluster and taxonomic assignment table
+    """
+    if output_file is None:
+        output_file = setDefaultOutputPath(taxtable, tag="_duplicates")
+
+    assigns = pd.read_csv(taxtable, sep="\t", index_col=False)
+    dup_dict = parseDuplicatesFromSeqkit(query_duplicates)
+    for query_name, duplicate_string in dup_dict.items():
+        duplicates = duplicate_string.split(",")
+
+        for duplicate in duplicates:
+            row = assigns[assigns.query_name == query_name].copy()
+            if not row.empty:
+                row = row.iloc[0, :]
+                row.query_name = duplicate
+                assigns = assigns.append(row, ignore_index=True)
+    assigns.to_csv(output_file, sep="\t", index=False)
 
 def findQueriesPlacedInSeveralClusters(placed_tax_assignments: str) -> tuple[list, pd.DataFrame]:
     """
