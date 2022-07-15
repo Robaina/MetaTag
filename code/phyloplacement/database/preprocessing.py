@@ -25,12 +25,16 @@ from phyloplacement.utils import (saveToPickleFile, setDefaultOutputPath,
 def removeDuplicatesFromFasta(input_fasta: str,
                               output_fasta: str = None,
                               export_duplicates: bool = False,
+                              duplicates_file: str = None,
                               method: str = 'seqkit') -> None:
     """
     Removes duplicate entries (either by sequence or ID) from fasta.
     """
     if output_fasta is None:
         output_fasta = setDefaultOutputPath(input_fasta, '_noduplicates')
+
+    if export_duplicates and method != 'seqkit':
+        raise ValueError('export_duplicates is only supported by method: seqkit')
 
     if 'bio' in method:
         seen_seqs, seen_ids = set(), set()
@@ -40,12 +44,14 @@ def removeDuplicatesFromFasta(input_fasta: str,
                     seen_seqs.add(record.seq)
                     seen_ids.add(record.id)
                     yield record
-
         SeqIO.write(unique_records(), output_fasta, 'fasta')
 
     else:
+        if duplicates_file is None:
+            duplicates_file = setDefaultOutputPath(input_fasta, '_duplicates', extension='.txt')
         wrappers.runSeqKitNoDup(input_fasta=input_fasta, output_fasta=output_fasta,
-                                export_duplicates=export_duplicates)
+                                export_duplicates=export_duplicates,
+                                duplicates_file=duplicates_file)
 
 def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
     """

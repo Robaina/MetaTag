@@ -91,11 +91,13 @@ def main():
     
     with TemporaryFilePath() as tmp_file_path:
         print('* Removing duplicates...')
+        duplicates_file = setDefaultOutputPath(outfasta, tag='_duplicates', extension='.txt')
         removeDuplicatesFromFasta(
             input_fasta=data_path,
             output_fasta=tmp_file_path,
             method=args.duplicate_method,
-            export_duplicates=args.export_dup
+            export_duplicates=args.export_dup,
+            duplicates_file=duplicates_file
         )
         print('* Asserting correct sequence format...')
         assertCorrectSequenceFormat(
