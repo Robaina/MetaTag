@@ -56,6 +56,7 @@ data/final_ref_database.fasta
 data/final_ref_database_unique_contigs.fasta
 genes/nifH/nifH_pipeline_jose_tree.sh
 genes/nifH/daniel_placement.sh
+bacteroidota.sh
 
 # File types
 *.sqlite
