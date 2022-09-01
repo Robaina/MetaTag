@@ -64,11 +64,11 @@ def adjustCARTmodel(input_fasta: str, input_alignment: str,
     CART based on nifH sequence from Azotobacter.
     Using global alignment of subsequence to find position in aligment.
     """
-    CART = {
-        109: ['F', 'W', 'Y'], 
-        49: ['A', 'D', 'I'],  
-        53: ['L', 'M', 'W'] 
-    }
+    # CART = {
+    #     109: ['F', 'W', 'Y'], 
+    #     49: ['A', 'D', 'I'],  
+    #     53: ['L', 'M', 'W'] 
+    # }
 
     # adjusted_CART = {}
     # seq_dict = getRecordAlignments(input_fasta)
@@ -80,6 +80,13 @@ def adjustCARTmodel(input_fasta: str, input_alignment: str,
     #     pos_pattern = ''.join(azo_nifH)[aa_pos - 1: aa_pos - 1 + substring_length]
     #     aln_aa_pos = findPatternInMSArecord(azo_nifh_aln, pos_pattern)
     #     adjusted_CART[aln_aa_pos] = aas
+
+    """
+    NOTE: Adjusted manually based on msa containing Azotobacter's nifH sequence:
+    001_WP_039801084.1 MULTISPECIES: nitrogenase iron protein [Azotobacter]
+    and counting residue positions in the aligned Azotobacter sequence vs residues
+    in the unaligned Azotobacter sequence.
+    """
 
     adjusted_CART = {
         (180 - 1): ['F', 'W', 'Y'], 
