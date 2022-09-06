@@ -75,7 +75,8 @@ python3 code/labelplacements.py \
  --ref_cluster_scores tests/test_data/cluster_scores.tsv \
  --prefix "placed_tax_" \
  --outdir tests/test_results/gappa/ \
- --max_placement_distance 0.1 --distance_measure "pendant_diameter_ratio"
+ --max_placement_distance 0.1 --distance_measure "pendant_diameter_ratio" \
+ --min_placement_lwr 0.8
 
 # Count placements (filter by taxon, cluster id and quality score)
 python3 code/countplacements.py \

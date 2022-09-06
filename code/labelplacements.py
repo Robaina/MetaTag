@@ -83,6 +83,11 @@ optional.add_argument('--distance_measure', dest='distance_measure', type=str, d
                           '3. "pendant_diameter_ratio": ratio between pendant and tree diameter (largest pairwise distance) ratio. '
                           'See https://github.com/lczech/gappa/wiki for a description of distal and pendant lengths.'
                       ))
+optional.add_argument('--min_placement_lwr', dest='minimum_lwr', type=float, default=None,
+                      help=(
+                          'Minimum allowed placement LWR to consider a placement as valid. Values between 0 and 1.'
+                          )
+                          )
 optional.add_argument("--duplicated_query_ids", dest="duplicated_query_ids", type=str, default=None,
                       help="path to text file containing duplicated query ids as output by seqkit rmdup")
 
@@ -139,6 +144,12 @@ def main():
             raise ValueError('Distance measure unavailable. Please choose a valid one.')
         args.jplace = filtered_jplace
 
+    if args.minimum_lwr is not None:
+        print(f'Filtering placements by minimum LWR of: {args.minimum_lwr}')
+        filtered_jplace = setDefaultOutputPath(args.jplace, tag='_lwr_filtered')
+        parser = JplaceParser(args.jplace)
+        parser.filterPlacementsByMinimumLWR(minimum_lwr=args.minimum_lwr, outfile=filtered_jplace)
+        args.jplace = filtered_jplace
 
     assignLabelsToPlacements(
         jplace=args.jplace,
