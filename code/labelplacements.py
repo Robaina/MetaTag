@@ -160,7 +160,8 @@ def main():
         only_best_hit=False,
         ref_clusters_file=args.ref_clusters,
         ref_cluster_scores_file=args.ref_cluster_scores,
-        gappa_additional_args=args_str
+        gappa_additional_args=args_str,
+        only_unique_cluster=True,
     )
 
     if args.duplicated_query_ids is not None:
