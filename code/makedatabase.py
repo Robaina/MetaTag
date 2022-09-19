@@ -38,12 +38,12 @@ optional.add_argument('--prefix', dest='prefix', type=str,
                       default='',
                       help='prefix to be added to output files')
 optional.add_argument('--relabel_prefixes', dest='relabel_prefixes', type=str,
-                      nargs='+',
+                      nargs='+', default=None,
                       help=(
                           'List of space-separated prefixes to be added to each hmm-derived set of '
                           'sequences after relabelling. Only used if "--relabel" is set. '
                           'Label prefixes set to "None" are assigned "ref_" by default.'
-                      )
+                          )
                       )
 optional.add_argument('--max_sizes', dest='maxsizes',
                       default=None, type=str, nargs='+',
@@ -77,23 +77,24 @@ optional.add_argument('--relabel', dest='relabel', action='store_true',
                     help=(
                         'relabel record IDs with numerical ids. '
                         'Unrequired to build database, but highly recommended '
-                        'to avoid possible conflicts downstream the pipeline.')
+                        'to avoid possible conflicts downstream the pipeline.'
+                        )
                         )
 optional.add_argument('--remove_duplicates', dest='noduplicates', action='store_true',
                     required=False,
                     default=False,
                     help=(
-                        'remove duplicated sequences from final (merged) database')
+                        'remove duplicated sequences from final (merged) database'
+                        )
                         )
 optional.add_argument('--hmmsearch_args', dest='hmmsearch_args', type=str,
                       default=None, required=False,
                       help=(
-                          ('a string of comma-separated additional arguments for each hmm passed to hmmsearch. ', 
+                          'a string of comma-separated additional arguments for each hmm passed to hmmsearch. ', 
                           'e.g. inputing 3 hmms: " --cut_ga --cpu 4, --cut_nc, None"'
                           'IMPORTANT: the string must be preceded by a white space. '
                           'A single string may be provided, in which case the same additinal arguments will be passed for each hmm'
                           'Defaults to additional arguments string: "--cut_nc". If no additional arguments are needed, provide the value "None"'
-                          )
                           )
                     )
 
