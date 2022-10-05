@@ -17,18 +17,7 @@ data/preprocessedDatabases/*
 data/environmental/*
 data/rmdup_test.sh
 **/nxr_genomes/
-# genes/**/data/*
-# genes/**/papers/*
-# genes/**/results/*
-# !genes/**/*.sh
-# !genes/**/*.faln
-# !genes/**/*.newick
-# !genes/**/*.pickle
-# !genes/**/iTOL_colors.txt
-# !genes/**/clusters.tsv
-# !genes/**/cluster_scores.tsv
-# !genes**/placement_results
-genes/*
+genes/
 genes_local/
 ideas/interactions_graph_local/
 tests/test_results
