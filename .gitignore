@@ -17,29 +17,10 @@ data/preprocessedDatabases/*
 data/environmental/*
 data/rmdup_test.sh
 **/nxr_genomes/
-genes/**/data/*
-genes/**/papers/*
-genes/**/results/*
-!genes/**/*.sh
-!genes/**/*.faln
-!genes/**/*.newick
-!genes/**/*.pickle
-!genes/**/iTOL_colors.txt
-!genes/**/clusters.tsv
-!genes/**/cluster_scores.tsv
-!genes**/placement_results
+genes/
 tests/test_results
 tests/hmm_outputs
 tests/test_data_dna
-genes/rho/*
-genes/rho
-genes/nifH/daniel/
-genes/nifH/daniel/*
-genes/nifH/jose_tree/
-genes/rafa/
-genes/rafa_artico/
-genes/Juan
-genes/Rafa
 ms/
 notes/
 test_data/
@@ -51,11 +32,8 @@ code/test.ipynb
 code/test.py
 NOTES.md
 code/notify.py
-genes/nxr/commit_to_github.sh
 data/final_ref_database.fasta
 data/final_ref_database_unique_contigs.fasta
-genes/nifH/nifH_pipeline_jose_tree.sh
-genes/nifH/daniel_placement.sh
 bacteroidota.sh
 
 # File types
