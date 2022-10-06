@@ -18,6 +18,8 @@ data/environmental/*
 data/rmdup_test.sh
 **/nxr_genomes/
 genes/
+genes_local/
+ideas/interactions_graph_local/
 tests/test_results
 tests/hmm_outputs
 tests/test_data_dna
