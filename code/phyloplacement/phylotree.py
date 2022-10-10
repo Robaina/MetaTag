@@ -244,7 +244,7 @@ def newRelabelTree(input_newick: str,
         data = file.read()
     with open(output_file, "w") as file:
         for k, v in label_dict.items():
-            data = data.replace(k, sanity_check(v))
+            data = data.replace(k + ":", sanity_check(v))
         file.write(data)
 
 def getIqTreeModelFromLogFile(iqtree_log: str) -> str:
