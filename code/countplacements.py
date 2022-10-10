@@ -56,6 +56,8 @@ if args.outprefix is None:
     args.outprefix = 'placed_'
 if args.export_right_queries:
     path_to_query_list = os.path.join(args.outdir, f"{args.outprefix}rightly_cassified_queries.tsv")
+else:
+    path_to_query_list = None
 
 taxparser = TaxAssignParser(args.taxtable)
 for taxlevel in args.taxlevels:

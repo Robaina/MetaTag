@@ -32,7 +32,7 @@ required.add_argument('--hmms', dest='hmms', type=str, nargs='+',
                       help='a single or a list of space-separated paths to tigrfam or pfam models')
 required.add_argument('--in', dest='data', type=str, required=True,
                       help='path to peptide database')
-optional.add_argument('--outdir', dest='outdir', type=str,
+optional.add_argument('--outdir', dest='outdir', type=str, default=None,
                       help='path to output directory')
 optional.add_argument('--prefix', dest='prefix', type=str,
                       default='',
@@ -113,6 +113,8 @@ if not os.path.exists(args.outdir):
     os.makedirs(args.outdir)
 output_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database.faa')
 output_pickle_short_ids = os.path.join(args.outdir, f'{args.prefix}ref_database_id_dict.pickle')
+if args.hmmsearch_args is None:
+    args.hmmsearch_args = ",".join(["None" for _ in args.hmms])
 hmmsearch_args_list = list(map(lambda x: x.strip(), args.hmmsearch_args.split(",")))
 hmmsearch_args_list = list(map(lambda x: '--cut_nc' if x == 'None' else x, hmmsearch_args_list))
 if len(hmmsearch_args_list) < len(args.hmms):
