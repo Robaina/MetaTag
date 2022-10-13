@@ -64,36 +64,36 @@ optional.add_argument('--min_seq_length', dest='minseqlength',
                         )
                     )
 optional.add_argument('--max_seq_length', dest='maxseqlength',
-                    default=None, type=int,
-                    required=False,
-                    help=(
+                      default=None, type=int,
+                      required=False,
+                      help=(
                         'maximum sequence length in reference database. '
                         'Defaults to inf'
                         )
                     )
 optional.add_argument('--relabel', dest='relabel', action='store_true',
-                    required=False,
-                    default=False,
-                    help=(
+                      required=False,
+                      default=False,
+                      help=(
                         'relabel record IDs with numerical ids. '
                         'Unrequired to build database, but highly recommended '
                         'to avoid possible conflicts downstream the pipeline.'
                         )
                         )
 optional.add_argument('--remove_duplicates', dest='noduplicates', action='store_true',
-                    required=False,
-                    default=False,
-                    help=(
+                      required=False,
+                      default=False,
+                      help=(
                         'remove duplicated sequences from final (merged) database'
                         )
                         )
 optional.add_argument('--hmmsearch_args', dest='hmmsearch_args', type=str,
                       default=None, required=False,
                       help=(
-                          'a string of comma-separated additional arguments for each hmm passed to hmmsearch. ', 
-                          'e.g. inputing 3 hmms: " --cut_ga --cpu 4, --cut_nc, None"'
+                          'a string of comma-separated additional arguments for each hmm passed to hmmsearch. '
+                          'e.g. inputing 3 hmms: " --cut_ga --cpu 4, --cut_nc, None". '
                           'IMPORTANT: the string must be preceded by a white space. '
-                          'A single string may be provided, in which case the same additinal arguments will be passed for each hmm'
+                          'A single string may be provided, in which case the same additinal arguments will be passed for each hmm. '
                           'Defaults to additional arguments string: "--cut_nc". If no additional arguments are needed, provide the value "None"'
                           )
                     )
