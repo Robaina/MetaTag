@@ -80,6 +80,13 @@ optional.add_argument('--relabel', dest='relabel', action='store_true',
                         'to avoid possible conflicts downstream the pipeline.'
                         )
                         )
+optional.add_argument('--nocdhit', dest='nocdhit', action='store_true',
+                      required=False,
+                      default=False,
+                      help=(
+                        'do not run cd-hit on peptide database'
+                        )
+                        )
 optional.add_argument('--remove_duplicates', dest='noduplicates', action='store_true',
                       required=False,
                       default=False,
@@ -154,7 +161,7 @@ def main():
                 reduceDatabaseRedundancy(
                     input_fasta=tempfasta,
                     output_fasta=tempfasta3,
-                    cdhit=True,
+                    cdhit=(not args.nocdhit),
                     cdhit_args=None,
                     maxsize=maxsize
                 )

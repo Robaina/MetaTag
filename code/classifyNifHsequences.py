@@ -87,11 +87,17 @@ def adjustCARTmodel(input_fasta: str, input_alignment: str,
     and counting residue positions in the aligned Azotobacter sequence vs residues
     in the unaligned Azotobacter sequence.
     """
-
+    # Adjusted model for original nifH tree built with --cut_nc
+    # adjusted_CART = {
+    #     (180 - 1): ['F', 'W', 'Y'], 
+    #     (95 - 1): ['A', 'D', 'I'],  
+    #     (99 - 1): ['L', 'M', 'W'] 
+    # }
+    # Adjusted CART built for alternative tree built with -E 1e-10
     adjusted_CART = {
-        (180 - 1): ['F', 'W', 'Y'], 
-        (95 - 1): ['A', 'D', 'I'],  
-        (99 - 1): ['L', 'M', 'W'] 
+        (561 - 1): ['F', 'W', 'Y'], 
+        (398 - 1): ['A', 'D', 'I'],  
+        (405 - 1): ['L', 'M', 'W'] 
     }
     print(f"CART adjusted to {adjusted_CART}")
     return adjusted_CART
@@ -147,9 +153,9 @@ def addClusterToNifHdict(input_fasta: str,
 
     # Temporary fix to remove ref_dict entries not found in alignment
     ref_dict = {
-        ref_id: label
+        ref_id: label# if 'cluster' in label[-15:] else label + "_cluster_IV"
         for ref_id, label in ref_dict.items()
-        if '_cluster_' in label
+        if 'cluster' in label[-15:]
     }
     
     saveToPickleFile(ref_dict, output_dict)
@@ -158,6 +164,7 @@ def addClusterToNifHdict(input_fasta: str,
         with open(out_clusters_file,'w') as file:
             for ref_id, label in ref_dict.items():
                 cluster_id = '_'.join(label.split('_')[-2:])
+                cluster_id = "cluster_IV" if "cluster" not in cluster_id else cluster_id
                 lines.append(f'{ref_id}\t{cluster_id}\n')
             file.writelines(lines)
 
