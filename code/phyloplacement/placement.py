@@ -468,7 +468,8 @@ def assignLabelsToPlacements(jplace: str,
                              ref_clusters_file: str = None,
                              ref_cluster_scores_file: str = None,
                              gappa_additional_args: str = None,
-                             only_unique_cluster: bool = True) -> None:
+                             only_unique_cluster: bool = True,
+                             taxo_file: str = None) -> None:
     """
     Assign taxonomy and/or tree cluster IDs to placed query sequences based on
     taxonomy assigned to tree reference sequences using
@@ -504,6 +505,9 @@ def assignLabelsToPlacements(jplace: str,
     else:
         ref_cluster_scores = None
 
+    if taxo_file is None:
+        taxo_file = './data/taxonomy/merged_taxonomy.tsv'
+
     gappa_assign_out = os.path.join(output_dir, output_prefix + 'per_query.tsv')
     query_taxo_out = os.path.join(output_dir, output_prefix + 'assignments.tsv')
     
@@ -513,7 +517,7 @@ def assignLabelsToPlacements(jplace: str,
 
     with TemporaryFilePath() as temptax:
         taxonomy = TaxonomyAssigner(
-            taxo_file='./data/taxonomy/merged_taxonomy.tsv'
+            taxo_file=taxo_file
         )
         taxonomy.buildGappaTaxonomyTable(ref_labels, output_file=temptax)
 
