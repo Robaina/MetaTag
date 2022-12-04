@@ -93,11 +93,17 @@ def adjustCARTmodel(input_fasta: str, input_alignment: str,
     #     (95 - 1): ['A', 'D', 'I'],  
     #     (99 - 1): ['L', 'M', 'W'] 
     # }
-    # Adjusted CART built for alternative tree built with -E 1e-10
+    # # Adjusted CART built for alternative tree built with -E 1e-10
+    # adjusted_CART = {
+    #     (561 - 1): ['F', 'W', 'Y'], 
+    #     (398 - 1): ['A', 'D', 'I'],  
+    #     (405 - 1): ['L', 'M', 'W'] 
+    # }
+    # Adjusted CART built for new tree built by Nuria
     adjusted_CART = {
-        (561 - 1): ['F', 'W', 'Y'], 
-        (398 - 1): ['A', 'D', 'I'],  
-        (405 - 1): ['L', 'M', 'W'] 
+        (275 - 1): ['F', 'W', 'Y'], 
+        (115 - 1): ['A', 'D', 'I'],  
+        (147 - 1): ['L', 'M', 'W'] 
     }
     print(f"CART adjusted to {adjusted_CART}")
     return adjusted_CART
