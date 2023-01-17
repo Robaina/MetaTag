@@ -13,9 +13,12 @@ import tarfile
 
 import pyfastx
 
-from phyloplacement.utils import (listTarDir, setDefaultOutputPath,
-                                  terminalExecute,
-                                  createTemporaryFilePath) 
+from phyloplacement.utils import (
+    listTarDir,
+    setDefaultOutputPath,
+    terminalExecute,
+    createTemporaryFilePath,
+)
 
 
 def getGenomeIDs(paoli_tar: str) -> list:
@@ -23,6 +26,6 @@ def getGenomeIDs(paoli_tar: str) -> list:
     Get Paoli database genome IDs from tar file
     """
     return [
-        file.split('aPaoli/')[1].split('.fasta')[0]
+        file.split("aPaoli/")[1].split(".fasta")[0]
         for file in listTarDir(paoli_tar)[1:]
-        ]
+    ]

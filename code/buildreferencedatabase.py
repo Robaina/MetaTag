@@ -30,7 +30,7 @@ mar_complete = os.path.join(data_dir, "databases/aMARgenomesCompleteWithMMP.tar.
 oceandna_rep = os.path.join(data_dir, "databases/afasta_species-representatives.tar.gz")
 oceandna_nonrep = os.path.join(data_dir, "databases/afasta_non-representatives.tar.gz")
 
-paoli = '/home/robaina/Documents/TRAITS/data/databases/aPaoli.tar.gz'
+paoli = "/home/robaina/Documents/TRAITS/data/databases/aPaoli.tar.gz"
 
 
 # ******************************************************************
@@ -43,27 +43,25 @@ extractTarFile(mar_complete, dest_dir=os.path.join(data_dir, "MAR"))
 
 all_mar_dir = os.path.join(data_dir, "MAR/allMAR/")
 shutil.copytree(
-    os.path.join(data_dir, "MAR/aMARgenomesComplete"),
-    all_mar_dir,
-    dirs_exist_ok=True
-    )
+    os.path.join(data_dir, "MAR/aMARgenomesComplete"), all_mar_dir, dirs_exist_ok=True
+)
 shutil.copytree(
     os.path.join(data_dir, "MAR/aMARPartialHighQuality"),
     all_mar_dir,
-    dirs_exist_ok=True
-    )
+    dirs_exist_ok=True,
+)
 
 all_mar_file = os.path.join(data_dir, "MAR/allMAR.faa")
-cmd_str = (
-    f"python preprocess.py --in {all_mar_dir} --outfile {all_mar_file}"
-)
+cmd_str = f"python preprocess.py --in {all_mar_dir} --outfile {all_mar_file}"
 terminalExecute(cmd_str, work_dir=work_dir)
 
 # Remove records without GTDB taxonomy
 marparser = MARdbLabelParser()
 mar_taxonomy = os.path.join(data_dir, "taxonomy/MAR_gtdb_taxonomy.tsv")
 filtered_mar_file = os.path.join(data_dir, "preprocessedDatabases/mar.faa")
-genomes_with_taxonomy = set(pd.read_csv(mar_taxonomy, sep="\t", dtype=str).genome.values)
+genomes_with_taxonomy = set(
+    pd.read_csv(mar_taxonomy, sep="\t", dtype=str).genome.values
+)
 
 with open(filtered_mar_file, "w") as outfile:
     for name, seq in pyfastx.Fasta(all_mar_file, build_index=False, full_name=True):
@@ -85,20 +83,20 @@ extractTarFile(paoli, dest_dir=os.path.join(data_dir, "Paoli/"))
 
 # Remove files with MAR genomes
 for file in fullPathListDir(os.path.join(data_dir, "Paoli/aPaoli/")):
-    if 'MARD_' in file:
+    if "MARD_" in file:
         os.remove(file)
 
 all_paoli_dir = os.path.join(data_dir, "Paoli/aPaoli/")
 all_paoli_file = os.path.join(data_dir, "Paoli/allPaoli.faa")
-cmd_str = (
-    f"python preprocess.py --in {all_paoli_dir} --outfile {all_paoli_file}"
-)
+cmd_str = f"python preprocess.py --in {all_paoli_dir} --outfile {all_paoli_file}"
 terminalExecute(cmd_str, work_dir=work_dir)
 
 # Remove records without GTDB taxonomy
 paoli_taxonomy = os.path.join(data_dir, "taxonomy/Paoli_gtdb_taxonomy.tsv")
 filtered_paoli_file = os.path.join(data_dir, "preprocessedDatabases/paoli.faa")
-genomes_with_taxonomy = set(pd.read_csv(paoli_taxonomy, sep="\t", dtype=str).genome.values)
+genomes_with_taxonomy = set(
+    pd.read_csv(paoli_taxonomy, sep="\t", dtype=str).genome.values
+)
 
 with open(filtered_paoli_file, "w") as outfile:
     for name, seq in pyfastx.Fasta(all_paoli_file, build_index=False, full_name=True):
@@ -122,27 +120,29 @@ all_oceandna_dir = os.path.join(data_dir, "OceanDNA/allOceanDNA/")
 shutil.copytree(
     os.path.join(data_dir, "OceanDNA/afasta_non-representatives"),
     all_oceandna_dir,
-    dirs_exist_ok=True
-    )
+    dirs_exist_ok=True,
+)
 shutil.copytree(
     os.path.join(data_dir, "OceanDNA/afasta_species-representatives"),
     all_oceandna_dir,
-    dirs_exist_ok=True
-    )
+    dirs_exist_ok=True,
+)
 
 all_oceandna_file = os.path.join(data_dir, "OceanDNA/allOceanDNA.faa")
-cmd_str = (
-    f"python preprocess.py --in {all_oceandna_dir} --outfile {all_oceandna_file}"
-)
+cmd_str = f"python preprocess.py --in {all_oceandna_dir} --outfile {all_oceandna_file}"
 terminalExecute(cmd_str, work_dir=work_dir)
 
 # Remove records without GTDB taxonomy
 oceandna_taxonomy = os.path.join(data_dir, "taxonomy/OceanDNA_gtdb_taxonomy.tsv")
 filtered_oceandna_file = os.path.join(data_dir, "preprocessedDatabases/oceandna.faa")
-genomes_with_taxonomy = set(pd.read_csv(oceandna_taxonomy, sep="\t", dtype=str).genome.values)
+genomes_with_taxonomy = set(
+    pd.read_csv(oceandna_taxonomy, sep="\t", dtype=str).genome.values
+)
 
 with open(filtered_oceandna_file, "w") as outfile:
-    for name, seq in pyfastx.Fasta(all_oceandna_file, build_index=False, full_name=True):
+    for name, seq in pyfastx.Fasta(
+        all_oceandna_file, build_index=False, full_name=True
+    ):
         genome_id = name.split("__")[0]
         if genome_id in genomes_with_taxonomy:
             outfile.write(f">{name}\n")

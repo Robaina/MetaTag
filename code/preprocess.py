@@ -14,67 +14,102 @@ import os
 import shutil
 import argparse
 
-from phyloplacement.utils import (setDefaultOutputPath,
-                                  TemporaryFilePath,
-                                  TemporaryDirectoryPath)
+from phyloplacement.utils import (
+    setDefaultOutputPath,
+    TemporaryFilePath,
+    TemporaryDirectoryPath,
+)
 from phyloplacement.wrappers import runProdigal
-from phyloplacement.database.preprocessing import (assertCorrectSequenceFormat,
-                                                   removeDuplicatesFromFasta,
-                                                   mergeFASTAs,
-                                                   setTempRecordIDsInFASTA,
-                                                   fastaContainsNucleotideSequences)
+from phyloplacement.database.preprocessing import (
+    assertCorrectSequenceFormat,
+    removeDuplicatesFromFasta,
+    mergeFASTAs,
+    setTempRecordIDsInFASTA,
+    fastaContainsNucleotideSequences,
+)
 
 
 parser = argparse.ArgumentParser(
     description=(
-        'Database preprocessing: removal of duplicated sequences and of sequences with illegal symbols. '
-        'To preferentially keep one duplicate sequence over another, place preferred sequences first.'
-        ),
-    epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
-    )
+        "Database preprocessing: removal of duplicated sequences and of sequences with illegal symbols. "
+        "To preferentially keep one duplicate sequence over another, place preferred sequences first."
+    ),
+    epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
+)
 
 optional = parser._action_groups.pop()
-required = parser.add_argument_group('required arguments')
+required = parser.add_argument_group("required arguments")
 parser._action_groups.append(optional)
 
-required.add_argument('--in', dest='data', type=str, required=True,
-                      help='path to fasta file or directory containing fasta files')
-optional.add_argument('--dna', dest='dna', action='store_true', default=False,
-                      help='declare if sequences are nucleotides. Defaults to peptide sequences.')
-optional.add_argument('--translate', dest='translate', action='store_true', default=False,
-                      help='choose whether nucleotide sequences are translated with prodigal')
-optional.add_argument('--export-duplicates', dest='export_dup', action='store_true', default=False,
-                      help='choose whether duplicated sequences are exported to file (same directory than outfile)')
-optional.add_argument('--outfile', dest='outfile', type=str,
-                      help='path to output fasta file')
-optional.add_argument('--relabel', dest='relabel',
-                      default=False, action='store_true',
-                      help='relabel record IDs with numeral ids')
-optional.add_argument('--idprefix', '--relabel_prefix', dest='idprefix', type=str,
-                      default=None,
-                      help='prefix to be added to sequence IDs')
-optional.add_argument('--duplicate_method', dest='duplicate_method', type=str,
-                      default='seqkit',
-                      help='choose method to remove duplicates: seqkit or biopython')
+required.add_argument(
+    "--in",
+    dest="data",
+    type=str,
+    required=True,
+    help="path to fasta file or directory containing fasta files",
+)
+optional.add_argument(
+    "--dna",
+    dest="dna",
+    action="store_true",
+    default=False,
+    help="declare if sequences are nucleotides. Defaults to peptide sequences.",
+)
+optional.add_argument(
+    "--translate",
+    dest="translate",
+    action="store_true",
+    default=False,
+    help="choose whether nucleotide sequences are translated with prodigal",
+)
+optional.add_argument(
+    "--export-duplicates",
+    dest="export_dup",
+    action="store_true",
+    default=False,
+    help="choose whether duplicated sequences are exported to file (same directory than outfile)",
+)
+optional.add_argument(
+    "--outfile", dest="outfile", type=str, help="path to output fasta file"
+)
+optional.add_argument(
+    "--relabel",
+    dest="relabel",
+    default=False,
+    action="store_true",
+    help="relabel record IDs with numeral ids",
+)
+optional.add_argument(
+    "--idprefix",
+    "--relabel_prefix",
+    dest="idprefix",
+    type=str,
+    default=None,
+    help="prefix to be added to sequence IDs",
+)
+optional.add_argument(
+    "--duplicate_method",
+    dest="duplicate_method",
+    type=str,
+    default="seqkit",
+    help="choose method to remove duplicates: seqkit or biopython",
+)
 
 args = parser.parse_args()
 
 if args.idprefix is None:
-    args.idprefix = 'label_'
+    args.idprefix = "label_"
 if args.outfile is None:
-    outfasta = setDefaultOutputPath(args.data, tag='_cleaned')
+    outfasta = setDefaultOutputPath(args.data, tag="_cleaned")
 else:
     outfasta = os.path.abspath(args.outfile)
 output_dir = os.path.abspath(os.path.dirname(args.outfile))
 
 if os.path.isdir(args.data):
-    print('Merging input files...')
+    print("Merging input files...")
     _, file_ext = os.path.splitext(os.listdir(args.data)[0])
-    data_path = os.path.abspath(os.path.join(output_dir, f'merged_data{file_ext}'))
-    mergeFASTAs(
-        input_fastas_dir=args.data,
-        output_fasta=data_path
-    )
+    data_path = os.path.abspath(os.path.join(output_dir, f"merged_data{file_ext}"))
+    mergeFASTAs(input_fastas_dir=args.data, output_fasta=data_path)
 else:
     data_path = os.path.abspath(args.data)
 
@@ -82,68 +117,68 @@ if args.dna:
     is_peptide = False
 if not args.dna:
     if fastaContainsNucleotideSequences(data_path):
-        print('Inferred data contain nucleotide sequences')
+        print("Inferred data contain nucleotide sequences")
         is_peptide = False
     else:
         is_peptide = True
 
+
 def main():
-    
+
     with TemporaryFilePath() as tmp_file_path:
-        print('* Removing duplicates...')
-        duplicates_file = setDefaultOutputPath(outfasta, tag='_duplicates', extension='.txt')
+        print("* Removing duplicates...")
+        duplicates_file = setDefaultOutputPath(
+            outfasta, tag="_duplicates", extension=".txt"
+        )
         removeDuplicatesFromFasta(
             input_fasta=data_path,
             output_fasta=tmp_file_path,
             method=args.duplicate_method,
             export_duplicates=args.export_dup,
-            duplicates_file=duplicates_file
+            duplicates_file=duplicates_file,
         )
-        print('* Asserting correct sequence format...')
+        print("* Asserting correct sequence format...")
         assertCorrectSequenceFormat(
-            fasta_file=tmp_file_path,
-            output_file=outfasta,
-            is_peptide=is_peptide
+            fasta_file=tmp_file_path, output_file=outfasta, is_peptide=is_peptide
         )
-    
+
     if args.translate and not is_peptide:
         outprefix = setDefaultOutputPath(outfasta, only_filename=True)
-        print('* Translating nucleotide sequences...')
+        print("* Translating nucleotide sequences...")
         with TemporaryDirectoryPath() as tempdir:
             runProdigal(
                 input_file=outfasta,
                 output_prefix=outprefix,
-                output_dir=tempdir, 
-                metagenome=False, 
-                additional_args=None
+                output_dir=tempdir,
+                metagenome=False,
+                additional_args=None,
             )
-            outfaa = os.path.join(tempdir, outprefix + '.faa')
-            outgbk = os.path.join(tempdir, outprefix + '.gbk')
+            outfaa = os.path.join(tempdir, outprefix + ".faa")
+            outgbk = os.path.join(tempdir, outprefix + ".gbk")
 
             assertCorrectSequenceFormat(
-                fasta_file=outfaa,
-                output_file=outfasta,
-                is_peptide=True
+                fasta_file=outfaa, output_file=outfasta, is_peptide=True
             )
             shutil.move(outgbk, output_dir)
     elif args.translate and is_peptide:
-        print('Data already translated!')
+        print("Data already translated!")
 
     if args.relabel:
-        print('* Relabelling records...')
-        outfasta_short = setDefaultOutputPath(outfasta, tag='_short_ids')
+        print("* Relabelling records...")
+        outfasta_short = setDefaultOutputPath(outfasta, tag="_short_ids")
         setTempRecordIDsInFASTA(
             input_fasta=outfasta,
             output_dir=os.path.dirname(args.outfile),
-            prefix=args.idprefix
-            )
+            prefix=args.idprefix,
+        )
         shutil.move(outfasta_short, outfasta)
-    
+
     # Remove temporary merged fasta
     if os.path.isdir(args.data):
         os.remove(data_path)
-    
-    print('Finished!')
 
-if __name__ == '__main__':
+    print("Finished!")
+
+
+if __name__ == "__main__":
     main()
