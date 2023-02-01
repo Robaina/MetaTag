@@ -150,7 +150,7 @@ def main():
                 input_file=outfasta,
                 output_prefix=outprefix,
                 output_dir=tempdir,
-                metagenome=False,
+                metagenome=True,
                 additional_args=None,
             )
             outfaa = os.path.join(tempdir, outprefix + ".faa")
