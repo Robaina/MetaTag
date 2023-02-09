@@ -1,0 +1,24 @@
+name: traits
+channels:
+  - smirarab
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - biopython
+  - fasttree
+  - hmmer
+  - muscle
+  - pandas
+  - numpy
+  - pip
+  - prodigal
+  - python=3.9
+  - seqkit=2.0.0
+  - treeshrink=1.3.7
+  - pip:
+    - pyfastx==0.8.4
+    - scikit-bio==0.5.6
+    - scikit-learn==1.0
+    - scipy==1.7.1
+   
