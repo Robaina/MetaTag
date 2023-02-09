@@ -16,7 +16,7 @@
 #                                                                                        #
 # ************************************************************************************** #
 
-rm -r tests/test_results; mkdir tests/test_results; mkdir tests/test_results/gappa/
+mkdir tests/test_results; mkdir tests/test_results/gappa/
 
 # Preprocess
 python3 code/preprocess.py \
