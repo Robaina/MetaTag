@@ -1,4 +1,5 @@
 # TRAITS
+[![tests](https://github.com/Robaina/TRAITS/actions/workflows/tests.yml/badge.svg)](https://github.com/Robaina/TRAITS/actions/workflows/tests.yml)
 
 This repository contains:
 
