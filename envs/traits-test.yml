@@ -13,7 +13,7 @@ dependencies:
   - numpy
   - pip
   - prodigal
-  - python=3.9
+  - python=3.9.*
   - seqkit=2.0.0
   - treeshrink=1.3.7
   - pip:
