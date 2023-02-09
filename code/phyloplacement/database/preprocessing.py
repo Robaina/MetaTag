@@ -93,7 +93,7 @@ def fastaContainsNucleotideSequences(fasta_file: str) -> bool:
     Check whether fasta file contains nucleotide sequences
     """
     seq_1 = next(SeqIO.parse(fasta_file, "fasta"))
-    return set(seq_1.seq.upper()).issubset({"A", "G", "T", "C"})
+    return isLegitDNAsequence(seq_1.seq)
 
 
 def isLegitPeptideSequence(record_seq: str) -> bool:
