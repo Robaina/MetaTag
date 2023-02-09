@@ -642,7 +642,12 @@ def parseDuplicatesFromSeqkit(query_duplicates: str) -> None:
     """
     df = pd.read_csv(query_duplicates, sep="\t", header=None)
     dup_labels = {
-        dup_pair[1].split(",")[0].strip(): ",".join(dup_pair[1].split(",")[1:]).strip()
+        dup_pair[1]
+        .split(",")[0]
+        .strip(): ",".join(
+            [seq_name.strip() for seq_name in dup_pair[1].split(",")[1:]]
+        )
+        .strip()
         for dup_pair in df.values
     }
     return dup_labels
@@ -666,7 +671,7 @@ def addDuplicatesToAssignmentTable(
             row = assigns[assigns.query_name == query_name].copy()
             if not row.empty:
                 row = row.iloc[0, :]
-                row.query_name = duplicate
+                row.query_name = duplicate.strip()
                 assigns = assigns.append(row, ignore_index=True)
     assigns.to_csv(output_file, sep="\t", index=False)
 
