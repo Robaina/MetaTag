@@ -13,38 +13,6 @@ import pandas as pd
 from phyloplacement.utils import terminalExecute
 
 
-def reformatIQTreeForiTOL(input_tree: str):
-    """
-    NOTES:
-
-    script: itoliqtree.py
-    """
-    pass
-
-
-def reformatFastTreeForiTOL(input_tree: str):
-    """
-    NOTES:
-
-    script: itolfasttree.py
-    """
-    pass
-
-
-def reformatTreeForiTOL(input_tree: str, tree_algorithm: str) -> None:
-    """
-    Reformat tree data to suit iTOL input requirements
-    """
-    if "fast" in tree_algorithm.lower():
-        reformatFastTreeForiTOL(input_tree)
-    elif "iq" in tree_algorithm.lower():
-        reformatIQTreeForiTOL(input_tree)
-    else:
-        raise ValueError(
-            "Tree algorithm not found. Valid algorithms are: iqtree and fasttree"
-        )
-
-
 def makeFeatureMetadataTable(
     label_dict: dict, output_tsv: str, original_labels: bool = True
 ) -> None:
