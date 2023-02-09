@@ -9,6 +9,7 @@ dependencies:
   - fasttree
   - hmmer
   - muscle
+  - cd-hit
   - pandas
   - numpy
   - pip

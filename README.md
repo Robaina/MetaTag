@@ -12,7 +12,7 @@ git clone https://github.com/Robaina/TRAITS.git
 ```
 2. CD to project traits and set conda environment if not already set:
 ```
-conda env create -n traits -f environment.yml
+conda env create -n traits -f envs/traits.yml
 ```
 3. [Install papara](https://cme.h-its.org/exelixis/web/software/papara/index.html) executable and add path to executable in module phyloplacement.wrappers.py:
 ```python
