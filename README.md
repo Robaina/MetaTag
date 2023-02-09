@@ -1,9 +1,12 @@
 # TRAITS
 [![tests](https://github.com/Robaina/TRAITS/actions/workflows/tests.yml/badge.svg)](https://github.com/Robaina/TRAITS/actions/workflows/tests.yml)
+![python](https://img.shields.io/badge/Python-3.8%2B-blue)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+![license](https://img.shields.io/github/license/Robaina/Pynteny)
+![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 
-This repository contains:
-
-1. Tools to annotate short reads taxonomy and function via pylogenetic tree evolutionary placement
+This repository contains tools to assign taxonomy and function annotations to short reads through pylogenetic tree evolutionary placement
 
 ---
 ## Installation
