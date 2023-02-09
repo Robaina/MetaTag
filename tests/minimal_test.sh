@@ -34,7 +34,7 @@ python3 code/makedatabase.py \
  --min_seq_length 10 --max_seq_length 2000 \
  --relabel_prefixes "ref_" "out_" \
  --relabel --remove_duplicates \
- --hmmsearch_args " None, --cut_ga" 
+ --hmmsearch_args " None, --cut_ga"
 
 # Alignment and tree
 python3 code/buildtree.py \
@@ -63,7 +63,7 @@ python3 code/placesequences.py \
  --query tests/test_results/query_cleaned.faa \
  --outdir tests/test_results/ \
  --aln_method "hmmalign" \
- --tree_model "JTT" 
+ --tree_model "JTT"
  
 # Assign taxonomy to placed sequences
 python3 code/labelplacements.py \
