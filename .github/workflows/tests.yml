@@ -39,7 +39,7 @@ jobs:
           channels: conda-forge,bioconda,defaults
           auto-activate-base: false
           activate-environment: tests_traits
-          environment-file: environment.yml
+          environment-file: envs/traits-test.yml
 
       # - name: Build & Install traits
       #   run: poetry build && pip install dist/traits*.whl
