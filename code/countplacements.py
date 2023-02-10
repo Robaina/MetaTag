@@ -94,13 +94,13 @@ for taxlevel in args.taxlevels:
     outfile = os.path.join(args.outdir, f"{args.outprefix}{taxlevel}_counts.tsv")
     outpdf = os.path.join(args.outdir, f"{args.outprefix}{taxlevel}_counts.pdf")
 
-    taxlevel_counter = taxparser.countHits(
+    taxlevel_counter = taxparser.count_hits(
         cluster_ids=args.cluster_ids,
         score_threshold=args.score_threshold,
         taxopath_type="taxopath",
         path_to_query_list=path_to_query_list,
     )
 
-    counts, fig = taxlevel_counter.getCounts(
+    counts, fig = taxlevel_counter.get_counts(
         taxlevel=taxlevel, output_tsv=outfile, plot_type="bar", output_pdf=outpdf
     )

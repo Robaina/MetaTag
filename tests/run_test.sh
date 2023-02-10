@@ -98,7 +98,7 @@ python3 code/relabeltree.py \
 
 # Plot tree
 python3 code/plottree.py \
- --tree tests/test_results/epa_result.newick \
+--tree tests/test_results/epa_result.newick \
  --labels tests/test_results/ref_database_id_dict.pickle \
           tests/test_results/query_cleaned_id_dict.pickle \
- --outdir tests/test_results/ \
+ --outdir tests/test_results/

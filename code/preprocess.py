@@ -19,7 +19,7 @@ from phyloplacement.utils import (
     TemporaryFilePath,
     TemporaryDirectoryPath,
 )
-from phyloplacement.wrappers import runProdigal
+from phyloplacement.wrappers import run_prodigal
 from phyloplacement.database.preprocessing import (
     assert_correct_sequence_format,
     remove_duplicates_from_fasta,
@@ -146,7 +146,7 @@ def main():
         outprefix = set_default_output_path(outfasta, only_filename=True)
         print("* Translating nucleotide sequences...")
         with TemporaryDirectoryPath() as tempdir:
-            runProdigal(
+            run_prodigal(
                 input_file=outfasta,
                 output_prefix=outprefix,
                 output_dir=tempdir,

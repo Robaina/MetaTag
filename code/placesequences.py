@@ -88,7 +88,7 @@ def main():
     )
 
     print("* Writing tree with placements...")
-    wrappers.runGappaGraft(
+    wrappers.run_gappa_graft(
         input_jplace=epa_jplace,
         output_dir=args.outdir,
         output_prefix=None,
