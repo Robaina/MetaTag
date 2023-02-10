@@ -10,10 +10,10 @@ import os
 
 from Bio import SeqIO
 
-from phyloplacement.utils import terminalExecute
+from phyloplacement.utils import terminal_execute
 
 
-def downloadGBKfromNCBI(entry_ids: list, output_dir: str = None) -> None:
+def download_gbk_from_ncbi(entry_ids: list, output_dir: str = None) -> None:
     """
     Download genbank files from NCBI from given list of entry IDs
     """
@@ -21,10 +21,10 @@ def downloadGBKfromNCBI(entry_ids: list, output_dir: str = None) -> None:
         print(f"Downloading entry: {entry_id} ({n + 1} / {len(entry_ids)})")
         outfasta = os.path.join(output_dir, f"{entry_id}.gbk")
         cmd_str = f"ncbi-acc-download -o {outfasta} {entry_id}"
-        terminalExecute(cmd_str)
+        terminal_execute(cmd_str)
 
 
-def getProteinSequenceFromGBK(
+def get_protein_sequence_from_gbk(
     gbk: str, cds_keywords: dict, case_insensitive: bool = True
 ) -> dict:
     """
@@ -59,7 +59,7 @@ def getProteinSequenceFromGBK(
     return [cds for cds in cds_records if is_a_match(cds)]
 
 
-def writeFASTAfromCDSqualifiers(records: dict, output_fasta: str = None) -> None:
+def write_fasta_from_cds_qualifiers(records: dict, output_fasta: str = None) -> None:
     """
     Write FASTA file from dict of gbk record qualifiers (Ordered dict)
     """
@@ -72,7 +72,7 @@ def writeFASTAfromCDSqualifiers(records: dict, output_fasta: str = None) -> None
                 file.write(f'{record["translation"][0]}\n')
 
 
-def getFastaForGene(
+def get_fasta_for_gene(
     gbk_dir: str,
     gene_keywords: dict,
     output_fasta: str = None,
@@ -83,11 +83,11 @@ def getFastaForGene(
     """
     gbk_dir = os.path.abspath(gbk_dir)
     records_dict = {
-        gbk_file.split(".gbk")[0]: getProteinSequenceFromGBK(
+        gbk_file.split(".gbk")[0]: get_protein_sequence_from_gbk(
             os.path.join(gbk_dir, gbk_file),
             cds_keywords=gene_keywords,
             case_insensitive=case_insensitive,
         )
         for gbk_file in os.listdir(gbk_dir)
     }
-    writeFASTAfromCDSqualifiers(records_dict, output_fasta=output_fasta)
+    write_fasta_from_cds_qualifiers(records_dict, output_fasta=output_fasta)

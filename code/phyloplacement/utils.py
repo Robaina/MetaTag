@@ -77,7 +77,7 @@ class TemporaryDirectoryPath:
             shutil.rmtree(self.dir_path)
 
 
-def createTemporaryFilePath(work_dir: str = None, extension: str = None):
+def create_temporary_file_path(work_dir: str = None, extension: str = None):
     """
     Converted into custom context manager
     """
@@ -89,7 +89,7 @@ def createTemporaryFilePath(work_dir: str = None, extension: str = None):
     return os.path.join(work_dir, f"temp_{temp_id}{extension}")
 
 
-def deleteTemporaryFiles(dir_path: str) -> None:
+def delete_temporary_files(dir_path: str) -> None:
     """
     Remove files from directory
     """
@@ -97,7 +97,7 @@ def deleteTemporaryFiles(dir_path: str) -> None:
         os.remove(os.path.join(dir_path, fname))
 
 
-def setDefaultOutputPath(
+def set_default_output_path(
     input_path: str,
     tag: str = None,
     extension: str = None,
@@ -123,7 +123,7 @@ def setDefaultOutputPath(
         return os.path.abspath(os.path.join(dirname, default_file))
 
 
-def saveToPickleFile(python_object, path_to_file="object.pkl"):
+def save_to_pickle_file(python_object, path_to_file="object.pkl"):
     """
     Save python object to pickle file
     """
@@ -132,7 +132,7 @@ def saveToPickleFile(python_object, path_to_file="object.pkl"):
     out_file.close()
 
 
-def readFromPickleFile(path_to_file="object.pkl"):
+def read_from_pickle_file(path_to_file="object.pkl"):
     """
     Load python object from pickle file.
     Returns python object.
@@ -143,7 +143,7 @@ def readFromPickleFile(path_to_file="object.pkl"):
     return python_object
 
 
-def terminalExecute(
+def terminal_execute(
     command_str: str,
     suppress_shell_output=False,
     work_dir: str = None,
@@ -166,7 +166,7 @@ def terminalExecute(
     return output
 
 
-def parallelizeOverInputFiles(
+def parallelize_over_input_files(
     callable, input_list: list, n_processes: int = None, **callable_kwargs
 ) -> None:
     """
@@ -183,14 +183,14 @@ def parallelizeOverInputFiles(
     p.join()
 
 
-def fullPathListDir(dir: str) -> list:
+def full_path_list_dir(dir: str) -> list:
     """
     Return full path of files in provided directory
     """
     return [os.path.join(dir, file) for file in os.listdir(dir)]
 
 
-def extractTarFile(tar_file: str, dest_dir: str = None) -> None:
+def extract_tar_file(tar_file: str, dest_dir: str = None) -> None:
     """
     Extract tar or tar.gz files to dest_dir
     """
@@ -208,7 +208,7 @@ def extractTarFile(tar_file: str, dest_dir: str = None) -> None:
         raise ValueError("Input is not a tar file")
 
 
-def listTarDir(tar_dir: str) -> list:
+def list_tar_dir(tar_dir: str) -> list:
     """
     List files within tar or tar.gz directory
     """
@@ -217,7 +217,7 @@ def listTarDir(tar_dir: str) -> list:
     return files
 
 
-def easyPatternMatching(text: str, left_pattern: str, right_pattern: str = None) -> str:
+def easy_pattern_matching(text: str, left_pattern: str, right_pattern: str = None) -> str:
     """
     Just straightforward string searchs between two patterns
     """
@@ -241,17 +241,17 @@ class DictMerger:
         self._dict_list = dicts
 
     @classmethod
-    def fromPicklePaths(cls, dict_paths: list[str]) -> DictMerger:
+    def from_pickle_paths(cls, dict_paths: list[str]) -> DictMerger:
         """
         Initialize class from list of paths to dictionaries (pickle)
         """
         dict_list = [
-            cls.readFromPickleFile(dict_path.strip()) for dict_path in dict_paths
+            cls.read_from_pickle_file(dict_path.strip()) for dict_path in dict_paths
         ]
         return cls(dicts=dict_list)
 
     @staticmethod
-    def readFromPickleFile(path_to_file="object.pkl"):
+    def read_from_pickle_file(path_to_file="object.pkl"):
         """
         Load python object from pickle file.
         Returns python object.
@@ -282,5 +282,5 @@ class DictMerger:
         }
 
         if save_pickle_path is not None:
-            saveToPickleFile(merged_dict, save_pickle_path)
+            save_to_pickle_file(merged_dict, save_pickle_path)
         return merged_dict

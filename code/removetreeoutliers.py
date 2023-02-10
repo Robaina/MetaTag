@@ -11,7 +11,7 @@ import argparse
 import pandas as pd
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import setDefaultOutputPath
+from phyloplacement.utils import set_default_output_path
 
 
 parser = argparse.ArgumentParser(
@@ -56,10 +56,10 @@ optional.add_argument(
 
 args = parser.parse_args()
 if args.outdir is None:
-    args.outdir = setDefaultOutputPath(args.tree, only_dirname=True)
+    args.outdir = set_default_output_path(args.tree, only_dirname=True)
 
 
-def readRefSequencesToRemove(
+def read_ref_sequences_to_remove(
     treeshrink_deleted: str, except_prefix: str = None
 ) -> list:
     """
@@ -83,7 +83,7 @@ def readRefSequencesToRemove(
 def main():
 
     print("* Removing tree branch outliers...")
-    wrappers.runTreeShrink(
+    wrappers.run_tree_shrink(
         input_tree=args.tree,
         input_aln=args.aln,
         output_dir=args.outdir,
@@ -95,9 +95,9 @@ def main():
     #     print('* Removing outlier sequences from FASTA...')
     #     outfasta = os.path.join(
     #         args.outdir,
-    #         setDefaultOutputPath(args.infasta, tag='_removed_outliers', only_filename=True)
+    #         set_default_output_path(args.infasta, tag='_removed_outliers', only_filename=True)
     #         )
-    #     seqs_to_remove = readRefSequencesToRemove(
+    #     seqs_to_remove = read_ref_sequences_to_remove(
     #         treeshrink_deleted='',
     #         except_prefix=''
     #     )

@@ -17,7 +17,7 @@ import shutil
 import pyfastx
 import pandas as pd
 
-from phyloplacement.utils import terminalExecute, extractTarFile, fullPathListDir
+from phyloplacement.utils import terminal_execute, extract_tar_file, full_path_list_dir
 from phyloplacement.database.labelparsers import MARdbLabelParser
 
 data_dir = "/home/robaina/Documents/TRAITS/data/"
@@ -38,8 +38,8 @@ paoli = "/home/robaina/Documents/TRAITS/data/databases/aPaoli.tar.gz"
 # ******************************************************************
 
 # Extract files
-extractTarFile(mar_partial, dest_dir=os.path.join(data_dir, "MAR"))
-extractTarFile(mar_complete, dest_dir=os.path.join(data_dir, "MAR"))
+extract_tar_file(mar_partial, dest_dir=os.path.join(data_dir, "MAR"))
+extract_tar_file(mar_complete, dest_dir=os.path.join(data_dir, "MAR"))
 
 all_mar_dir = os.path.join(data_dir, "MAR/allMAR/")
 shutil.copytree(
@@ -53,7 +53,7 @@ shutil.copytree(
 
 all_mar_file = os.path.join(data_dir, "MAR/allMAR.faa")
 cmd_str = f"python preprocess.py --in {all_mar_dir} --outfile {all_mar_file}"
-terminalExecute(cmd_str, work_dir=work_dir)
+terminal_execute(cmd_str, work_dir=work_dir)
 
 # Remove records without GTDB taxonomy
 marparser = MARdbLabelParser()
@@ -79,17 +79,17 @@ shutil.remove(all_mar_file)
 # ********************************************************************
 
 # Extract files
-extractTarFile(paoli, dest_dir=os.path.join(data_dir, "Paoli/"))
+extract_tar_file(paoli, dest_dir=os.path.join(data_dir, "Paoli/"))
 
 # Remove files with MAR genomes
-for file in fullPathListDir(os.path.join(data_dir, "Paoli/aPaoli/")):
+for file in full_path_list_dir(os.path.join(data_dir, "Paoli/aPaoli/")):
     if "MARD_" in file:
         os.remove(file)
 
 all_paoli_dir = os.path.join(data_dir, "Paoli/aPaoli/")
 all_paoli_file = os.path.join(data_dir, "Paoli/allPaoli.faa")
 cmd_str = f"python preprocess.py --in {all_paoli_dir} --outfile {all_paoli_file}"
-terminalExecute(cmd_str, work_dir=work_dir)
+terminal_execute(cmd_str, work_dir=work_dir)
 
 # Remove records without GTDB taxonomy
 paoli_taxonomy = os.path.join(data_dir, "taxonomy/Paoli_gtdb_taxonomy.tsv")
@@ -113,8 +113,8 @@ shutil.remove(all_paoli_file)
 # ********************************************************************
 
 # Extract files
-extractTarFile(oceandna_rep, dest_dir=os.path.join(data_dir, "OceanDNA"))
-extractTarFile(oceandna_nonrep, dest_dir=os.path.join(data_dir, "OceanDNA"))
+extract_tar_file(oceandna_rep, dest_dir=os.path.join(data_dir, "OceanDNA"))
+extract_tar_file(oceandna_nonrep, dest_dir=os.path.join(data_dir, "OceanDNA"))
 
 all_oceandna_dir = os.path.join(data_dir, "OceanDNA/allOceanDNA/")
 shutil.copytree(
@@ -130,7 +130,7 @@ shutil.copytree(
 
 all_oceandna_file = os.path.join(data_dir, "OceanDNA/allOceanDNA.faa")
 cmd_str = f"python preprocess.py --in {all_oceandna_dir} --outfile {all_oceandna_file}"
-terminalExecute(cmd_str, work_dir=work_dir)
+terminal_execute(cmd_str, work_dir=work_dir)
 
 # Remove records without GTDB taxonomy
 oceandna_taxonomy = os.path.join(data_dir, "taxonomy/OceanDNA_gtdb_taxonomy.tsv")
@@ -161,4 +161,4 @@ final_database_file = os.path.join(data_dir, "final_ref_database.faa")
 cmd_str = (
     f"python preprocess.py --in {preprocessed_dir} --outfile {final_database_file}"
 )
-terminalExecute(cmd_str, work_dir=work_dir)
+terminal_execute(cmd_str, work_dir=work_dir)

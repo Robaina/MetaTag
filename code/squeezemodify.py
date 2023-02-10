@@ -56,7 +56,7 @@ def main():
         metaparser = SqueezeMetaOutputParser(args.squeeze_table)
     else:
         metaparser = SqueezeMetaTaxonomyParser(args.squeeze_table)
-    metaparser.replaceByPlacementTaxopath(
+    metaparser.replace_by_placement_taxopath(
         placement_assignments=args.taxplacement_table, output_file=args.outfile
     )
 

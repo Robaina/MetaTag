@@ -27,7 +27,7 @@ Simple CLI wrappers to several tools
 import os
 import shutil
 import tempfile
-from phyloplacement.utils import terminalExecute, setDefaultOutputPath
+from phyloplacement.utils import terminal_execute, set_default_output_path
 
 papara_exec = 'path/to/papara.exe'
 ```

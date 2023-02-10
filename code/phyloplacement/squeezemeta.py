@@ -21,7 +21,7 @@ class SqueezeMetaOutputParser:
         self._metaheader = firstline
 
     @staticmethod
-    def taxoToSqueezeFormat(taxopath: str) -> str:
+    def taxo_to_squeeze_format(taxopath: str) -> str:
         """
         Convert GTDB taxopath format to SqueezeMeta's format
         """
@@ -38,7 +38,7 @@ class SqueezeMetaOutputParser:
             taxopath = taxopath.replace(level_gtdb, level_squeeze)
         return taxopath
 
-    def replaceByPlacementTaxopath(
+    def replace_by_placement_taxopath(
         self, placement_assignments: Path, output_file: Path = None
     ) -> None:
         """
@@ -61,7 +61,7 @@ class SqueezeMetaOutputParser:
             gtdb_tax = placed_df.loc[
                 placed_df.query_name == row["ORF ID"], "taxopath"
             ].item()
-            filtered_squeeze.loc[i, "Tax"] = self.taxoToSqueezeFormat(gtdb_tax)
+            filtered_squeeze.loc[i, "Tax"] = self.taxo_to_squeeze_format(gtdb_tax)
         filtered_squeeze.to_csv(output_file, sep="\t", index=False)
         # Prepend meta header
         with open(output_file, "r+") as file:
@@ -82,7 +82,7 @@ class SqueezeMetaTaxonomyParser:
         self._metaheader = firstline
 
     @staticmethod
-    def taxoToSqueezeFormat(taxopath: str) -> str:
+    def taxo_to_squeeze_format(taxopath: str) -> str:
         """
         Convert GTDB taxopath format to SqueezeMeta's format
         """
@@ -99,7 +99,7 @@ class SqueezeMetaTaxonomyParser:
             taxopath = taxopath.replace(level_gtdb, level_squeeze)
         return taxopath
 
-    def replaceByPlacementTaxopath(
+    def replace_by_placement_taxopath(
         self, placement_assignments: Path, output_file: Path = None
     ) -> None:
         """
@@ -121,7 +121,7 @@ class SqueezeMetaTaxonomyParser:
             gtdb_tax = placed_df.loc[
                 placed_df.query_name == row["ORF ID"], "taxopath"
             ].item()
-            filtered_squeeze.loc[i, "Tax"] = self.taxoToSqueezeFormat(gtdb_tax)
+            filtered_squeeze.loc[i, "Tax"] = self.taxo_to_squeeze_format(gtdb_tax)
         filtered_squeeze.to_csv(output_file, sep="\t", index=False, header=False)
         # Prepend meta header
         with open(output_file, "r+") as file:

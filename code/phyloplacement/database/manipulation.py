@@ -18,36 +18,36 @@ from Bio import SearchIO, SeqIO, AlignIO
 import pyfastx
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import setDefaultOutputPath
+from phyloplacement.utils import set_default_output_path
 from phyloplacement.database.labelparsers import MARdbLabelParser
 
 
-def filterFASTABySequenceLength(
+def filter_fasta_by_sequence_length(
     input_fasta: str,
-    minLength: int = None,
+    min_length: int = None,
     maxLength: int = None,
     output_fasta: str = None,
 ) -> None:
     """
     Filter sequences by length in fasta file
     """
-    if (minLength is None) and (maxLength is None):
+    if (min_length is None) and (maxLength is None):
         warnings.warn("Missing boundary values for sequence length")
         return
     input_fasta = os.path.abspath(input_fasta)
     fa = pyfastx.Fasta(input_fasta)
     record_ids = fa.keys()
-    if minLength is None:
-        minLength = 0
+    if min_length is None:
+        min_length = 0
     if maxLength is not None:
         max_tag = str(maxLength)
-        record_ids.filter(record_ids >= minLength, record_ids <= maxLength)
+        record_ids.filter(record_ids >= min_length, record_ids <= maxLength)
     else:
         max_tag = ""
-        record_ids.filter(record_ids >= minLength)
+        record_ids.filter(record_ids >= min_length)
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(
-            input_fasta, f"_length_{minLength}_{max_tag}"
+        output_fasta = set_default_output_path(
+            input_fasta, f"_length_{min_length}_{max_tag}"
         )
     if not record_ids:
         raise ValueError("No records found with given sequence length bounds")
@@ -58,7 +58,7 @@ def filterFASTABySequenceLength(
     os.remove(input_fasta + ".fxi")
 
 
-def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
+def parse_hmmsearch_output(hmmer_output: str) -> pd.DataFrame:
     """
     Parse hmmsearch or hmmscan summary table output file
     """
@@ -72,14 +72,14 @@ def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
     return pd.DataFrame.from_dict(hits)
 
 
-def filterFASTAbyIDs(
+def filter_fasta_by_ids(
     input_fasta: str, record_ids: list, output_fasta: str = None
 ) -> None:
     """
     Filter records in fasta file matching provided IDs
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, "_fitered")
+        output_fasta = set_default_output_path(input_fasta, "_fitered")
     if os.path.exists(input_fasta + ".fxi"):
         os.remove(input_fasta + ".fxi")
     record_ids = set(record_ids)
@@ -94,7 +94,7 @@ def filterFASTAbyIDs(
     os.remove(input_fasta + ".fxi")
 
 
-def filterFASTAByHMM(
+def filter_fasta_by_hmm(
     hmm_model: str,
     input_fasta: str,
     output_fasta: str = None,
@@ -112,14 +112,14 @@ def filterFASTAByHMM(
     """
     hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
     if hmmer_output is None:
-        hmmer_output = setDefaultOutputPath(
+        hmmer_output = set_default_output_path(
             input_fasta, tag=f"_{hmm_name}", extension=".txt"
         )
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, tag=f"filtered_{hmm_name}")
+        output_fasta = set_default_output_path(input_fasta, tag=f"filtered_{hmm_name}")
 
     print("Running Hmmer...")
-    wrappers.runHMMsearch(
+    wrappers.run_hmmsearch(
         hmm_model=hmm_model,
         input_fasta=input_fasta,
         output_file=hmmer_output,
@@ -127,21 +127,23 @@ def filterFASTAByHMM(
         additional_args=additional_args,
     )
     print("Parsing Hmmer output file...")
-    hmmer_hits = parseHMMsearchOutput(hmmer_output)
+    hmmer_hits = parse_hmmsearch_output(hmmer_output)
     if not hmmer_hits.id.values.tolist():
         raise ValueError("No records found in database matching provided hmm")
     print("Filtering Fasta...")
-    filterFASTAbyIDs(
+    filter_fasta_by_ids(
         input_fasta, record_ids=hmmer_hits.id.values, output_fasta=output_fasta
     )
 
 
-def convertFastaAlnToPhylip(input_fasta_aln: str, output_phylip: str = None) -> None:
+def convert_fasta_aln_to_phylip(
+    input_fasta_aln: str, output_phylip: str = None
+) -> None:
     """
     Convert alignments in Fasta to Phylip.
     """
     if output_phylip is None:
-        output_phylip = setDefaultOutputPath(input_fasta_aln, extension=".phylip")
+        output_phylip = set_default_output_path(input_fasta_aln, extension=".phylip")
     with open(input_fasta_aln, "r") as input_handle, open(
         output_phylip, "w"
     ) as output_handle:
@@ -149,27 +151,29 @@ def convertFastaAlnToPhylip(input_fasta_aln: str, output_phylip: str = None) -> 
         AlignIO.write(alignments, output_handle, "phylip-relaxed")
 
 
-def convertPhylipToFastaAln(input_phylip: str, output_file: str = None) -> None:
+def convert_phylip_to_fasta_aln(input_phylip: str, output_file: str = None) -> None:
     """
     Convert alignments in Phylip to Fasta format
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_phylip, extension=".faln")
+        output_file = set_default_output_path(input_phylip, extension=".faln")
     alignments = AlignIO.parse(input_phylip, "phylip-relaxed")
     AlignIO.write(alignments, output_file, "fasta")
 
 
-def convertStockholmToFastaAln(input_stockholm: str, output_fasta: str = None) -> None:
+def convert_stockholm_to_fasta_aln(
+    input_stockholm: str, output_fasta: str = None
+) -> None:
     """
     Convert alignment file in Stockholm format to fasta
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_stockholm, extension=".faln")
+        output_fasta = set_default_output_path(input_stockholm, extension=".faln")
     alignments = AlignIO.read(input_stockholm, "stockholm")
     AlignIO.write(alignments, output_fasta, "fasta")
 
 
-def splitReferenceFromQueryAlignments(
+def split_reference_from_query_alignments(
     ref_query_msa: str, ref_ids: set = None, ref_prefix: str = None, out_dir: str = None
 ) -> None:
     """
@@ -189,8 +193,8 @@ def splitReferenceFromQueryAlignments(
 
     else:
         raise ValueError("Provide either set of ref ids or ref prefix")
-    out_ref_msa = setDefaultOutputPath(ref_query_msa, tag="_ref_fraction")
-    out_query_msa = setDefaultOutputPath(ref_query_msa, tag="_query_fraction")
+    out_ref_msa = set_default_output_path(ref_query_msa, tag="_ref_fraction")
+    out_query_msa = set_default_output_path(ref_query_msa, tag="_query_fraction")
 
     fasta = pyfastx.Fasta(ref_query_msa, build_index=False, full_name=True)
     with open(out_ref_msa, "w") as outref, open(out_query_msa, "w") as outquery:
@@ -201,7 +205,7 @@ def splitReferenceFromQueryAlignments(
                 outquery.write(f">{record_name}\n{record_seq}\n")
 
 
-def getFastaRecordIDs(fasta_file: str) -> set:
+def get_fasta_record_ids(fasta_file: str) -> set:
     """
     Extract record ids from fasta
     """
@@ -209,21 +213,21 @@ def getFastaRecordIDs(fasta_file: str) -> set:
     return set(fasta.keys())
 
 
-def removeRecordsFromFASTA(
+def remove_records_from_fasta(
     input_fasta: str, record_ids: list[str], output_fasta: str = None
 ) -> None:
     """
     Remove records from Fasta file based on provided list of record IDs.
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, tag="_reduced")
-    fasta_record_ids = getFastaRecordIDs(input_fasta)
+        output_fasta = set_default_output_path(input_fasta, tag="_reduced")
+    fasta_record_ids = get_fasta_record_ids(input_fasta)
     records_to_keep = fasta_record_ids - set(record_ids)
-    filterFASTAbyIDs(input_fasta, records_to_keep, output_fasta)
+    filter_fasta_by_ids(input_fasta, records_to_keep, output_fasta)
     return None
 
 
-def countRecordsInFasta(fasta_file: str) -> int:
+def count_records_in_fasta(fasta_file: str) -> int:
     """
     Count records in fasta file
     """
@@ -232,7 +236,7 @@ def countRecordsInFasta(fasta_file: str) -> int:
     return n_records
 
 
-def sliceFasta(input_file, output_file, N):
+def slice_fasta(input_file, output_file, N):
     n = 0
     records = SeqIO.parse(input_file, "fasta")
     sliced_records = []
@@ -260,12 +264,12 @@ class LinkedHMMfilter:
         Search for contigs that satisfy the given gene linkage structure
 
         @param: hmm_hits, a dict of pandas DataFrames, as output by
-                parseHMMsearchOutput with keys corresponding to hmm names
+                parse_hmmsearch_output with keys corresponding to hmm names
         """
         self._hmm_hits = hmm_hits
 
     @staticmethod
-    def parseLinkageString(link_str: str) -> list[list]:
+    def parse_linkage_string(link_str: str) -> list[list]:
         """
         Parse linkage structure string. A linkage structure
         is a string like the following:
@@ -280,7 +284,7 @@ class LinkedHMMfilter:
         of strand location.
         """
 
-        def splitStrandFromLocus(locus_str: str) -> tuple:
+        def split_strand_from_locus(locus_str: str) -> tuple:
             if locus_str[0] == "<" or locus_str[0] == ">":
                 sense = locus_str[0]
                 locus_str = locus_str[1:]
@@ -295,13 +299,13 @@ class LinkedHMMfilter:
         pairs = list(zip(hmms, hmms[1:]))
         parsed_struc = []
         for pair, dist in zip(pairs, max_dists):
-            sense_a, locus_a = splitStrandFromLocus(pair[0])
-            sense_b, locus_b = splitStrandFromLocus(pair[1])
+            sense_a, locus_a = split_strand_from_locus(pair[0])
+            sense_b, locus_b = split_strand_from_locus(pair[1])
             parsed_struc.append([locus_a, locus_b, dist, sense_a, sense_b])
         return parsed_struc
 
     @staticmethod
-    def filterHitsByLinkagePair(
+    def filter_hits_by_linkage_pair(
         hit_labels_a: pd.DataFrame,
         hit_labels_b: pd.DataFrame,
         dist_ab: int,
@@ -375,7 +379,7 @@ class LinkedHMMfilter:
         else:
             return get_linked_hit_labels_with_strand()
 
-    def filterHitsByLinkedHMMstructure(self, link_structure: str) -> pd.DataFrame:
+    def filter_hits_by_linked_hmm_structure(self, link_structure: str) -> pd.DataFrame:
         """
         Search for contigs that satisfy the given gene linkage structure
         @param: link_structure, a str describing the desired linkage structure,
@@ -388,7 +392,7 @@ class LinkedHMMfilter:
                 to the name of the hmm as provided in the keys of hmm_hits.
                 More than two hmms can be concatenated.
         """
-        parsed_struc = self.parseLinkageString(link_structure)
+        parsed_struc = self.parse_linkage_string(link_structure)
 
         hit_labels = {}
         mardblabel = MARdbLabelParser()
@@ -405,7 +409,7 @@ class LinkedHMMfilter:
                 hit_labels_a, hit_labels_b = hit_labels.pop(locus_a), hit_labels.pop(
                     locus_b
                 )
-                linked_hit_labels = self.filterHitsByLinkagePair(
+                linked_hit_labels = self.filter_hits_by_linkage_pair(
                     hit_labels_a, hit_labels_b, dist_ab, strand_a, strand_b
                 )
             else:
@@ -415,19 +419,19 @@ class LinkedHMMfilter:
                 hit_labels_a, hit_labels_b = hit_labels.pop(locus_a), hit_labels.pop(
                     new_locus_b
                 )
-                linked_hit_labels = self.filterHitsByLinkagePair(
+                linked_hit_labels = self.filter_hits_by_linkage_pair(
                     hit_labels_a, hit_labels_b, dist_ab, strand_a, strand_b
                 )
 
         return linked_hit_labels
 
-    def partitionLinkedLabelsByHMM(
+    def partition_linked_labels_by_hmm(
         self, linked_hit_labels: pd.DataFrame
     ) -> pd.DataFrame:
         """
         Partition linked labels dataframe into several dataframes containing
         hmm-specific hits.  This is a workaround to avoid extensive modification of
-        LinkedHMMfilter.filterHitsByLinkedHMMstructure.
+        LinkedHMMfilter.filter_hits_by_linked_hmm_structure.
         """
         return {
             hmm_name: linked_hit_labels[linked_hit_labels.full.isin(hits.id)]
@@ -435,7 +439,7 @@ class LinkedHMMfilter:
         }
 
 
-def filterFastaByHMMstructure(
+def filter_fasta_by_hmm_structure(
     hmm_structure: str,
     target_hmm: str,
     input_fasta: str,
@@ -461,12 +465,12 @@ def filterFastaByHMMstructure(
     same additional argument is passed to hmmsearch for all input hmms
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(
+        output_fasta = set_default_output_path(
             input_fasta, tag=f'filtered_{hmm_structure.replace(" ", "_")}'
         )
     if hmmer_output_dir is None:
         hmmer_output_dir = os.path.join(
-            setDefaultOutputPath(input_fasta, only_dirname=True), "hmmer_outputs"
+            set_default_output_path(input_fasta, only_dirname=True), "hmmer_outputs"
         )
 
     if additional_args is None:
@@ -491,7 +495,7 @@ def filterFastaByHMMstructure(
         os.mkdir(hmmer_output_dir)
 
     if output_dir is None:
-        output_dir = setDefaultOutputPath(input_fasta, only_dirname=True)
+        output_dir = set_default_output_path(input_fasta, only_dirname=True)
     else:
         output_dir = output_dir
 
@@ -502,7 +506,7 @@ def filterFastaByHMMstructure(
         hmmer_output = os.path.join(hmmer_output_dir, f"hmmer_output_{hmm_name}.txt")
 
         if not (reuse_hmmer_results and os.path.isfile(hmmer_output)):
-            wrappers.runHMMsearch(
+            wrappers.run_hmmsearch(
                 hmm_model=hmm_model,
                 input_fasta=input_fasta,
                 output_file=hmmer_output,
@@ -510,21 +514,23 @@ def filterFastaByHMMstructure(
                 additional_args=add_args,
             )
 
-        hmm_hits[hmm_name] = parseHMMsearchOutput(hmmer_output)
+        hmm_hits[hmm_name] = parse_hmmsearch_output(hmmer_output)
 
     print("Filtering results by HMM structure...")
     linkedfilter = LinkedHMMfilter(hmm_hits)
-    linked_hit_labels = linkedfilter.filterHitsByLinkedHMMstructure(hmm_structure)
+    linked_hit_labels = linkedfilter.filter_hits_by_linked_hmm_structure(hmm_structure)
 
     if not linked_hit_labels.full.values.tolist():
         raise ValueError("No records found in database matching provided hmm structure")
 
     print("Filtering Fasta...")
-    partitioned_hit_labels = linkedfilter.partitionLinkedLabelsByHMM(linked_hit_labels)
+    partitioned_hit_labels = linkedfilter.partition_linked_labels_by_hmm(
+        linked_hit_labels
+    )
     for hmm_name in hmm_hits:
         if hmm_name in target_hmm:
             outfasta = output_fasta
         else:
             outfasta = os.path.join(output_dir, f"{hmm_name}_hits.fasta")
         record_ids = partitioned_hit_labels[hmm_name].full.values
-        filterFASTAbyIDs(input_fasta, record_ids=record_ids, output_fasta=outfasta)
+        filter_fasta_by_ids(input_fasta, record_ids=record_ids, output_fasta=outfasta)
