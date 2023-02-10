@@ -30,15 +30,15 @@ python3 code/makedatabase.py \
  --relabel --remove_duplicates \
  --hmmsearch_args " None, --cut_ga"
 
+grep ">" -c tests/test_results/ref_database.faa
+
 # Alignment and tree
 python3 code/buildtree.py \
- --help
-# python3 code/buildtree.py \
-#  --in tests/test_results/ref_database.faa \
-#  --outdir tests/test_results/ \
-#  --msa_method "muscle" \
-#  --tree_model "iqtest" \
-#  --tree_method "fasttree"
+ --in tests/test_results/ref_database.faa \
+ --outdir tests/test_results/ \
+ --msa_method "muscle" \
+ --tree_model "iqtest" \
+ --tree_method "fasttree"
 
 # # Relabel reference tree and assign taxonomy
 # python3 code/relabeltree.py \
