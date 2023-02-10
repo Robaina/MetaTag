@@ -28,7 +28,7 @@ python3 code/makedatabase.py \
  --min_seq_length 10 --max_seq_length 2000 \
  --relabel_prefixes "ref_" "out_" \
  --relabel --remove_duplicates \
- --hmmsearch_args " None, --cut_ga"
+ --hmmsearch_args " None, --cut_ga" \
 
 # Alignment and tree
 python3 code/buildtree.py --in tests/test_results/ref_database.faa --outdir tests/test_results/ --msa_method "muscle" --tree_model "iqtest" --tree_method "fasttree"
