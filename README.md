@@ -18,31 +18,6 @@ git clone https://github.com/Robaina/TRAITS.git
 ```
 conda env create -n traits -f envs/traits.yml
 ```
-3. [Install papara](https://cme.h-its.org/exelixis/web/software/papara/index.html) executable and add path to executable in module phyloplacement.wrappers.py:
-```python
-"""
-Simple CLI wrappers to several tools
-"""
-
-import os
-import shutil
-import tempfile
-from phyloplacement.utils import terminal_execute, set_default_output_path
-
-papara_exec = 'path/to/papara.exe'
-```
-
-4. Install the latest version of gappa manually
-
-The latest gappa version (>= 0.8.0) can only be installed manually at the moment. To do so, download the source code from [here](https://anaconda.org/bioconda/gappa/0.8.0/download/linux-64/gappa-0.8.0-hd03093a_1.tar.bz2).
-
-Then go to the directory where the source code is located, and:
-
-```
-conda activate traits
-
-conda install gappa-0.8.0-hd03093a_1.tar.bz2
-```
 
 ## Installation test
 To check that everything is working properly, you can run a test what will perform the entire workflow on a minimal dataset. To run it, call bash script:
