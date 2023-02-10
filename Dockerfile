@@ -13,15 +13,11 @@ COPY LICENSE .
 # RUN conda install mamba -n base -c conda-forge
 RUN conda env create -f envs/traits-test.yml
 SHELL ["conda", "run", "-n", "traits", "/bin/bash", "-c"]
-# Build and install Pynteny
+# Build and install
 # RUN poetry build && pip install dist/pynteny*.whl && pynteny --help
-# Give read/write permissions to install directory (needed to make config.json)
+# Give read/write permissions to install directory (needed to make write test result files)
 RUN python --version
 RUN chmod ugo+rw /opt/conda/envs/traits/lib/python3.9/site-packages
-
-# Download and setup papara
-RUN python code/setup_papara.py
-
 
 # Initialize conda for default user
 RUN conda init
