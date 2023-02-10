@@ -11,10 +11,10 @@ import argparse
 
 from Bio import pairwise2, SeqIO
 
-from phyloplacement.utils import readFromPickleFile, saveToPickleFile
+from phyloplacement.utils import read_from_pickle_file, save_to_pickle_file
 
 
-def findPatternInMSArecord(msa_record: str, subsequence: str) -> int:
+def find_pattern_in_msa_record(msa_record: str, subsequence: str) -> int:
     """
     Find index of the first character of a match between a
     subsequence and a sequence alignment record
@@ -30,7 +30,7 @@ def findPatternInMSArecord(msa_record: str, subsequence: str) -> int:
         return ind[0]
 
 
-def getnifHclusterID(seq: list, cart_model: dict) -> str:
+def get_nifh_cluster_id(seq: list, cart_model: dict) -> str:
     """
     Assign cluster to nifH sequence based on CART model in
     https://sfamjournals.onlinelibrary.wiley.com/doi/10.1111/1758-2229.12455
@@ -49,7 +49,7 @@ def getnifHclusterID(seq: list, cart_model: dict) -> str:
         return "IV"
 
 
-def getRecordAlignments(input_alignment: str) -> dict:
+def get_record_alignments(input_alignment: str) -> dict:
     """
     Get dict of lists containing sequence alignments
     """
@@ -57,7 +57,7 @@ def getRecordAlignments(input_alignment: str) -> dict:
         return {record.id: list(record.seq) for record in SeqIO.parse(inalign, "fasta")}
 
 
-def adjustCARTmodel(
+def adjust_cart_model(
     input_fasta: str,
     input_alignment: str,
     azo_id: str = "ref_azo",
@@ -75,14 +75,14 @@ def adjustCARTmodel(
     # }
 
     # adjusted_CART = {}
-    # seq_dict = getRecordAlignments(input_fasta)
-    # aln_dict = getRecordAlignments(input_alignment)
+    # seq_dict = get_record_alignments(input_fasta)
+    # aln_dict = get_record_alignments(input_alignment)
     # azo_nifH = seq_dict[azo_id]
     # azo_nifh_aln = ''.join(aln_dict[azo_id])
 
     # for aa_pos, aas in CART.items():
     #     pos_pattern = ''.join(azo_nifH)[aa_pos - 1: aa_pos - 1 + substring_length]
-    #     aln_aa_pos = findPatternInMSArecord(azo_nifh_aln, pos_pattern)
+    #     aln_aa_pos = find_pattern_in_msa_record(azo_nifh_aln, pos_pattern)
     #     adjusted_CART[aln_aa_pos] = aas
 
     """
@@ -113,7 +113,7 @@ def adjustCARTmodel(
     return adjusted_CART
 
 
-def addClusterToNifHfasta(
+def add_cluster_to_nifh_fasta(
     input_fasta: str, input_alignment: str, output_fasta: str = None
 ) -> None:
     """
@@ -121,8 +121,8 @@ def addClusterToNifHfasta(
     """
     input_fasta = os.path.abspath(input_fasta)
     input_alignment = os.path.abspath(input_alignment)
-    recordAligns = getRecordAlignments(input_alignment)
-    cart_model = adjustCARTmodel(input_fasta, input_alignment)
+    recordAligns = get_record_alignments(input_alignment)
+    cart_model = adjust_cart_model(input_fasta, input_alignment)
 
     if output_fasta is None:
         base, ext = os.path.splitext(input_fasta)
@@ -133,14 +133,14 @@ def addClusterToNifHfasta(
     with open(input_fasta) as infasta, open(output_fasta, "w") as outfasta:
         for record in SeqIO.parse(infasta, "fasta"):
             record_align_seq = recordAligns[record.id.split("_")[0]]
-            cluster_id = getnifHclusterID(record_align_seq, cart_model)
+            cluster_id = get_nifh_cluster_id(record_align_seq, cart_model)
             record.id = f"{record.id}_cluster_{cluster_id}"
             record.name = ""
             record.description = ""
             SeqIO.write(record, outfasta, "fasta")
 
 
-def addClusterToNifHdict(
+def add_cluster_to_nifh_dict(
     input_fasta: str,
     input_alignment: str,
     input_dict: str,
@@ -154,8 +154,8 @@ def addClusterToNifHdict(
     input_fasta = os.path.abspath(input_fasta)
     input_alignment = os.path.abspath(input_alignment)
     input_dict = os.path.abspath(input_dict)
-    cart_model = adjustCARTmodel(input_fasta, input_alignment)
-    ref_dict = readFromPickleFile(input_dict)
+    cart_model = adjust_cart_model(input_fasta, input_alignment)
+    ref_dict = read_from_pickle_file(input_dict)
 
     if output_dict is None:
         output_dict = input_dict
@@ -163,7 +163,7 @@ def addClusterToNifHdict(
         output_dict = os.path.abspath(output_dict)
 
     for record in SeqIO.parse(input_alignment, "fasta"):
-        cluster_id = getnifHclusterID(list(record.seq), cart_model)
+        cluster_id = get_nifh_cluster_id(list(record.seq), cart_model)
         ref_dict[record.id] += f"_cluster_{cluster_id}"
 
     # Temporary fix to remove ref_dict entries not found in alignment
@@ -173,7 +173,7 @@ def addClusterToNifHdict(
         if "cluster" in label[-15:]
     }
 
-    saveToPickleFile(ref_dict, output_dict)
+    save_to_pickle_file(ref_dict, output_dict)
     if out_clusters_file is not None:
         lines = ["id\tcluster\n"]
         with open(out_clusters_file, "w") as file:
@@ -229,7 +229,7 @@ if __name__ == "__main__":
         outdict = os.path.abspath(args.outdict)
 
     print("* Classifying nifH sequences according to CART model")
-    addClusterToNifHdict(
+    add_cluster_to_nifh_dict(
         args.seqs,
         args.aln,
         args.indict,

@@ -19,12 +19,12 @@ class LabelParser:
         return None
 
     @staticmethod
-    def extractGenomeID(label: str) -> str:
+    def extract_genome_id(label: str) -> str:
         """
         Extract genome ID from sequence label
         """
-        mmp_id = MARdbLabelParser.extractMMPid(label)
-        taxid = UniprotLabelParser.extractNcbiTaxId(label)
+        mmp_id = MARdbLabelParser.extract_mmp_id(label)
+        taxid = UniprotLabelParser.extract_ncbi_tax_id(label)
         if mmp_id and taxid:
             warnings.warn("Label contains conflicting genome IDs")
             return ""
@@ -41,7 +41,7 @@ class LabelParser:
         return genome_id
 
     @staticmethod
-    def parseMetaInfo(label: str) -> dict:
+    def parse_meta_info(label: str) -> dict:
         """
         Parse meta information from label in canonical format
         (i.e, contig, gene position, locus, strand)
@@ -74,7 +74,7 @@ class UniprotLabelParser:
         return None
 
     @staticmethod
-    def extractNcbiTaxId(label: str) -> str:
+    def extract_ncbi_tax_id(label: str) -> str:
         """
         Extract NCBI taxon id from reference label
         """
@@ -93,7 +93,7 @@ class MARdbLabelParser:
         return None
 
     @staticmethod
-    def extractMMPid(label: str) -> str:
+    def extract_mmp_id(label: str) -> str:
         """
         Extract mardb mmp id from reference label
         """
@@ -118,7 +118,7 @@ class MARdbLabelParser:
         }
         try:
             entry = label.split("__")[0]
-            mmp_id = self.extractMMPid(label)
+            mmp_id = self.extract_mmp_id(label)
             species = entry.strip(mmp_id).strip("_")
             meta = label.split("__")[1]
             strand = meta.split("_")[-1]

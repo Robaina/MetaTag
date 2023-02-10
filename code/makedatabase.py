@@ -14,21 +14,21 @@ import argparse
 
 from phyloplacement.utils import (
     TemporaryDirectoryPath,
-    fullPathListDir,
-    setDefaultOutputPath,
+    full_path_list_dir,
+    set_default_output_path,
     TemporaryFilePath,
     DictMerger,
 )
 from phyloplacement.database.preprocessing import (
-    setTempRecordIDsInFASTA,
-    mergeFASTAs,
-    removeDuplicatesFromFasta,
+    set_temp_record_ids_in_fasta,
+    merge_fastas,
+    remove_duplicates_from_fasta,
 )
 from phyloplacement.database.manipulation import (
-    filterFASTAByHMM,
-    filterFASTABySequenceLength,
+    filter_fasta_by_hmm,
+    filter_fasta_by_sequence_length,
 )
-from phyloplacement.database.reduction import reduceDatabaseRedundancy
+from phyloplacement.database.reduction import reduce_database_redundancy
 
 
 parser = argparse.ArgumentParser(
@@ -155,7 +155,7 @@ else:
 if args.relabel_prefixes is None:
     args.relabel_prefixes = [None for _ in args.hmms]
 if args.outdir is None:
-    args.outdir = setDefaultOutputPath(args.data, only_dirname=True)
+    args.outdir = set_default_output_path(args.data, only_dirname=True)
 args.outdir = os.path.abspath(args.outdir)
 if not os.path.exists(args.outdir):
     os.makedirs(args.outdir)
@@ -189,7 +189,7 @@ def main():
             hmmer_output = os.path.join(args.outdir, f"hmmer_output_{hmm_name}.txt")
 
             with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2, TemporaryFilePath() as tempfasta3:
-                filterFASTAByHMM(
+                filter_fasta_by_hmm(
                     hmm_model=hmm,
                     input_fasta=args.data,
                     output_fasta=tempfasta,
@@ -199,7 +199,7 @@ def main():
 
                 if (args.minseqlength is not None) or (args.maxseqlength is not None):
                     print("* Filtering sequences by established length bounds...")
-                    filterFASTABySequenceLength(
+                    filter_fasta_by_sequence_length(
                         input_fasta=tempfasta,
                         minLength=args.minseqlength,
                         maxLength=args.maxseqlength,
@@ -207,7 +207,7 @@ def main():
                     )
                     shutil.move(tempfasta2, tempfasta)
 
-                reduceDatabaseRedundancy(
+                reduce_database_redundancy(
                     input_fasta=tempfasta,
                     output_fasta=tempfasta3,
                     cdhit=(not args.nocdhit),
@@ -220,19 +220,19 @@ def main():
                     output_fasta_short = os.path.join(
                         tempdir2, f"{tempfasta3}_short_ids"
                     )
-                    setTempRecordIDsInFASTA(
+                    set_temp_record_ids_in_fasta(
                         input_fasta=tempfasta3, output_dir=tempdir2, prefix=prefix
                     )
                     shutil.move(output_fasta_short, tempdir1)
                 else:
                     shutil.move(tempfasta3, tempdir1)
 
-        mergeFASTAs(input_fastas_dir=tempdir1, output_fasta=output_fasta)
+        merge_fastas(input_fastas_dir=tempdir1, output_fasta=output_fasta)
 
         if args.noduplicates:
             with TemporaryFilePath() as tmp_file_path:
                 print("* Removing duplicates...")
-                removeDuplicatesFromFasta(
+                remove_duplicates_from_fasta(
                     input_fasta=output_fasta,
                     output_fasta=tmp_file_path,
                     method="seqkit",
@@ -241,10 +241,10 @@ def main():
                 shutil.move(tmp_file_path, output_fasta)
 
         pickle_dict_paths = [
-            file for file in fullPathListDir(tempdir2) if file.endswith(".pickle")
+            file for file in full_path_list_dir(tempdir2) if file.endswith(".pickle")
         ]
         if pickle_dict_paths:
-            DictMerger.fromPicklePaths(pickle_dict_paths).merge(
+            DictMerger.from_pickle_paths(pickle_dict_paths).merge(
                 save_pickle_path=output_pickle_short_ids
             )
 

@@ -14,12 +14,17 @@ from Bio import Phylo
 import pyfastx
 
 
-
 class PhyloTree:
     """
     Methods to help defining clusters in phylo trees
     """
-    def __init__(self, tree_path: str, tree_format: str = 'newick', bootstrap_threshold: float = None):
+
+    def __init__(
+        self,
+        tree_path: str,
+        tree_format: str = "newick",
+        bootstrap_threshold: float = None,
+    ):
         self._tree = list(Phylo.parse(tree_path, tree_format))[0]
         if bootstrap_threshold is not None:
             self.collapsePoorQualityNodes(bootstrap_threshold)
@@ -34,9 +39,8 @@ class PhyloTree:
         iqtree report bootstrap values (fractions vs percentages)
         """
         conf_values = [
-            c.confidence for c in self._tree.find_clades() 
-            if c.confidence is not None
-            ]
+            c.confidence for c in self._tree.find_clades() if c.confidence is not None
+        ]
         if conf_values:
             max_value = max(conf_values)
             if max_value < 2:
@@ -44,7 +48,9 @@ class PhyloTree:
                     if clade.confidence is not None:
                         clade.confidence *= 100
         else:
-            raise ValueError('Tree does not contain confidence values. Change tree or set bootstrap_threshold to None')
+            raise ValueError(
+                "Tree does not contain confidence values. Change tree or set bootstrap_threshold to None"
+            )
 
     def collapsePoorQualityNodes(self, bootstrap_threshold: float = 95) -> None:
         """
@@ -53,7 +59,7 @@ class PhyloTree:
         self._scaleBootstrapValues()
         self._tree.collapse_all(
             lambda c: c.confidence is not None and c.confidence < bootstrap_threshold
-            )
+        )
 
     def nameInternalNodes(self) -> None:
         """
@@ -66,15 +72,15 @@ class PhyloTree:
         for n, clade in enumerate(self._tree.get_nonterminals()):
             if clade.name is None:
                 if clade.confidence is not None:
-                    clade.name = f'IN_{n}_{clade.confidence}'
+                    clade.name = f"IN_{n}_{clade.confidence}"
                 else:
-                    clade.name = f'IN_{n}'
+                    clade.name = f"IN_{n}"
                 clade.confidence = None
 
     def getTreeObject(self):
         return self._tree
 
-    def exportTree(self, outfile: str, tree_format: str = 'newick') -> None:
+    def exportTree(self, outfile: str, tree_format: str = "newick") -> None:
         """
         Export tree object to file
         """
@@ -110,8 +116,10 @@ class PhyloTree:
         if filter_by_pattern is None:
             return cluster_dict
         else:
-            return self.filterClustersByCommonLeafNamePattern(cluster_dict, filter_by_pattern)
-    
+            return self.filterClustersByCommonLeafNamePattern(
+                cluster_dict, filter_by_pattern
+            )
+
     @staticmethod
     def filterClustersByCommonLeafNamePattern(clusters: dict, pattern: str) -> dict:
         """
@@ -122,13 +130,16 @@ class PhyloTree:
             cluster_id: cluster
             for cluster_id, cluster in clusters.items()
             if all([pattern in leaf_name for leaf_name in cluster])
-        }   
+        }
 
 
-def setDefaultOutputPath(input_path: str, tag: str = None,
-                         extension: str = None,
-                         only_filename: bool = False,
-                         only_dirname: bool = False) -> str:
+def set_default_output_path(
+    input_path: str,
+    tag: str = None,
+    extension: str = None,
+    only_filename: bool = False,
+    only_dirname: bool = False,
+) -> str:
     """
     Get default path to output file or directory
     """
@@ -138,8 +149,8 @@ def setDefaultOutputPath(input_path: str, tag: str = None,
     if extension is None:
         extension = ext
     if tag is None:
-        tag = ''
-    default_file = f'{fname}{tag}{extension}'
+        tag = ""
+    default_file = f"{fname}{tag}{extension}"
     if only_filename:
         return default_file
     if only_dirname:
@@ -147,16 +158,18 @@ def setDefaultOutputPath(input_path: str, tag: str = None,
     else:
         return os.path.abspath(os.path.join(dirname, default_file))
 
-def filterFASTAbyIDs(input_fasta: str, record_ids: list[str],
-                     output_fasta: str = None) -> None:
+
+def filter_fasta_by_ids(
+    input_fasta: str, record_ids: list[str], output_fasta: str = None
+) -> None:
     """
     Filter records in fasta file matching provided IDs
     """
     if output_fasta is None:
-       output_fasta = setDefaultOutputPath(input_fasta, '_fitered')
+        output_fasta = set_default_output_path(input_fasta, "_fitered")
     record_ids = set(record_ids)
     fa = pyfastx.Fasta(input_fasta)
-    with open(output_fasta, 'w') as fp:
+    with open(output_fasta, "w") as fp:
         for record_id in record_ids:
             try:
                 record_obj = fa[record_id]
@@ -165,14 +178,16 @@ def filterFASTAbyIDs(input_fasta: str, record_ids: list[str],
                 pass
     os.remove(input_fasta + ".fxi")
 
+
 def exportTreeClustersToFile(clusters: dict, outfile: str) -> None:
     """
     Write tsv file containing the definition of tree clusters
     """
+
     def getNodeCluster(node_name: str, clusters: dict):
         for cluster_name, cluster in clusters.items():
-             if node_name in cluster:
-                 return cluster_name
+            if node_name in cluster:
+                return cluster_name
 
     with open(outfile, "w") as file:
         lines = ["id\tcluster\n"]

@@ -8,7 +8,7 @@ Evaluation of placed sequences:
 
 import os
 import argparse
-from phyloplacement.utils import setDefaultOutputPath
+from phyloplacement.utils import set_default_output_path
 from phyloplacement.placement import TaxAssignParser
 
 
@@ -79,7 +79,7 @@ optional.add_argument(
 
 args = parser.parse_args()
 if args.outdir is None:
-    args.outdir = setDefaultOutputPath(args.taxtable, only_dirname=True)
+    args.outdir = set_default_output_path(args.taxtable, only_dirname=True)
 if args.outprefix is None:
     args.outprefix = "placed_"
 if args.export_right_queries:

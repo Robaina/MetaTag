@@ -8,15 +8,15 @@ Tools to perform multiple sequence alignments
 import os
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import setDefaultOutputPath, TemporaryFilePath
+from phyloplacement.utils import set_default_output_path, TemporaryFilePath
 from phyloplacement.database.manipulation import (
-    convertStockholmToFastaAln,
-    convertFastaAlnToPhylip,
-    convertPhylipToFastaAln,
+    convert_stockholm_to_fasta_aln,
+    convert_fasta_aln_to_phylip,
+    convert_phylip_to_fasta_aln,
 )
 
 
-def alignPeptides(
+def align_peptides(
     input_fasta: str,
     method: str = "muscle",
     output_file: str = None,
@@ -27,18 +27,18 @@ def alignPeptides(
     Outputs in format fasta.aln
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(
+        output_file = set_default_output_path(
             input_fasta, extension=".fasta.aln", only_filename=True
         )
     input_fasta = os.path.abspath(input_fasta)
     if method.lower() in "muscle":
-        wrappers.runMuscle(
+        wrappers.run_muscle(
             input_fasta=input_fasta,
             output_file=output_file,
             additional_args=additional_args,
         )
     elif method.lower() in "mafft":
-        wrappers.runMAFFT(
+        wrappers.run_mafft(
             input_fasta=input_fasta,
             output_file=output_file,
             additional_args=additional_args,
@@ -47,7 +47,7 @@ def alignPeptides(
         raise ValueError("Invalid method. Valid methods: muscle or mafft")
 
 
-def alignShortReadsToReferenceMSA(
+def align_short_reads_to_reference_msa(
     ref_msa: str,
     query_seqs: str,
     method: str = "papara",
@@ -63,42 +63,43 @@ def alignShortReadsToReferenceMSA(
     tree_nwk = os.path.abspath(tree_nwk)
 
     if output_dir is None:
-        output_dir = setDefaultOutputPath(ref_msa, only_dirname=True)
+        output_dir = set_default_output_path(ref_msa, only_dirname=True)
     output_hmm = os.path.join(
-        output_dir, setDefaultOutputPath(ref_msa, extension=".hmm", only_filename=True)
+        output_dir,
+        set_default_output_path(ref_msa, extension=".hmm", only_filename=True),
     )
     output_aln_seqs = os.path.join(
         output_dir,
-        setDefaultOutputPath(query_seqs, extension=".faln", only_filename=True),
+        set_default_output_path(query_seqs, extension=".faln", only_filename=True),
     )
 
     if method.lower() in "hmmalign":
         with TemporaryFilePath() as temp_file_path:
 
-            wrappers.runHMMbuild(input_aln=ref_msa, output_hmm=output_hmm)
+            wrappers.run_hmmbuild(input_aln=ref_msa, output_hmm=output_hmm)
 
-            wrappers.runHMMalign(
+            wrappers.run_hmmalign(
                 input_aln=ref_msa,
                 input_hmm=output_hmm,
                 input_seqs=query_seqs,
                 output_aln_seqs=temp_file_path,
             )
-            convertStockholmToFastaAln(
+            convert_stockholm_to_fasta_aln(
                 input_stockholm=temp_file_path, output_fasta=output_aln_seqs
             )
     elif method.lower() in "papara":
         with TemporaryFilePath() as temp_phy_path, TemporaryFilePath() as temp_aln_path:
 
-            convertFastaAlnToPhylip(
+            convert_fasta_aln_to_phylip(
                 input_fasta_aln=ref_msa, output_phylip=temp_phy_path
             )
-            wrappers.runPapara(
+            wrappers.run_papara(
                 tree_nwk=tree_nwk,
                 msa_phy=temp_phy_path,
                 query_fasta=query_seqs,
                 output_aln=temp_aln_path,
             )
-            convertPhylipToFastaAln(
+            convert_phylip_to_fasta_aln(
                 input_phylip=temp_aln_path, output_file=output_aln_seqs
             )
     else:

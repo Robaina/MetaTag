@@ -12,8 +12,8 @@ import os
 import argparse
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import setDefaultOutputPath
-from phyloplacement.placement import placeReadsOntoTree
+from phyloplacement.utils import set_default_output_path
+from phyloplacement.placement import place_reads_onto_tree
 
 
 parser = argparse.ArgumentParser(
@@ -69,7 +69,7 @@ optional.add_argument(
 
 args = parser.parse_args()
 if args.outdir is None:
-    args.outdir = setDefaultOutputPath(args.aln, only_dirname=True)
+    args.outdir = set_default_output_path(args.aln, only_dirname=True)
 if args.tree_model is None:
     raise ValueError("Missing tree model.")
 epa_jplace = os.path.join(args.outdir, "epa_result.jplace")
@@ -78,7 +78,7 @@ epa_jplace = os.path.join(args.outdir, "epa_result.jplace")
 def main():
 
     print("* Placing reads on tree...")
-    placeReadsOntoTree(
+    place_reads_onto_tree(
         input_tree=args.tree,
         tree_model=args.tree_model,
         ref_aln=args.aln,

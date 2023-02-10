@@ -9,12 +9,12 @@ import os
 import shutil
 import tempfile
 
-from phyloplacement.utils import terminalExecute, setDefaultOutputPath
+from phyloplacement.utils import terminal_execute, set_default_output_path
 
 papara_exec = "/home/robaina/Software/papara/papara"
 
 
-def runSeqKitNoDup(
+def run_seqkit_nodup(
     input_fasta: str,
     output_fasta: str = None,
     export_duplicates: bool = False,
@@ -24,10 +24,10 @@ def runSeqKitNoDup(
     Simpe CLI wrapper to seqkit rmdup
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, tag="_no_duplicates")
+        output_fasta = set_default_output_path(input_fasta, tag="_no_duplicates")
     if export_duplicates:
         if duplicates_file is None:
-            dup_file = setDefaultOutputPath(
+            dup_file = set_default_output_path(
                 input_fasta, tag="_duplicates", extension=".txt"
             )
         else:
@@ -36,10 +36,10 @@ def runSeqKitNoDup(
     else:
         dup_str = ""
     cmd_str = f"seqkit rmdup {input_fasta} -s {dup_str} -o {output_fasta}"
-    terminalExecute(cmd_str)
+    terminal_execute(cmd_str)
 
 
-def runFastP(
+def run_fastp(
     input_fastq1: str,
     input_fastq2: str = None,
     merge: bool = False,
@@ -61,7 +61,7 @@ def runFastP(
     else:
         threads_str = ""
     if output_dir is None:
-        output_dir = setDefaultOutputPath(input_fastq1, only_dirname=True)
+        output_dir = set_default_output_path(input_fastq1, only_dirname=True)
     if merge:
         merged_out = (
             merged_out
@@ -76,10 +76,10 @@ def runFastP(
     else:
         args_str = ""
     cmd_str = f"fastp {input_str} {out_str} {threads_str} {args_str}"
-    terminalExecute(cmd_str, suppress_shell_output=True)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
-def runProdigal(
+def run_prodigal(
     input_file: str,
     output_prefix: str = None,
     output_dir: str = None,
@@ -94,9 +94,9 @@ def runProdigal(
     else:
         procedure = "single"
     if output_dir is None:
-        output_dir = setDefaultOutputPath(input_file, only_dirname=True)
+        output_dir = set_default_output_path(input_file, only_dirname=True)
     if output_prefix is None:
-        output_prefix = setDefaultOutputPath(input_file, only_filename=True)
+        output_prefix = set_default_output_path(input_file, only_filename=True)
     if additional_args is not None:
         args_str = additional_args
     else:
@@ -107,10 +107,10 @@ def runProdigal(
         f"prodigal -i {input_file} -o {output_gbk} -p {procedure} "
         f"-a {output_fasta} -q {args_str}"
     )
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def runHMMsearch(
+def run_hmmsearch(
     hmm_model: str,
     input_fasta: str,
     output_file: str = None,
@@ -125,7 +125,7 @@ def runHMMsearch(
     if n_processes is None:
         n_processes = os.cpu_count() - 1
     if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta, "_hmmer_hits", ".txt")
+        output_file = set_default_output_path(input_fasta, "_hmmer_hits", ".txt")
     if additional_args is not None:
         args_str = additional_args
     else:
@@ -134,10 +134,10 @@ def runHMMsearch(
         f"{method} --tblout {output_file} {args_str} --cpu {n_processes} "
         f"{hmm_model} {input_fasta}"
     )
-    terminalExecute(cmd_str, suppress_shell_output=True)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
-def runHMMbuild(
+def run_hmmbuild(
     input_aln: str, output_hmm: str = None, additional_args: str = None
 ) -> None:
     """
@@ -145,16 +145,16 @@ def runHMMbuild(
     additional args: see hmmbuild -h
     """
     if output_hmm is None:
-        output_hmm = setDefaultOutputPath(input_aln, extension=".hmm")
+        output_hmm = set_default_output_path(input_aln, extension=".hmm")
     if additional_args is not None:
         args_str = additional_args
     else:
         args_str = ""
     cmd_str = f"hmmbuild {args_str} {output_hmm} {input_aln}"
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def runHMMalign(
+def run_hmmalign(
     input_hmm: str,
     input_aln: str,
     input_seqs: str,
@@ -166,7 +166,7 @@ def runHMMalign(
     Align short read query sequences to reference MSA
     """
     if output_aln_seqs is None:
-        output_aln_seqs = setDefaultOutputPath(input_seqs, "_hmm", extension=".aln")
+        output_aln_seqs = set_default_output_path(input_seqs, "_hmm", extension=".aln")
     if additional_args is not None:
         args_str = additional_args
     else:
@@ -178,21 +178,21 @@ def runHMMalign(
         f"hmmalign -o {output_aln_seqs} --mapali {input_aln} --trim "
         f"--informat fasta {args_str} {input_hmm} {input_seqs}"
     )
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def getPercentIdentityFromMSA(input_msa: str, output_file: str = None) -> None:
+def get_percent_identity_from_msa(input_msa: str, output_file: str = None) -> None:
     """
     Run esl-alipid to compute pairwise PI from a MSA.
     """
     input_msa = os.path.abspath(input_msa)
     if output_file is None:
-        output_file = setDefaultOutputPath(input_msa, tag="_PI", extension=".txt")
+        output_file = set_default_output_path(input_msa, tag="_PI", extension=".txt")
     cmd_str = f"esl-alipid {input_msa} > {output_file}"
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def runCDHIT(
+def run_cdhit(
     input_fasta: str, output_fasta: str = None, additional_args: str = None
 ) -> None:
     """
@@ -201,15 +201,15 @@ def runCDHIT(
     with parameters -c 1 -t 1.
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, "_cdhit")
+        output_fasta = set_default_output_path(input_fasta, "_cdhit")
     if additional_args is None:
         additional_args = ""
     input_fasta = os.path.abspath(input_fasta)
     cmd_str = f"cd-hit -i {input_fasta} -o {output_fasta} {additional_args}"
-    terminalExecute(cmd_str, suppress_shell_output=True)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
-def runMAFFT(
+def run_mafft(
     input_fasta: str,
     output_file: str = None,
     n_threads: int = -1,
@@ -227,7 +227,7 @@ def runMAFFT(
     mafft --large --globalpair --thread n in > out
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(
+        output_file = set_default_output_path(
             input_fasta, extension=".fasta.aln", only_filename=True
         )
     if parallel:
@@ -238,10 +238,10 @@ def runMAFFT(
         additional_args = ""
     input_fasta = os.path.abspath(input_fasta)
     cmd_str = f"mafft {thread_str} {additional_args} {input_fasta} > {output_file}"
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def runMuscle(
+def run_muscle(
     input_fasta: str,
     output_file: str = None,
     maxiters: int = None,
@@ -254,7 +254,7 @@ def runMuscle(
     output phylip and fasta.aln
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(
+        output_file = set_default_output_path(
             input_fasta, extension=".fasta.aln", only_filename=True
         )
     if maxiters is None:
@@ -268,26 +268,26 @@ def runMuscle(
         f"muscle -in {input_fasta} -out {output_file} "
         f"-maxiters {maxiters} {args_str}"
     )
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def runTrimal(input_aln: str, output_aln: str = None) -> None:
+def run_trimal(input_aln: str, output_aln: str = None) -> None:
     """
     Simple CLI wrapper to trimal
 
     I/O in phylip as well: https://vicfero.github.io/trimal/
     """
     if output_aln is None:
-        output_aln = setDefaultOutputPath(input_aln, "_trimal")
+        output_aln = set_default_output_path(input_aln, "_trimal")
     input_aln = os.path.abspath(input_aln)
     cmd_str = (
         f"trimal -in {input_aln} -out {output_aln} -fasta -automated1 "
         f"-resoverlap 0.55 -seqoverlap 60 -htmlout trimal.html"
     )
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def runModelTest(
+def run_modeltest(
     input_algns: str, n_processes: int = None, output_dir: str = None
 ) -> None:
     """
@@ -296,7 +296,7 @@ def runModelTest(
     """
     if output_dir is None:
         output_dir = os.path.join(
-            setDefaultOutputPath(input_algns, only_dirname=True), "modeltest_result"
+            set_default_output_path(input_algns, only_dirname=True), "modeltest_result"
         )
     else:
         output_dir = os.path.abspath(os.path.join(output_dir, "modeltest_result"))
@@ -306,10 +306,10 @@ def runModelTest(
         f"modeltest-ng -i {input_algns} -T raxml -d aa -p {n_processes} "
         f"-o {output_dir}"
     )
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def runFastTree(
+def run_fasttree(
     input_algns: str,
     output_file: str = None,
     nucleotides: bool = False,
@@ -326,7 +326,7 @@ def runFastTree(
                      parameter values to be passed to fasttree
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(
+        output_file = set_default_output_path(
             input_algns, tag="_fasttree", extension=".newick"
         )
     if nucleotides:
@@ -341,10 +341,10 @@ def runFastTree(
         additional_args = ""
     input_algns = os.path.abspath(input_algns)
     cmd_str = f"fasttree {nt_str} {input_algns} {start_t_str} {additional_args} > {output_file}"
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def runIqTree(
+def run_iqtree(
     input_algns: str,
     output_dir: str = None,
     output_prefix: str = None,
@@ -371,7 +371,7 @@ def runIqTree(
     http://www.iqtree.org/doc/Command-Reference
     """
 
-    def removeAuxiliaryOutput(output_prefix):
+    def remove_auxiliary_output(output_prefix):
         """
         Removes iqtree auxiliary output files
         """
@@ -423,12 +423,12 @@ def runIqTree(
         f"-nm {max_bootstrap_iterations} "
         f"{output_prefix_str} {start_t_str} {overwrite_str} {additional_args}"
     )
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
     if not keep_recovery_files:
-        removeAuxiliaryOutput(output_prefix)
+        remove_auxiliary_output(output_prefix)
 
 
-def runTreeShrink(
+def run_tree_shrink(
     input_tree: str,
     input_aln: str = None,
     output_dir: str = None,
@@ -451,10 +451,10 @@ def runTreeShrink(
     else:
         args_str = ""
     input_tree = os.path.abspath(input_tree)
-    out_tree = setDefaultOutputPath(input_tree, tag="_shrink", only_filename=True)
+    out_tree = set_default_output_path(input_tree, tag="_shrink", only_filename=True)
     if input_aln is not None:
         input_aln = os.path.abspath(input_aln)
-        out_aln = setDefaultOutputPath(input_aln, tag="_shrink", only_filename=True)
+        out_aln = set_default_output_path(input_aln, tag="_shrink", only_filename=True)
         aln_str = "-a input.aln"
     else:
         aln_str = ""
@@ -474,7 +474,7 @@ def runTreeShrink(
             f"-t input.tree {aln_str} --force "
             f"-o {temp_out_dir} -O output {args_str}"
         )
-        terminalExecute(cmd_str, suppress_shell_output=False)
+        terminal_execute(cmd_str, suppress_shell_output=False)
 
         shutil.move(
             os.path.join(temp_out_dir, temp_tree_dir, "output.tree"),
@@ -486,7 +486,7 @@ def runTreeShrink(
                 os.path.join(output_dir, out_aln),
             )
         if output_deleted_nodes:
-            out_txt = setDefaultOutputPath(
+            out_txt = set_default_output_path(
                 input_tree, tag="_shrink_deleted", extension=".txt", only_filename=True
             )
             shutil.move(
@@ -495,7 +495,7 @@ def runTreeShrink(
             )
 
 
-def runPapara(
+def run_papara(
     tree_nwk: str,
     msa_phy: str,
     query_fasta: str,
@@ -518,7 +518,7 @@ def runPapara(
     query_fasta = os.path.abspath(query_fasta)
 
     if output_aln is None:
-        output_aln = setDefaultOutputPath(
+        output_aln = set_default_output_path(
             query_fasta, tag="_ref_aln", extension=".phylip"
         )
     else:
@@ -533,11 +533,11 @@ def runPapara(
         f"-r {args_str} -a"
     )
     with tempfile.TemporaryDirectory() as tempdir:
-        terminalExecute(cmd_str, suppress_shell_output=False, work_dir=tempdir)
+        terminal_execute(cmd_str, suppress_shell_output=False, work_dir=tempdir)
         shutil.move(os.path.join(tempdir, "papara_alignment.phylip"), output_aln)
 
 
-def runEPAng(
+def run_epang(
     input_tree: str,
     input_aln_ref: str,
     input_aln_query: str,
@@ -577,10 +577,10 @@ def runEPAng(
         f"epa-ng --ref-msa {input_aln_ref} --tree {input_tree} --query {input_aln_query} "
         f"--model {model} --threads {n_threads} --outdir {output_dir} {overwrite_str} {args_str}"
     )
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def runGappaHeatTree(
+def run_gappa_heat_tree(
     input_jplace: str,
     output_dir: str = None,
     output_prefix: str = None,
@@ -609,10 +609,10 @@ def runGappaHeatTree(
         f"--write-svg-tree "  # --write-newick-tree
         f"{outdir_str} {output_prefix_str} {args_str}"
     )
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def runGappaGraft(
+def run_gappa_graft(
     input_jplace: str,
     output_dir: str = None,
     output_prefix: str = None,
@@ -639,10 +639,10 @@ def runGappaGraft(
         f"gappa examine graft --jplace-path {os.path.abspath(input_jplace)} "
         f"{outdir_str} {output_prefix_str} {args_str}"
     )
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def runGappaAssign(
+def run_gappa_assign(
     jplace: str,
     taxonomy_file: str,
     output_dir: str = None,
@@ -661,9 +661,9 @@ def runGappaAssign(
     Info: https://github.com/lczech/gappa/wiki/Subcommand:-assign
     """
     if output_dir is None:
-        output_dir = setDefaultOutputPath(jplace, only_dirname=True)
+        output_dir = set_default_output_path(jplace, only_dirname=True)
     if output_prefix is None:
-        output_prefix = setDefaultOutputPath(jplace, only_filename=True)
+        output_prefix = set_default_output_path(jplace, only_filename=True)
     if only_best_hit:
         best_str = "--best-hit"
     else:
@@ -678,7 +678,7 @@ def runGappaAssign(
         f"--out-dir {output_dir} --file-prefix {output_prefix} --allow-file-overwriting "
         f"--per-query-results {best_str} {args_str}"
     )
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
     outtree = os.path.join(output_dir, f"{output_prefix}labelled_tree.newick")
     if delete_output_tree and os.path.exists(outtree):
         os.remove(outtree)
