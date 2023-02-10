@@ -8,10 +8,19 @@ Simple CLI wrappers to several tools
 import os
 import shutil
 import tempfile
+from pathlib import Path
 
 from phyloplacement.utils import terminal_execute, set_default_output_path
 
-papara_exec = "/home/robaina/Software/papara/papara"
+
+parent_dir = Path(__file__).parent
+papara_exec = None
+if papara_exec is None:
+    papara_bin = parent_dir.parent / "vendor/papara_static_x86_64"
+    if not papara_bin.is_file():
+        raise FileExistsError("Papara executable not found")
+    else:
+        papara_exec = papara_bin.as_posix()
 
 
 def run_seqkit_nodup(

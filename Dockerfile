@@ -19,6 +19,10 @@ SHELL ["conda", "run", "-n", "traits", "/bin/bash", "-c"]
 RUN python --version
 RUN chmod ugo+rw /opt/conda/envs/traits/lib/python3.9/site-packages
 
+# Download and setup papara
+RUN python code/setup_papara.py
+
+
 # Initialize conda for default user
 RUN conda init
 # # Activate pynteny environment by default
