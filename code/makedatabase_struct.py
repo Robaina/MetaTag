@@ -12,13 +12,13 @@ import os
 import shutil
 import argparse
 
-from phyloplacement.utils import setDefaultOutputPath, TemporaryFilePath
-from phyloplacement.database.preprocessing import setTempRecordIDsInFASTA
+from phyloplacement.utils import set_default_output_path, TemporaryFilePath
+from phyloplacement.database.preprocessing import set_temp_record_ids_in_fasta
 from phyloplacement.database.manipulation import (
-    filterFastaByHMMstructure,
-    filterFASTABySequenceLength,
+    filter_fasta_by_hmm_structure,
+    filter_fasta_by_sequence_length,
 )
-from phyloplacement.database.reduction import reduceDatabaseRedundancy
+from phyloplacement.database.reduction import reduce_database_redundancy
 
 
 parser = argparse.ArgumentParser(
@@ -133,7 +133,7 @@ parser.add_argument(
 
 args = parser.parse_args()
 if args.outdir is None:
-    args.outdir = setDefaultOutputPath(args.data, only_dirname=True)
+    args.outdir = set_default_output_path(args.data, only_dirname=True)
 hmmsearch_args = list(map(lambda x: x.strip(), args.hmmsearch_args.split(",")))
 hmmsearch_args = list(map(lambda x: None if x == "None" else x, hmmsearch_args))
 hmmer_output_dir = os.path.join(args.outdir, "hmmer_outputs/")
@@ -147,7 +147,7 @@ def main():
 
     print("* Making peptide-specific reference database...")
     with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2:
-        filterFastaByHMMstructure(
+        filter_fasta_by_hmm_structure(
             hmm_structure=args.hmm_struc,
             target_hmm=args.target_hmm,
             input_fasta=args.data,
@@ -162,15 +162,15 @@ def main():
 
         if (args.minseqlength is not None) or (args.maxseqlength is not None):
             print("* Filtering sequences by established length bounds...")
-            filterFASTABySequenceLength(
+            filter_fasta_by_sequence_length(
                 input_fasta=tempfasta,
-                minLength=args.minseqlength,
-                maxLength=args.maxseqlength,
+                min_length=args.minseqlength,
+                max_length=args.maxseqlength,
                 output_fasta=tempfasta2,
             )
             shutil.move(tempfasta2, tempfasta)
 
-        reduceDatabaseRedundancy(
+        reduce_database_redundancy(
             input_fasta=tempfasta,
             output_fasta=output_fasta,
             cdhit=True,
@@ -180,7 +180,7 @@ def main():
 
     if args.relabel:
         print("* Relabelling records in reference database...")
-        setTempRecordIDsInFASTA(
+        set_temp_record_ids_in_fasta(
             input_fasta=output_fasta,
             output_dir=args.outdir,
             prefix=f"ref_{args.prefix}",

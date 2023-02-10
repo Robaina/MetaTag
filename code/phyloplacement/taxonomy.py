@@ -9,7 +9,7 @@ from __future__ import annotations
 import os
 
 import pandas as pd
-from phyloplacement.utils import readFromPickleFile, setDefaultOutputPath
+from phyloplacement.utils import read_from_pickle_file, set_default_output_path
 
 from phyloplacement.database.labelparsers import LabelParser
 
@@ -31,9 +31,9 @@ class Taxopath:
             "genus",
             "species",
         ]
-        self.taxodict = self._dictFromTaxopath()
+        self.taxodict = self._dict_from_taxopath()
 
-    def _dictFromTaxopath(self):
+    def _dict_from_taxopath(self):
         if self._taxopath is None:
             taxolist = []
         else:
@@ -56,7 +56,7 @@ class Taxopath:
         return cls(taxopath_str=taxostr, delimiter=delimiter)
 
     @classmethod
-    def getLowestCommonTaxopath(cls, taxopaths: list[str]) -> Taxopath:
+    def get_lowest_common_taxopath(cls, taxopaths: list[str]) -> Taxopath:
         """
         compute lowest common taxopath (ancestor) of a list
         of taxopaths
@@ -93,7 +93,7 @@ class TaxonomyAssigner:
         )
 
     @staticmethod
-    def lowestCommonTaxonomy(taxopaths: list[str]) -> str:
+    def lowest_common_taxonomy(taxopaths: list[str]) -> str:
         """
         Find lowest common taxonomy among set of taxopaths
         """
@@ -108,39 +108,39 @@ class TaxonomyAssigner:
                 break
         return ";".join(lowest_tax)
 
-    def _extractGenomeIDfromLabel(self, label: str) -> str:
-        genome_id = LabelParser.extractGenomeID(label)
+    def _extract_genome_id_from_label(self, label: str) -> str:
+        genome_id = LabelParser.extract_genome_id(label)
         return genome_id
 
-    def assignTaxonomyToLabel(self, label: str) -> str:
+    def assign_taxonomy_to_label(self, label: str) -> str:
         """
         Assign GTDB taxonomy to label based on genome ID
         """
-        genome_id = self._extractGenomeIDfromLabel(label)
+        genome_id = self._extract_genome_id_from_label(label)
         if genome_id in self._taxodata.index:
             return self._taxodata.loc[genome_id].item()
         else:
             return "No_taxonomy_found"
 
-    def assignLowestCommonTaxonomyToLabels(self, labels: list[str]) -> str:
+    def assign_lowest_common_taxonomy_to_labels(self, labels: list[str]) -> str:
         """
         Assing taxonomy to set of labels and find lowest common taxonomy
         among them
         """
         taxopaths = [
             taxopath
-            for taxopath in map(self.assignTaxonomyToLabel, labels)
+            for taxopath in map(self.assign_taxonomy_to_label, labels)
             if taxopath != "No_taxonomy_found"
         ]
         try:
             if taxopaths:
-                return self.lowestCommonTaxonomy(taxopaths)
+                return self.lowest_common_taxonomy(taxopaths)
             else:
                 return "Unspecified"
         except:
             return "Unspecified"
 
-    def assignLowestCommonTaxonomyToClusters(
+    def assign_lowest_common_taxonomy_to_clusters(
         self, clusters: dict, label_dict: dict = None
     ) -> dict:
         """
@@ -154,11 +154,11 @@ class TaxonomyAssigner:
                 cluster_labels = [label_dict[ref_id] for ref_id in cluster]
             else:
                 cluster_labels = cluster
-            taxopath = self.assignLowestCommonTaxonomyToLabels(cluster_labels)
+            taxopath = self.assign_lowest_common_taxonomy_to_labels(cluster_labels)
             clusters_taxopath[cluster_id] = taxopath
         return clusters_taxopath
 
-    def buildGappaTaxonomyTable(
+    def build_gappa_taxonomy_table(
         self, ref_id_dict: dict, output_file: str = None
     ) -> None:
         """
@@ -172,7 +172,7 @@ class TaxonomyAssigner:
         with open(output_file, "w") as outfile:
             lines = []
             for ref_id, label in ref_id_dict.items():
-                taxon_str = self.assignTaxonomyToLabel(label)
+                taxon_str = self.assign_taxonomy_to_label(label)
                 taxon_str = (
                     "Unspecified" if ("No_taxonomy_found" in taxon_str) else taxon_str
                 )
@@ -191,7 +191,7 @@ class TaxonomyCounter:
             lambda x: "Unspecified" if x is None else x
         )
 
-    def getCounts(
+    def get_counts(
         self,
         taxlevel: str = "family",
         output_tsv: str = None,
@@ -218,7 +218,7 @@ class TaxonomyCounter:
         if output_tsv is not None:
             df.to_csv(output_tsv, sep="\t")
         # Make figure
-        fig = self.plotCounts(
+        fig = self.plot_counts(
             df,
             plot_type=plot_type,
             output_pdf=output_pdf,
@@ -226,7 +226,7 @@ class TaxonomyCounter:
         )
         return df, fig
 
-    def plotCounts(
+    def plot_counts(
         self,
         count_data: pd.DataFrame,
         plot_type: str = "bar",
@@ -252,7 +252,7 @@ class TaxonomyCounter:
         return fig
 
 
-def evaluateTaxonomyOfReferenceDatabase(
+def evaluate_taxonomy_of_reference_database(
     label_dict_pickle: str = None,
     taxlevels: list[str] = None,
     output_dir: str = None,
@@ -264,11 +264,13 @@ def evaluateTaxonomyOfReferenceDatabase(
     if taxlevels is None:
         taxlevels = ["class", "order", "family", "genus"]
     if output_dir is None:
-        output_dir = setDefaultOutputPath(label_dict_pickle, only_dir_name=True)
+        output_dir = set_default_output_path(label_dict_pickle, only_dir_name=True)
 
     taxonomy = TaxonomyAssigner(taxo_file="./data/taxonomy/merged_taxonomy.tsv")
-    label_dict = readFromPickleFile(label_dict_pickle)
-    taxopaths = [taxonomy.assignTaxonomyToLabel(label) for label in label_dict.values()]
+    label_dict = read_from_pickle_file(label_dict_pickle)
+    taxopaths = [
+        taxonomy.assign_taxonomy_to_label(label) for label in label_dict.values()
+    ]
     taxcounter = TaxonomyCounter(taxopaths)
 
     for taxlevel in taxlevels:
@@ -276,7 +278,7 @@ def evaluateTaxonomyOfReferenceDatabase(
             outpdf = os.path.join(output_dir, f"ref_taxonomy_counts_{taxlevel}.pdf")
         else:
             outpdf = None
-        counts = taxcounter.getCounts(
+        counts = taxcounter.get_counts(
             taxlevel,
             output_tsv=os.path.join(output_dir, f"ref_taxonomy_counts_{taxlevel}.tsv"),
             plot_type="bar",

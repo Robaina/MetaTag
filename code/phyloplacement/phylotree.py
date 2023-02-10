@@ -13,7 +13,7 @@ import re
 
 from Bio import Phylo
 
-from phyloplacement.utils import setDefaultOutputPath, easyPatternMatching
+from phyloplacement.utils import set_default_output_path, easy_pattern_matching
 import phyloplacement.wrappers as wrappers
 
 
@@ -32,13 +32,13 @@ class PhyloTree:
         """
         self._tree = next(Phylo.parse(tree, tree_format))
         if bootstrap_threshold is not None:
-            self.collapsePoorQualityNodes(bootstrap_threshold)
+            self.collapse_poor_quality_nodes(bootstrap_threshold)
         if name_internal_nodes:
-            self.nameInternalNodes()
+            self.name_internal_nodes()
         self._tree_path = tree
         self._tree_format = tree_format
 
-    def _scaleBootstrapValues(self):
+    def _scale_bootstrap_values(self):
         """
         Scale bootstrap values to be percentages if necessary.
         This is to deal with discrepancies between how fasttree and
@@ -58,16 +58,16 @@ class PhyloTree:
                 "Tree does not contain confidence values. Change tree or set bootstrap_threshold to None"
             )
 
-    def collapsePoorQualityNodes(self, bootstrap_threshold: float = 95) -> None:
+    def collapse_poor_quality_nodes(self, bootstrap_threshold: float = 95) -> None:
         """
         Collapse all nodes with a bootstrap value smaller than threshold
         """
-        self._scaleBootstrapValues()
+        self._scale_bootstrap_values()
         self._tree.collapse_all(
             lambda c: c.confidence is not None and c.confidence < bootstrap_threshold
         )
 
-    def nameInternalNodes(self) -> None:
+    def name_internal_nodes(self) -> None:
         """
         Give unique identifier to internal nodes
         including bootstrap value in identifier
@@ -80,36 +80,36 @@ class PhyloTree:
                 clade.name = f"IN_{n}_{clade.confidence}"
                 clade.confidence = None
 
-    def getTreeObject(self):
+    def get_tree_object(self):
         return self._tree
 
-    def exportTree(self, outfile: str, tree_format: str = "newick") -> None:
+    def export_tree(self, outfile: str, tree_format: str = "newick") -> None:
         """
         Export tree object to file
         """
         Phylo.write(self._tree, outfile, tree_format)
 
-    def getAllDescendantsOfTargetNode(self, target_name: str) -> list:
+    def get_all_descendants_of_target_node(self, target_name: str) -> list:
         """
         Get all leaf names from given target (internal) node name
         """
         target = next(self._tree.find_clades(target=target_name))
         return [n.name for n in target.get_terminals()]
 
-    def getClosestCommonAncestor(self, target_names: list[str]) -> str:
+    def get_closest_common_ancestor(self, target_names: list[str]) -> str:
         """
         Get name of closest common ancestor given list of leaf names
         """
         clade = self._tree.common_ancestor(target_names)
         return clade.name
 
-    def getAllLeafNames(self) -> list[str]:
+    def get_all_leaf_names(self) -> list[str]:
         """
         Get list of all leaves (terminal nodes names)
         """
         return [leaf.name for leaf in self._tree.get_terminals()]
 
-    def extractClustersFromInternalNodes(self) -> dict:
+    def extract_clusters_from_internal_nodes(self) -> dict:
         """
         Extract all terminal nodes which are descendants of
         each internal node in the tree
@@ -120,7 +120,7 @@ class PhyloTree:
             cluster_dict[clade.name] = [n.name for n in terminal_nodes]
         return cluster_dict
 
-    def computeTreeDiameter(self) -> float:
+    def compute_tree_diameter(self) -> float:
         """
         Find maximum (pairwise) distance between two tips
         (leaves) in the tree
@@ -137,7 +137,7 @@ class PhyloTree:
         return max_distance
 
 
-def inferTree(
+def infer_tree(
     ref_aln: str,
     method: str = "iqtree",
     substitution_model: str = "modeltest",
@@ -154,7 +154,7 @@ def inferTree(
             wrappers.runModelTest(
                 input_algns=ref_aln, n_processes=None, output_dir=output_dir
             )
-            best_model = getTreeModelFromModeltestLog(
+            best_model = get_tree_model_from_modeltest_log(
                 modeltest_log=os.path.join(output_dir, "modeltest_result.log"),
                 criterion="BIC",
             )
@@ -166,7 +166,7 @@ def inferTree(
             best_model = substitution_model
             modeltest_starting_tree = None
 
-        wrappers.runIqTree(
+        wrappers.run_iqtree(
             input_algns=ref_aln,
             output_dir=output_dir,
             output_prefix="ref_database",
@@ -181,7 +181,7 @@ def inferTree(
         )
 
     elif method.lower() in "fasttree":
-        wrappers.runFastTree(
+        wrappers.run_fasttree(
             input_algns=ref_aln,
             output_file=os.path.join(output_dir, "ref_database.newick"),
             additional_args=additional_args,
@@ -190,7 +190,7 @@ def inferTree(
         raise ValueError("Wrong method, enter iqtree or fasttree")
 
 
-def sanityCheckForiTOL(label: str) -> str:
+def sanity_check_for_iTOL(label: str) -> str:
     """
     Reformat label to comply with iTOL requirements, remove:
     1. white spaces
@@ -202,7 +202,7 @@ def sanityCheckForiTOL(label: str) -> str:
     return itol_label
 
 
-def relabelTree(
+def relabel_tree(
     input_newick: str, label_dict: dict, output_file: str = None, iTOL=True
 ) -> None:
     """
@@ -211,9 +211,9 @@ def relabelTree(
     labels are checked for iTOL compatibility
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_newick, tag="_relabel")
+        output_file = set_default_output_path(input_newick, tag="_relabel")
     if iTOL:
-        sanity_check = sanityCheckForiTOL
+        sanity_check = sanity_check_for_iTOL
     else:
         sanity_check = lambda x: x
     tree = next(Phylo.parse(input_newick, "newick"))
@@ -224,7 +224,7 @@ def relabelTree(
     Phylo.write(tree, output_file, "newick")
 
 
-def newRelabelTree(
+def new_relabel_tree(
     input_newick: str, label_dict: dict, output_file: str = None, iTOL=True
 ) -> None:
     """
@@ -233,9 +233,9 @@ def newRelabelTree(
     labels are checked for iTOL compatibility
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_newick, tag="_relabel")
+        output_file = set_default_output_path(input_newick, tag="_relabel")
     if iTOL:
-        sanity_check = sanityCheckForiTOL
+        sanity_check = sanity_check_for_iTOL
     else:
         sanity_check = lambda x: x
     with open(input_newick, "r") as file:
@@ -246,7 +246,7 @@ def newRelabelTree(
         file.write(data)
 
 
-def getIqTreeModelFromLogFile(iqtree_log: str) -> str:
+def get_iq_tree_model_from_log_file(iqtree_log: str) -> str:
     """
     Parse iqtree log file and return best fit model
 
@@ -264,15 +264,17 @@ def getIqTreeModelFromLogFile(iqtree_log: str) -> str:
     return model
 
 
-def getTreeModelFromModeltestLog(modeltest_log: str, criterion: str = "BIC") -> str:
+def get_tree_model_from_modeltest_log(
+    modeltest_log: str, criterion: str = "BIC"
+) -> str:
     """
     Parse modeltest-ng log file and return best fit model
     according to selected criterion: BIC, AIC or AICc
     """
     with open(modeltest_log, "r") as log:
         text = log.read()
-        model = easyPatternMatching(
-            easyPatternMatching(
+        model = easy_pattern_matching(
+            easy_pattern_matching(
                 text, f"Best model according to {criterion}\n", "\nlnL"
             ),
             left_pattern="Model:",
@@ -280,12 +282,12 @@ def getTreeModelFromModeltestLog(modeltest_log: str, criterion: str = "BIC") -> 
         return model
 
 
-def exportTreeClustersToFile(clusters: dict, outfile: str) -> None:
+def export_tree_clusters_to_file(clusters: dict, outfile: str) -> None:
     """
     Write tsv file containing the definition of tree clusters
     """
 
-    def getNodeCluster(node_name: str, clusters: dict):
+    def get_node_cluster(node_name: str, clusters: dict):
         for cluster_name, cluster in clusters.items():
             if node_name in cluster:
                 return cluster_name
@@ -294,7 +296,7 @@ def exportTreeClustersToFile(clusters: dict, outfile: str) -> None:
         lines = ["id\tcluster\n"]
         node_names = [nname for cluster in clusters.values() for nname in cluster]
         for nname in node_names:
-            cluster_name = getNodeCluster(nname, clusters)
+            cluster_name = get_node_cluster(nname, clusters)
             line = f"{nname}\t{cluster_name}\n"
             lines.append(line)
         file.writelines(lines)

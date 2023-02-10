@@ -10,9 +10,9 @@ Reference tree:
 import os
 import argparse
 
-from phyloplacement.utils import setDefaultOutputPath
-from phyloplacement.alignment import alignPeptides
-from phyloplacement.phylotree import inferTree
+from phyloplacement.utils import set_default_output_path
+from phyloplacement.alignment import align_peptides
+from phyloplacement.phylotree import infer_tree
 
 
 parser = argparse.ArgumentParser(
@@ -60,14 +60,14 @@ optional.add_argument(
 
 args = parser.parse_args()
 if args.outdir is None:
-    args.outdir = setDefaultOutputPath(args.data, only_dirname=True)
+    args.outdir = set_default_output_path(args.data, only_dirname=True)
 output_aln = os.path.join(args.outdir, "ref_database.faln")
 
 
 def main():
 
     print("* Aligning reference database...")
-    alignPeptides(
+    align_peptides(
         input_fasta=args.data,
         method=args.msa_method,
         output_file=output_aln,
@@ -75,7 +75,7 @@ def main():
     )
 
     print("* Inferring reference tree...")
-    inferTree(
+    infer_tree(
         ref_aln=output_aln,
         method=args.tree_method,
         substitution_model=args.tree_model,

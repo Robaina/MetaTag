@@ -15,17 +15,17 @@ import shutil
 import argparse
 
 from phyloplacement.utils import (
-    setDefaultOutputPath,
+    set_default_output_path,
     TemporaryFilePath,
     TemporaryDirectoryPath,
 )
-from phyloplacement.wrappers import runProdigal
+from phyloplacement.wrappers import run_prodigal
 from phyloplacement.database.preprocessing import (
-    assertCorrectSequenceFormat,
-    removeDuplicatesFromFasta,
-    mergeFASTAs,
-    setTempRecordIDsInFASTA,
-    fastaContainsNucleotideSequences,
+    assert_correct_sequence_format,
+    remove_duplicates_from_fasta,
+    merge_fastas,
+    set_temp_record_ids_in_fasta,
+    fasta_contains_nucleotide_sequences,
 )
 
 
@@ -100,7 +100,7 @@ args = parser.parse_args()
 if args.idprefix is None:
     args.idprefix = "label_"
 if args.outfile is None:
-    outfasta = setDefaultOutputPath(args.data, tag="_cleaned")
+    outfasta = set_default_output_path(args.data, tag="_cleaned")
 else:
     outfasta = os.path.abspath(args.outfile)
 output_dir = os.path.abspath(os.path.dirname(args.outfile))
@@ -109,14 +109,14 @@ if os.path.isdir(args.data):
     print("Merging input files...")
     _, file_ext = os.path.splitext(os.listdir(args.data)[0])
     data_path = os.path.abspath(os.path.join(output_dir, f"merged_data{file_ext}"))
-    mergeFASTAs(input_fastas_dir=args.data, output_fasta=data_path)
+    merge_fastas(input_fastas_dir=args.data, output_fasta=data_path)
 else:
     data_path = os.path.abspath(args.data)
 
 if args.dna:
     is_peptide = False
 if not args.dna:
-    if fastaContainsNucleotideSequences(data_path):
+    if fasta_contains_nucleotide_sequences(data_path):
         print("Inferred data contain nucleotide sequences")
         is_peptide = False
     else:
@@ -127,10 +127,10 @@ def main():
 
     with TemporaryFilePath() as tmp_file_path:
         print("* Removing duplicates...")
-        duplicates_file = setDefaultOutputPath(
+        duplicates_file = set_default_output_path(
             outfasta, tag="_duplicates", extension=".txt"
         )
-        removeDuplicatesFromFasta(
+        remove_duplicates_from_fasta(
             input_fasta=data_path,
             output_fasta=tmp_file_path,
             method=args.duplicate_method,
@@ -138,15 +138,15 @@ def main():
             duplicates_file=duplicates_file,
         )
         print("* Asserting correct sequence format...")
-        assertCorrectSequenceFormat(
+        assert_correct_sequence_format(
             fasta_file=tmp_file_path, output_file=outfasta, is_peptide=is_peptide
         )
 
     if args.translate and not is_peptide:
-        outprefix = setDefaultOutputPath(outfasta, only_filename=True)
+        outprefix = set_default_output_path(outfasta, only_filename=True)
         print("* Translating nucleotide sequences...")
         with TemporaryDirectoryPath() as tempdir:
-            runProdigal(
+            run_prodigal(
                 input_file=outfasta,
                 output_prefix=outprefix,
                 output_dir=tempdir,
@@ -156,7 +156,7 @@ def main():
             outfaa = os.path.join(tempdir, outprefix + ".faa")
             outgbk = os.path.join(tempdir, outprefix + ".gbk")
 
-            assertCorrectSequenceFormat(
+            assert_correct_sequence_format(
                 fasta_file=outfaa, output_file=outfasta, is_peptide=True
             )
             shutil.move(outgbk, output_dir)
@@ -165,8 +165,8 @@ def main():
 
     if args.relabel:
         print("* Relabelling records...")
-        outfasta_short = setDefaultOutputPath(outfasta, tag="_short_ids")
-        setTempRecordIDsInFASTA(
+        outfasta_short = set_default_output_path(outfasta, tag="_short_ids")
+        set_temp_record_ids_in_fasta(
             input_fasta=outfasta,
             output_dir=os.path.dirname(args.outfile),
             prefix=args.idprefix,

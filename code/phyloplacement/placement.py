@@ -15,13 +15,13 @@ import pandas as pd
 from Bio import Phylo
 
 import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import setDefaultOutputPath, TemporaryFilePath
+from phyloplacement.utils import set_default_output_path, TemporaryFilePath
 from phyloplacement.taxonomy import TaxonomyAssigner, TaxonomyCounter, Taxopath
-from phyloplacement.alignment import alignShortReadsToReferenceMSA
-from phyloplacement.phylotree import PhyloTree, getIqTreeModelFromLogFile
+from phyloplacement.alignment import align_short_reads_to_reference_msa
+from phyloplacement.phylotree import PhyloTree, get_iq_tree_model_from_log_file
 from phyloplacement.database.manipulation import (
-    getFastaRecordIDs,
-    splitReferenceFromQueryAlignments,
+    get_fasta_record_ids,
+    split_reference_from_query_alignments,
 )
 
 
@@ -33,12 +33,12 @@ class JplaceParser:
 
     def __init__(self, path_to_jplace: str) -> None:
         self._path_to_jplace = path_to_jplace
-        self.jplace = self.getJSONobject()
+        self.jplace = self.get_json_object()
         self._tree_obj = next(
-            Phylo.parse(StringIO(self.newickfyTree(self.jplace["tree"])), "newick")
+            Phylo.parse(StringIO(self.newickfy_tree(self.jplace["tree"])), "newick")
         )
 
-    def getJSONobject(self) -> dict:
+    def get_json_object(self) -> dict:
         with open(self._path_to_jplace, "r") as JSON:
             return json.load(JSON)
 
@@ -63,7 +63,7 @@ class JplaceParser:
         """
         return self.jplace["placements"]
 
-    def getTreeStr(self, newick=False) -> str:
+    def get_tree_str(self, newick=False) -> str:
         """
         Return tree string in original or newick format
         Original format contains branch labels
@@ -71,12 +71,12 @@ class JplaceParser:
         these labels.
         """
         if newick:
-            return self.newickfyTree(self.jplace["tree"])
+            return self.newickfy_tree(self.jplace["tree"])
         else:
             return self.jplace["tree"]
 
     @staticmethod
-    def newickfyTree(tree_str: str) -> str:
+    def newickfy_tree(tree_str: str) -> str:
         """
         Remove branch IDs from jplace tree string
         """
@@ -84,13 +84,13 @@ class JplaceParser:
         return subs_tree
         # return next(Phylo.parse(StringIO(subs_tree), 'newick'))
 
-    def getReferenceSequences(self) -> list:
+    def get_reference_sequences(self) -> list:
         """
         Get list of reference sequences in the placement tree
         """
         return [c.name for c in self._tree_obj.get_terminals()]
 
-    def buildBranchDict(self) -> dict:
+    def build_branch_dict(self) -> dict:
         """
         Build dictionary with edge/branch numbers as keys and
         reference tree leaves as values
@@ -108,36 +108,36 @@ class JplaceParser:
         }
         return branches
 
-    def extractPlacementFields(self, pfielddata: list) -> dict:
+    def extract_placement_fields(self, pfielddata: list) -> dict:
         """
         Get dict with placement field values from list of values
         """
         fields = self.jplace["fields"]
         return {field: pfielddata[i] for i, field in enumerate(fields)}
 
-    def selectBestPlacement(self, placement_object: dict) -> dict:
+    def select_best_placement(self, placement_object: dict) -> dict:
         """
         Select placement with lowest likelihood
         """
         pdata = [
-            self.extractPlacementFields(pfielddata)
+            self.extract_placement_fields(pfielddata)
             for pfielddata in placement_object["p"]
         ]
         lowest_like_placement = sorted(pdata, key=lambda x: x["likelihood"])[0]
         return {"p": lowest_like_placement, "n": placement_object["n"]}
 
-    def selectBestPlacements(self):
+    def select_best_placements(self):
         """
         Select placement with lowest likelihood for
         all placement objects in placements
         """
         best_placements = [
-            self.selectBestPlacement(placement)
+            self.select_best_placement(placement)
             for placement in self.jplace["placements"]
         ]
         return best_placements
 
-    def computeTreeDiameter(self) -> float:
+    def compute_tree_diameter(self) -> float:
         """
         Find maximum (pairwise) distance between two tips
         (leaves) in the tree
@@ -153,7 +153,7 @@ class JplaceParser:
         self._tree_obj.root_with_outgroup(root)
         return max_distance
 
-    def filterPlacementsByMinimumLWR(
+    def filter_placements_by_minimum_lwr(
         self, minimum_lwr: float, outfile: str = None
     ) -> None:
         """
@@ -163,7 +163,7 @@ class JplaceParser:
             base, ext = os.path.splitext(self._path_to_jplace)
             outfile = f"{base}_min_lwr_{minimum_lwr}{ext}"
         # print(f'Filtering placements by minimum LWR: {minimum_lwr}')
-        jplace = self.getJSONobject()
+        jplace = self.get_json_object()
 
         filtered_placement_objs = []
         for placement_object in jplace["placements"]:
@@ -179,7 +179,7 @@ class JplaceParser:
         with open(outfile, "w") as ofile:
             json.dump(jplace, ofile, indent=2)
 
-    def filterPlacementsByMaxPendantToTreeDiameterRatio(
+    def filter_placements_by_max_pendant_to_tree_diameter_ratio(
         self, max_pendant_ratio: float, outfile: str = None
     ) -> None:
         """
@@ -188,9 +188,9 @@ class JplaceParser:
         if outfile is None:
             base, ext = os.path.splitext(self._path_to_jplace)
             outfile = f"{base}_max_pendant_diameter_ratio_{max_pendant_ratio}{ext}"
-        tree_diameter = self.computeTreeDiameter()
+        tree_diameter = self.compute_tree_diameter()
         print(f"Filtering placements for tree diameter: {tree_diameter}")
-        jplace = self.getJSONobject()
+        jplace = self.get_json_object()
 
         filtered_placement_objs = []
         for placement_object in jplace["placements"]:
@@ -207,7 +207,7 @@ class JplaceParser:
         with open(outfile, "w") as ofile:
             json.dump(jplace, ofile, indent=2)
 
-    def filterPlacementsByMaxPendantLength(
+    def filter_placements_by_max_pendant_length(
         self, max_pendant_length: float, outfile: str = None
     ) -> None:
         """
@@ -216,7 +216,7 @@ class JplaceParser:
         if outfile is None:
             base, ext = os.path.splitext(self._path_to_jplace)
             outfile = f"{base}_max_pendant_{max_pendant_length}{ext}"
-        jplace = self.getJSONobject()
+        jplace = self.get_json_object()
 
         filtered_placement_objs = []
         for placement_object in jplace["placements"]:
@@ -233,7 +233,7 @@ class JplaceParser:
         with open(outfile, "w") as ofile:
             json.dump(jplace, ofile, indent=2)
 
-    def filterPlacementsByMaxPendantToDistalLengthRatio(
+    def filter_placements_by_max_pendant_to_distal_length_ratio(
         self, max_pendant_ratio: float, outfile: str = None
     ) -> None:
         """
@@ -242,7 +242,7 @@ class JplaceParser:
         if outfile is None:
             base, ext = os.path.splitext(self._path_to_jplace)
             outfile = f"{base}_max_pendant_distal_ratio_{max_pendant_ratio}{ext}"
-        jplace = self.getJSONobject()
+        jplace = self.get_json_object()
 
         filtered_placement_objs = []
         for placement_object in jplace["placements"]:
@@ -282,7 +282,7 @@ class TaxAssignParser:
     def taxlevels(self):
         return Taxopath().taxlevels
 
-    def countHits(
+    def count_hits(
         self,
         cluster_ids: list[str] = None,
         score_threshold: float = None,
@@ -326,7 +326,7 @@ class TaxAssignParser:
         return taxlevel_counter
 
 
-def placeReadsOntoTree(
+def place_reads_onto_tree(
     input_tree: str,
     tree_model: str,
     ref_aln: str,
@@ -340,23 +340,23 @@ def placeReadsOntoTree(
     workflow example: https://github.com/Pbdas/epa-ng/wiki/Full-Stack-Example
     """
     if output_dir is None:
-        output_dir = setDefaultOutputPath(query_seqs, only_dirname=True)
+        output_dir = set_default_output_path(query_seqs, only_dirname=True)
     else:
         output_dir = os.path.abspath(output_dir)
 
     if os.path.isfile(tree_model):
-        tree_model = getIqTreeModelFromLogFile(tree_model)
+        tree_model = get_iq_tree_model_from_log_file(tree_model)
         print(f"Running EPA-ng with inferred substitution model: {tree_model}")
 
-    ref_ids = getFastaRecordIDs(ref_aln)
+    ref_ids = get_fasta_record_ids(ref_aln)
     ref_query_msa = os.path.join(
         output_dir,
-        setDefaultOutputPath(query_seqs, extension=".faln", only_filename=True),
+        set_default_output_path(query_seqs, extension=".faln", only_filename=True),
     )
     aln_ref_frac = os.path.splitext(ref_query_msa)[0] + "_ref_fraction.faln"
     aln_query_frac = os.path.splitext(ref_query_msa)[0] + "_query_fraction.faln"
 
-    alignShortReadsToReferenceMSA(
+    align_short_reads_to_reference_msa(
         ref_msa=ref_aln,
         query_seqs=query_seqs,
         method=aln_method,
@@ -364,11 +364,11 @@ def placeReadsOntoTree(
         output_dir=output_dir,
     )
 
-    splitReferenceFromQueryAlignments(
+    split_reference_from_query_alignments(
         ref_query_msa=ref_query_msa, ref_ids=ref_ids, out_dir=output_dir
     )
 
-    wrappers.runEPAng(
+    wrappers.run_epang(
         input_tree=input_tree,
         input_aln_ref=aln_ref_frac,
         input_aln_query=aln_query_frac,
@@ -379,7 +379,9 @@ def placeReadsOntoTree(
     )
 
 
-def parseTreeClusters(clusters_tsv: str, cluster_as_key: bool = True, sep="\t") -> dict:
+def parse_tree_clusters(
+    clusters_tsv: str, cluster_as_key: bool = True, sep="\t"
+) -> dict:
     """
     Parse clusters text file into dictionary
     @param
@@ -398,7 +400,7 @@ def parseTreeClusters(clusters_tsv: str, cluster_as_key: bool = True, sep="\t") 
         return dict(df.values)
 
 
-def parseTreeClusterQualityScores(cluster_scores_tsv: str, sep="\t") -> dict:
+def parse_tree_cluster_quality_scores(cluster_scores_tsv: str, sep="\t") -> dict:
     """
     Parse cluster quality scores file into dictionary
     """
@@ -407,7 +409,7 @@ def parseTreeClusterQualityScores(cluster_scores_tsv: str, sep="\t") -> dict:
     return dict(df.values)
 
 
-def addClustersToTaxTable(
+def add_clusters_to_tax_table(
     in_taxtable: str, clusters: dict, out_taxtable: str = None
 ) -> None:
     """
@@ -415,14 +417,14 @@ def addClustersToTaxTable(
     according to clusters defined in dictionary 'clusters'
     """
     if out_taxtable is None:
-        out_taxtable = setDefaultOutputPath(in_taxtable, tag="_clustered")
+        out_taxtable = set_default_output_path(in_taxtable, tag="_clustered")
     taxtable = pd.read_csv(in_taxtable, sep="\t", header=None, dtype=str)
     for i, row in taxtable.iterrows():
         row[1] = clusters[row[0]] + ";" + row[1]
     taxtable.to_csv(out_taxtable, sep="\t", index=False, header=None)
 
 
-def parseGappaAssignTable(
+def parse_gappa_assign_table(
     input_table: str,
     has_cluster_id: bool = True,
     cluster_scores: dict = None,
@@ -437,7 +439,7 @@ def parseGappaAssignTable(
                     scores. It is only used if has_cluster_id = True.
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_table, tag="_parsed")
+        output_file = set_default_output_path(input_table, tag="_parsed")
     if (has_cluster_id) and (cluster_scores is not None):
         cluster_str = (
             "cluster_id" + "\t" + "cluster_score" + "\t" + "cluster_taxopath" + "\t"
@@ -498,7 +500,7 @@ def parseGappaAssignTable(
         file.writelines(lines)
 
 
-def addQueryLabelsToAssignTable(
+def add_query_labels_to_assign_table(
     input_table: str, query_labels: dict, output_table: str = None
 ) -> None:
     """
@@ -513,7 +515,7 @@ def addQueryLabelsToAssignTable(
             return query_id
 
     if output_table is None:
-        output_table = setDefaultOutputPath(input_table, tag="_relabel")
+        output_table = set_default_output_path(input_table, tag="_relabel")
     df = pd.read_csv(input_table, sep="\t")
     df.insert(
         1, "query_name", df.query_id.apply(lambda x: relabel_query(x, query_labels))
@@ -522,7 +524,7 @@ def addQueryLabelsToAssignTable(
     df.to_csv(output_table, sep="\t")
 
 
-def assignLabelsToPlacements(
+def assign_labels_to_placements(
     jplace: str,
     ref_labels: dict,
     query_labels: dict = None,
@@ -554,23 +556,23 @@ def assignLabelsToPlacements(
                          if they were assigned to the same cluster.
     """
     if output_dir is None:
-        output_dir = setDefaultOutputPath(jplace, only_dirname=True)
+        output_dir = set_default_output_path(jplace, only_dirname=True)
     if output_prefix is None:
-        output_prefix = setDefaultOutputPath(jplace, only_filename=True)
+        output_prefix = set_default_output_path(jplace, only_filename=True)
 
     if ref_clusters_file is not None:
         has_cluster_id = True
-        ref_clusters = parseTreeClusters(
+        ref_clusters = parse_tree_clusters(
             ref_clusters_file, cluster_as_key=False, sep="\t"
         )
-        ref_clusters_as_keys = parseTreeClusters(
+        ref_clusters_as_keys = parse_tree_clusters(
             ref_clusters_file, cluster_as_key=True, sep="\t"
         )
     else:
         has_cluster_id = False
 
     if ref_cluster_scores_file is not None:
-        ref_cluster_scores = parseTreeClusterQualityScores(ref_cluster_scores_file)
+        ref_cluster_scores = parse_tree_cluster_quality_scores(ref_cluster_scores_file)
     else:
         ref_cluster_scores = None
 
@@ -581,23 +583,23 @@ def assignLabelsToPlacements(
     query_taxo_out = os.path.join(output_dir, output_prefix + "assignments.tsv")
 
     # Remove references that are not in placement tree
-    ref_in_jplace_tree = JplaceParser(jplace).getReferenceSequences()
+    ref_in_jplace_tree = JplaceParser(jplace).get_reference_sequences()
     ref_labels = {k: v for k, v in ref_labels.items() if k in ref_in_jplace_tree}
 
     with TemporaryFilePath() as temptax:
         taxonomy = TaxonomyAssigner(taxo_file=taxo_file)
-        taxonomy.buildGappaTaxonomyTable(ref_labels, output_file=temptax)
+        taxonomy.build_gappa_taxonomy_table(ref_labels, output_file=temptax)
 
         if has_cluster_id:
-            addClustersToTaxTable(
+            add_clusters_to_tax_table(
                 in_taxtable=temptax, clusters=ref_clusters, out_taxtable=temptax
             )
-            clusters_taxopath = taxonomy.assignLowestCommonTaxonomyToClusters(
+            clusters_taxopath = taxonomy.assign_lowest_common_taxonomy_to_clusters(
                 clusters=ref_clusters_as_keys, label_dict=ref_labels
             )
         else:
             clusters_taxopath = None
-        wrappers.runGappaAssign(
+        wrappers.run_gappa_assign(
             jplace=jplace,
             taxonomy_file=temptax,
             output_dir=output_dir,
@@ -607,7 +609,7 @@ def assignLabelsToPlacements(
         )
 
     with TemporaryFilePath() as tempout, TemporaryFilePath() as tempout2, TemporaryFilePath() as tempout3:
-        parseGappaAssignTable(
+        parse_gappa_assign_table(
             input_table=gappa_assign_out,
             has_cluster_id=has_cluster_id,
             cluster_scores=ref_cluster_scores,
@@ -616,15 +618,15 @@ def assignLabelsToPlacements(
         )
 
         if only_unique_cluster:
-            filterNonUniquePlacementAssignments(
+            filter_non_unique_placement_assignments(
                 placed_tax_assignments=tempout, outfile=tempout2
             )
             shutil.move(tempout2, tempout)
 
-        pickTaxopathWithHighestLWR(placed_tax_assignments=tempout, outfile=tempout3)
+        pick_taxopath_with_highest_lwr(placed_tax_assignments=tempout, outfile=tempout3)
 
         if query_labels is not None:
-            addQueryLabelsToAssignTable(
+            add_query_labels_to_assign_table(
                 input_table=tempout3,
                 query_labels=query_labels,
                 output_table=query_taxo_out,
@@ -633,7 +635,7 @@ def assignLabelsToPlacements(
             shutil.move(tempout3, query_taxo_out)
 
 
-def parseDuplicatesFromSeqkit(query_duplicates: str) -> None:
+def parse_duplicates_from_seqkit(query_duplicates: str) -> None:
     """
     Add a column with the query IDs of duplicated sequences to the taxonomy assignments file.
     @params:
@@ -653,17 +655,17 @@ def parseDuplicatesFromSeqkit(query_duplicates: str) -> None:
     return dup_labels
 
 
-def addDuplicatesToAssignmentTable(
+def add_duplicates_to_assignment_table(
     taxtable: str, query_duplicates: str, output_file: str = None
 ) -> None:
     """
     Add duplicated query IDs to cluster and taxonomic assignment table
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(taxtable, tag="_duplicates")
+        output_file = set_default_output_path(taxtable, tag="_duplicates")
 
     assigns = pd.read_csv(taxtable, sep="\t", index_col=False)
-    dup_dict = parseDuplicatesFromSeqkit(query_duplicates)
+    dup_dict = parse_duplicates_from_seqkit(query_duplicates)
     for query_name, duplicate_string in dup_dict.items():
         duplicates = duplicate_string.split(",")
 
@@ -676,11 +678,11 @@ def addDuplicatesToAssignmentTable(
     assigns.to_csv(output_file, sep="\t", index=False)
 
 
-def findQueriesPlacedInSeveralClusters(
+def find_queries_placed_in_several_clusters(
     placed_tax_assignments: str,
 ) -> tuple[list, pd.DataFrame]:
     """
-    Find queries placed in more than one cluster
+    Find queries placed in more than one clusterrunGappaAssign
     """
     df = pd.read_csv(placed_tax_assignments, sep="\t", dtype=str)
     dfu = df.groupby("query_id")["cluster_id"].agg(["unique"])
@@ -692,31 +694,33 @@ def findQueriesPlacedInSeveralClusters(
     return queries_in_more_than_one_cluster, dfu
 
 
-def filterNonUniquePlacementAssignments(
+def filter_non_unique_placement_assignments(
     placed_tax_assignments: str, outfile: str = None
 ) -> None:
     """
     Remove queries that were assigned to more than one cluster from placements assignments table
     """
     if outfile is None:
-        outfile = setDefaultOutputPath(placed_tax_assignments, tag="_filtered")
+        outfile = set_default_output_path(placed_tax_assignments, tag="_filtered")
 
     df = pd.read_csv(placed_tax_assignments, sep="\t")
-    queries_in_more_than_one_cluster, _ = findQueriesPlacedInSeveralClusters(
+    queries_in_more_than_one_cluster, _ = find_queries_placed_in_several_clusters(
         placed_tax_assignments
     )
     fdf = df[~df.query_id.isin(queries_in_more_than_one_cluster)].set_index("query_id")
     fdf.to_csv(outfile, sep="\t")
 
 
-def pickTaxopathWithHighestLWR(
+def pick_taxopath_with_highest_lwr(
     placed_tax_assignments: str, outfile: str = None
 ) -> None:
     """
     Pick taxopath assigment with higuest LWR for each placed query
     """
     if outfile is None:
-        outfile = setDefaultOutputPath(placed_tax_assignments, tag="_unique_taxopath")
+        outfile = set_default_output_path(
+            placed_tax_assignments, tag="_unique_taxopath"
+        )
 
     df = pd.read_csv(placed_tax_assignments, sep="\t")
     df.groupby("query_id", group_keys=["LWR"]).aggregate("max").to_csv(

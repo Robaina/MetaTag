@@ -9,10 +9,10 @@ from __future__ import annotations
 import os
 import argparse
 
-from phyloplacement.utils import setDefaultOutputPath, DictMerger
-from phyloplacement.database.preprocessing import setOriginalRecordIDsInFASTA
+from phyloplacement.utils import set_default_output_path, DictMerger
+from phyloplacement.database.preprocessing import set_original_record_ids_in_fasta
 from phyloplacement.taxonomy import TaxonomyAssigner
-from phyloplacement.phylotree import newRelabelTree
+from phyloplacement.phylotree import new_relabel_tree
 
 
 parser = argparse.ArgumentParser(
@@ -65,17 +65,19 @@ optional.add_argument(
 
 args = parser.parse_args()
 if args.outdir is None:
-    args.outdir = setDefaultOutputPath(args.tree, only_dirname=True)
+    args.outdir = set_default_output_path(args.tree, only_dirname=True)
 
-treeout = os.path.join(args.outdir, setDefaultOutputPath(args.tree, tag="_relabel"))
+treeout = os.path.join(args.outdir, set_default_output_path(args.tree, tag="_relabel"))
 taxoout = os.path.join(
-    args.outdir, setDefaultOutputPath(args.tree, tag="_taxonomy", extension=".tsv")
+    args.outdir, set_default_output_path(args.tree, tag="_taxonomy", extension=".tsv")
 )
 if args.aln is not None:
-    alnout = os.path.join(args.outdir, setDefaultOutputPath(args.aln, tag="_relabel"))
+    alnout = os.path.join(
+        args.outdir, set_default_output_path(args.aln, tag="_relabel")
+    )
 
 
-def initializeLabelDict(args) -> dict:
+def initialize_label_dict(args) -> dict:
     """
     Initialize label dictionary for tree relabelling
     """
@@ -84,22 +86,22 @@ def initializeLabelDict(args) -> dict:
     else:
         label_pre = args.labelprefixes
 
-    label_dict = DictMerger.fromPicklePaths(args.labels).merge()
-    prefix_label_dict = DictMerger.fromPicklePaths(args.labels).merge(
+    label_dict = DictMerger.from_pickle_paths(args.labels).merge()
+    prefix_label_dict = DictMerger.from_pickle_paths(args.labels).merge(
         dict_prefixes=label_pre
     )
 
     return label_dict, prefix_label_dict
 
 
-def assignTaxonomyToLabels(prefix_label_dict, label_dict: dict) -> tuple[dict]:
+def assign_taxonomy_to_labels(prefix_label_dict, label_dict: dict) -> tuple[dict]:
     """
     Assign GTDB taxonomy to tree labels
     """
     taxo_dict, export_label_dict, tree_label_dict = {}, {}, {}
     taxonomy = TaxonomyAssigner(taxo_file="./data/taxonomy/merged_taxonomy.tsv")
     for k, label in label_dict.items():
-        taxopath = taxonomy.assignTaxonomyToLabel(label)
+        taxopath = taxonomy.assign_taxonomy_to_label(label)
         taxo_dict[k] = taxopath
         export_label_dict[prefix_label_dict[k]] = taxopath
 
@@ -109,7 +111,7 @@ def assignTaxonomyToLabels(prefix_label_dict, label_dict: dict) -> tuple[dict]:
     return tree_label_dict, export_label_dict
 
 
-def exportTaxonomyTable(export_label_dict: dict, outfile: str) -> None:
+def export_taxonomy_table(export_label_dict: dict, outfile: str) -> None:
     """
     Build and export table containing assigned taxonomy
     """
@@ -125,21 +127,21 @@ def main():
 
     print("* Relabelling tree...")
 
-    label_dict, prefix_label_dict = initializeLabelDict(args)
+    label_dict, prefix_label_dict = initialize_label_dict(args)
     if args.taxonomy:
-        tree_label_dict, export_label_dict = assignTaxonomyToLabels(
+        tree_label_dict, export_label_dict = assign_taxonomy_to_labels(
             prefix_label_dict, label_dict
         )
-        exportTaxonomyTable(export_label_dict, taxoout)
+        export_taxonomy_table(export_label_dict, taxoout)
     else:
         tree_label_dict = prefix_label_dict
 
-    newRelabelTree(
+    new_relabel_tree(
         input_newick=args.tree, label_dict=tree_label_dict, output_file=treeout
     )
 
     if args.aln is not None:
-        setOriginalRecordIDsInFASTA(
+        set_original_record_ids_in_fasta(
             input_fasta=args.aln, label_dict=label_dict, output_fasta=alnout
         )
 

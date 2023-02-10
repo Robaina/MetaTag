@@ -16,16 +16,16 @@ import warnings
 
 import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import (
-    setDefaultOutputPath,
-    terminalExecute,
+    set_default_output_path,
+    terminal_execute,
     TemporaryFilePath,
     TemporaryDirectoryPath,
 )
-from phyloplacement.database.manipulation import filterFASTAbyIDs
+from phyloplacement.database.manipulation import filter_fasta_by_ids
 
 
-def getRepresentativeSet(
-    input_seqs: str, input_PI: str, max_size: int = None, outfile: str = None
+def get_representative_set(
+    input_seqs: str, input_pi: str, max_size: int = None, outfile: str = None
 ) -> None:
     """
     Runs repset.py to obtain a representative
@@ -34,18 +34,18 @@ def getRepresentativeSet(
     if max_size set to None.
     """
     input_seqs = os.path.abspath(input_seqs)
-    input_PI = os.path.abspath(input_PI)
+    input_pi = os.path.abspath(input_pi)
     repset_exe = os.path.abspath("code/vendor/repset_min.py")
 
     if outfile is None:
-        outfile = setDefaultOutputPath(input_seqs, tag="_repset")
+        outfile = set_default_output_path(input_seqs, tag="_repset")
 
     with TemporaryDirectoryPath() as tempdir:
         cmd_str = (
-            f"python {repset_exe} --seqs {input_seqs} --pi {input_PI} "
+            f"python {repset_exe} --seqs {input_seqs} --pi {input_pi} "
             f"--outdir {tempdir} --size {max_size}"
         )
-        terminalExecute(cmd_str, suppress_shell_output=True)
+        terminal_execute(cmd_str, suppress_shell_output=True)
 
         with open(os.path.join(tempdir, "repset.txt")) as repset:
             rep_ids = [rep_id.strip("\n") for rep_id in repset.readlines()]
@@ -53,10 +53,12 @@ def getRepresentativeSet(
     if (max_size is not None) and (max_size < len(rep_ids)):
         rep_ids = rep_ids[:max_size]
 
-    filterFASTAbyIDs(input_fasta=input_seqs, record_ids=rep_ids, output_fasta=outfile)
+    filter_fasta_by_ids(
+        input_fasta=input_seqs, record_ids=rep_ids, output_fasta=outfile
+    )
 
 
-def reduceDatabaseRedundancy(
+def reduce_database_redundancy(
     input_fasta: str,
     output_fasta: str = None,
     cdhit: bool = True,
@@ -75,12 +77,12 @@ def reduceDatabaseRedundancy(
         warnings.warn("No reduction algorithm has been selected.")
 
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, tag="_reduced")
+        output_fasta = set_default_output_path(input_fasta, tag="_reduced")
 
     with TemporaryFilePath() as tempaln, TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2, TemporaryFilePath() as tempident:
 
         if cdhit:
-            wrappers.runCDHIT(
+            wrappers.run_cdhit(
                 input_fasta=input_fasta,
                 output_fasta=tempfasta,
                 additional_args=cdhit_args,
@@ -90,7 +92,7 @@ def reduceDatabaseRedundancy(
             shutil.move(input_fasta, tempfasta)
 
         if maxsize is not None:
-            wrappers.runMAFFT(
+            wrappers.run_mafft(
                 input_fasta=tempfasta,
                 output_file=tempaln,
                 n_threads=-1,
@@ -98,12 +100,14 @@ def reduceDatabaseRedundancy(
                 additional_args="--retree 1 --maxiterate 0",
             )
 
-            wrappers.getPercentIdentityFromMSA(input_msa=tempaln, output_file=tempident)
+            wrappers.get_percent_identity_from_msa(
+                input_msa=tempaln, output_file=tempident
+            )
 
             print("Finding representative sequences for reference database...")
-            getRepresentativeSet(
+            get_representative_set(
                 input_seqs=tempfasta,
-                input_PI=tempident,
+                input_pi=tempident,
                 max_size=maxsize,
                 outfile=tempfasta2,
             )
