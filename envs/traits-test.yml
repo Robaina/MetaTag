@@ -8,6 +8,7 @@ dependencies:
   - python >= 3.8
   - biopython
   - fasttree
+  - iqtree
   - hmmer
   - muscle
   - mafft
@@ -18,6 +19,8 @@ dependencies:
   - prodigal
   - seqkit=2.0.0
   - treeshrink=1.3.7
+  - epa-ng
+  - gappa
   - pip:
     - pyfastx==0.8.4
     - scikit-bio==0.5.6
