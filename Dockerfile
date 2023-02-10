@@ -16,7 +16,8 @@ SHELL ["conda", "run", "-n", "traits", "/bin/bash", "-c"]
 # Build and install Pynteny
 # RUN poetry build && pip install dist/pynteny*.whl && pynteny --help
 # Give read/write permissions to install directory (needed to make config.json)
-RUN chmod ugo+rw /opt/conda/envs/traits/lib/python3.10/site-packages
+RUN python --version
+RUN chmod ugo+rw /opt/conda/envs/traits/lib/python3.8/site-packages
 
 # Initialize conda for default user
 RUN conda init
