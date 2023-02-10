@@ -10,16 +10,16 @@
 #                                                                                        #
 # ************************************************************************************** #
 
-mkdir tests/test_results; mkdir tests/test_results/gappa/
+mkdir -p tests/test_results; mkdir -p tests/test_results/gappa/
 
 # Preprocess
-python3 code/preprocess.py \
+python code/preprocess.py \
  --in tests/test_data/database/ \
  --outfile tests/test_results/test_data_cleaned.faa \
  --export-duplicates
 
 # Make database
-python3 code/makedatabase.py \
+python code/makedatabase.py \
  --in tests/test_results/test_data_cleaned.faa \
  --outdir tests/test_results \
  --hmms tests/test_data/TIGR01287.1.HMM \
@@ -28,10 +28,10 @@ python3 code/makedatabase.py \
  --min_seq_length 10 --max_seq_length 2000 \
  --relabel_prefixes "ref_" "out_" \
  --relabel --remove_duplicates \
- --hmmsearch_args " None, --cut_ga" \
+ --hmmsearch_args " None, --cut_ga"
 
 # Alignment and tree
-python3 code/buildtree.py \
+python code/buildtree.py \
  --in tests/test_results/ref_database.faa \
  --outdir tests/test_results/ \
  --msa_method "muscle" \
