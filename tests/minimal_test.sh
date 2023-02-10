@@ -56,7 +56,7 @@ python3 code/placesequences.py \
  --tree tests/test_results/ref_database.newick \
  --query tests/test_results/query_cleaned.faa \
  --outdir tests/test_results/ \
- --aln_method "hmmalign" \
+ --aln_method "papara" \
  --tree_model "JTT"
  
 # Assign taxonomy to placed sequences
