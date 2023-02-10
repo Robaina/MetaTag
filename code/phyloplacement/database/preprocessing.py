@@ -18,15 +18,15 @@ import pyfastx
 
 import phyloplacement.wrappers as wrappers
 from phyloplacement.utils import (
-    saveToPickleFile,
-    setDefaultOutputPath,
-    terminalExecute,
+    save_to_pickle_file,
+    set_default_output_path,
+    terminal_execute,
     handle_exceptions,
 )
 
 
 @handle_exceptions
-def removeDuplicatesFromFasta(
+def remove_duplicates_from_fasta(
     input_fasta: str,
     output_fasta: str = None,
     export_duplicates: bool = False,
@@ -37,7 +37,7 @@ def removeDuplicatesFromFasta(
     Removes duplicate entries (either by sequence or ID) from fasta.
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, "_noduplicates")
+        output_fasta = set_default_output_path(input_fasta, "_noduplicates")
 
     if export_duplicates and method != "seqkit":
         raise ValueError("export_duplicates is only supported by method: seqkit")
@@ -56,10 +56,10 @@ def removeDuplicatesFromFasta(
 
     else:
         if duplicates_file is None:
-            duplicates_file = setDefaultOutputPath(
+            duplicates_file = set_default_output_path(
                 input_fasta, "_duplicates", extension=".txt"
             )
-        wrappers.runSeqKitNoDup(
+        wrappers.run_seqkit_nodup(
             input_fasta=input_fasta,
             output_fasta=output_fasta,
             export_duplicates=export_duplicates,
@@ -67,17 +67,17 @@ def removeDuplicatesFromFasta(
         )
 
 
-def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
+def merge_fastas(input_fastas_dir: list, output_fasta: str = None) -> None:
     """
     Merge input fasta files into a single fasta
     """
     if output_fasta is None:
         output_fasta = os.path.join(input_fastas_dir, "merged.fasta")
     cmd_str = f"awk 1 * > {output_fasta}"
-    terminalExecute(cmd_str, work_dir=input_fastas_dir, suppress_shell_output=False)
+    terminal_execute(cmd_str, work_dir=input_fastas_dir, suppress_shell_output=False)
 
 
-def assertCorrectFilePath(file_name: str) -> None:
+def assert_correct_file_path(file_name: str) -> None:
     """
     Remove illegal symbols from file path
     """
@@ -88,15 +88,15 @@ def assertCorrectFilePath(file_name: str) -> None:
     return os.path.join(fdir, f"{clean_fname}{ext}")
 
 
-def fastaContainsNucleotideSequences(fasta_file: str) -> bool:
+def fasta_contains_nucleotide_sequences(fasta_file: str) -> bool:
     """
     Check whether fasta file contains nucleotide sequences
     """
     seq_1 = next(SeqIO.parse(fasta_file, "fasta"))
-    return isLegitDNAsequence(seq_1.seq)
+    return is_legit_dn_asequence(seq_1.seq)
 
 
-def isLegitPeptideSequence(record_seq: str) -> bool:
+def is_legit_peptide_sequence(record_seq: str) -> bool:
     """
     Assert that peptide sequence only contains valid symbols
     """
@@ -126,7 +126,7 @@ def isLegitPeptideSequence(record_seq: str) -> bool:
     return seq_symbols.issubset(aas)
 
 
-def isLegitDNAsequence(record_seq: str) -> bool:
+def is_legit_dn_asequence(record_seq: str) -> bool:
     """
     Assert that DNA sequence only contains valid symbols
     """
@@ -136,7 +136,7 @@ def isLegitDNAsequence(record_seq: str) -> bool:
 
 
 @handle_exceptions
-def assertCorrectSequenceFormat(
+def assert_correct_sequence_format(
     fasta_file: str,
     output_file: str = None,
     is_peptide: bool = True,
@@ -149,7 +149,7 @@ def assertCorrectSequenceFormat(
     basename = os.path.basename(fasta_file)
     fname, ext = os.path.splitext(basename)
 
-    def removeStopCodonSignals(record_seq: str) -> str:
+    def remove_stop_codon_signals(record_seq: str) -> str:
         return record_seq.replace("*", "")
 
     if output_file is None:
@@ -157,20 +157,20 @@ def assertCorrectSequenceFormat(
     else:
         output_file = os.path.abspath(output_file)
     if is_peptide:
-        isLegitSequence = isLegitPeptideSequence
+        is_legit_sequence = is_legit_peptide_sequence
     else:
-        isLegitSequence = isLegitDNAsequence
+        is_legit_sequence = is_legit_dn_asequence
 
     fasta = pyfastx.Fasta(fasta_file, build_index=False, full_name=True)
     with open(output_file, "w") as outfile:
         for record_name, record_seq in fasta:
             if is_peptide:
-                record_seq = removeStopCodonSignals(record_seq)
-            if isLegitSequence(record_seq):
+                record_seq = remove_stop_codon_signals(record_seq)
+            if is_legit_sequence(record_seq):
                 outfile.write(f">{record_name}\n{record_seq}\n")
 
 
-def setTempRecordIDsInFASTA(
+def set_temp_record_ids_in_fasta(
     input_fasta: str, output_dir: str = None, prefix: str = None
 ):
     """
@@ -183,8 +183,10 @@ def setTempRecordIDsInFASTA(
     else:
         prefix_str = ""
 
-    fasta_file = setDefaultOutputPath(input_fasta, tag="_short_ids", only_filename=True)
-    dict_file = setDefaultOutputPath(
+    fasta_file = set_default_output_path(
+        input_fasta, tag="_short_ids", only_filename=True
+    )
+    dict_file = set_default_output_path(
         input_fasta, tag="_id_dict", extension=".pickle", only_filename=True
     )
     output_fasta = f"{os.path.join(output_dir, fasta_file)}"
@@ -197,17 +199,17 @@ def setTempRecordIDsInFASTA(
             new_id = f"{prefix_str}{n}"
             id_dict[new_id] = record.description
             outfasta.write(f">{new_id}\n{record.seq}\n")
-    saveToPickleFile(id_dict, output_dict)
+    save_to_pickle_file(id_dict, output_dict)
 
 
-def setOriginalRecordIDsInFASTA(
+def set_original_record_ids_in_fasta(
     input_fasta: str, label_dict: dict = None, output_fasta: str = None
 ):
     """
     Relabel temporary record ID by original IDs
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, tag="_original_ids")
+        output_fasta = set_default_output_path(input_fasta, tag="_original_ids")
 
     def relabel_records():
         for record in SeqIO.parse(input_fasta, "fasta"):
@@ -221,7 +223,7 @@ def setOriginalRecordIDsInFASTA(
     SeqIO.write(relabel_records(), output_fasta, "fasta")
 
 
-def writeRecordNamesToFile(
+def write_record_names_to_file(
     input_fasta: str, filter_by_tag: str = None, output_file: str = None
 ):
     """
@@ -232,13 +234,13 @@ def writeRecordNamesToFile(
     are returned.
     """
     if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta, extension=".txt")
+        output_file = set_default_output_path(input_fasta, extension=".txt")
     if filter_by_tag is not None:
         pattern = filter_by_tag
     else:
         pattern = ">"
     cmd_str = f"grep '{pattern}' {input_fasta} | cut -c 2- > {output_file}"
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
 def fastq2fasta(input_fastq: str, output_fasta: str = None, unzip: bool = True) -> None:
@@ -246,16 +248,16 @@ def fastq2fasta(input_fastq: str, output_fasta: str = None, unzip: bool = True) 
     Convert Fastq to FASTA format via sed
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fastq, extension=".fasta")
+        output_fasta = set_default_output_path(input_fastq, extension=".fasta")
 
     if unzip:
         input_uncompressed = input_fastq.strip(".gz")
         cmd_str = f"gzip -d {input_fastq} > {input_uncompressed}"
-        terminalExecute(cmd_str, suppress_shell_output=False)
+        terminal_execute(cmd_str, suppress_shell_output=False)
         input_fastq = input_uncompressed
 
     cmd_str = f"sed -n '1~4s/^@/>/p;2~4p' {input_fastq} > {output_fasta}"
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
 def is_file(filename):

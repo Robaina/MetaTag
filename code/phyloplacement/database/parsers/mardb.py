@@ -8,15 +8,14 @@ Tools to process MARdb data
 import os
 import re
 import shutil
-import warnings
 
 import pyfastx
 import pandas as pd
 
 from phyloplacement.utils import (
-    setDefaultOutputPath,
-    terminalExecute,
-    createTemporaryFilePath,
+    set_default_output_path,
+    terminal_execute,
+    create_temporary_file_path,
 )
 
 
@@ -29,7 +28,7 @@ class MARdbLabelParser:
         pass
 
     @staticmethod
-    def extractMMPid(label: str) -> str:
+    def extract_mmp_id(label: str) -> str:
         """
         Extract mardb mmp id from reference label
         """
@@ -54,7 +53,7 @@ class MARdbLabelParser:
         }
         try:
             entry = label.split("__")[0]
-            mmp_id = self.extractMMPid(label)
+            mmp_id = self.extract_mmp_id(label)
             species = entry.strip(mmp_id).strip("_")
             meta = label.split("__")[1]
             strand = meta.split("_")[-1]
@@ -81,29 +80,29 @@ class MARdbLabelParser:
 # *** Tagged as possibly trash code ***
 
 
-def getMarDBentryCode(label: str) -> str:
+def get_mardb_entry_code(label: str) -> str:
     db_entry = re.compile("\[mmp_id=(.*)\] ")
     return re.search(db_entry, label).group(1)
 
 
-def filterMarDBrecordsbyEntryCodes(
+def filter_mardb_records_by_entry_codes(
     input_fasta: str, entry_codes: set, output_fasta: str = None
 ) -> None:
     """
     Filter records in mardb fasta file matching provided entry codes
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, "_fitered")
+        output_fasta = set_default_output_path(input_fasta, "_fitered")
 
     fasta = pyfastx.Fasta(input_fasta, build_index=False, full_name=True)
     with open(output_fasta, "w") as outfile:
         for record_name, record_seq in fasta:
-            entry_code = getMarDBentryCode(record_name)
+            entry_code = get_mardb_entry_code(record_name)
             if entry_code in entry_codes:
                 outfile.write(f">{record_name}\n{record_seq}\n")
 
 
-def getMARdbGenomeByEntryCode(
+def get_mardb_genome_by_entry_code(
     entry_code: str, input_fasta: str, output_fasta: str = None, clean_seqs: bool = True
 ) -> None:
     """
@@ -111,11 +110,11 @@ def getMARdbGenomeByEntryCode(
     If clean = True, remove characters which are not letters
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(
+        output_fasta = set_default_output_path(
             input_fasta, tag=f"_genome_{entry_code}", extension=".fa"
         )
 
-    def cleanOutputFasta(output_fasta: str) -> None:
+    def clean_output_fasta(output_fasta: str) -> None:
         """
         Check if illegal symbols in sequences,
         then remove and tag file as cleaned
@@ -124,7 +123,7 @@ def getMARdbGenomeByEntryCode(
         fname, ext = os.path.splitext(output_fasta)
         was_cleaned = False
         cleaned_fasta = f"{fname}_cleaned{ext}"
-        temp_file_path = createTemporaryFilePath()
+        temp_file_path = create_temporary_file_path()
         with open(output_fasta, "r") as fasta, open(temp_file_path, "a+") as tfasta:
             for line in fasta.readlines():
                 if (">" not in line) and (not_capital_letters.search(line)):
@@ -138,12 +137,12 @@ def getMARdbGenomeByEntryCode(
             os.remove(temp_file_path)
 
     cmd_str = f"grep -A1 {entry_code} {input_fasta} > {output_fasta}"
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
     if clean_seqs:
-        cleanOutputFasta(output_fasta)
+        clean_output_fasta(output_fasta)
 
 
-def relabelMarDB(label_dict: dict) -> dict:
+def relabel_mardb(label_dict: dict) -> dict:
     """
     Convert mardb long labels into short labels
     displaying mardb id and species (if present)
@@ -151,7 +150,7 @@ def relabelMarDB(label_dict: dict) -> dict:
     db_code_pattern = re.compile("\[mmp_(.*)\]")
     species_pattern = re.compile("\[(.*?)\]")
 
-    def editMarDBlabel(label: str) -> str:
+    def edit_mardb_label(label: str) -> str:
         try:
             species = re.search(
                 species_pattern, re.sub(db_code_pattern, "", label)
@@ -161,4 +160,4 @@ def relabelMarDB(label_dict: dict) -> dict:
         mar_id = label.split(" ")[0]
         return f"{mar_id}_{species}"
 
-    return {k: editMarDBlabel(v) for k, v in label_dict.items()}
+    return {k: edit_mardb_label(v) for k, v in label_dict.items()}

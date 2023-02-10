@@ -10,10 +10,10 @@ import os
 import webbrowser
 import pandas as pd
 
-from phyloplacement.utils import terminalExecute
+from phyloplacement.utils import terminal_execute
 
 
-def makeFeatureMetadataTable(
+def make_feature_metadata_table(
     label_dict: dict, output_tsv: str, original_labels: bool = True
 ) -> None:
     """
@@ -30,7 +30,7 @@ def makeFeatureMetadataTable(
     df.to_csv(output_tsv, sep="\t")
 
 
-def plotTreeInBrowser(
+def plot_tree_in_browser(
     input_tree: str, output_dir: str = None, feature_metadata: str = None
 ) -> None:
     """
@@ -46,5 +46,5 @@ def plotTreeInBrowser(
     else:
         meta_str = ""
     cmd_str = f"empress tree-plot -t {input_tree} -o {output_dir} {meta_str}"
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=False)
     webbrowser.open_new_tab(os.path.join(output_dir, "empress.html"))

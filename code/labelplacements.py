@@ -10,15 +10,15 @@ Taxonomic and function al labelling of placed sequences:
 import os
 import argparse
 
-from phyloplacement.utils import setDefaultOutputPath, DictMerger
+from phyloplacement.utils import set_default_output_path, DictMerger
 from phyloplacement.database.preprocessing import (
     is_fasta,
     is_file,
-    writeRecordNamesToFile,
+    write_record_names_to_file,
 )
 from phyloplacement.placement import (
-    assignLabelsToPlacements,
-    addDuplicatesToAssignmentTable,
+    assign_labels_to_placements,
+    add_duplicates_to_assignment_table,
     JplaceParser,
 )
 
@@ -150,14 +150,14 @@ optional.add_argument(
 
 args = parser.parse_args()
 if args.outdir is None:
-    args.outdir = setDefaultOutputPath(args.jplace, only_dirname=True)
+    args.outdir = set_default_output_path(args.jplace, only_dirname=True)
 
 
 def main():
     taxtable = os.path.join(args.outdir, args.prefix + "assignments.tsv")
-    ref_labels = DictMerger.fromPicklePaths(args.labels).merge()
+    ref_labels = DictMerger.from_pickle_paths(args.labels).merge()
     if args.query_labels is not None:
-        query_labels = DictMerger.fromPicklePaths(args.query_labels).merge()
+        query_labels = DictMerger.from_pickle_paths(args.query_labels).merge()
     else:
         query_labels = None
     outgroup_file_generated = False
@@ -165,10 +165,10 @@ def main():
     if args.outgroup is not None:
         if is_file(args.outgroup):
             if is_fasta(args.outgroup):
-                outgroup_file = setDefaultOutputPath(
+                outgroup_file = set_default_output_path(
                     args.jplace, tag="_outgroup_ids", extension=".txt"
                 )
-                writeRecordNamesToFile(args.outgroup, output_file=outgroup_file)
+                write_record_names_to_file(args.outgroup, output_file=outgroup_file)
                 outgroup_file_generated = True
             else:
                 outgroup_file = args.outgroup
@@ -178,7 +178,7 @@ def main():
             ]
             if not matched_labels:
                 raise ValueError("No matched labels for given outgroup pattern")
-            outgroup_file = setDefaultOutputPath(
+            outgroup_file = set_default_output_path(
                 args.jplace, tag="_outgroup_ids", extension=".txt"
             )
             with open(outgroup_file, "w") as outfile:
@@ -194,18 +194,18 @@ def main():
         print(
             f'Filtering placements by maximum distance: "{args.distance_measure}" of {args.max_distance}'
         )
-        filtered_jplace = setDefaultOutputPath(args.jplace, tag="_distance_filtered")
+        filtered_jplace = set_default_output_path(args.jplace, tag="_distance_filtered")
         parser = JplaceParser(args.jplace)
         if "pendant" in args.distance_measure.lower():
-            parser.filterPlacementsByMaxPendantLength(
+            parser.filter_placements_by_max_pendant_length(
                 max_pendant_length=args.max_distance, outfile=filtered_jplace
             )
         elif "pendant_distal_ratio" in args.distance_measure.lower():
-            parser.filterPlacementsByMaxPendantToDistalLengthRatio(
+            parser.filter_placements_by_max_pendant_to_distal_length_ratio(
                 max_pendant_ratio=args.max_distance, outfile=filtered_jplace
             )
         elif "pendant_diameter_ratio" in args.distance_measure.lower():
-            parser.filterPlacementsByMaxPendantToTreeDiameterRatio(
+            parser.filter_placements_by_max_pendant_to_tree_diameter_ratio(
                 max_pendant_ratio=args.max_distance, outfile=filtered_jplace
             )
         else:
@@ -214,14 +214,14 @@ def main():
 
     if args.minimum_lwr is not None:
         print(f"Filtering placements by minimum LWR of: {args.minimum_lwr}")
-        filtered_jplace = setDefaultOutputPath(args.jplace, tag="_lwr_filtered")
+        filtered_jplace = set_default_output_path(args.jplace, tag="_lwr_filtered")
         parser = JplaceParser(args.jplace)
-        parser.filterPlacementsByMinimumLWR(
+        parser.filter_placements_by_minimum_lwr(
             minimum_lwr=args.minimum_lwr, outfile=filtered_jplace
         )
         args.jplace = filtered_jplace
 
-    assignLabelsToPlacements(
+    assign_labels_to_placements(
         jplace=args.jplace,
         ref_labels=ref_labels,
         query_labels=query_labels,
@@ -235,7 +235,7 @@ def main():
     )
 
     if args.duplicated_query_ids is not None:
-        addDuplicatesToAssignmentTable(taxtable, args.duplicated_query_ids)
+        add_duplicates_to_assignment_table(taxtable, args.duplicated_query_ids)
 
     if outgroup_file_generated:
         os.remove(outgroup_file)
