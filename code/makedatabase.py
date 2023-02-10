@@ -201,8 +201,8 @@ def main():
                     print("* Filtering sequences by established length bounds...")
                     filter_fasta_by_sequence_length(
                         input_fasta=tempfasta,
-                        minLength=args.minseqlength,
-                        maxLength=args.maxseqlength,
+                        min_length=args.minseqlength,
+                        max_length=args.maxseqlength,
                         output_fasta=tempfasta2,
                     )
                     shutil.move(tempfasta2, tempfasta)

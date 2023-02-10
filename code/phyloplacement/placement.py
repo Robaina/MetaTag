@@ -368,7 +368,7 @@ def place_reads_onto_tree(
         ref_query_msa=ref_query_msa, ref_ids=ref_ids, out_dir=output_dir
     )
 
-    wrappers.runEPAng(
+    wrappers.run_epang(
         input_tree=input_tree,
         input_aln_ref=aln_ref_frac,
         input_aln_query=aln_query_frac,

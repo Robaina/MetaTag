@@ -25,13 +25,13 @@ from phyloplacement.database.labelparsers import MARdbLabelParser
 def filter_fasta_by_sequence_length(
     input_fasta: str,
     min_length: int = None,
-    maxLength: int = None,
+    max_length: int = None,
     output_fasta: str = None,
 ) -> None:
     """
     Filter sequences by length in fasta file
     """
-    if (min_length is None) and (maxLength is None):
+    if (min_length is None) and (max_length is None):
         warnings.warn("Missing boundary values for sequence length")
         return
     input_fasta = os.path.abspath(input_fasta)
@@ -39,9 +39,9 @@ def filter_fasta_by_sequence_length(
     record_ids = fa.keys()
     if min_length is None:
         min_length = 0
-    if maxLength is not None:
-        max_tag = str(maxLength)
-        record_ids.filter(record_ids >= min_length, record_ids <= maxLength)
+    if max_length is not None:
+        max_tag = str(max_length)
+        record_ids.filter(record_ids >= min_length, record_ids <= max_length)
     else:
         max_tag = ""
         record_ids.filter(record_ids >= min_length)
