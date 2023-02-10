@@ -10,7 +10,7 @@ dependencies:
   - fasttree
   - iqtree
   - hmmer
-  - muscle
+  - muscle <= 3.8
   - mafft
   - cd-hit
   - pandas
