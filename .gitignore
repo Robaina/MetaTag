@@ -7,7 +7,7 @@ Gene_Annotation_Jose_Tree_Method/
 __pycache__/
 picrust2/
 repo_data/*
-legacyy/*
+legacy/*
 **/nxr_genomes/
 genes/
 genes_local/
