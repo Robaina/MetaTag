@@ -99,7 +99,7 @@ def assign_taxonomy_to_labels(prefix_label_dict, label_dict: dict) -> tuple[dict
     Assign GTDB taxonomy to tree labels
     """
     taxo_dict, export_label_dict, tree_label_dict = {}, {}, {}
-    taxonomy = TaxonomyAssigner(taxo_file="./data/taxonomy/merged_taxonomy.tsv")
+    taxonomy = TaxonomyAssigner(taxo_file="./data/merged_taxonomy.tsv")
     for k, label in label_dict.items():
         taxopath = taxonomy.assign_taxonomy_to_label(label)
         taxo_dict[k] = taxopath
