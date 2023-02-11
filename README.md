@@ -9,7 +9,21 @@
 This repository contains tools to assign taxonomy and function annotations to short reads through pylogenetic tree evolutionary placement
 
 ---
-## Installation
+## Setup
+The easiest way to use TRAITS is through the provided [docker] container. To use it, pull the image:
+
+```
+docker pull ghcr.io/robaina/traits:latest
+```
+
+Then run the container interactively:
+
+```
+docker run -i ghcr.io/robaina/traits:latest
+```
+
+Otherwise, you can install TRAITS like this:
+
 1. Fork git repo into local machine (click on fork) and clone, or simply clone main branch with
 ```
 git clone https://github.com/Robaina/TRAITS.git
