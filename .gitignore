@@ -6,16 +6,17 @@ Gene_Annotation_Jose_Tree_Method/
 .ipynb_checkpoints/
 __pycache__/
 picrust2/
-data/*.faa
-data/databases/*
-!data/databases/readme.txt
-data/MAR/*
-data/OceanDNA/*
-data/Paoli/*
-data/metadata/*
-data/preprocessedDatabases/*
-data/environmental/*
-data/rmdup_test.sh
+repo_data/*
+# data/*.faa
+# data/databases/*
+# !data/databases/readme.txt
+# data/MAR/*
+# data/OceanDNA/*
+# data/Paoli/*
+# data/metadata/*
+# data/preprocessedDatabases/*
+# data/environmental/*
+# data/rmdup_test.sh
 **/nxr_genomes/
 genes/
 genes_local/

@@ -577,7 +577,7 @@ def assign_labels_to_placements(
         ref_cluster_scores = None
 
     if taxo_file is None:
-        taxo_file = "./data/taxonomy/merged_taxonomy.tsv"
+        taxo_file = "./data/merged_taxonomy.tsv"
 
     gappa_assign_out = os.path.join(output_dir, output_prefix + "per_query.tsv")
     query_taxo_out = os.path.join(output_dir, output_prefix + "assignments.tsv")

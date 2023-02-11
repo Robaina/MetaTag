@@ -5,6 +5,7 @@ WORKDIR /TRAITS
 COPY code code/
 COPY tests tests/
 COPY envs envs/
+COPY data data/
 COPY README.md .
 # COPY pyproject.toml .
 COPY LICENSE .

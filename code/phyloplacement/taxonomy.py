@@ -266,7 +266,7 @@ def evaluate_taxonomy_of_reference_database(
     if output_dir is None:
         output_dir = set_default_output_path(label_dict_pickle, only_dir_name=True)
 
-    taxonomy = TaxonomyAssigner(taxo_file="./data/taxonomy/merged_taxonomy.tsv")
+    taxonomy = TaxonomyAssigner(taxo_file="./data/merged_taxonomy.tsv")
     label_dict = read_from_pickle_file(label_dict_pickle)
     taxopaths = [
         taxonomy.assign_taxonomy_to_label(label) for label in label_dict.values()

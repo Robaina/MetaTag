@@ -1,8 +1,11 @@
-data/*
-!data/taxonomy/merged_taxonomy.tsv
-docs/*
-legacy/*
-scriptsR/*
-select_internal_nodes/*
-ideas/*
-code/setup_papara.py
+# 1. Ignore everything
+**
+# 2. Add files and directories that should be included
+!code/**
+!tests/**
+!envs/**
+!data/**
+!LICENSE
+!README.md
+# 3. Ignore any unnecessary files
+**/setup_papara.py
