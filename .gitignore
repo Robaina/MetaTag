@@ -7,16 +7,7 @@ Gene_Annotation_Jose_Tree_Method/
 __pycache__/
 picrust2/
 repo_data/*
-# data/*.faa
-# data/databases/*
-# !data/databases/readme.txt
-# data/MAR/*
-# data/OceanDNA/*
-# data/Paoli/*
-# data/metadata/*
-# data/preprocessedDatabases/*
-# data/environmental/*
-# data/rmdup_test.sh
+legacyy/*
 **/nxr_genomes/
 genes/
 genes_local/
