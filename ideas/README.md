@@ -1,1 +1,0 @@
-# A place where to list ideas/side projects related to TRAITS
