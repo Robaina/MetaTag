@@ -10,7 +10,7 @@ This repository contains tools to assign taxonomy and function annotations to sh
 
 ---
 ## Setup
-The easiest way to use TRAITS is through the provided [docker] container. To use it, pull the image:
+The easiest way to use TRAITS is through the provided [docker](https://www.docker.com/) container. To use it, pull the image:
 
 ```
 docker pull ghcr.io/robaina/traits:latest
