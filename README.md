@@ -30,7 +30,7 @@ git clone https://github.com/Robaina/TRAITS.git
 ```
 2. CD to project traits and set conda environment if not already set:
 ```
-conda env create -n traits -f envs/traits.yml
+conda env create -n traits -f envs/metatag.yml
 ```
 
 ## Installation test
