@@ -6,7 +6,7 @@ Tools to process Paoli et al. 2019 data
 https://doi.org/10.1101/2021.03.24.436479
 """
 
-from phyloplacement.utils import list_tar_dir
+from metatag.utils import list_tar_dir
 
 
 def get_genome_ids(paoli_tar: str) -> list:

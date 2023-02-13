@@ -11,9 +11,9 @@ Placement:
 import os
 import argparse
 
-import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import set_default_output_path
-from phyloplacement.placement import place_reads_onto_tree
+import metatag.wrappers as wrappers
+from metatag.utils import set_default_output_path
+from metatag.placement import place_reads_onto_tree
 
 
 parser = argparse.ArgumentParser(

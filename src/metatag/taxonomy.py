@@ -9,9 +9,9 @@ from __future__ import annotations
 import os
 
 import pandas as pd
-from phyloplacement.utils import read_from_pickle_file, set_default_output_path
+from metatag.utils import read_from_pickle_file, set_default_output_path
 
-from phyloplacement.database.labelparsers import LabelParser
+from metatag.database.labelparsers import LabelParser
 
 
 class Taxopath:

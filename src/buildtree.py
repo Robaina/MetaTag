@@ -10,9 +10,9 @@ Reference tree:
 import os
 import argparse
 
-from phyloplacement.utils import set_default_output_path
-from phyloplacement.alignment import align_peptides
-from phyloplacement.phylotree import infer_tree
+from metatag.utils import set_default_output_path
+from metatag.alignment import align_peptides
+from metatag.phylotree import infer_tree
 
 
 parser = argparse.ArgumentParser(

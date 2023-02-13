@@ -17,9 +17,9 @@ import pandas as pd
 from Bio import SearchIO, SeqIO, AlignIO
 import pyfastx
 
-import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import set_default_output_path
-from phyloplacement.database.labelparsers import MARdbLabelParser
+import metatag.wrappers as wrappers
+from metatag.utils import set_default_output_path
+from metatag.database.labelparsers import MARdbLabelParser
 
 
 def filter_fasta_by_sequence_length(

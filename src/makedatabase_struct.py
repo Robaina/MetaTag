@@ -12,13 +12,13 @@ import os
 import shutil
 import argparse
 
-from phyloplacement.utils import set_default_output_path, TemporaryFilePath
-from phyloplacement.database.preprocessing import set_temp_record_ids_in_fasta
-from phyloplacement.database.manipulation import (
+from metatag.utils import set_default_output_path, TemporaryFilePath
+from metatag.database.preprocessing import set_temp_record_ids_in_fasta
+from metatag.database.manipulation import (
     filter_fasta_by_hmm_structure,
     filter_fasta_by_sequence_length,
 )
-from phyloplacement.database.reduction import reduce_database_redundancy
+from metatag.database.reduction import reduce_database_redundancy
 
 
 parser = argparse.ArgumentParser(

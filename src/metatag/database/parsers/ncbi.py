@@ -10,7 +10,7 @@ import os
 
 from Bio import SeqIO
 
-from phyloplacement.utils import terminal_execute
+from metatag.utils import terminal_execute
 
 
 def download_gbk_from_ncbi(entry_ids: list, output_dir: str = None) -> None:

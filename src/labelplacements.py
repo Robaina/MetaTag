@@ -10,13 +10,13 @@ Taxonomic and function al labelling of placed sequences:
 import os
 import argparse
 
-from phyloplacement.utils import set_default_output_path, DictMerger
-from phyloplacement.database.preprocessing import (
+from metatag.utils import set_default_output_path, DictMerger
+from metatag.database.preprocessing import (
     is_fasta,
     is_file,
     write_record_names_to_file,
 )
-from phyloplacement.placement import (
+from metatag.placement import (
     assign_labels_to_placements,
     add_duplicates_to_assignment_table,
     JplaceParser,

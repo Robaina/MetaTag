@@ -8,8 +8,8 @@ Evaluation of placed sequences:
 
 import os
 import argparse
-from phyloplacement.utils import set_default_output_path
-from phyloplacement.placement import TaxAssignParser
+from metatag.utils import set_default_output_path
+from metatag.placement import TaxAssignParser
 
 
 parser = argparse.ArgumentParser(

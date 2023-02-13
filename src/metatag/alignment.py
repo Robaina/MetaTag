@@ -7,9 +7,9 @@ Tools to perform multiple sequence alignments
 
 import os
 
-import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import set_default_output_path, TemporaryFilePath
-from phyloplacement.database.manipulation import (
+import metatag.wrappers as wrappers
+from metatag.utils import set_default_output_path, TemporaryFilePath
+from metatag.database.manipulation import (
     convert_stockholm_to_fasta_aln,
     convert_fasta_aln_to_phylip,
     convert_phylip_to_fasta_aln,

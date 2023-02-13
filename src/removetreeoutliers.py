@@ -10,8 +10,8 @@ import argparse
 
 import pandas as pd
 
-import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import set_default_output_path
+import metatag.wrappers as wrappers
+from metatag.utils import set_default_output_path
 
 
 parser = argparse.ArgumentParser(

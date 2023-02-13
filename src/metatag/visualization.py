@@ -10,7 +10,7 @@ import os
 import webbrowser
 import pandas as pd
 
-from phyloplacement.utils import terminal_execute
+from metatag.utils import terminal_execute
 
 
 def make_feature_metadata_table(

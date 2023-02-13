@@ -12,7 +12,7 @@ import shutil
 import pyfastx
 import pandas as pd
 
-from phyloplacement.utils import (
+from metatag.utils import (
     set_default_output_path,
     terminal_execute,
     create_temporary_file_path,
