@@ -9,10 +9,10 @@ from __future__ import annotations
 import os
 import argparse
 
-from phyloplacement.utils import set_default_output_path, DictMerger
-from phyloplacement.database.preprocessing import set_original_record_ids_in_fasta
-from phyloplacement.taxonomy import TaxonomyAssigner
-from phyloplacement.phylotree import new_relabel_tree
+from metatag.utils import set_default_output_path, DictMerger
+from metatag.database.preprocessing import set_original_record_ids_in_fasta
+from metatag.taxonomy import TaxonomyAssigner
+from metatag.phylotree import new_relabel_tree
 
 
 parser = argparse.ArgumentParser(

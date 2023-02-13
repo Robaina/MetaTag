@@ -14,13 +14,13 @@ import os
 import shutil
 import argparse
 
-from phyloplacement.utils import (
+from metatag.utils import (
     set_default_output_path,
     TemporaryFilePath,
     TemporaryDirectoryPath,
 )
-from phyloplacement.wrappers import run_prodigal
-from phyloplacement.database.preprocessing import (
+from metatag.wrappers import run_prodigal
+from metatag.database.preprocessing import (
     assert_correct_sequence_format,
     remove_duplicates_from_fasta,
     merge_fastas,

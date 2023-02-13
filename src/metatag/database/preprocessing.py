@@ -16,8 +16,8 @@ from Bio import SeqIO
 import pyfastx
 
 
-import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import (
+import metatag.wrappers as wrappers
+from metatag.utils import (
     save_to_pickle_file,
     set_default_output_path,
     terminal_execute,

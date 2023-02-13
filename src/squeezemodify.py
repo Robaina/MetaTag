@@ -7,7 +7,7 @@ Replace SqueezeMeta's taxonomy by placement-derived taxonomy
 import argparse
 from pathlib import Path
 
-from phyloplacement.squeezemeta import (
+from metatag.squeezemeta import (
     SqueezeMetaOutputParser,
     SqueezeMetaTaxonomyParser,
 )

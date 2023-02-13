@@ -14,14 +14,14 @@ import os
 import shutil
 import warnings
 
-import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import (
+import metatag.wrappers as wrappers
+from metatag.utils import (
     set_default_output_path,
     terminal_execute,
     TemporaryFilePath,
     TemporaryDirectoryPath,
 )
-from phyloplacement.database.manipulation import filter_fasta_by_ids
+from metatag.database.manipulation import filter_fasta_by_ids
 
 
 def get_representative_set(

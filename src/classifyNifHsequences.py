@@ -11,7 +11,7 @@ import argparse
 
 from Bio import pairwise2, SeqIO
 
-from phyloplacement.utils import read_from_pickle_file, save_to_pickle_file
+from metatag.utils import read_from_pickle_file, save_to_pickle_file
 
 
 def find_pattern_in_msa_record(msa_record: str, subsequence: str) -> int:

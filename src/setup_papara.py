@@ -7,7 +7,7 @@ Download papara binary and setup path
 
 import os
 from pathlib import Path
-from phyloplacement.utils import terminal_execute, extract_tar_file
+from metatag.utils import terminal_execute, extract_tar_file
 
 
 parent_dir = Path(__file__).parent

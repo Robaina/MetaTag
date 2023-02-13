@@ -12,23 +12,23 @@ import os
 import shutil
 import argparse
 
-from phyloplacement.utils import (
+from metatag.utils import (
     TemporaryDirectoryPath,
     full_path_list_dir,
     set_default_output_path,
     TemporaryFilePath,
     DictMerger,
 )
-from phyloplacement.database.preprocessing import (
+from metatag.database.preprocessing import (
     set_temp_record_ids_in_fasta,
     merge_fastas,
     remove_duplicates_from_fasta,
 )
-from phyloplacement.database.manipulation import (
+from metatag.database.manipulation import (
     filter_fasta_by_hmm,
     filter_fasta_by_sequence_length,
 )
-from phyloplacement.database.reduction import reduce_database_redundancy
+from metatag.database.reduction import reduce_database_redundancy
 
 
 parser = argparse.ArgumentParser(

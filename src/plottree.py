@@ -8,8 +8,8 @@ open empress tree with placements in browser. Only if script runs locally.
 import os
 import argparse
 
-from phyloplacement.utils import set_default_output_path, DictMerger
-from phyloplacement.visualization import (
+from metatag.utils import set_default_output_path, DictMerger
+from metatag.visualization import (
     make_feature_metadata_table,
     plot_tree_in_browser,
 )

@@ -10,7 +10,7 @@ import shutil
 import tempfile
 from pathlib import Path
 
-from phyloplacement.utils import terminal_execute, set_default_output_path
+from metatag.utils import terminal_execute, set_default_output_path
 
 
 parent_dir = Path(__file__).parent

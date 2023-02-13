@@ -13,8 +13,8 @@ import re
 
 from Bio import Phylo
 
-from phyloplacement.utils import set_default_output_path, easy_pattern_matching
-import phyloplacement.wrappers as wrappers
+from metatag.utils import set_default_output_path, easy_pattern_matching
+import metatag.wrappers as wrappers
 
 
 class PhyloTree:

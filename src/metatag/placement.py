@@ -14,12 +14,12 @@ from io import StringIO
 import pandas as pd
 from Bio import Phylo
 
-import phyloplacement.wrappers as wrappers
-from phyloplacement.utils import set_default_output_path, TemporaryFilePath
-from phyloplacement.taxonomy import TaxonomyAssigner, TaxonomyCounter, Taxopath
-from phyloplacement.alignment import align_short_reads_to_reference_msa
-from phyloplacement.phylotree import PhyloTree, get_iq_tree_model_from_log_file
-from phyloplacement.database.manipulation import (
+import metatag.wrappers as wrappers
+from metatag.utils import set_default_output_path, TemporaryFilePath
+from metatag.taxonomy import TaxonomyAssigner, TaxonomyCounter, Taxopath
+from metatag.alignment import align_short_reads_to_reference_msa
+from metatag.phylotree import PhyloTree, get_iq_tree_model_from_log_file
+from metatag.database.manipulation import (
     get_fasta_record_ids,
     split_reference_from_query_alignments,
 )
