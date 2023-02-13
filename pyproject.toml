@@ -27,15 +27,10 @@ classifiers = [
 packages = [
     { include = "metatag", from = "src" },
 ]
-include = [
-    "src/vendor/*",
-    "src/cli/*"
-]
 [tool.poetry.dependencies]
 python = "^3.8"
 [tool.poetry.scripts]
-preprocess = "src.cli.preprocess:main"
-makedatabase = "src.cli.makedatabase:main"
+metatag = "metatag.cli:main"
 
 [tool.ruff]
 select = [
