@@ -3,9 +3,9 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "phyloplacement"
+name = "metatag"
 version = "0.0.2"
-description = "Tools to annotate short reads through phylogenetic tree placement"
+description = "Metagenome functional and taxonomical annotation through phylogenetic tree placement"
 license = "Apache-2.0"
 authors = [
   "Semidán Robaina Estévez <srobaina@ull.edu.es>",
@@ -17,7 +17,7 @@ readme = "README.md"
 homepage = "https://github.com/robaina/TRAITS"
 repository = "https://github.com/robaina/TRAITS"
 documentation = "https://github.com/robaina/TRAITS"
-keywords = ["short reads", "hmm", "metagenomics", "bioinformatics", "phylogenetics", "placement"]
+keywords = ["short reads", "hmm", "metagenomics", "bioinformatics", "phylogenetics", "placement", "annotation"]
 classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
@@ -25,15 +25,17 @@ classifiers = [
     "Natural Language :: English"
 ]
 packages = [
-    { include = "phyloplacement", from = "src" },
+    { include = "metatag", from = "src" },
 ]
 include = [
-    "src/vendor/*"
+    "src/vendor/*",
+    "src/cli/*"
 ]
 [tool.poetry.dependencies]
 python = "^3.8"
 [tool.poetry.scripts]
-phyloplace = "src.preprocess:main"
+"metatag preprocess" = "src.cli.preprocess:main"
+"metatag makedatabase" = "src.cli.makedatabase:main"
 
 [tool.ruff]
 select = [
@@ -51,5 +53,5 @@ ignore = [
 ]
 
 [tool.ruff.isort]
-known-first-party = ["phyloplacement"]
+known-first-party = ["metatag"]
 

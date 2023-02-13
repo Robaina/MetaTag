@@ -22,8 +22,8 @@ jamboree/
 # Files
 trimal.html
 src/accesory/run_papara.py
-src/test.ipynb
-src/test.py
+test.ipynb
+test.py
 NOTES.md
 src/notify.py
 data/final_ref_database.fasta
