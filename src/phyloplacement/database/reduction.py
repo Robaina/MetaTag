@@ -35,7 +35,7 @@ def get_representative_set(
     """
     input_seqs = os.path.abspath(input_seqs)
     input_pi = os.path.abspath(input_pi)
-    repset_exe = os.path.abspath("code/vendor/repset_min.py")
+    repset_exe = os.path.abspath("src/vendor/repset_min.py")
 
     if outfile is None:
         outfile = set_default_output_path(input_seqs, tag="_repset")

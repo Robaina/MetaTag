@@ -21,7 +21,7 @@ from phyloplacement.utils import terminal_execute, extract_tar_file, full_path_l
 from phyloplacement.database.labelparsers import MARdbLabelParser
 
 data_dir = "/home/robaina/Documents/TRAITS/data/"
-work_dir = "/home/robaina/Documents/TRAITS/code/"
+work_dir = "/home/robaina/Documents/TRAITS/src/"
 
 # Raw databases
 mar_partial = os.path.join(data_dir, "databases/aMARPartialHighQuality.tar.gz")
