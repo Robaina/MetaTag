@@ -31,149 +31,161 @@ from metatag.database.manipulation import (
 from metatag.database.reduction import reduce_database_redundancy
 
 
-parser = argparse.ArgumentParser(
-    description="Build peptide reference database",
-    epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
-)
+def initialize_parser() -> argparse.ArgumentParser:
+    """_summary_
 
-optional = parser._action_groups.pop()
-required = parser.add_argument_group("required arguments")
-parser._action_groups.append(optional)
+    Returns:
+        argparse.ArgumentParser: _description_
+    """
+    parser = argparse.ArgumentParser(
+        description="Build peptide reference database",
+        epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
+    )
 
-required.add_argument(
-    "--hmms",
-    dest="hmms",
-    type=str,
-    nargs="+",
-    required=True,
-    help="a single or a list of space-separated paths to tigrfam or pfam models",
-)
-required.add_argument(
-    "--in", dest="data", type=str, required=True, help="path to peptide database"
-)
-optional.add_argument(
-    "--outdir", dest="outdir", type=str, default=None, help="path to output directory"
-)
-optional.add_argument(
-    "--prefix",
-    dest="prefix",
-    type=str,
-    default="",
-    help="prefix to be added to output files",
-)
-optional.add_argument(
-    "--relabel_prefixes",
-    dest="relabel_prefixes",
-    type=str,
-    nargs="+",
-    default=None,
-    help=(
-        "List of space-separated prefixes to be added to each hmm-derived set of "
-        'sequences after relabelling. Only used if "--relabel" is set. '
-        'Label prefixes set to "None" are assigned "ref_" by default.'
-    ),
-)
-optional.add_argument(
-    "--max_sizes",
-    dest="maxsizes",
-    default=None,
-    type=str,
-    nargs="+",
-    help=(
-        "maximum size of representative set of sequences for each hmm model. "
-        'Each (space-separated) integer corresponds to a hmm model inputed in "--hmms", '
-        'thus, sorted in the same order. A value of "None" may be given to a hmm model '
-        "in the list, in which case the maximum number of sequences is unlimited "
-        "for that hmm."
-        "Defaults to full set of sequences for all hmm modells inputed."
-    ),
-)
-optional.add_argument(
-    "--min_seq_length",
-    dest="minseqlength",
-    default=None,
-    type=int,
-    help=("minimum sequence length in reference database. " "Defaults to zero"),
-)
-optional.add_argument(
-    "--max_seq_length",
-    dest="maxseqlength",
-    default=None,
-    type=int,
-    required=False,
-    help=("maximum sequence length in reference database. " "Defaults to inf"),
-)
-optional.add_argument(
-    "--relabel",
-    dest="relabel",
-    action="store_true",
-    required=False,
-    default=False,
-    help=(
-        "relabel record IDs with numerical ids. "
-        "Unrequired to build database, but highly recommended "
-        "to avoid possible conflicts downstream the pipeline."
-    ),
-)
-optional.add_argument(
-    "--nocdhit",
-    dest="nocdhit",
-    action="store_true",
-    required=False,
-    default=False,
-    help=("do not run cd-hit on peptide database"),
-)
-optional.add_argument(
-    "--remove_duplicates",
-    dest="noduplicates",
-    action="store_true",
-    required=False,
-    default=False,
-    help=("remove duplicated sequences from final (merged) database"),
-)
-optional.add_argument(
-    "--hmmsearch_args",
-    dest="hmmsearch_args",
-    type=str,
-    default=None,
-    required=False,
-    help=(
-        "a string of comma-separated additional arguments for each hmm passed to hmmsearch. "
-        'e.g. inputing 3 hmms: " --cut_ga --cpu 4, --cut_nc, None". '
-        "IMPORTANT: the string must be preceded by a white space. "
-        "A single string may be provided, in which case the same additinal arguments will be passed for each hmm. "
-        'Defaults to additional arguments string: "--cut_nc". If no additional arguments are needed, provide the value "None"'
-    ),
-)
+    optional = parser._action_groups.pop()
+    required = parser.add_argument_group("required arguments")
+    parser._action_groups.append(optional)
 
+    required.add_argument(
+        "--hmms",
+        dest="hmms",
+        type=str,
+        nargs="+",
+        required=True,
+        help="a single or a list of space-separated paths to tigrfam or pfam models",
+    )
+    required.add_argument(
+        "--in", dest="data", type=str, required=True, help="path to peptide database"
+    )
+    optional.add_argument(
+        "--outdir",
+        dest="outdir",
+        type=str,
+        default=None,
+        help="path to output directory",
+    )
+    optional.add_argument(
+        "--prefix",
+        dest="prefix",
+        type=str,
+        default="",
+        help="prefix to be added to output files",
+    )
+    optional.add_argument(
+        "--relabel_prefixes",
+        dest="relabel_prefixes",
+        type=str,
+        nargs="+",
+        default=None,
+        help=(
+            "List of space-separated prefixes to be added to each hmm-derived set of "
+            'sequences after relabelling. Only used if "--relabel" is set. '
+            'Label prefixes set to "None" are assigned "ref_" by default.'
+        ),
+    )
+    optional.add_argument(
+        "--max_sizes",
+        dest="maxsizes",
+        default=None,
+        type=str,
+        nargs="+",
+        help=(
+            "maximum size of representative set of sequences for each hmm model. "
+            'Each (space-separated) integer corresponds to a hmm model inputed in "--hmms", '
+            'thus, sorted in the same order. A value of "None" may be given to a hmm model '
+            "in the list, in which case the maximum number of sequences is unlimited "
+            "for that hmm."
+            "Defaults to full set of sequences for all hmm modells inputed."
+        ),
+    )
+    optional.add_argument(
+        "--min_seq_length",
+        dest="minseqlength",
+        default=None,
+        type=int,
+        help=("minimum sequence length in reference database. " "Defaults to zero"),
+    )
+    optional.add_argument(
+        "--max_seq_length",
+        dest="maxseqlength",
+        default=None,
+        type=int,
+        required=False,
+        help=("maximum sequence length in reference database. " "Defaults to inf"),
+    )
+    optional.add_argument(
+        "--relabel",
+        dest="relabel",
+        action="store_true",
+        required=False,
+        default=False,
+        help=(
+            "relabel record IDs with numerical ids. "
+            "Unrequired to build database, but highly recommended "
+            "to avoid possible conflicts downstream the pipeline."
+        ),
+    )
+    optional.add_argument(
+        "--nocdhit",
+        dest="nocdhit",
+        action="store_true",
+        required=False,
+        default=False,
+        help=("do not run cd-hit on peptide database"),
+    )
+    optional.add_argument(
+        "--remove_duplicates",
+        dest="noduplicates",
+        action="store_true",
+        required=False,
+        default=False,
+        help=("remove duplicated sequences from final (merged) database"),
+    )
+    optional.add_argument(
+        "--hmmsearch_args",
+        dest="hmmsearch_args",
+        type=str,
+        default=None,
+        required=False,
+        help=(
+            "a string of comma-separated additional arguments for each hmm passed to hmmsearch. "
+            'e.g. inputing 3 hmms: " --cut_ga --cpu 4, --cut_nc, None". '
+            "IMPORTANT: the string must be preceded by a white space. "
+            "A single string may be provided, in which case the same additinal arguments will be passed for each hmm. "
+            'Defaults to additional arguments string: "--cut_nc". If no additional arguments are needed, provide the value "None"'
+        ),
+    )
 
-args = parser.parse_args()
-if args.maxsizes is None:
-    args.maxsizes = [None for _ in args.hmms]
-else:
-    args.maxsizes = [int(arg) if arg.isdigit() else None for arg in args.maxsizes]
-if args.relabel_prefixes is None:
-    args.relabel_prefixes = [None for _ in args.hmms]
-if args.outdir is None:
-    args.outdir = set_default_output_path(args.data, only_dirname=True)
-args.outdir = os.path.abspath(args.outdir)
-if not os.path.exists(args.outdir):
-    os.makedirs(args.outdir)
-output_fasta = os.path.join(args.outdir, f"{args.prefix}ref_database.faa")
-output_pickle_short_ids = os.path.join(
-    args.outdir, f"{args.prefix}ref_database_id_dict.pickle"
-)
-if args.hmmsearch_args is None:
-    args.hmmsearch_args = ",".join(["None" for _ in args.hmms])
-hmmsearch_args_list = list(map(lambda x: x.strip(), args.hmmsearch_args.split(",")))
-hmmsearch_args_list = list(
-    map(lambda x: "--cut_nc" if x == "None" else x, hmmsearch_args_list)
-)
-if len(hmmsearch_args_list) < len(args.hmms):
-    hmmsearch_args_list = [hmmsearch_args_list[0] for _ in args.hmms]
+    args = parser.parse_args()
+    return args
 
 
-def main():
+def run():
+    """_summary_"""
+    args = initialize_parser()
+    if args.maxsizes is None:
+        args.maxsizes = [None for _ in args.hmms]
+    else:
+        args.maxsizes = [int(arg) if arg.isdigit() else None for arg in args.maxsizes]
+    if args.relabel_prefixes is None:
+        args.relabel_prefixes = [None for _ in args.hmms]
+    if args.outdir is None:
+        args.outdir = set_default_output_path(args.data, only_dirname=True)
+    args.outdir = os.path.abspath(args.outdir)
+    if not os.path.exists(args.outdir):
+        os.makedirs(args.outdir)
+    output_fasta = os.path.join(args.outdir, f"{args.prefix}ref_database.faa")
+    output_pickle_short_ids = os.path.join(
+        args.outdir, f"{args.prefix}ref_database_id_dict.pickle"
+    )
+    if args.hmmsearch_args is None:
+        args.hmmsearch_args = ",".join(["None" for _ in args.hmms])
+    hmmsearch_args_list = list(map(lambda x: x.strip(), args.hmmsearch_args.split(",")))
+    hmmsearch_args_list = list(
+        map(lambda x: "--cut_nc" if x == "None" else x, hmmsearch_args_list)
+    )
+    if len(hmmsearch_args_list) < len(args.hmms):
+        hmmsearch_args_list = [hmmsearch_args_list[0] for _ in args.hmms]
 
     print("* Making peptide-specific reference database...")
     with TemporaryDirectoryPath() as tempdir1, TemporaryDirectoryPath() as tempdir2:
@@ -252,4 +264,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run()

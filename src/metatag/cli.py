@@ -7,7 +7,6 @@ import argparse
 import sys
 import tempfile
 from importlib import metadata
-from pathlib import Path
 
 from metatag.scripts import (
     preprocess,
@@ -99,31 +98,31 @@ class MetaTag:
 
     def preprocess(self):
         """Call preprocess subcommand."""
-        preprocess.main()
+        preprocess.run()
 
     def database(self):
         """Call database subcommand."""
-        makedatabase.main()
+        makedatabase.run()
 
     def tree(self):
         """Call tree subcommand."""
-        buildtree.main()
+        buildtree.run()
 
     def place(self):
         """Call place subcommand."""
-        placesequences.main()
+        placesequences.run()
 
     def assign(self):
         """Call place subcommand"""
-        labelplacements.main()
+        labelplacements.run()
 
     def count(self):
         """Call count subcommand"""
-        countplacements.main()
+        countplacements.run()
 
     def relabel(self):
         """Call relabel subcommand"""
-        relabeltree.main()
+        relabeltree.run()
 
     def cite(self):
         """Print pynteny's citation string"""
@@ -160,7 +159,6 @@ class SubcommandParser:
 
 def main():
     subcommand, subcommand_args = sys.argv[1:2], sys.argv[2:]
-    print(subcommand)
     MetaTag(subcommand, subcommand_args)
 
 

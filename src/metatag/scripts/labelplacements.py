@@ -23,137 +23,152 @@ from metatag.placement import (
 )
 
 
-parser = argparse.ArgumentParser(
-    description="Assgin taxonomy and function to placed query sequences",
-    epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
-)
+def initialize_parser() -> argparse.ArgumentParser:
+    """_summary_
 
-optional = parser._action_groups.pop()
-required = parser.add_argument_group("required arguments")
-parser._action_groups.append(optional)
+    Returns:
+        argparse.ArgumentParser: _description_
+    """
+    parser = argparse.ArgumentParser(
+        description="Assgin taxonomy and function to placed query sequences",
+        epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
+    )
 
-required.add_argument(
-    "--jplace",
-    dest="jplace",
-    type=str,
-    required=True,
-    help="path to placements jplace file",
-)
-required.add_argument(
-    "--labels",
-    dest="labels",
-    type=str,
-    required=True,
-    nargs="+",
-    help=(
-        "path to label dict in pickle format. "
-        "More than one space-separated path can be input"
-    ),
-)
-optional.add_argument(
-    "--query_labels",
-    dest="query_labels",
-    type=str,
-    default=None,
-    nargs="+",
-    help=(
-        "path to query label dict in pickle format. "
-        "More than one space-separated path can be input"
-    ),
-)
-optional.add_argument(
-    "--ref_clusters",
-    dest="ref_clusters",
-    type=str,
-    default=None,
-    help=(
-        "tsv file containing cluster assignment to each reference "
-        'sequence id. Must contain one column named "id" and another '
-        '(tab-separated) column named "cluster"'
-    ),
-)
-optional.add_argument(
-    "--ref_cluster_scores",
-    dest="ref_cluster_scores",
-    type=str,
-    default=None,
-    help=(
-        "tsv file containing cluster quality scores assigned to each "
-        'cluster in the reference tree. Contains one column named "cluster" '
-        'and another (tab-separated) column named "score"'
-    ),
-)
-optional.add_argument(
-    "--outgroup",
-    dest="outgroup",
-    type=str,
-    default=None,
-    help=(
-        "path to text file containing IDs of sequences to be considered "
-        "as an outgroup to root the tree. It can also be a fasta file from "
-        "which sequence names will be extracted. It can also be a string containing "
-        "a tag to filter record labels by it. The outgroup will be used to "
-        "recover missing taxonomic infomation by gappa examine assign. "
-    ),
-)
-optional.add_argument(
-    "--prefix",
-    dest="prefix",
-    type=str,
-    default="placed_tax_",
-    help="prefix to be added to output files",
-)
-optional.add_argument(
-    "--outdir", dest="outdir", type=str, help="path to output directory"
-)
-optional.add_argument(
-    "--max_placement_distance",
-    dest="max_distance",
-    type=float,
-    default=None,
-    help=(
-        "Maximum allowed pendant distance to consider a placement as valid. "
-        'Change distance measure with parameter: "distance_measure" (defaults to pendant length)'
-    ),
-)
-optional.add_argument(
-    "--distance_measure",
-    dest="distance_measure",
-    type=str,
-    default="pendant",
-    choices=["pendant", "pendant_distal_ratio", "pendant_diameter_ratio"],
-    help=(
-        "Choose distance measure to remove placements with distance larger than "
-        '"max_placement_distance". Choose among: '
-        '1. "pendant": corresponding to pendant length of placement '
-        '2. "pendant_distal_ratio": ratio between pendant and distal distances '
-        '3. "pendant_diameter_ratio": ratio between pendant and tree diameter (largest pairwise distance) ratio. '
-        "See https://github.com/lczech/gappa/wiki for a description of distal and pendant lengths."
-    ),
-)
-optional.add_argument(
-    "--min_placement_lwr",
-    dest="minimum_lwr",
-    type=float,
-    default=None,
-    help=(
-        "Minimum allowed placement LWR to consider a placement as valid. Values between 0 and 1."
-    ),
-)
-optional.add_argument(
-    "--duplicated_query_ids",
-    dest="duplicated_query_ids",
-    type=str,
-    default=None,
-    help="path to text file containing duplicated query ids as output by seqkit rmdup",
-)
+    optional = parser._action_groups.pop()
+    required = parser.add_argument_group("required arguments")
+    parser._action_groups.append(optional)
 
-args = parser.parse_args()
-if args.outdir is None:
-    args.outdir = set_default_output_path(args.jplace, only_dirname=True)
+    required.add_argument(
+        "--jplace",
+        dest="jplace",
+        type=str,
+        required=True,
+        help="path to placements jplace file",
+    )
+    required.add_argument(
+        "--labels",
+        dest="labels",
+        type=str,
+        required=True,
+        nargs="+",
+        help=(
+            "path to label dict in pickle format. "
+            "More than one space-separated path can be input"
+        ),
+    )
+    optional.add_argument(
+        "--query_labels",
+        dest="query_labels",
+        type=str,
+        default=None,
+        nargs="+",
+        help=(
+            "path to query label dict in pickle format. "
+            "More than one space-separated path can be input"
+        ),
+    )
+    optional.add_argument(
+        "--ref_clusters",
+        dest="ref_clusters",
+        type=str,
+        default=None,
+        help=(
+            "tsv file containing cluster assignment to each reference "
+            'sequence id. Must contain one column named "id" and another '
+            '(tab-separated) column named "cluster"'
+        ),
+    )
+    optional.add_argument(
+        "--ref_cluster_scores",
+        dest="ref_cluster_scores",
+        type=str,
+        default=None,
+        help=(
+            "tsv file containing cluster quality scores assigned to each "
+            'cluster in the reference tree. Contains one column named "cluster" '
+            'and another (tab-separated) column named "score"'
+        ),
+    )
+    optional.add_argument(
+        "--outgroup",
+        dest="outgroup",
+        type=str,
+        default=None,
+        help=(
+            "path to text file containing IDs of sequences to be considered "
+            "as an outgroup to root the tree. It can also be a fasta file from "
+            "which sequence names will be extracted. It can also be a string containing "
+            "a tag to filter record labels by it. The outgroup will be used to "
+            "recover missing taxonomic infomation by gappa examine assign. "
+        ),
+    )
+    optional.add_argument(
+        "--prefix",
+        dest="prefix",
+        type=str,
+        default="placed_tax_",
+        help="prefix to be added to output files",
+    )
+    optional.add_argument(
+        "--outdir", dest="outdir", type=str, help="path to output directory"
+    )
+    optional.add_argument(
+        "--max_placement_distance",
+        dest="max_distance",
+        type=float,
+        default=None,
+        help=(
+            "Maximum allowed pendant distance to consider a placement as valid. "
+            'Change distance measure with parameter: "distance_measure" (defaults to pendant length)'
+        ),
+    )
+    optional.add_argument(
+        "--distance_measure",
+        dest="distance_measure",
+        type=str,
+        default="pendant",
+        choices=["pendant", "pendant_distal_ratio", "pendant_diameter_ratio"],
+        help=(
+            "Choose distance measure to remove placements with distance larger than "
+            '"max_placement_distance". Choose among: '
+            '1. "pendant": corresponding to pendant length of placement '
+            '2. "pendant_distal_ratio": ratio between pendant and distal distances '
+            '3. "pendant_diameter_ratio": ratio between pendant and tree diameter (largest pairwise distance) ratio. '
+            "See https://github.com/lczech/gappa/wiki for a description of distal and pendant lengths."
+        ),
+    )
+    optional.add_argument(
+        "--min_placement_lwr",
+        dest="minimum_lwr",
+        type=float,
+        default=None,
+        help=(
+            "Minimum allowed placement LWR to consider a placement as valid. Values between 0 and 1."
+        ),
+    )
+    optional.add_argument(
+        "--duplicated_query_ids",
+        dest="duplicated_query_ids",
+        type=str,
+        default=None,
+        help="path to text file containing duplicated query ids as output by seqkit rmdup",
+    )
+
+    args = parser.parse_args()
+    return args
 
 
-def main():
+def run():
+    """_summary_
+
+    Raises:
+        ValueError: _description_
+        ValueError: _description_
+    """
+    args = initialize_parser()
+    if args.outdir is None:
+        args.outdir = set_default_output_path(args.jplace, only_dirname=True)
+
     taxtable = os.path.join(args.outdir, args.prefix + "assignments.tsv")
     ref_labels = DictMerger.from_pickle_paths(args.labels).merge()
     if args.query_labels is not None:
@@ -242,4 +257,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run()
