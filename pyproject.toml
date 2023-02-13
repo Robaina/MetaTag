@@ -34,8 +34,8 @@ include = [
 [tool.poetry.dependencies]
 python = "^3.8"
 [tool.poetry.scripts]
-"metatag preprocess" = "src.cli.preprocess:main"
-"metatag makedatabase" = "src.cli.makedatabase:main"
+preprocess = "src.cli.preprocess:main"
+makedatabase = "src.cli.makedatabase:main"
 
 [tool.ruff]
 select = [

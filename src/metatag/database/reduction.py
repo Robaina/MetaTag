@@ -13,6 +13,7 @@ Currently based on:
 import os
 import shutil
 import warnings
+from pathlib import Path
 
 import metatag.wrappers as wrappers
 from metatag.utils import (
@@ -35,7 +36,7 @@ def get_representative_set(
     """
     input_seqs = os.path.abspath(input_seqs)
     input_pi = os.path.abspath(input_pi)
-    repset_exe = os.path.abspath("src/vendor/repset_min.py")
+    repset_exe = os.path.abspath(Path(__file__).parent.parent / "repset_min.py")
 
     if outfile is None:
         outfile = set_default_output_path(input_seqs, tag="_repset")
