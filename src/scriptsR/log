@@ -154,8 +154,8 @@ write.table(artico_subset$orfs$table, file="/data/mcm/rlaso/Traits/Arctic_analys
 
 
 ### OLD STEPS ####
-python3 /data/mcm/rlaso/Programs/TRAITS/code/squeezemodify.py --squeeze_table 13.artico022_DNA.orftable --taxplacement_table /data/mcm/rlaso/Traits/Arctic_analysis/Nitrogen_cycle_placement/summary_placement/all_arctic_genes_assignments_scoreover0.tsv -o ./13.artico022_DNA.orftable_GTDB_tax
-python3 /data/mcm/rlaso/Programs/TRAITS/code/squeezemodify.py --squeeze_table 08.artico022_DNA.fun3.tax.noidfilter.wranks --taxplacement_table /data/mcm/rlaso/Traits/Arctic_analysis/Nitrogen_cycle_placement/summary_placement/all_arctic_genes_assignments_scoreover0.tsv -o ./08.artico022_DNA.fun3.tax.noidfilter.wranks_GTDB
+python3 /data/mcm/rlaso/Programs/TRAITS/src/squeezemodify.py --squeeze_table 13.artico022_DNA.orftable --taxplacement_table /data/mcm/rlaso/Traits/Arctic_analysis/Nitrogen_cycle_placement/summary_placement/all_arctic_genes_assignments_scoreover0.tsv -o ./13.artico022_DNA.orftable_GTDB_tax
+python3 /data/mcm/rlaso/Programs/TRAITS/src/squeezemodify.py --squeeze_table 08.artico022_DNA.fun3.tax.noidfilter.wranks --taxplacement_table /data/mcm/rlaso/Traits/Arctic_analysis/Nitrogen_cycle_placement/summary_placement/all_arctic_genes_assignments_scoreover0.tsv -o ./08.artico022_DNA.fun3.tax.noidfilter.wranks_GTDB
 #Substitute the corresponding files
 #Then try to produce the R project
 arctic_GTDB = loadSQM('/data/mcm/rlaso/Traits/Arctic_analysis/artico022_DNA_phylogeny_GTDB/')

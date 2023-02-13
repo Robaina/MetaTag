@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/devcontainers/miniconda:0-3
 
 WORKDIR /TRAITS
 # Copy repo to docker container
-COPY code code/
+COPY src src/
 COPY tests tests/
 COPY envs envs/
 COPY data data/

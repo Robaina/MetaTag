@@ -1,7 +1,7 @@
 # 1. Ignore everything
 **
 # 2. Add files and directories that should be included
-!code/**
+!src/**
 !tests/**
 !envs/**
 !data/**
