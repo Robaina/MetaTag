@@ -19,6 +19,7 @@ ms/
 notes/
 test_data/
 jamboree/
+dist/
 # Files
 trimal.html
 src/accesory/run_papara.py

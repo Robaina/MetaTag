@@ -16,7 +16,7 @@ from metatag.utils import terminal_execute, set_default_output_path
 parent_dir = Path(__file__).parent
 papara_exec = None
 if papara_exec is None:
-    papara_bin = parent_dir.parent / "vendor/papara_static_x86_64"
+    papara_bin = parent_dir / "vendor" / "papara_static_x86_64"
     if not papara_bin.is_file():
         raise FileExistsError("Papara executable not found")
     else:
