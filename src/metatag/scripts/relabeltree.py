@@ -15,68 +15,6 @@ from metatag.taxonomy import TaxonomyAssigner
 from metatag.phylotree import new_relabel_tree
 
 
-parser = argparse.ArgumentParser(
-    description="Relabel tree and msa based on input label dictionaries",
-    epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
-)
-
-optional = parser._action_groups.pop()
-required = parser.add_argument_group("required arguments")
-parser._action_groups.append(optional)
-
-required.add_argument(
-    "--tree", dest="tree", type=str, required=True, help="path to tree in newick format"
-)
-required.add_argument(
-    "--labels",
-    dest="labels",
-    type=str,
-    required=True,
-    nargs="+",
-    help=(
-        "path to label dict in pickle format. "
-        "More than one space-separated path can be input"
-    ),
-)
-optional.add_argument(
-    "--label_prefixes",
-    dest="labelprefixes",
-    type=str,
-    nargs="+",
-    help=(
-        "prefix(es) to be added to sequences in each label dict,"
-        "input in same order as labels."
-        "More than one space-separated prefix can be input"
-    ),
-)
-optional.add_argument(
-    "--taxonomy",
-    dest="taxonomy",
-    action="store_true",
-    default=False,
-    help=("assign GTDB taxonomy to labels containing MMP identifiers"),
-)
-optional.add_argument(
-    "--aln", dest="aln", type=str, help="path to fasta alignment file to be relabelled"
-)
-optional.add_argument(
-    "--outdir", dest="outdir", type=str, help="path to output directory"
-)
-
-args = parser.parse_args()
-if args.outdir is None:
-    args.outdir = set_default_output_path(args.tree, only_dirname=True)
-
-treeout = os.path.join(args.outdir, set_default_output_path(args.tree, tag="_relabel"))
-taxoout = os.path.join(
-    args.outdir, set_default_output_path(args.tree, tag="_taxonomy", extension=".tsv")
-)
-if args.aln is not None:
-    alnout = os.path.join(
-        args.outdir, set_default_output_path(args.aln, tag="_relabel")
-    )
-
-
 def initialize_label_dict(args) -> dict:
     """
     Initialize label dictionary for tree relabelling
@@ -123,7 +61,88 @@ def export_taxonomy_table(export_label_dict: dict, outfile: str) -> None:
         file.writelines(lines)
 
 
-def main():
+def initialize_parser() -> argparse.ArgumentParser:
+    """_summary_
+
+    Returns:
+        argparse.ArgumentParser: _description_
+    """
+    parser = argparse.ArgumentParser(
+        description="Relabel tree and msa based on input label dictionaries",
+        epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
+    )
+
+    optional = parser._action_groups.pop()
+    required = parser.add_argument_group("required arguments")
+    parser._action_groups.append(optional)
+
+    required.add_argument(
+        "--tree",
+        dest="tree",
+        type=str,
+        required=True,
+        help="path to tree in newick format",
+    )
+    required.add_argument(
+        "--labels",
+        dest="labels",
+        type=str,
+        required=True,
+        nargs="+",
+        help=(
+            "path to label dict in pickle format. "
+            "More than one space-separated path can be input"
+        ),
+    )
+    optional.add_argument(
+        "--label_prefixes",
+        dest="labelprefixes",
+        type=str,
+        nargs="+",
+        help=(
+            "prefix(es) to be added to sequences in each label dict,"
+            "input in same order as labels."
+            "More than one space-separated prefix can be input"
+        ),
+    )
+    optional.add_argument(
+        "--taxonomy",
+        dest="taxonomy",
+        action="store_true",
+        default=False,
+        help=("assign GTDB taxonomy to labels containing MMP identifiers"),
+    )
+    optional.add_argument(
+        "--aln",
+        dest="aln",
+        type=str,
+        help="path to fasta alignment file to be relabelled",
+    )
+    optional.add_argument(
+        "--outdir", dest="outdir", type=str, help="path to output directory"
+    )
+
+    args = parser.parse_args()
+    return args
+
+
+def run():
+    """_summary_"""
+    args = initialize_parser()
+    if args.outdir is None:
+        args.outdir = set_default_output_path(args.tree, only_dirname=True)
+
+    treeout = os.path.join(
+        args.outdir, set_default_output_path(args.tree, tag="_relabel")
+    )
+    taxoout = os.path.join(
+        args.outdir,
+        set_default_output_path(args.tree, tag="_taxonomy", extension=".tsv"),
+    )
+    if args.aln is not None:
+        alnout = os.path.join(
+            args.outdir, set_default_output_path(args.aln, tag="_relabel")
+        )
 
     print("* Relabelling tree...")
 
@@ -147,4 +166,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run()
