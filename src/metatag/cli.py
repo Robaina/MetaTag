@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import sys
-import tempfile
 from importlib import metadata
 
 from metatag.scripts import (
@@ -34,7 +33,7 @@ class MetaTag:
             subcommand (str): subcommand name
             subcommand_args (list[str]): list of subcommand arguments and values.
         """
-        self._subcommand = subcommand
+        self._subcommand = subcommand.strip()
         if "--hmmsearch_args" in subcommand_args:
             hmm_arg_idx = subcommand_args.index("--hmmsearch_args") + 1
             subcommand_args[hmm_arg_idx] = " " + subcommand_args[hmm_arg_idx]
@@ -71,7 +70,7 @@ class MetaTag:
         if len(sys.argv) < 2:
             parser.print_help()
             sys.exit(1)
-        args = parser.parse_args(self._subcommand)
+        args = parser.parse_args([self._subcommand])
         input_subcommand = getattr(args, "subcommand")
         self._call_subcommand(subcommand_name=input_subcommand)
 
@@ -100,35 +99,43 @@ class MetaTag:
 
     def preprocess(self):
         """Call preprocess subcommand."""
-        preprocess.run()
+        args = preprocess.initialize_parser(self._subcommand_args)
+        preprocess.run(args)
 
     def database(self):
         """Call database subcommand."""
-        makedatabase.run()
+        args = makedatabase.initialize_parser(self._subcommand_args)
+        makedatabase.run(args)
 
     def tree(self):
         """Call tree subcommand."""
-        buildtree.run()
+        args = buildtree.initialize_parser(self._subcommand_args)
+        buildtree.run(args)
 
     def place(self):
         """Call place subcommand."""
-        placesequences.run()
+        args = placesequences.initialize_parser(self._subcommand_args)
+        placesequences.run(args)
 
     def assign(self):
         """Call place subcommand"""
-        labelplacements.run()
+        args = labelplacements.initialize_parser(self._subcommand_args)
+        labelplacements.run(args)
 
     def count(self):
         """Call count subcommand"""
-        countplacements.run()
+        args = countplacements.initialize_parser(self._subcommand_args)
+        countplacements.run(args)
 
     def plot(self):
         """Call plot subcommand"""
-        plottree.run()
+        args = plottree.initialize_parser(self._subcommand_args)
+        plottree.run(args)
 
     def relabel(self):
         """Call relabel subcommand"""
-        relabeltree.run()
+        args = relabeltree.initialize_parser(self._subcommand_args)
+        relabeltree.run(args)
 
     def cite(self):
         """Print pynteny's citation string"""
@@ -142,7 +149,7 @@ class MetaTag:
 
 
 def main():
-    subcommand, subcommand_args = sys.argv[1:2], sys.argv[2:]
+    subcommand, subcommand_args = sys.argv[1:2][0], sys.argv[2:]
     MetaTag(subcommand, subcommand_args)
 
 

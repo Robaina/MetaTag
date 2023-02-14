@@ -6,7 +6,7 @@ Taxonomic and function al labelling of placed sequences:
 1) Run gappa examine assign to infer taxonomy of placed sequences from reference tree taxonomy
 2) Assign function to placed sequences
 """
-
+from __future__ import annotations
 import os
 import argparse
 
@@ -23,8 +23,11 @@ from metatag.placement import (
 )
 
 
-def initialize_parser() -> argparse.ArgumentParser:
+def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     """_summary_
+
+    Args:
+        arg_list (list[str], optional): _description_. Defaults to None.
 
     Returns:
         argparse.ArgumentParser: _description_
@@ -154,11 +157,13 @@ def initialize_parser() -> argparse.ArgumentParser:
         help="path to text file containing duplicated query ids as output by seqkit rmdup",
     )
 
-    args = parser.parse_args()
-    return args
+    if arg_list is None:
+        return parser.parse_args()
+    else:
+        return parser.parse_args(arg_list)
 
 
-def run():
+def run(args: argparse.ArgumentParser) -> None:
     """_summary_
 
     Raises:
@@ -257,4 +262,5 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    args = initialize_parser()
+    run(args)
