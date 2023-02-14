@@ -12,7 +12,7 @@
 This repository contains tools to assign taxonomy and function annotations to short reads through pylogenetic tree evolutionary placement
 
 ## :wrench: Setup
-The easiest way to use TRAITS is through the provided [docker](https://www.docker.com/) container. To use it, pull the image:
+The easiest way to use MetaTag is through the provided [docker](https://www.docker.com/) container. To use it, pull the image:
 
 ```
 docker pull ghcr.io/robaina/metatag:latest
