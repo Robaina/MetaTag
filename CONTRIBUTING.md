@@ -10,25 +10,25 @@ This project and everyone participating in it is governed by the [Contributor Co
 
 ## I have a question!
 
-If you only have a question about all things related to MetaTag, the best course of actions for you is to open a new [discussion](https://github.com/Robaina/TRAITS/discussions).
+If you only have a question about all things related to MetaTag, the best course of actions for you is to open a new [discussion](https://github.com/Robaina/MetaTag/discussions).
 
 ## How can I contribute?
 
 ### 1. Reporting bugs
 
-We all make mistakes, and the developers behind MetaTag are no exception... So, if you find a bug in the source code, please open an [issue](https://github.com/Robaina/TRAITS/issues) and report it. Please, first search for similar issues that are currrently open.
+We all make mistakes, and the developers behind MetaTag are no exception... So, if you find a bug in the source code, please open an [issue](https://github.com/Robaina/MetaTag/issues) and report it. Please, first search for similar issues that are currrently open.
 
 ### 2. Suggesting enhancements
 
-Are you missing some feature that would like MetaTag to have? No problem! You can contribute by suggesting an enhancement, just open a new issue and tag it with the [```enhancement```](https://github.com/Robaina/TRAITS/labels/enhancement) label. Please, first search for similar issues that are currrently open.
+Are you missing some feature that would like MetaTag to have? No problem! You can contribute by suggesting an enhancement, just open a new issue and tag it with the [```enhancement```](https://github.com/Robaina/MetaTag/labels/enhancement) label. Please, first search for similar issues that are currrently open.
 
 ### 3. Improving the documentation
 
-Help is always needed at improving the [documentation](https://robaina.github.io/TRAITS/). Either adding more detailed docstrings, usage explanations or new examples.
+Help is always needed at improving the [documentation](https://robaina.github.io/MetaTag/). Either adding more detailed docstrings, usage explanations or new examples.
 
 ## First contribution
 
-Unsure where to begin contributing to MetaTag? You can start by looking for issues with the label [```good first issue```](https://github.com/Robaina/TRAITS/labels/good%20first%20issue). If you are unsure about how to set a developer environment for MetaTag, do take a look at the section below. Thanks!
+Unsure where to begin contributing to MetaTag? You can start by looking for issues with the label [```good first issue```](https://github.com/Robaina/MetaTag/labels/good%20first%20issue). If you are unsure about how to set a developer environment for MetaTag, do take a look at the section below. Thanks!
 
 ## Setting up a local developer environment
 

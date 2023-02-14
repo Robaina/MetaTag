@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/devcontainers/miniconda:0-3
 
-WORKDIR /TRAITS
+WORKDIR /MetaTag
 # Copy repo to docker container
 COPY src src/
 COPY tests tests/
