@@ -18,6 +18,9 @@ metatag preprocess \
  --outfile tests/test_results/test_data_cleaned.faa \
  --export-duplicates
 
+metatag database \
+ --in tests/test_results/test_data_cleaned.faa \
+ --outdir tests/test_results \
  --hmms tests/test_data/TIGR01287.1.HMM \
         tests/test_data/TIGR02016.1.HMM \
  --max_sizes 20 5 \
