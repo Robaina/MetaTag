@@ -5,7 +5,7 @@
 open empress tree with placements in browser. 
 Only if script runs locally.
 """
-
+from __future__ import annotations
 import os
 import argparse
 
@@ -16,7 +16,7 @@ from metatag.visualization import (
 )
 
 
-def initialize_parser() -> argparse.ArgumentParser:
+def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     """_summary_
 
     Returns:
@@ -49,11 +49,13 @@ def initialize_parser() -> argparse.ArgumentParser:
         "--outdir", dest="outdir", type=str, help="path to output directory"
     )
 
-    args = parser.parse_args()
-    return args
+    if arg_list is None:
+        return parser.parse_args()
+    else:
+        return parser.parse_args(arg_list)
 
 
-def run():
+def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""
     args = initialize_parser()
     if args.outdir is None:
@@ -80,4 +82,5 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    args = initialize_parser()
+    run(args)

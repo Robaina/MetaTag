@@ -9,7 +9,7 @@ Preprocessing:
 3) Translate if nucleotide
 4) Relabel if asked for
 """
-
+from __future__ import annotations
 import os
 import shutil
 import argparse
@@ -29,8 +29,11 @@ from metatag.database.preprocessing import (
 )
 
 
-def initialize_parser() -> argparse.ArgumentParser:
+def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     """_summary_
+
+    Args:
+        arg_list (list[str], optional): _description_. Defaults to None.
 
     Returns:
         argparse.ArgumentParser: _description_
@@ -101,13 +104,18 @@ def initialize_parser() -> argparse.ArgumentParser:
         help="choose method to remove duplicates: seqkit or biopython",
     )
 
-    args = parser.parse_args()
-    return args
+    if arg_list is None:
+        return parser.parse_args()
+    else:
+        return parser.parse_args(arg_list)
 
 
-def run():
-    """_summary_"""
-    args = initialize_parser()
+def run(args: argparse.ArgumentParser) -> None:
+    """_summary_
+
+    Args:
+        args (argparse.ArgumentParser): _description_
+    """
     if args.idprefix is None:
         args.idprefix = "label_"
     if args.outfile is None:
@@ -189,4 +197,5 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    args = initialize_parser()
+    run(args)

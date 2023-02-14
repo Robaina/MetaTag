@@ -5,15 +5,18 @@
 Evaluation of placed sequences:
 1) Count placed sequences
 """
-
+from __future__ import annotations
 import os
 import argparse
 from metatag.utils import set_default_output_path
 from metatag.placement import TaxAssignParser
 
 
-def initialize_parser() -> argparse.ArgumentParser:
+def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     """_summary_
+
+    Args:
+        arg_list (list[str], optional): _description_. Defaults to None.
 
     Returns:
         argparse.ArgumentParser: _description_
@@ -86,11 +89,13 @@ def initialize_parser() -> argparse.ArgumentParser:
         ),
     )
 
-    args = parser.parse_args()
-    return args
+    if arg_list is None:
+        return parser.parse_args()
+    else:
+        return parser.parse_args(arg_list)
 
 
-def run():
+def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""
     args = initialize_parser()
     if args.outdir is None:
@@ -122,4 +127,5 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    args = initialize_parser()
+    run(args)

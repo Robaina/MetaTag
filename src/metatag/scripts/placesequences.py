@@ -7,7 +7,7 @@ Placement:
 2) Run epa-ng to place query onto tree
 3) Run gappa to obtain tree file with placed sequences
 """
-
+from __future__ import annotations
 import os
 import argparse
 
@@ -16,7 +16,7 @@ from metatag.utils import set_default_output_path
 from metatag.placement import place_reads_onto_tree
 
 
-def initialize_parser() -> argparse.ArgumentParser:
+def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     """_summary_
 
     Returns:
@@ -73,11 +73,13 @@ def initialize_parser() -> argparse.ArgumentParser:
         help="choose method to align query sequences to reference alignment",
     )
 
-    args = parser.parse_args()
-    return args
+    if arg_list is None:
+        return parser.parse_args()
+    else:
+        return parser.parse_args(arg_list)
 
 
-def run():
+def run(args: argparse.ArgumentParser) -> None:
     """_summary_
 
     Raises:
@@ -112,4 +114,5 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    args = initialize_parser()
+    run(args)
