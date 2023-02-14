@@ -16,6 +16,7 @@ from metatag.scripts import (
     labelplacements,
     countplacements,
     relabeltree,
+    plottree,
 )
 
 meta = metadata.metadata("metatag")
@@ -53,6 +54,7 @@ class MetaTag:
                 "place \n"
                 "assign \n"
                 "count \n"
+                "plot \n"
                 "relabel \n"
                 "cite \n"
             ),
@@ -120,6 +122,10 @@ class MetaTag:
         """Call count subcommand"""
         countplacements.run()
 
+    def plot(self):
+        """Call plot subcommand"""
+        plottree.run()
+
     def relabel(self):
         """Call relabel subcommand"""
         relabeltree.run()
@@ -133,28 +139,6 @@ class MetaTag:
         print("If you use this software, please cite it as below: ")
         print(citation)
         return citation
-
-
-class SubcommandParser:
-    """Argparse parsers for Pynteny's subcommands"""
-
-    @staticmethod
-    def get_help_str(subcommand: str) -> str:
-        """Get help string for subcommand.
-
-        Args:
-            subcommand (str): subcommand name.
-
-        Returns:
-            str: help string.
-        """
-        parser = getattr(SubcommandParser, subcommand)()
-        with tempfile.NamedTemporaryFile(mode="w+") as file:
-            parser.print_help(file)
-            file.flush()
-            with open(file.name, encoding="UTF-8") as help_file:
-                help_str = help_file.read()
-        return help_str
 
 
 def main():

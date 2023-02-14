@@ -41,8 +41,8 @@ jobs:
           activate-environment: tests_traits
           environment-file: envs/metatag-dev.yml
 
-      # - name: Build & Install traits
-      #   run: poetry build && pip install dist/traits*.whl
+      - name: Build & Install metatag
+        run: poetry build && pip install dist/metatag*.whl
 
       - name: Run tests
         run: bash tests/minimal_test.sh

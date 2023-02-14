@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-open empress tree with placements in browser. Only if script runs locally.
+open empress tree with placements in browser. 
+Only if script runs locally.
 """
 
 import os
@@ -15,40 +16,49 @@ from metatag.visualization import (
 )
 
 
-parser = argparse.ArgumentParser(
-    description="Place query sequences onto reference tree",
-    epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
-)
+def initialize_parser() -> argparse.ArgumentParser:
+    """_summary_
 
-optional = parser._action_groups.pop()
-required = parser.add_argument_group("required arguments")
-parser._action_groups.append(optional)
+    Returns:
+        argparse.ArgumentParser: _description_
+    """
+    parser = argparse.ArgumentParser(
+        description="Place query sequences onto reference tree",
+        epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
+    )
 
-required.add_argument(
-    "--tree", dest="tree", type=str, required=True, help="path to tree file"
-)
-optional.add_argument(
-    "--labels",
-    dest="labels",
-    type=str,
-    required=False,
-    nargs="+",
-    help=(
-        "path to label dict in pickle format. "
-        "More than one space-separated path can be input"
-    ),
-)
-optional.add_argument(
-    "--outdir", dest="outdir", type=str, help="path to output directory"
-)
+    optional = parser._action_groups.pop()
+    required = parser.add_argument_group("required arguments")
+    parser._action_groups.append(optional)
 
-args = parser.parse_args()
-if args.outdir is None:
-    args.outdir = set_default_output_path(args.tree, only_dirname=True)
-os.makedirs(args.outdir, exist_ok=True)
+    required.add_argument(
+        "--tree", dest="tree", type=str, required=True, help="path to tree file"
+    )
+    optional.add_argument(
+        "--labels",
+        dest="labels",
+        type=str,
+        required=False,
+        nargs="+",
+        help=(
+            "path to label dict in pickle format. "
+            "More than one space-separated path can be input"
+        ),
+    )
+    optional.add_argument(
+        "--outdir", dest="outdir", type=str, help="path to output directory"
+    )
+
+    args = parser.parse_args()
+    return args
 
 
-def main():
+def run():
+    """_summary_"""
+    args = initialize_parser()
+    if args.outdir is None:
+        args.outdir = set_default_output_path(args.tree, only_dirname=True)
+    os.makedirs(args.outdir, exist_ok=True)
 
     print("* Drawing tree in browser...")
     if args.labels is not None:
@@ -70,4 +80,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run()
