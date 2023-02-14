@@ -14,9 +14,9 @@ authors = [
   ]
 maintainers = ["Semidán Robaina Estévez <srobaina@ull.edu.es>"]
 readme = "README.md"
-homepage = "https://github.com/robaina/TRAITS"
-repository = "https://github.com/robaina/TRAITS"
-documentation = "https://github.com/robaina/TRAITS"
+homepage = "https://github.com/robaina/MetaTag"
+repository = "https://github.com/robaina/MetaTag"
+documentation = "https://github.com/robaina/MetaTag"
 keywords = ["short reads", "hmm", "metagenomics", "bioinformatics", "phylogenetics", "placement", "annotation"]
 classifiers = [
     "License :: OSI Approved :: Apache Software License",

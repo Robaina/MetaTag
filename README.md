@@ -1,6 +1,6 @@
 ![logo](docs/imgs/meta_trans.png)
 
-[![tests](https://github.com/Robaina/TRAITS/actions/workflows/tests.yml/badge.svg)](https://github.com/Robaina/TRAITS/actions/workflows/tests.yml)
+[![tests](https://github.com/Robaina/MetaTag/actions/workflows/tests.yml/badge.svg)](https://github.com/Robaina/MetaTag/actions/workflows/tests.yml)
 ![python](https://img.shields.io/badge/Python-3.8%2B-blue)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -28,7 +28,7 @@ Otherwise, you can install MetaTag like this:
 
 1. Fork git repo into local machine (click on fork) and clone, or simply clone main branch with
 ```
-git clone https://github.com/Robaina/TRAITS.git
+git clone https://github.com/Robaina/MetaTag.git
 ```
 2. CD to project traits and set conda environment if not already set:
 ```
@@ -58,4 +58,4 @@ Thanks!
 
 ## :octocat: Contributing
 
-Contributions are always welcome! If you don't know where to start, you may find an interesting [issue to work in here](https://github.com/Robaina/TRAITS/issues). Please, read our [contribution guidelines](CONTRIBUTING.md) first.
+Contributions are always welcome! If you don't know where to start, you may find an interesting [issue to work in here](https://github.com/Robaina/MetaTag/issues). Please, read our [contribution guidelines](CONTRIBUTING.md) first.
