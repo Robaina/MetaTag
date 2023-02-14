@@ -18,6 +18,7 @@ metatag preprocess \
  --outfile tests/test_results/test_data_cleaned.faa \
  --export-duplicates
 
+# Build reference database
 metatag database \
  --in tests/test_results/test_data_cleaned.faa \
  --outdir tests/test_results \

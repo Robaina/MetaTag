@@ -34,6 +34,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser(
         description="Assgin taxonomy and function to placed query sequences",
+        usage="metatag assign [-h] [args] \n",
         epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
     )
 
@@ -170,7 +171,6 @@ def run(args: argparse.ArgumentParser) -> None:
         ValueError: _description_
         ValueError: _description_
     """
-    args = initialize_parser()
     if args.outdir is None:
         args.outdir = set_default_output_path(args.jplace, only_dirname=True)
 

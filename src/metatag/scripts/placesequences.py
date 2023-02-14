@@ -24,6 +24,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser(
         description="Place query sequences onto reference tree",
+        usage="metatag place [-h] [args] \n",
         epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
     )
 
@@ -85,7 +86,6 @@ def run(args: argparse.ArgumentParser) -> None:
     Raises:
         ValueError: _description_
     """
-    args = initialize_parser()
     if args.outdir is None:
         args.outdir = set_default_output_path(args.aln, only_dirname=True)
     if args.tree_model is None:

@@ -26,6 +26,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser(
         description="MSA on reference database and infer reference tree",
+        usage="metatag tree [-h] [args] \n",
         epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
     )
 
@@ -75,7 +76,6 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
 
 def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""
-    args = initialize_parser()
     if args.outdir is None:
         args.outdir = set_default_output_path(args.data, only_dirname=True)
     output_aln = os.path.join(args.outdir, "ref_database.faln")

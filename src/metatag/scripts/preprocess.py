@@ -43,6 +43,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
             "Database preprocessing: removal of duplicated sequences and of sequences with illegal symbols. "
             "To preferentially keep one duplicate sequence over another, place preferred sequences first."
         ),
+        usage="metatag preprocess [-h] [args] \n",
         epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
     )
 

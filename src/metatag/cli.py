@@ -33,7 +33,7 @@ class MetaTag:
             subcommand (str): subcommand name
             subcommand_args (list[str]): list of subcommand arguments and values.
         """
-        self._subcommand = subcommand.strip()
+        self._subcommand = subcommand
         if "--hmmsearch_args" in subcommand_args:
             hmm_arg_idx = subcommand_args.index("--hmmsearch_args") + 1
             subcommand_args[hmm_arg_idx] = " " + subcommand_args[hmm_arg_idx]
@@ -70,7 +70,8 @@ class MetaTag:
         if len(sys.argv) < 2:
             parser.print_help()
             sys.exit(1)
-        args = parser.parse_args([self._subcommand])
+        args = parser.parse_args(self._subcommand)
+        # args = parser.parse_args()
         input_subcommand = getattr(args, "subcommand")
         self._call_subcommand(subcommand_name=input_subcommand)
 
@@ -149,7 +150,7 @@ class MetaTag:
 
 
 def main():
-    subcommand, subcommand_args = sys.argv[1:2][0], sys.argv[2:]
+    subcommand, subcommand_args = sys.argv[1:2], sys.argv[2:]
     MetaTag(subcommand, subcommand_args)
 
 

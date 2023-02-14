@@ -23,6 +23,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser(
         description="Count placed sequences based on taxon level, function and quality score",
+        usage="metatag count [-h] [args] \n",
         epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
     )
 
@@ -97,7 +98,6 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
 
 def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""
-    args = initialize_parser()
     if args.outdir is None:
         args.outdir = set_default_output_path(args.taxtable, only_dirname=True)
     if args.outprefix is None:

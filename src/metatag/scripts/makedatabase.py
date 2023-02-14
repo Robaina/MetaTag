@@ -42,6 +42,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser(
         description="Build peptide reference database",
+        usage="metatag database [-h] [args] \n",
         epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
     )
 
@@ -167,7 +168,6 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
 
 def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""
-    args = initialize_parser()
     if args.maxsizes is None:
         args.maxsizes = [None for _ in args.hmms]
     else:
