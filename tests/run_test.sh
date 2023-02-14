@@ -21,13 +21,13 @@
 rm -r tests/test_results; mkdir tests/test_results; mkdir tests/test_results/gappa/
 
 # Preprocess
-python3 src/preprocess.py \
+metatag preprocess \
  --in tests/test_data/database/ \
  --outfile tests/test_results/test_data_cleaned.faa \
  --export-duplicates
 
 # Make database
-python3 src/makedatabase.py \
+metatag database \
  --in tests/test_results/test_data_cleaned.faa \
  --outdir tests/test_results \
  --hmms tests/test_data/TIGR01287.1.HMM \
@@ -39,7 +39,7 @@ python3 src/makedatabase.py \
  --hmmsearch_args " None, --cut_ga"
 
 # Alignment and tree
-python3 src/buildtree.py \
+metatag tree \
  --in tests/test_results/ref_database.faa \
  --outdir tests/test_results/ \
  --msa_method "muscle" \
@@ -47,19 +47,19 @@ python3 src/buildtree.py \
  --tree_method "iqtree"
 
 # Relabel reference tree and assign taxonomy
-python3 src/relabeltree.py \
+metatag relabel \
  --tree tests/test_results/ref_database.newick \
  --labels tests/test_results/ref_database_id_dict.pickle \
  --taxonomy
 
 # Preprocess query sequences
-python3 src/preprocess.py \
+metatag preprocess \
  --in tests/test_data/query.faa \
  --outfile tests/test_results/query_cleaned.faa \
  --idprefix "query_" --relabel --export-duplicates
 
 # Place query sequences
-python3 src/placesequences.py \
+metatag place \
  --aln tests/test_results/ref_database.faln \
  --tree tests/test_results/ref_database.newick \
  --query tests/test_results/query_cleaned.faa \
@@ -68,7 +68,7 @@ python3 src/placesequences.py \
  --tree_model tests/test_results/ref_database.log
 
 # Assign taxonomy to placed sequences
-python3 src/labelplacements.py \
+metatag assign \
  --jplace tests/test_results/epa_result.jplace \
  --labels tests/test_results/ref_database_id_dict.pickle \
  --query_labels tests/test_results/query_cleaned_id_dict.pickle \
@@ -81,7 +81,7 @@ python3 src/labelplacements.py \
  --min_placement_lwr 0.8
 
 # Count placements (filter by taxon, cluster id and quality score)
-python3 src/countplacements.py \
+metatag count \
  --taxtable tests/test_results/gappa/placed_tax_assignments.tsv \
  --taxlevels "genus" "family" "class" "order" \
  --cluster_ids "G1" "G2" \
@@ -91,7 +91,7 @@ python3 src/countplacements.py \
 
 # Relabel tree with placements 
 # (note: tree retrieved with gappa examine graft, which selects placements with highest LWR)
-python3 src/relabeltree.py \
+metatag relabel \
  --tree tests/test_results/epa_result.newick \
  --labels tests/test_results/ref_database_id_dict.pickle \
           tests/test_results/query_cleaned_id_dict.pickle \
@@ -99,7 +99,7 @@ python3 src/relabeltree.py \
  --taxonomy
 
 # Plot tree
-python3 src/plottree.py \
+metatag plot \
 --tree tests/test_results/epa_result.newick \
  --labels tests/test_results/ref_database_id_dict.pickle \
           tests/test_results/query_cleaned_id_dict.pickle \
