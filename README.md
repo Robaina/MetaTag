@@ -8,7 +8,7 @@
 ![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 
 ---
-## 1. :bulb: What is MetaTag?
+## :bulb: What is MetaTag?
 This repository contains tools to assign taxonomy and function annotations to short reads through pylogenetic tree evolutionary placement
 
 ## :wrench: Setup
