@@ -60,7 +60,7 @@ conda activate metatag-dev
 5. Run tests
 
 ```bash
-(metatag-dev) python -m unittest discover tests
+(metatag-dev) bash tests/run_test.sh
 ```
 
 ## Working with GitHub branches
@@ -84,15 +84,6 @@ __IMPORTANT NOTES__:
 
 a) https://docs.github.com/en/get-started/getting-started-with-git/caching-your-github-credentials-in-git
 b) https://github.com/cli/cli/blob/trunk/docs/install_linux.md
-
-## Using GitHub codespaces
-
-Alternatively, you can directly work on a developer environment in the browser within GitHub's codespaces. To set this environment up:
-
-1. Fork repository and create new branch for your issue.
-
-2. Start a new Codespace for the new branch. GitHub will build an environment with all required dependencies as well as MetaTag the first time (it will take a couple of minutes). MetaTag will be installed in a conda environment named "metatag-dev".
-
 
 ## Tests on push and pull request to main
 
