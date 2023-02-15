@@ -8,18 +8,17 @@ Reference database:
 3) Relabel entries with temporary ids to avoid donwstream conflicts
 """
 
+import argparse
 import os
 import shutil
-import argparse
 
-from metatag.utils import set_default_output_path, TemporaryFilePath
-from metatag.database.preprocessing import set_temp_record_ids_in_fasta
 from metatag.database.manipulation import (
     filter_fasta_by_hmm_structure,
     filter_fasta_by_sequence_length,
 )
+from metatag.database.preprocessing import set_temp_record_ids_in_fasta
 from metatag.database.reduction import reduce_database_redundancy
-
+from metatag.utils import TemporaryFilePath, set_default_output_path
 
 parser = argparse.ArgumentParser(
     description="Build peptide reference database from HMM structure",

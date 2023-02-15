@@ -52,7 +52,7 @@ class LabelParser:
             locus_pos = tuple([int(pos) for pos in meta.split("_")[-3:-1]])
             gene_pos = int(meta.split("_")[-4])
             contig = "_".join(meta.split("_")[:-4])
-        except:
+        except Exception:
             contig = None
             gene_pos = None
             locus_pos = None

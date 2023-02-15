@@ -7,21 +7,22 @@ Taxonomic and function al labelling of placed sequences:
 2) Assign function to placed sequences
 """
 from __future__ import annotations
-import os
-import logging
-import argparse
 
-from metatag.utils import set_default_output_path, DictMerger
+import argparse
+import logging
+import os
+
 from metatag.database.preprocessing import (
     is_fasta,
     is_file,
     write_record_names_to_file,
 )
 from metatag.placement import (
-    assign_labels_to_placements,
-    add_duplicates_to_assignment_table,
     JplaceParser,
+    add_duplicates_to_assignment_table,
+    assign_labels_to_placements,
 )
+from metatag.utils import DictMerger, set_default_output_path
 
 logger = logging.getLogger(__name__)
 

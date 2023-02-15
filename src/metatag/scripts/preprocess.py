@@ -10,24 +10,25 @@ Preprocessing:
 4) Relabel if asked for
 """
 from __future__ import annotations
-import os
-import logging
-import shutil
-import argparse
 
-from metatag.utils import (
-    set_default_output_path,
-    TemporaryFilePath,
-    TemporaryDirectoryPath,
-)
-from metatag.wrappers import run_prodigal
+import argparse
+import logging
+import os
+import shutil
+
 from metatag.database.preprocessing import (
     assert_correct_sequence_format,
-    remove_duplicates_from_fasta,
-    merge_fastas,
-    set_temp_record_ids_in_fasta,
     fasta_contains_nucleotide_sequences,
+    merge_fastas,
+    remove_duplicates_from_fasta,
+    set_temp_record_ids_in_fasta,
 )
+from metatag.utils import (
+    TemporaryDirectoryPath,
+    TemporaryFilePath,
+    set_default_output_path,
+)
+from metatag.wrappers import run_prodigal
 
 logger = logging.getLogger(__name__)
 

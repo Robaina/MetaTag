@@ -16,13 +16,13 @@ import warnings
 from pathlib import Path
 
 import metatag.wrappers as wrappers
+from metatag.database.manipulation import filter_fasta_by_ids
 from metatag.utils import (
+    TemporaryDirectoryPath,
+    TemporaryFilePath,
     set_default_output_path,
     terminal_execute,
-    TemporaryFilePath,
-    TemporaryDirectoryPath,
 )
-from metatag.database.manipulation import filter_fasta_by_ids
 
 
 def get_representative_set(

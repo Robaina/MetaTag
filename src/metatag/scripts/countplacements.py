@@ -6,11 +6,13 @@ Evaluation of placed sequences:
 1) Count placed sequences
 """
 from __future__ import annotations
-import os
-import logging
+
 import argparse
-from metatag.utils import set_default_output_path
+import logging
+import os
+
 from metatag.placement import TaxAssignParser
+from metatag.utils import set_default_output_path
 
 logger = logging.getLogger(__name__)
 

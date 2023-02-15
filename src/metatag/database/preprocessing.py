@@ -12,16 +12,15 @@ Tools to preprocess sequence databases
 import os
 import re
 
-from Bio import SeqIO
 import pyfastx
-
+from Bio import SeqIO
 
 import metatag.wrappers as wrappers
 from metatag.utils import (
+    handle_exceptions,
     save_to_pickle_file,
     set_default_output_path,
     terminal_execute,
-    handle_exceptions,
 )
 
 

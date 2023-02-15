@@ -7,13 +7,13 @@
 """
 
 import argparse
-from pathlib import Path
 import copy
 import heapq
 import logging
+from pathlib import Path
 
-import pandas as pd
 import numpy
+import pandas as pd
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -208,19 +208,11 @@ def summaxacross_eval(db, seq_ids, sim):
 # Who each represntative represents
 # "representatives" {seq_id: {example: val}}
 
-summaxacross_base_data = lambda db, sim: {
-    "examples": {seq_id: (None, 0) for seq_id in db},
-    "representatives": {},
-}
+def summaxacross_base_data(db, sim):
+    return {"examples": {seq_id: (None, 0) for seq_id in db}, "representatives": {}}
 
-summaxacross_full_data = lambda db, sim: {
-    "examples": {
-        seq_id: (seq_id, sim_from_db(db, sim, seq_id, seq_id)) for seq_id in db
-    },
-    "representatives": {
-        seq_id: {seq_id: sim_from_db(db, sim, seq_id, seq_id)} for seq_id in db
-    },
-}
+def summaxacross_full_data(db, sim):
+    return {"examples": {seq_id: (seq_id, sim_from_db(db, sim, seq_id, seq_id)) for seq_id in db}, "representatives": {seq_id: {seq_id: sim_from_db(db, sim, seq_id, seq_id)} for seq_id in db}}
 
 
 def summaxacross_diff(db, seq_id, sim, data):
@@ -335,10 +327,8 @@ def summaxwithin_eval(db, seq_ids, sim):
 # Who each represntative represents
 # "representatives" {seq_id: {example: val}}
 
-summaxwithin_base_data = lambda db, sim: {
-    "examples": {seq_id: (None, 0) for seq_id in db},
-    "representatives": {},
-}
+def summaxwithin_base_data(db, sim):
+    return {"examples": {seq_id: (None, 0) for seq_id in db}, "representatives": {}}
 
 
 def summaxwithin_full_data(db, sim):
@@ -504,8 +494,10 @@ def sumsumwithin_eval(db, seq_ids, sim):
     return s
 
 
-sumsumwithin_base_data = lambda db, sim: set()
-sumsumwithin_full_data = lambda db, sim: set(db.keys())
+def sumsumwithin_base_data(db, sim):
+    return set()
+def sumsumwithin_full_data(db, sim):
+    return set(db.keys())
 
 
 def sumsumwithin_diff(db, seq_id, sim, data):
@@ -514,7 +506,7 @@ def sumsumwithin_diff(db, seq_id, sim, data):
     for neighbor, d in db[seq_id]["neighbors"].items():
         if seq_id == neighbor:
             continue
-        if not (neighbor in data):
+        if neighbor not in data:
             continue
         diff += -sim_from_neighbor(sim, d)
         # neighbor_bisim = bisim(db, sim, seq_id, neighbor)
@@ -522,7 +514,7 @@ def sumsumwithin_diff(db, seq_id, sim, data):
     for neighbor, d in db[seq_id]["in_neighbors"].items():
         if seq_id == neighbor:
             continue
-        if not (neighbor in data):
+        if neighbor not in data:
             continue
         diff += -sim_from_neighbor(sim, d)
     return diff
@@ -539,7 +531,7 @@ def sumsumwithin_negdiff(db, seq_id, sim, data):
     for neighbor, d in db[seq_id]["neighbors"].items():
         if seq_id == neighbor:
             continue
-        if not (neighbor in data):
+        if neighbor not in data:
             continue
         # neighbor_bisim = bisim(db, sim, seq_id, neighbor)
         # diff -= -neighbor_bisim
@@ -547,7 +539,7 @@ def sumsumwithin_negdiff(db, seq_id, sim, data):
     for neighbor, d in db[seq_id]["in_neighbors"].items():
         if seq_id == neighbor:
             continue
-        if not (neighbor in data):
+        if neighbor not in data:
             continue
         diff += sim_from_neighbor(sim, d)  # removing a penalty
     return diff
@@ -583,8 +575,10 @@ def sumsumacross_eval(db, seq_ids, sim):
     return s
 
 
-sumsumacross_base_data = lambda db, sim: None
-sumsumacross_full_data = lambda db, sim: None
+def sumsumacross_base_data(db, sim):
+    return None
+def sumsumacross_full_data(db, sim):
+    return None
 
 
 def sumsumacross_diff(db, seq_id, sim, data):

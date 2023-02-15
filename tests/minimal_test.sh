@@ -10,6 +10,7 @@
 #                                                                                        #
 # ************************************************************************************** #
 
+if [ -d tests/test_results ]; then rm -rf tests/test_results; fi
 mkdir -p tests/test_results; mkdir -p tests/test_results/gappa/
 
 # Preprocess
