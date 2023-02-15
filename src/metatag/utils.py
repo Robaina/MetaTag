@@ -218,7 +218,9 @@ def list_tar_dir(tar_dir: str) -> list:
     return files
 
 
-def easy_pattern_matching(text: str, left_pattern: str, right_pattern: str = None) -> str:
+def easy_pattern_matching(
+    text: str, left_pattern: str, right_pattern: str = None
+) -> str:
     """
     Just straightforward string searchs between two patterns
     """

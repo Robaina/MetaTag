@@ -208,11 +208,20 @@ def summaxacross_eval(db, seq_ids, sim):
 # Who each represntative represents
 # "representatives" {seq_id: {example: val}}
 
+
 def summaxacross_base_data(db, sim):
     return {"examples": {seq_id: (None, 0) for seq_id in db}, "representatives": {}}
 
+
 def summaxacross_full_data(db, sim):
-    return {"examples": {seq_id: (seq_id, sim_from_db(db, sim, seq_id, seq_id)) for seq_id in db}, "representatives": {seq_id: {seq_id: sim_from_db(db, sim, seq_id, seq_id)} for seq_id in db}}
+    return {
+        "examples": {
+            seq_id: (seq_id, sim_from_db(db, sim, seq_id, seq_id)) for seq_id in db
+        },
+        "representatives": {
+            seq_id: {seq_id: sim_from_db(db, sim, seq_id, seq_id)} for seq_id in db
+        },
+    }
 
 
 def summaxacross_diff(db, seq_id, sim, data):
@@ -326,6 +335,7 @@ def summaxwithin_eval(db, seq_ids, sim):
 # "examples": {seq_id: (representive, val) }
 # Who each represntative represents
 # "representatives" {seq_id: {example: val}}
+
 
 def summaxwithin_base_data(db, sim):
     return {"examples": {seq_id: (None, 0) for seq_id in db}, "representatives": {}}
@@ -496,6 +506,8 @@ def sumsumwithin_eval(db, seq_ids, sim):
 
 def sumsumwithin_base_data(db, sim):
     return set()
+
+
 def sumsumwithin_full_data(db, sim):
     return set(db.keys())
 
@@ -577,6 +589,8 @@ def sumsumacross_eval(db, seq_ids, sim):
 
 def sumsumacross_base_data(db, sim):
     return None
+
+
 def sumsumacross_full_data(db, sim):
     return None
 
