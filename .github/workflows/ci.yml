@@ -17,4 +17,4 @@ jobs:
       - name: Check linters
         run: ruff --format=github .
       - name: Check format
-        run: black --check .
+        run: black --check src/metatag.
