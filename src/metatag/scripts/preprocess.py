@@ -11,6 +11,7 @@ Preprocessing:
 """
 from __future__ import annotations
 import os
+import logging
 import shutil
 import argparse
 
@@ -27,6 +28,8 @@ from metatag.database.preprocessing import (
     set_temp_record_ids_in_fasta,
     fasta_contains_nucleotide_sequences,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
@@ -126,7 +129,7 @@ def run(args: argparse.ArgumentParser) -> None:
     output_dir = os.path.abspath(os.path.dirname(args.outfile))
 
     if os.path.isdir(args.data):
-        print("Merging input files...")
+        logger.info("Merging input files...")
         _, file_ext = os.path.splitext(os.listdir(args.data)[0])
         data_path = os.path.abspath(os.path.join(output_dir, f"merged_data{file_ext}"))
         merge_fastas(input_fastas_dir=args.data, output_fasta=data_path)
@@ -137,13 +140,13 @@ def run(args: argparse.ArgumentParser) -> None:
         is_peptide = False
     if not args.dna:
         if fasta_contains_nucleotide_sequences(data_path):
-            print("Inferred data contain nucleotide sequences")
+            logger.info("Inferred data contain nucleotide sequences")
             is_peptide = False
         else:
             is_peptide = True
 
     with TemporaryFilePath() as tmp_file_path:
-        print("* Removing duplicates...")
+        logger.info("Removing duplicates...")
         duplicates_file = set_default_output_path(
             outfasta, tag="_duplicates", extension=".txt"
         )
@@ -154,14 +157,14 @@ def run(args: argparse.ArgumentParser) -> None:
             export_duplicates=args.export_dup,
             duplicates_file=duplicates_file,
         )
-        print("* Asserting correct sequence format...")
+        logger.info("Asserting correct sequence format...")
         assert_correct_sequence_format(
             fasta_file=tmp_file_path, output_file=outfasta, is_peptide=is_peptide
         )
 
     if args.translate and not is_peptide:
         outprefix = set_default_output_path(outfasta, only_filename=True)
-        print("* Translating nucleotide sequences...")
+        logger.info("Translating nucleotide sequences...")
         with TemporaryDirectoryPath() as tempdir:
             run_prodigal(
                 input_file=outfasta,
@@ -178,10 +181,10 @@ def run(args: argparse.ArgumentParser) -> None:
             )
             shutil.move(outgbk, output_dir)
     elif args.translate and is_peptide:
-        print("Data already translated!")
+        logger.info("Data already translated!")
 
     if args.relabel:
-        print("* Relabelling records...")
+        logger.info("Relabelling records...")
         outfasta_short = set_default_output_path(outfasta, tag="_short_ids")
         set_temp_record_ids_in_fasta(
             input_fasta=outfasta,
@@ -194,7 +197,7 @@ def run(args: argparse.ArgumentParser) -> None:
     if os.path.isdir(args.data):
         os.remove(data_path)
 
-    print("Finished!")
+    logger.info("Done!")
 
 
 if __name__ == "__main__":

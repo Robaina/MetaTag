@@ -7,12 +7,15 @@ Relabel tree and msa from label dicts as pickle files
 
 from __future__ import annotations
 import os
+import logging
 import argparse
 
 from metatag.utils import set_default_output_path, DictMerger
 from metatag.database.preprocessing import set_original_record_ids_in_fasta
 from metatag.taxonomy import TaxonomyAssigner
-from metatag.phylotree import new_relabel_tree
+from metatag.phylotree import relabel_tree
+
+logger = logging.getLogger(__name__)
 
 
 def initialize_label_dict(args) -> dict:
@@ -146,7 +149,7 @@ def run(args: argparse.ArgumentParser) -> None:
             args.outdir, set_default_output_path(args.aln, tag="_relabel")
         )
 
-    print("* Relabelling tree...")
+    logger.info("Relabelling tree...")
 
     label_dict, prefix_label_dict = initialize_label_dict(args)
     if args.taxonomy:
@@ -157,7 +160,7 @@ def run(args: argparse.ArgumentParser) -> None:
     else:
         tree_label_dict = prefix_label_dict
 
-    new_relabel_tree(
+    relabel_tree(
         input_newick=args.tree, label_dict=tree_label_dict, output_file=treeout
     )
 

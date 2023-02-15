@@ -8,6 +8,7 @@ Taxonomic and function al labelling of placed sequences:
 """
 from __future__ import annotations
 import os
+import logging
 import argparse
 
 from metatag.utils import set_default_output_path, DictMerger
@@ -21,6 +22,8 @@ from metatag.placement import (
     add_duplicates_to_assignment_table,
     JplaceParser,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
@@ -211,7 +214,7 @@ def run(args: argparse.ArgumentParser) -> None:
 
     if args.max_distance is not None:
 
-        print(
+        logger.info(
             f'Filtering placements by maximum distance: "{args.distance_measure}" of {args.max_distance}'
         )
         filtered_jplace = set_default_output_path(args.jplace, tag="_distance_filtered")
@@ -233,7 +236,7 @@ def run(args: argparse.ArgumentParser) -> None:
         args.jplace = filtered_jplace
 
     if args.minimum_lwr is not None:
-        print(f"Filtering placements by minimum LWR of: {args.minimum_lwr}")
+        logger.info(f"Filtering placements by minimum LWR of: {args.minimum_lwr}")
         filtered_jplace = set_default_output_path(args.jplace, tag="_lwr_filtered")
         parser = JplaceParser(args.jplace)
         parser.filter_placements_by_minimum_lwr(

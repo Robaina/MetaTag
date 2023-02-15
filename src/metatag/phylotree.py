@@ -216,28 +216,6 @@ def relabel_tree(
         sanity_check = sanity_check_for_iTOL
     else:
         sanity_check = lambda x: x
-    tree = next(Phylo.parse(input_newick, "newick"))
-    leaves = tree.get_terminals()
-    for leaf in leaves:
-        if leaf.name in label_dict.keys():
-            leaf.name = sanity_check(label_dict[leaf.name])
-    Phylo.write(tree, output_file, "newick")
-
-
-def new_relabel_tree(
-    input_newick: str, label_dict: dict, output_file: str = None, iTOL=True
-) -> None:
-    """
-    Relabel tree leaves with labels from
-    provided dictionary. If iTOL is set, then
-    labels are checked for iTOL compatibility
-    """
-    if output_file is None:
-        output_file = set_default_output_path(input_newick, tag="_relabel")
-    if iTOL:
-        sanity_check = sanity_check_for_iTOL
-    else:
-        sanity_check = lambda x: x
     with open(input_newick, "r") as file:
         data = file.read()
     with open(output_file, "w") as file:
