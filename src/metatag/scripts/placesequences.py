@@ -9,11 +9,14 @@ Placement:
 """
 from __future__ import annotations
 import os
+import logging
 import argparse
 
 import metatag.wrappers as wrappers
 from metatag.utils import set_default_output_path
 from metatag.placement import place_reads_onto_tree
+
+logger = logging.getLogger(__name__)
 
 
 def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
@@ -92,7 +95,7 @@ def run(args: argparse.ArgumentParser) -> None:
         raise ValueError("Missing tree model.")
     epa_jplace = os.path.join(args.outdir, "epa_result.jplace")
 
-    print("* Placing reads on tree...")
+    logger.info("Placing reads on tree...")
     place_reads_onto_tree(
         input_tree=args.tree,
         tree_model=args.tree_model,
@@ -102,7 +105,7 @@ def run(args: argparse.ArgumentParser) -> None:
         output_dir=args.outdir,
     )
 
-    print("* Writing tree with placements...")
+    logger.info("Writing tree with placements...")
     wrappers.run_gappa_graft(
         input_jplace=epa_jplace,
         output_dir=args.outdir,
@@ -110,7 +113,7 @@ def run(args: argparse.ArgumentParser) -> None:
         additional_args="--fully-resolve",
     )
 
-    print("Finished!")
+    logger.info("Done!")
 
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ Reference database:
 """
 from __future__ import annotations
 import os
+import logging
 import shutil
 import argparse
 
@@ -29,6 +30,8 @@ from metatag.database.manipulation import (
     filter_fasta_by_sequence_length,
 )
 from metatag.database.reduction import reduce_database_redundancy
+
+logger = logging.getLogger(__name__)
 
 
 def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
@@ -192,7 +195,7 @@ def run(args: argparse.ArgumentParser) -> None:
     if len(hmmsearch_args_list) < len(args.hmms):
         hmmsearch_args_list = [hmmsearch_args_list[0] for _ in args.hmms]
 
-    print("* Making peptide-specific reference database...")
+    logger.info("Making peptide-specific reference database...")
     with TemporaryDirectoryPath() as tempdir1, TemporaryDirectoryPath() as tempdir2:
         for n, (hmm, maxsize, prefix, hmmsearch_args) in enumerate(
             zip(args.hmms, args.maxsizes, args.relabel_prefixes, hmmsearch_args_list)
@@ -200,8 +203,8 @@ def run(args: argparse.ArgumentParser) -> None:
             hmm_name = os.path.basename(hmm)
             if prefix is None:
                 prefix = f"ref_{n}_"
-            print(
-                f" * Processing hmm {hmm_name} with additional arguments: {hmmsearch_args}"
+            logger.info(
+                f"Processing hmm {hmm_name} with additional arguments: {hmmsearch_args}"
             )
             hmmer_output = os.path.join(args.outdir, f"hmmer_output_{hmm_name}.txt")
 
@@ -215,7 +218,7 @@ def run(args: argparse.ArgumentParser) -> None:
                 )
 
                 if (args.minseqlength is not None) or (args.maxseqlength is not None):
-                    print("* Filtering sequences by established length bounds...")
+                    logger.info("Filtering sequences by established length bounds...")
                     filter_fasta_by_sequence_length(
                         input_fasta=tempfasta,
                         min_length=args.minseqlength,
@@ -233,7 +236,7 @@ def run(args: argparse.ArgumentParser) -> None:
                 )
 
                 if args.relabel:
-                    print("* Relabelling records in reference database...")
+                    logger.info("Relabelling records in reference database...")
                     output_fasta_short = os.path.join(
                         tempdir2, f"{tempfasta3}_short_ids"
                     )
@@ -248,7 +251,7 @@ def run(args: argparse.ArgumentParser) -> None:
 
         if args.noduplicates:
             with TemporaryFilePath() as tmp_file_path:
-                print("* Removing duplicates...")
+                logger.info("Removing duplicates...")
                 remove_duplicates_from_fasta(
                     input_fasta=output_fasta,
                     output_fasta=tmp_file_path,
@@ -265,7 +268,7 @@ def run(args: argparse.ArgumentParser) -> None:
                 save_pickle_path=output_pickle_short_ids
             )
 
-    print("Finished!")
+    logger.info("Done!")
 
 
 if __name__ == "__main__":

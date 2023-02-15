@@ -8,11 +8,14 @@ Reference tree:
 """
 from __future__ import annotations
 import os
+import logging
 import argparse
 
 from metatag.utils import set_default_output_path
 from metatag.alignment import align_peptides
 from metatag.phylotree import infer_tree
+
+logger = logging.getLogger(__name__)
 
 
 def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
@@ -80,7 +83,7 @@ def run(args: argparse.ArgumentParser) -> None:
         args.outdir = set_default_output_path(args.data, only_dirname=True)
     output_aln = os.path.join(args.outdir, "ref_database.faln")
 
-    print("* Aligning reference database...")
+    logger.info("Aligning reference database...")
     align_peptides(
         input_fasta=args.data,
         method=args.msa_method,
@@ -88,7 +91,7 @@ def run(args: argparse.ArgumentParser) -> None:
         additional_args=None,
     )
 
-    print("* Inferring reference tree...")
+    logger.info("Inferring reference tree...")
     infer_tree(
         ref_aln=output_aln,
         method=args.tree_method,
@@ -97,7 +100,7 @@ def run(args: argparse.ArgumentParser) -> None:
         additional_args="",
     )
 
-    print("Finished!")
+    logger.info("Done!")
 
 
 if __name__ == "__main__":

@@ -186,7 +186,7 @@ def main():
             prefix=f"ref_{args.prefix}",
         )
         shutil.move(output_fasta_short, output_fasta)
-    print("Finished!")
+    print("Done!")
 
 
 if __name__ == "__main__":

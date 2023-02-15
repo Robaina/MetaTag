@@ -7,9 +7,12 @@ Evaluation of placed sequences:
 """
 from __future__ import annotations
 import os
+import logging
 import argparse
 from metatag.utils import set_default_output_path
 from metatag.placement import TaxAssignParser
+
+logger = logging.getLogger(__name__)
 
 
 def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
@@ -98,6 +101,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
 
 def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""
+    logger.info("Counting labelled placements...")
     if args.outdir is None:
         args.outdir = set_default_output_path(args.taxtable, only_dirname=True)
     if args.outprefix is None:
@@ -124,6 +128,7 @@ def run(args: argparse.ArgumentParser) -> None:
         counts, fig = taxlevel_counter.get_counts(
             taxlevel=taxlevel, output_tsv=outfile, plot_type="bar", output_pdf=outpdf
         )
+    logger.info("Done!")
 
 
 if __name__ == "__main__":
