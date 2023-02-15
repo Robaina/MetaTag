@@ -216,8 +216,10 @@ def relabel_tree(
     if iTOL:
         sanity_check = sanity_check_for_iTOL
     else:
+
         def sanity_check(x):
             return x
+
     with open(input_newick, "r") as file:
         data = file.read()
     with open(output_file, "w") as file:
