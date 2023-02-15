@@ -6,10 +6,11 @@ open empress tree with placements in browser.
 Only if script runs locally.
 """
 from __future__ import annotations
-import os
-import argparse
 
-from metatag.utils import set_default_output_path, DictMerger
+import argparse
+import os
+
+from metatag.utils import DictMerger, set_default_output_path
 from metatag.visualization import (
     make_feature_metadata_table,
     plot_tree_in_browser,

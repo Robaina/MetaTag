@@ -6,12 +6,13 @@ Tools to assign taxonomy to reference and query (placed) sequences
 """
 
 from __future__ import annotations
+
 import os
 
 import pandas as pd
-from metatag.utils import read_from_pickle_file, set_default_output_path
 
 from metatag.database.labelparsers import LabelParser
+from metatag.utils import read_from_pickle_file, set_default_output_path
 
 
 class Taxopath:
@@ -137,7 +138,7 @@ class TaxonomyAssigner:
                 return self.lowest_common_taxonomy(taxopaths)
             else:
                 return "Unspecified"
-        except:
+        except Exception:
             return "Unspecified"
 
     def assign_lowest_common_taxonomy_to_clusters(
@@ -278,7 +279,7 @@ def evaluate_taxonomy_of_reference_database(
             outpdf = os.path.join(output_dir, f"ref_taxonomy_counts_{taxlevel}.pdf")
         else:
             outpdf = None
-        counts = taxcounter.get_counts(
+        taxcounter.get_counts(
             taxlevel,
             output_tsv=os.path.join(output_dir, f"ref_taxonomy_counts_{taxlevel}.tsv"),
             plot_type="bar",

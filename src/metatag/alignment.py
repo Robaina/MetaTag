@@ -8,12 +8,12 @@ Tools to perform multiple sequence alignments
 import os
 
 import metatag.wrappers as wrappers
-from metatag.utils import set_default_output_path, TemporaryFilePath
 from metatag.database.manipulation import (
-    convert_stockholm_to_fasta_aln,
     convert_fasta_aln_to_phylip,
     convert_phylip_to_fasta_aln,
+    convert_stockholm_to_fasta_aln,
 )
+from metatag.utils import TemporaryFilePath, set_default_output_path
 
 
 def align_peptides(

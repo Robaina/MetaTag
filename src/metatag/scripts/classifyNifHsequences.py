@@ -6,10 +6,10 @@ Classify nifH sequences in clusters based on CART model,
 CART model from: https://sfamjournals.onlinelibrary.wiley.com/doi/10.1111/1758-2229.12455
 """
 
-import os
 import argparse
+import os
 
-from Bio import pairwise2, SeqIO
+from Bio import SeqIO, pairwise2
 
 from metatag.utils import read_from_pickle_file, save_to_pickle_file
 

@@ -6,13 +6,14 @@ Functions and classes for general purposes
 """
 
 from __future__ import annotations
+
 import os
-import shutil
+import pickle
 import random
+import shutil
 import string
 import subprocess
 import tarfile
-import pickle
 from functools import partial
 from multiprocessing import Pool
 

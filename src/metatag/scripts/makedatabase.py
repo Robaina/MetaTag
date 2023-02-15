@@ -8,28 +8,29 @@ Reference database:
 3) Relabel entries with temporary ids to avoid donwstream conflicts
 """
 from __future__ import annotations
-import os
-import logging
-import shutil
-import argparse
 
-from metatag.utils import (
-    TemporaryDirectoryPath,
-    full_path_list_dir,
-    set_default_output_path,
-    TemporaryFilePath,
-    DictMerger,
-)
-from metatag.database.preprocessing import (
-    set_temp_record_ids_in_fasta,
-    merge_fastas,
-    remove_duplicates_from_fasta,
-)
+import argparse
+import logging
+import os
+import shutil
+
 from metatag.database.manipulation import (
     filter_fasta_by_hmm,
     filter_fasta_by_sequence_length,
 )
+from metatag.database.preprocessing import (
+    merge_fastas,
+    remove_duplicates_from_fasta,
+    set_temp_record_ids_in_fasta,
+)
 from metatag.database.reduction import reduce_database_redundancy
+from metatag.utils import (
+    DictMerger,
+    TemporaryDirectoryPath,
+    TemporaryFilePath,
+    full_path_list_dir,
+    set_default_output_path,
+)
 
 logger = logging.getLogger(__name__)
 

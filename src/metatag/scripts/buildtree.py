@@ -7,13 +7,14 @@ Reference tree:
 2) Run iqtree or fasttree to infer tree
 """
 from __future__ import annotations
-import os
-import logging
-import argparse
 
-from metatag.utils import set_default_output_path
+import argparse
+import logging
+import os
+
 from metatag.alignment import align_peptides
 from metatag.phylotree import infer_tree
+from metatag.utils import set_default_output_path
 
 logger = logging.getLogger(__name__)
 

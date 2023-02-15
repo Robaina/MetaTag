@@ -9,17 +9,18 @@ Tools to create peptide-specific sequence databases
 """
 
 from __future__ import annotations
+
 import os
 import warnings
 from collections import defaultdict
 
 import pandas as pd
-from Bio import SearchIO, SeqIO, AlignIO
 import pyfastx
+from Bio import AlignIO, SearchIO, SeqIO
 
 import metatag.wrappers as wrappers
-from metatag.utils import set_default_output_path
 from metatag.database.labelparsers import MARdbLabelParser
+from metatag.utils import set_default_output_path
 
 
 def filter_fasta_by_sequence_length(
@@ -89,7 +90,7 @@ def filter_fasta_by_ids(
             try:
                 record_obj = fa[record_id]
                 fp.write(record_obj.raw)
-            except:
+            except Exception:
                 pass
     os.remove(input_fasta + ".fxi")
 

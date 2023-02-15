@@ -14,11 +14,12 @@ remove duplicates
 
 import os
 import shutil
-import pyfastx
-import pandas as pd
 
-from metatag.utils import terminal_execute, extract_tar_file, full_path_list_dir
+import pandas as pd
+import pyfastx
+
 from metatag.database.labelparsers import MARdbLabelParser
+from metatag.utils import extract_tar_file, full_path_list_dir, terminal_execute
 
 data_dir = "/home/robaina/Documents/TRAITS/data/"
 work_dir = "/home/robaina/Documents/TRAITS/src/"

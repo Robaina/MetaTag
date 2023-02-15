@@ -9,13 +9,13 @@ import os
 import re
 import shutil
 
-import pyfastx
 import pandas as pd
+import pyfastx
 
 from metatag.utils import (
+    create_temporary_file_path,
     set_default_output_path,
     terminal_execute,
-    create_temporary_file_path,
 )
 
 
@@ -155,7 +155,7 @@ def relabel_mardb(label_dict: dict) -> dict:
             species = re.search(
                 species_pattern, re.sub(db_code_pattern, "", label)
             ).group(1)
-        except:
+        except Exception:
             species = "Undetermined"
         mar_id = label.split(" ")[0]
         return f"{mar_id}_{species}"

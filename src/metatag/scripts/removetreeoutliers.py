@@ -13,7 +13,6 @@ import pandas as pd
 import metatag.wrappers as wrappers
 from metatag.utils import set_default_output_path
 
-
 parser = argparse.ArgumentParser(
     description="Detect and remove outlier branches from tree and msa",
     epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",

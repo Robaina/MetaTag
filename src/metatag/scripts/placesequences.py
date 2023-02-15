@@ -8,13 +8,14 @@ Placement:
 3) Run gappa to obtain tree file with placed sequences
 """
 from __future__ import annotations
-import os
-import logging
+
 import argparse
+import logging
+import os
 
 import metatag.wrappers as wrappers
-from metatag.utils import set_default_output_path
 from metatag.placement import place_reads_onto_tree
+from metatag.utils import set_default_output_path
 
 logger = logging.getLogger(__name__)
 

@@ -7,8 +7,8 @@ Download papara binary and setup path
 
 import os
 from pathlib import Path
-from metatag.utils import terminal_execute, extract_tar_file
 
+from metatag.utils import extract_tar_file, terminal_execute
 
 parent_dir = Path(__file__).parent
 papara_url = "https://cme.h-its.org/exelixis/resource/download/software/papara_nt-2.5-static_x86_64.tar.gz"

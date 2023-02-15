@@ -6,14 +6,15 @@ Relabel tree and msa from label dicts as pickle files
 """
 
 from __future__ import annotations
-import os
-import logging
-import argparse
 
-from metatag.utils import set_default_output_path, DictMerger
+import argparse
+import logging
+import os
+
 from metatag.database.preprocessing import set_original_record_ids_in_fasta
-from metatag.taxonomy import TaxonomyAssigner
 from metatag.phylotree import relabel_tree
+from metatag.taxonomy import TaxonomyAssigner
+from metatag.utils import DictMerger, set_default_output_path
 
 logger = logging.getLogger(__name__)
 

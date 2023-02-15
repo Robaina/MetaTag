@@ -7,14 +7,15 @@ query sequence placements onto trees
 """
 
 from __future__ import annotations
+
 import os
-import shutil
 import re
+import shutil
 
 from Bio import Phylo
 
-from metatag.utils import set_default_output_path, easy_pattern_matching
 import metatag.wrappers as wrappers
+from metatag.utils import easy_pattern_matching, set_default_output_path
 
 
 class PhyloTree:
@@ -215,7 +216,8 @@ def relabel_tree(
     if iTOL:
         sanity_check = sanity_check_for_iTOL
     else:
-        sanity_check = lambda x: x
+        def sanity_check(x):
+            return x
     with open(input_newick, "r") as file:
         data = file.read()
     with open(output_file, "w") as file:

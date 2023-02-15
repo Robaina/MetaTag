@@ -5,24 +5,25 @@
 Tools to quantify and assign labels to placed sequences
 """
 from __future__ import annotations
-import os
-import shutil
-import re
+
 import json
+import os
+import re
+import shutil
 from io import StringIO
 
 import pandas as pd
 from Bio import Phylo
 
 import metatag.wrappers as wrappers
-from metatag.utils import set_default_output_path, TemporaryFilePath
-from metatag.taxonomy import TaxonomyAssigner, TaxonomyCounter, Taxopath
 from metatag.alignment import align_short_reads_to_reference_msa
-from metatag.phylotree import PhyloTree, get_iq_tree_model_from_log_file
 from metatag.database.manipulation import (
     get_fasta_record_ids,
     split_reference_from_query_alignments,
 )
+from metatag.phylotree import get_iq_tree_model_from_log_file
+from metatag.taxonomy import TaxonomyAssigner, TaxonomyCounter, Taxopath
+from metatag.utils import TemporaryFilePath, set_default_output_path
 
 
 class JplaceParser:
@@ -454,7 +455,7 @@ def parse_gappa_assign_table(
         header = "query_id" + "\t" + "LWR" + "\t" + cluster_str + "taxopath" + "\n"
         lines.append(header)
         for i, row in table.iterrows():
-            if not ";" in row.taxopath:
+            if ";" not in row.taxopath:
                 row.taxopath = row.taxopath + ";Unspecified"
             if has_cluster_id:
                 elems = row.taxopath.split(";")
@@ -511,7 +512,7 @@ def add_query_labels_to_assign_table(
     def relabel_query(query_id: str, query_labels: dict) -> str:
         try:
             return query_labels[query_id]
-        except:
+        except Exception:
             return query_id
 
     if output_table is None:

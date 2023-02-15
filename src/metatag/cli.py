@@ -8,14 +8,14 @@ import sys
 from importlib import metadata
 
 from metatag.scripts import (
-    preprocess,
-    makedatabase,
     buildtree,
-    placesequences,
-    labelplacements,
     countplacements,
-    relabeltree,
+    labelplacements,
+    makedatabase,
+    placesequences,
     plottree,
+    preprocess,
+    relabeltree,
 )
 
 meta = metadata.metadata("metatag")

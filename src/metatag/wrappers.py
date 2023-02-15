@@ -10,8 +10,7 @@ import shutil
 import tempfile
 from pathlib import Path
 
-from metatag.utils import terminal_execute, set_default_output_path
-
+from metatag.utils import set_default_output_path, terminal_execute
 
 parent_dir = Path(__file__).parent
 papara_exec = None

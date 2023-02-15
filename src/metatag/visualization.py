@@ -8,6 +8,7 @@ without short read placement.
 
 import os
 import webbrowser
+
 import pandas as pd
 
 from metatag.utils import terminal_execute
