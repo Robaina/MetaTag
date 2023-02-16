@@ -43,7 +43,7 @@ def run_seqkit_nodup(
         dup_str = f"-D {dup_file}"
     else:
         dup_str = ""
-    cmd_str = f"seqkit rmdup {input_fasta} -s {dup_str} -o {output_fasta}"
+    cmd_str = f"seqkit rmdup {input_fasta} --quiet -s {dup_str} -o {output_fasta}"
     terminal_execute(cmd_str)
 
 
@@ -115,7 +115,7 @@ def run_prodigal(
         f"prodigal -i {input_file} -o {output_gbk} -p {procedure} "
         f"-a {output_fasta} -q {args_str}"
     )
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_hmmsearch(
@@ -159,7 +159,7 @@ def run_hmmbuild(
     else:
         args_str = ""
     cmd_str = f"hmmbuild {args_str} {output_hmm} {input_aln}"
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_hmmalign(
@@ -186,7 +186,7 @@ def run_hmmalign(
         f"hmmalign -o {output_aln_seqs} --mapali {input_aln} --trim "
         f"--informat fasta {args_str} {input_hmm} {input_seqs}"
     )
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def get_percent_identity_from_msa(input_msa: str, output_file: str = None) -> None:
@@ -197,7 +197,7 @@ def get_percent_identity_from_msa(input_msa: str, output_file: str = None) -> No
     if output_file is None:
         output_file = set_default_output_path(input_msa, tag="_PI", extension=".txt")
     cmd_str = f"esl-alipid {input_msa} > {output_file}"
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_cdhit(
@@ -246,7 +246,7 @@ def run_mafft(
         additional_args = ""
     input_fasta = os.path.abspath(input_fasta)
     cmd_str = f"mafft {thread_str} {additional_args} {input_fasta} > {output_file}"
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_muscle(
@@ -276,7 +276,7 @@ def run_muscle(
         f"muscle -in {input_fasta} -out {output_file} "
         f"-maxiters {maxiters} {args_str}"
     )
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_trimal(input_aln: str, output_aln: str = None) -> None:
@@ -292,7 +292,7 @@ def run_trimal(input_aln: str, output_aln: str = None) -> None:
         f"trimal -in {input_aln} -out {output_aln} -fasta -automated1 "
         f"-resoverlap 0.55 -seqoverlap 60 -htmlout trimal.html"
     )
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_modeltest(
@@ -314,7 +314,7 @@ def run_modeltest(
         f"modeltest-ng -i {input_algns} -T raxml -d aa -p {n_processes} "
         f"-o {output_dir}"
     )
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_fasttree(
@@ -349,7 +349,7 @@ def run_fasttree(
         additional_args = ""
     input_algns = os.path.abspath(input_algns)
     cmd_str = f"fasttree {nt_str} {input_algns} {start_t_str} {additional_args} > {output_file}"
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_iqtree(
@@ -431,7 +431,7 @@ def run_iqtree(
         f"-nm {max_bootstrap_iterations} "
         f"{output_prefix_str} {start_t_str} {overwrite_str} {additional_args}"
     )
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
     if not keep_recovery_files:
         remove_auxiliary_output(output_prefix)
 
@@ -482,7 +482,7 @@ def run_tree_shrink(
             f"-t input.tree {aln_str} --force "
             f"-o {temp_out_dir} -O output {args_str}"
         )
-        terminal_execute(cmd_str, suppress_shell_output=False)
+        terminal_execute(cmd_str, suppress_shell_output=True)
 
         shutil.move(
             os.path.join(temp_out_dir, temp_tree_dir, "output.tree"),
@@ -541,7 +541,7 @@ def run_papara(
         f"-r {args_str} -a"
     )
     with tempfile.TemporaryDirectory() as tempdir:
-        terminal_execute(cmd_str, suppress_shell_output=False, work_dir=tempdir)
+        terminal_execute(cmd_str, suppress_shell_output=True, work_dir=tempdir)
         shutil.move(os.path.join(tempdir, "papara_alignment.phylip"), output_aln)
 
 
@@ -585,7 +585,7 @@ def run_epang(
         f"epa-ng --ref-msa {input_aln_ref} --tree {input_tree} --query {input_aln_query} "
         f"--model {model} --threads {n_threads} --outdir {output_dir} {overwrite_str} {args_str}"
     )
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_gappa_heat_tree(
@@ -617,7 +617,7 @@ def run_gappa_heat_tree(
         f"--write-svg-tree "  # --write-newick-tree
         f"{outdir_str} {output_prefix_str} {args_str}"
     )
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_gappa_graft(
@@ -647,7 +647,7 @@ def run_gappa_graft(
         f"gappa examine graft --jplace-path {os.path.abspath(input_jplace)} "
         f"{outdir_str} {output_prefix_str} {args_str}"
     )
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_gappa_assign(
@@ -686,7 +686,7 @@ def run_gappa_assign(
         f"--out-dir {output_dir} --file-prefix {output_prefix} --allow-file-overwriting "
         f"--per-query-results {best_str} {args_str}"
     )
-    terminal_execute(cmd_str, suppress_shell_output=False)
+    terminal_execute(cmd_str, suppress_shell_output=True)
     outtree = os.path.join(output_dir, f"{output_prefix}labelled_tree.newick")
     if delete_output_tree and os.path.exists(outtree):
         os.remove(outtree)
