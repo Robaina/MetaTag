@@ -51,7 +51,11 @@ class ReferenceTreeBuilder:
         pass
 
     def run(self):
-        pass
+        """_summary_"""
+        MetaTag.preprocess()
+        MetaTag.database()
+        MetaTag.tree()
+        MetaTag.relabel()
 
 
 class QueryLabeller:
@@ -61,4 +65,8 @@ class QueryLabeller:
         pass
 
     def run(self):
-        pass
+        """_summary_"""
+        MetaTag.preprocess()
+        MetaTag.place()
+        MetaTag.assign()
+        MetaTag.count()
