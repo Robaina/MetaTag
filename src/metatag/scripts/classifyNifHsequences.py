@@ -185,7 +185,6 @@ def add_cluster_to_nifh_dict(
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(
         description="Classify nifH peptide sequences in clusters based on CART model",
         epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",

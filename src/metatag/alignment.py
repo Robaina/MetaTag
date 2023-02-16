@@ -75,7 +75,6 @@ def align_short_reads_to_reference_msa(
 
     if method.lower() in "hmmalign":
         with TemporaryFilePath() as temp_file_path:
-
             wrappers.run_hmmbuild(input_aln=ref_msa, output_hmm=output_hmm)
 
             wrappers.run_hmmalign(
@@ -89,7 +88,6 @@ def align_short_reads_to_reference_msa(
             )
     elif method.lower() in "papara":
         with TemporaryFilePath() as temp_phy_path, TemporaryFilePath() as temp_aln_path:
-
             convert_fasta_aln_to_phylip(
                 input_fasta_aln=ref_msa, output_phylip=temp_phy_path
             )

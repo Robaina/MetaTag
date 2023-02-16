@@ -214,7 +214,6 @@ def run(args: argparse.ArgumentParser) -> None:
         args_str = ""
 
     if args.max_distance is not None:
-
         logger.info(
             f'Filtering placements by maximum distance: "{args.distance_measure}" of {args.max_distance}'
         )

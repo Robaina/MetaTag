@@ -80,7 +80,6 @@ def read_ref_sequences_to_remove(
 
 
 def main():
-
     print("* Removing tree branch outliers...")
     wrappers.run_tree_shrink(
         input_tree=args.tree,
