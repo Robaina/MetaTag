@@ -14,8 +14,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install ruff black
           ruff --version
+          black --version
       # Include `--format=github` to enable automatic inline annotations.
       - name: Check linters
         run: ruff --format=github .
       - name: Check format
-        run: black --check src/metatag.
+        run: black --check src/metatag
