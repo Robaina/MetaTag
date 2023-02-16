@@ -726,7 +726,6 @@ def accelerated_greedy_selection(
     repset_size=float("inf"),
     target_obj_val=float("inf"),
 ):
-
     print(f"Repset size: {repset_size}")
 
     assert diff_approx_ratio <= 1.0

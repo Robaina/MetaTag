@@ -143,7 +143,6 @@ output_fasta_short = os.path.join(
 
 
 def main():
-
     print("* Making peptide-specific reference database...")
     with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2:
         filter_fasta_by_hmm_structure(
