@@ -404,7 +404,6 @@ class LinkedHMMfilter:
             hit_labels[hmm] = mardblabel.parse_from_list(labels)
 
         for n, linked_pair in enumerate(parsed_struc):
-
             if n < 1:
                 locus_a, locus_b, dist_ab, strand_a, strand_b = linked_pair
                 hit_labels_a, hit_labels_b = hit_labels.pop(locus_a), hit_labels.pop(

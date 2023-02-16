@@ -471,7 +471,6 @@ def run_tree_shrink(
     with tempfile.TemporaryDirectory() as temp_out_dir, tempfile.TemporaryDirectory() as parent_in_temp, tempfile.TemporaryDirectory(
         dir=parent_in_temp
     ) as temp_in_dir:
-
         temp_tree_dir = os.path.basename(temp_in_dir)
         shutil.copy(input_tree, os.path.join(temp_in_dir, "input.tree"))
         if input_aln is not None:

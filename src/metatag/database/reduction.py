@@ -81,7 +81,6 @@ def reduce_database_redundancy(
         output_fasta = set_default_output_path(input_fasta, tag="_reduced")
 
     with TemporaryFilePath() as tempaln, TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2, TemporaryFilePath() as tempident:
-
         if cdhit:
             wrappers.run_cdhit(
                 input_fasta=input_fasta,
