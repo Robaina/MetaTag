@@ -48,25 +48,164 @@ class ReferenceTreeBuilder:
         """
         if max_hmm_reference_size is None:
             max_hmm_reference_size = [1000 for _ in hmms]
-        pass
+
+        self.input_database = Path(input_database)
+        self.output_directory = Path(output_directory)
+
+    def call_subcommand(self, subcommand: str, args: list[str]) -> None:
+        """_summary_
+
+        Args:
+            subcommand (str): _description_
+            args (list[str]): _description_
+        """
+        MetaTag(subcommand, args, silent=True)._call_subcommand(subcommand)
 
     def run(self):
         """_summary_"""
-        MetaTag.preprocess()
-        MetaTag.database()
-        MetaTag.tree()
-        MetaTag.relabel()
+
+        self.call_subcommand(
+            "preprocess",
+            [
+                "--in",
+                self.input_database,
+                "--outfile",
+                Path(self.output_directory / f"{self.input_database.stem}_cleaned.faa"),
+                "--translate",
+            ],
+        )
+
+        self.call_subcommand(
+            "database",
+            [
+                "--in",
+                "",
+                "--outdir",
+                "",
+                "--hmms",
+                "",
+                "--max_sizes",
+                "",
+                "--min_seq_length",
+                "",
+                "--max_seq_length",
+                "",
+                "--relabel_prefixes",
+                "",
+                "--hmmsearch_args",
+                "",
+            ],
+        )
+
+        self.call_subcommand(
+            "tree",
+            [
+                "--in",
+                "",
+                "--outdir",
+                "",
+                "--msa_method",
+                "",
+                "--tree_model",
+                "",
+                "--tree_method",
+                "",
+            ],
+        )
+
+        self.call_subcommand("relabel", ["--tree", "", "--labels", "", "--taxonomy"])
 
 
 class QueryLabeller:
     """_summary_"""
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, input_query: Path) -> None:
+        self.input_query = Path(input_query)
+
+    def call_subcommand(self, subcommand: str, args: list[str]) -> None:
+        """_summary_
+
+        Args:
+            subcommand (str): _description_
+            args (list[str]): _description_
+        """
+        MetaTag(subcommand, args, silent=True)._call_subcommand(subcommand)
 
     def run(self):
         """_summary_"""
-        MetaTag.preprocess()
-        MetaTag.place()
-        MetaTag.assign()
-        MetaTag.count()
+        self.call_subcommand(
+            "preprocess",
+            [
+                "--in",
+                self.input_query,
+                "--outfile",
+                Path(self.output_directory / f"{self.input_query.stem}_cleaned.faa"),
+                "--translate",
+            ],
+        )
+
+        self.call_subcommand(
+            "place",
+            [
+                "--aln",
+                "",
+                "--tree",
+                "",
+                "--query",
+                "",
+                "--outdir",
+                "",
+                "--aln_method",
+                "",
+                "--tree_model",
+                "",
+            ],
+        )
+
+        self.call_subcommand(
+            "assign",
+            [
+                "--jplace",
+                "",
+                "--labels",
+                "",
+                "--query_labels",
+                "",
+                "--ref_clusters",
+                "",
+                "--ref_cluster_scores",
+                "",
+                "--prefix",
+                "placed_tax_",
+                "--outdir",
+                "",
+                "--max_placement_distance",
+                "1.0",
+                "--distance_measure",
+                "pendant_diameter_ratio",
+                "--min_placement_lwr",
+                "0.8",
+            ],
+        )
+
+        self.call_subcommand(
+            "count",
+            [
+                "--taxtable",
+                "",
+                "--taxlevels",
+                "",
+                "--cluster_ids",
+                "",
+                "--score_threshold",
+                "",
+                "--outdir",
+                "",
+                "--export_right_queries",
+            ],
+        )
+
+        self.call_subcommand(
+            "relabel",
+            ["--tree", "", "--labels", "", "--label_prefixes", "", "--taxonomy"],
+        )
