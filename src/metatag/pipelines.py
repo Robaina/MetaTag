@@ -117,10 +117,54 @@ class ReferenceTreeBuilder:
 
 
 class QueryLabeller:
-    """_summary_"""
+    """
+    Place queries onto reference tree and assign function and taxonomy
+    TODO:
+    1) Subdirectories in output folder
+    2) Enable re-run for count without doing alignnment and placement
+    3) Track output files
+    """
 
-    def __init__(self, input_query: Path) -> None:
+    def __init__(
+        self,
+        input_query: Path,
+        reference_alignment: Path,
+        reference_tree: Path,
+        tree_model: str,
+        tree_clusters: Path,
+        tree_cluster_scores: Path,
+        alignment_method: str = "papara",
+        output_directory: Path = None,
+        reference_labels: Path = None,
+        maximum_placement_distance: float = 1.0,
+        distance_measure: str = "pendant_diameter_ratio",
+        minimum_placement_lwr: float = 0.8,
+    ) -> None:
         self.input_query = Path(input_query)
+        self.reference_alignment = Path(reference_alignment)
+        self.reference_tree = Path(reference_tree)
+        self.tree_model = Path(tree_model) if Path(tree_model).is_file() else tree_model
+        self.tree_clusters = Path(tree_clusters)
+        self.tree_cluster_scores = Path(tree_cluster_scores)
+        self.aligment_method = alignment_method
+        if output_directory is None:
+            self.output_directory = self.input_query.parent / "placement_results"
+            self.output_directory.mkdir(exist_ok=False)
+        else:
+            self.output_directory = Path(output_directory)
+        if reference_labels is not None:
+            self.reference_labels = Path(reference_labels)
+        self.maximum_placement_distance = maximum_placement_distance
+        self.distance_measure = distance_measure
+        self.minimum_placement_lwr = minimum_placement_lwr
+
+        self.out_cleaned_query = Path(
+            self.output_directory / f"{self.input_query.stem}_cleaned.faa"
+        )
+        self.out_query_labels = Path()
+        self.out_jplace = Path()
+        self.out_taxtable = Path()
+        self.out_placements_tree = Path()
 
     def call_subcommand(self, subcommand: str, args: list[str]) -> None:
         """_summary_
@@ -139,7 +183,7 @@ class QueryLabeller:
                 "--in",
                 self.input_query,
                 "--outfile",
-                Path(self.output_directory / f"{self.input_query.stem}_cleaned.faa"),
+                self.out_cleaned_query,
                 "--translate",
             ],
         )
@@ -148,17 +192,17 @@ class QueryLabeller:
             "place",
             [
                 "--aln",
-                "",
+                self.reference_alignment,
                 "--tree",
-                "",
+                self.reference_tree,
                 "--query",
-                "",
+                self.out_cleaned_query,
                 "--outdir",
-                "",
+                self.output_directory,
                 "--aln_method",
-                "",
+                self.aligment_method,
                 "--tree_model",
-                "",
+                self.tree_model,
             ],
         )
 
@@ -166,25 +210,25 @@ class QueryLabeller:
             "assign",
             [
                 "--jplace",
-                "",
+                self.out_jplace,
                 "--labels",
-                "",
+                self.reference_labels,
                 "--query_labels",
-                "",
+                self.out_query_labels,
                 "--ref_clusters",
-                "",
+                self.tree_clusters,
                 "--ref_cluster_scores",
-                "",
+                self.tree_cluster_scores,
                 "--prefix",
                 "placed_tax_",
                 "--outdir",
-                "",
+                self.output_directory,
                 "--max_placement_distance",
-                "1.0",
+                self.maximum_placement_distance,
                 "--distance_measure",
-                "pendant_diameter_ratio",
+                self.distance_measure,
                 "--min_placement_lwr",
-                "0.8",
+                self.minimum_placement_lwr,
             ],
         )
 
@@ -192,20 +236,34 @@ class QueryLabeller:
             "count",
             [
                 "--taxtable",
-                "",
+                self.out_taxtable,
                 "--taxlevels",
-                "",
+                "genus",
+                "family",
+                "order",
+                "class",
+                "phylum",
                 "--cluster_ids",
-                "",
+                self.tree_cluster_ids,
                 "--score_threshold",
-                "",
+                self.tree_cluster_scores,
                 "--outdir",
-                "",
+                self.output_directory,
                 "--export_right_queries",
             ],
         )
 
         self.call_subcommand(
             "relabel",
-            ["--tree", "", "--labels", "", "--label_prefixes", "", "--taxonomy"],
+            [
+                "--tree",
+                self.out_placements_tree,
+                "--labels",
+                self.reference_labels,
+                self.out_query_labels,
+                "--label_prefixes",
+                "ref_",
+                "query_",
+                "--taxonomy",
+            ],
         )
