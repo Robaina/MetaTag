@@ -10,8 +10,8 @@ import json
 import os
 import re
 import shutil
-from pathlib import Path
 from io import StringIO
+from pathlib import Path
 
 import pandas as pd
 from Bio import Phylo

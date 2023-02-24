@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import json
 import os
-from pathlib import Path
 import pickle
 import random
 import shutil
@@ -18,6 +17,7 @@ import subprocess
 import tarfile
 from functools import partial
 from multiprocessing import Pool
+from pathlib import Path
 
 
 class ConfigParser:
