@@ -19,9 +19,9 @@ class ReferenceTreeBuilder:
         self,
         input_database: Path,
         hmms: list[Path],
-        max_hmm_reference_size: list[int] = None,
-        min_sequence_length: int = 10,
-        max_sequence_length: int = 1000,
+        maximum_hmm_reference_sizes: list[int] = None,
+        minimum_sequence_length: int = 10,
+        maximum_sequence_length: int = 1000,
         output_directory: Path = None,
         translate: bool = False,
         relabel: bool = True,
@@ -29,8 +29,10 @@ class ReferenceTreeBuilder:
         relabel_prefixes: list[str] = None,
         hmmsearch_args: str = None,
         tree_method: str = "fasttree",
-    ) -> None:
-        """_summary_
+        tree_model: str = "iqtest",
+        msa_method: str = "muscle",
+    ):
+        """Reconstruct reference phylogenetic tree from sequence database and hmms
 
         Args:
             input_database (Path): _description_
@@ -45,12 +47,39 @@ class ReferenceTreeBuilder:
             relabel_prefixes (list[str], optional): _description_. Defaults to None.
             hmmsearch_args (str, optional): _description_. Defaults to None.
             tree_method (str, optional): _description_. Defaults to "fasttree".
+            tree_model (str, optional): choose method to select substitution model: "iqtest", "modeltest",
+                or a valid substitution model name (compatible with EPA-ng). Defaults to "iqtest".
+            msa_method (str, optional): choose msa method for reference database: "muscle" or "mafft".
+                Defaults to "muscle".
         """
-        if max_hmm_reference_size is None:
-            max_hmm_reference_size = [1000 for _ in hmms]
-
         self.input_database = Path(input_database)
+        self.hmms = hmms
+        if maximum_hmm_reference_sizes is None:
+            self.max_hmm_reference_sizes = [1000 for _ in hmms]
+        else:
+            self.max_hmm_reference_sizes = maximum_hmm_reference_sizes
+        self.minimum_sequence_length = minimum_sequence_length
+        self.maximum_sequence_length = maximum_sequence_length
+        self.translate = translate
+        self.relabel = relabel
+        self.remove_duplicates = remove_duplicates
+        self.relabel_prefixes = relabel_prefixes
+        self.hmmsearch_args = hmmsearch_args
+        self.msa_method = msa_method
+        self.tree_method = tree_method
+        self.tree_model = tree_model
         self.output_directory = Path(output_directory)
+
+        self.out_cleaned_database = Path(
+            self.output_directory / f"{self.input_database.stem}_cleaned.faa"
+        )
+        self.out_reference_database = self.output_directory / "ref_database.faa"
+        self.out_reference_tree = self.output_directory / "ref_database.newick"
+        self.out_reference_alignment = self.output_directory / "ref_database.faln"
+        self.out_reference_labels = (
+            self.output_directory / "ref_database_id_dict.pickle"
+        )
+        self.out_tree_model = None
 
     def call_subcommand(self, subcommand: str, args: list[str]) -> None:
         """_summary_
@@ -70,7 +99,7 @@ class ReferenceTreeBuilder:
                 "--in",
                 self.input_database,
                 "--outfile",
-                Path(self.output_directory / f"{self.input_database.stem}_cleaned.faa"),
+                self.out_cleaned_database,
                 "--translate",
             ],
         )
@@ -79,21 +108,21 @@ class ReferenceTreeBuilder:
             "database",
             [
                 "--in",
-                "",
+                self.out_cleaned_database,
                 "--outdir",
-                "",
+                self.output_directory,
                 "--hmms",
-                "",
+                self.hmms,
                 "--max_sizes",
-                "",
+                self.max_hmm_reference_sizes,
                 "--min_seq_length",
-                "",
+                self.minimum_sequence_length,
                 "--max_seq_length",
-                "",
+                self.maximum_sequence_length,
                 "--relabel_prefixes",
-                "",
+                self.relabel_prefixes,
                 "--hmmsearch_args",
-                "",
+                self.hmmsearch_args,
             ],
         )
 
@@ -101,28 +130,33 @@ class ReferenceTreeBuilder:
             "tree",
             [
                 "--in",
-                "",
+                self.out_reference_database,
                 "--outdir",
-                "",
+                self.output_directory,
                 "--msa_method",
-                "",
+                self.msa_method,
                 "--tree_model",
-                "",
+                self.tree_model,
                 "--tree_method",
-                "",
+                self.tree_method,
             ],
         )
 
-        self.call_subcommand("relabel", ["--tree", "", "--labels", "", "--taxonomy"])
+        self.call_subcommand(
+            "relabel",
+            [
+                "--tree",
+                self.out_reference_tree,
+                "--labels",
+                self.out_reference_labels,
+                "--taxonomy",
+            ],
+        )
 
 
 class QueryLabeller:
     """
     Place queries onto reference tree and assign function and taxonomy
-    TODO:
-    1) Subdirectories in output folder
-    2) Enable re-run for count without doing alignnment and placement
-    3) Track output files
     """
 
     def __init__(
@@ -139,7 +173,23 @@ class QueryLabeller:
         maximum_placement_distance: float = 1.0,
         distance_measure: str = "pendant_diameter_ratio",
         minimum_placement_lwr: float = 0.8,
-    ) -> None:
+    ):
+        """_summary_
+
+        Args:
+            input_query (Path): _description_
+            reference_alignment (Path): _description_
+            reference_tree (Path): _description_
+            tree_model (str): _description_
+            tree_clusters (Path): _description_
+            tree_cluster_scores (Path): _description_
+            alignment_method (str, optional): _description_. Defaults to "papara".
+            output_directory (Path, optional): _description_. Defaults to None.
+            reference_labels (Path, optional): _description_. Defaults to None.
+            maximum_placement_distance (float, optional): _description_. Defaults to 1.0.
+            distance_measure (str, optional): _description_. Defaults to "pendant_diameter_ratio".
+            minimum_placement_lwr (float, optional): _description_. Defaults to 0.8.
+        """
         self.input_query = Path(input_query)
         self.reference_alignment = Path(reference_alignment)
         self.reference_tree = Path(reference_tree)
@@ -158,13 +208,37 @@ class QueryLabeller:
         self.distance_measure = distance_measure
         self.minimum_placement_lwr = minimum_placement_lwr
 
-        self.out_cleaned_query = Path(
-            self.output_directory / f"{self.input_query.stem}_cleaned.faa"
-        )
-        self.out_query_labels = Path()
-        self.out_jplace = Path()
-        self.out_taxtable = Path()
-        self.out_placements_tree = Path()
+        self.out_cleaned_query = Path(self.output_directory / "query_cleaned.faa")
+        self.out_query_labels = self.output_directory / "query_cleaned_id_dict.pickle"
+
+        self.place_outdir = self.output_directory / "placements"
+        self.place_outdir.mkdir(parents=True, exist_ok=True)
+
+        self.assign_outdir = self.output_directory / "assignments"
+        self.assign_outdir.mkdir(parents=True, exist_ok=True)
+
+        self.count_outdir = self.output_directory / "counts"
+        self.count_outdir.mkdir(parents=True, exist_ok=True)
+
+        if (self.maximum_placement_distance is None) and (
+            self.minimum_placement_lwr is None
+        ):
+            self.out_jplace = self.place_outdir / "epa_result.jplace"
+        elif (self.maximum_placement_distance is None) and (
+            self.minimum_placement_lwr is not None
+        ):
+            self.out_jplace = self.place_outdir / "epa_result_lwr_filtered.jplace"
+        elif (self.maximum_placement_distance is not None) and (
+            self.minimum_placement_lwr is None
+        ):
+            self.out_jplace = self.place_outdir / "epa_result_distance_filtered.jplace"
+        else:
+            self.out_jplace = (
+                self.place_outdir / "epa_result_distance_filtered_lwr_filtered.jplace"
+            )
+
+        self.out_placements_tree = self.place_outdir / "epa_result.newick"
+        self.out_taxtable = self.assign_outdir / "placed_taxonomy_assignments.tsv"
 
     def call_subcommand(self, subcommand: str, args: list[str]) -> None:
         """_summary_
@@ -198,7 +272,7 @@ class QueryLabeller:
                 "--query",
                 self.out_cleaned_query,
                 "--outdir",
-                self.output_directory,
+                self.place_outdir,
                 "--aln_method",
                 self.aligment_method,
                 "--tree_model",
@@ -222,7 +296,7 @@ class QueryLabeller:
                 "--prefix",
                 "placed_tax_",
                 "--outdir",
-                self.output_directory,
+                self.assign_outdir,
                 "--max_placement_distance",
                 self.maximum_placement_distance,
                 "--distance_measure",
@@ -248,7 +322,7 @@ class QueryLabeller:
                 "--score_threshold",
                 self.tree_cluster_scores,
                 "--outdir",
-                self.output_directory,
+                self.count_outdir,
                 "--export_right_queries",
             ],
         )
