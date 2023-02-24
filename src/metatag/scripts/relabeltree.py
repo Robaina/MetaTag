@@ -10,11 +10,14 @@ from __future__ import annotations
 import argparse
 import logging
 import os
+from pathlib import Path
 
 from metatag.database.preprocessing import set_original_record_ids_in_fasta
 from metatag.phylotree import relabel_tree
 from metatag.taxonomy import TaxonomyAssigner
 from metatag.utils import DictMerger, set_default_output_path
+
+package_dir = Path(__file__).parent.parent
 
 logger = logging.getLogger(__name__)
 
@@ -36,12 +39,14 @@ def initialize_label_dict(args) -> dict:
     return label_dict, prefix_label_dict
 
 
-def assign_taxonomy_to_labels(prefix_label_dict, label_dict: dict) -> tuple[dict]:
+def assign_taxonomy_to_labels(prefix_label_dict: dict, label_dict: dict, taxo_file: str) -> tuple[dict]:
     """
     Assign GTDB taxonomy to tree labels
     """
+    if taxo_file is None:
+        taxo_file = package_dir / "data" / "merged_taxonomy.tsv"
     taxo_dict, export_label_dict, tree_label_dict = {}, {}, {}
-    taxonomy = TaxonomyAssigner(taxo_file="./data/merged_taxonomy.tsv")
+    taxonomy = TaxonomyAssigner(taxo_file=taxo_file)
     for k, label in label_dict.items():
         taxopath = taxonomy.assign_taxonomy_to_label(label)
         taxo_dict[k] = taxopath
@@ -126,6 +131,16 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     optional.add_argument(
         "--outdir", dest="outdir", type=str, help="path to output directory"
     )
+    optional.add_argument(
+        "--taxonomy_file",
+        dest="taxofile",
+        type=str,
+        default=None,
+        help=(
+            "path to tsv containing taxonomy, formated like GTDB taxopaths, for each genome ID in reference database. "
+            "Defaults to None, in which case a custom GTDB taxonomy database of marine prokaryotes is used."
+        ),
+    )
 
     if arg_list is None:
         return parser.parse_args()
@@ -155,7 +170,7 @@ def run(args: argparse.ArgumentParser) -> None:
     label_dict, prefix_label_dict = initialize_label_dict(args)
     if args.taxonomy:
         tree_label_dict, export_label_dict = assign_taxonomy_to_labels(
-            prefix_label_dict, label_dict
+            prefix_label_dict, label_dict, taxo_file=args.taxofile
         )
         export_taxonomy_table(export_label_dict, taxoout)
     else:

@@ -27,6 +27,7 @@ classifiers = [
 packages = [
     { include = "metatag", from = "src" },
 ]
+include = ["data/merged_taxonomy.tsv"]
 [tool.poetry.dependencies]
 python = "^3.8"
 [tool.poetry.scripts]

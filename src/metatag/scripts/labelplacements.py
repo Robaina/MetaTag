@@ -161,6 +161,16 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
         default=None,
         help="path to text file containing duplicated query ids as output by seqkit rmdup",
     )
+    optional.add_argument(
+        "--taxonomy_file",
+        dest="taxofile",
+        type=str,
+        default=None,
+        help=(
+            "path to tsv containing taxonomy, formated like GTDB taxopaths, for each genome ID in reference database. "
+            "Defaults to None, in which case a custom GTDB taxonomy database of marine prokaryotes is used."
+        ),
+    )
 
     if arg_list is None:
         return parser.parse_args()
@@ -255,6 +265,7 @@ def run(args: argparse.ArgumentParser) -> None:
         ref_cluster_scores_file=args.ref_cluster_scores,
         gappa_additional_args=args_str,
         only_unique_cluster=True,
+        taxo_file=args.taxofile,
     )
 
     if args.duplicated_query_ids is not None:

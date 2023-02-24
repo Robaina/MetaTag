@@ -64,6 +64,8 @@ class ReferenceTreeBuilder:
         self.relabel = relabel
         self.remove_duplicates = remove_duplicates
         self.relabel_prefixes = relabel_prefixes
+        if isinstance(hmmsearch_args, str) and (not hmmsearch_args.startswith(" ")):
+            hmmsearch_args = " " + hmmsearch_args
         self.hmmsearch_args = hmmsearch_args
         self.msa_method = msa_method
         self.tree_method = tree_method
@@ -90,8 +92,9 @@ class ReferenceTreeBuilder:
         """
         MetaTag(subcommand, args, silent=True)._call_subcommand(subcommand)
 
-    def run(self):
-        """_summary_"""
+    def run(self) -> None:
+        """_summary_
+        """
 
         self.call_subcommand(
             "preprocess",
@@ -249,7 +252,7 @@ class QueryLabeller:
         """
         MetaTag(subcommand, args, silent=True)._call_subcommand(subcommand)
 
-    def run(self):
+    def run(self) -> None:
         """_summary_"""
         self.call_subcommand(
             "preprocess",
