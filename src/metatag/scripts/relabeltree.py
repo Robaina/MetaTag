@@ -39,7 +39,9 @@ def initialize_label_dict(args) -> dict:
     return label_dict, prefix_label_dict
 
 
-def assign_taxonomy_to_labels(prefix_label_dict: dict, label_dict: dict, taxo_file: str) -> tuple[dict]:
+def assign_taxonomy_to_labels(
+    prefix_label_dict: dict, label_dict: dict, taxo_file: str
+) -> tuple[dict]:
     """
     Assign GTDB taxonomy to tree labels
     """

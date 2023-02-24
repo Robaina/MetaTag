@@ -93,8 +93,7 @@ class ReferenceTreeBuilder:
         MetaTag(subcommand, args, silent=True)._call_subcommand(subcommand)
 
     def run(self) -> None:
-        """_summary_
-        """
+        """_summary_"""
 
         self.call_subcommand(
             "preprocess",
