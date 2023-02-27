@@ -26,6 +26,7 @@ class CommandArgs:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
+
 class ReferenceTreeBuilder:
     """_summary_"""
 
@@ -108,7 +109,7 @@ class ReferenceTreeBuilder:
             export_dup=False,
             relabel=False,
             idprefix=None,
-            duplicate_method="seqkit"
+            duplicate_method="seqkit",
         )
         preprocess.run(preprocess_args)
 
@@ -124,7 +125,7 @@ class ReferenceTreeBuilder:
             maxsizes=self.max_hmm_reference_sizes,
             minseqlength=self.minimum_sequence_length,
             maxseqlength=self.maximum_sequence_length,
-            hmmsearch_args=self.hmmsearch_args
+            hmmsearch_args=self.hmmsearch_args,
         )
         makedatabase.run(database_args)
 
@@ -133,7 +134,7 @@ class ReferenceTreeBuilder:
             outdir=self.output_directory.as_posix(),
             msa_method=self.msa_method,
             tree_model=self.tree_model,
-            tree_method=self.tree_method
+            tree_method=self.tree_method,
         )
         buildtree.run(tree_args)
 
@@ -144,10 +145,9 @@ class ReferenceTreeBuilder:
             taxonomy=True,
             aln=None,
             outdir=None,
-            taxofile=None
+            taxofile=None,
         )
         relabeltree.run(relabel_args)
-
 
 
 class QueryLabeller:
@@ -216,7 +216,7 @@ class QueryLabeller:
 
         self.count_outdir = self.output_directory / "counts"
         self.count_outdir.mkdir(parents=True, exist_ok=True)
-        
+
         self.jplace = self.filtered_jplace = self.place_outdir / "epa_result.jplace"
         if (self.maximum_placement_distance is None) and (
             self.minimum_placement_lwr is None
@@ -229,7 +229,9 @@ class QueryLabeller:
         elif (self.maximum_placement_distance is not None) and (
             self.minimum_placement_lwr is None
         ):
-            self.filtered_jplace = self.place_outdir / "epa_result_distance_filtered.jplace"
+            self.filtered_jplace = (
+                self.place_outdir / "epa_result_distance_filtered.jplace"
+            )
         else:
             self.filtered_jplace = (
                 self.place_outdir / "epa_result_distance_filtered_lwr_filtered.jplace"
@@ -248,7 +250,7 @@ class QueryLabeller:
             relabel=True,
             idprefix="query_",
             export_dup=True,
-            duplicate_method="seqkit"
+            duplicate_method="seqkit",
         )
         preprocess.run(preprocess_args)
 
@@ -258,7 +260,7 @@ class QueryLabeller:
             query=self.out_cleaned_query.as_posix(),
             outdir=self.place_outdir.as_posix(),
             aln_method=self.alignment_method,
-            tree_model=self.tree_model
+            tree_model=self.tree_model,
         )
         placesequences.run(place_args)
 
@@ -275,22 +277,18 @@ class QueryLabeller:
             distance_measure=self.distance_measure,
             minimum_lwr=self.minimum_placement_lwr,
             duplicated_query_ids=None,
-            taxofile=None
+            taxofile=None,
         )
         labelplacements.run(assign_args)
 
         count_args = CommandArgs(
             taxtable=self.out_taxtable,
-            taxlevels=["genus",
-                "family",
-                "order",
-                "class",
-                "phylum"],
+            taxlevels=["genus", "family", "order", "class", "phylum"],
             cluster_ids=None,
             score_threshold=self.tree_cluster_score_threshold,
             outdir=self.count_outdir.as_posix(),
             outprefix=None,
-            export_right_queries=True
+            export_right_queries=True,
         )
         countplacements.run(count_args)
 
@@ -301,6 +299,6 @@ class QueryLabeller:
             taxonomy=True,
             aln=None,
             outdir=None,
-            taxofile=None
+            taxofile=None,
         )
         relabeltree.run(relabel_args)
