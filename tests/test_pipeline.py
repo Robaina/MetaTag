@@ -11,7 +11,7 @@ from tempfile import TemporaryDirectory
 
 import pandas as pd
 
-from metatag.pipelines import ReferenceTreeBuilder, QueryLabeller
+from metatag.pipelines import QueryLabeller, ReferenceTreeBuilder
 
 tests_dir = Path(__file__).parent
 
