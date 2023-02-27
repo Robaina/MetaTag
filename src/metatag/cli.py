@@ -26,12 +26,15 @@ __author__ = meta["Author"]
 class MetaTag:
     """Main command class"""
 
-    def __init__(self, subcommand: str, subcommand_args: list[str]):
+    def __init__(
+        self, subcommand: str, subcommand_args: list[str], silent: bool = False
+    ):
         """Initialize main command
 
         Args:
-            subcommand (str): subcommand name
+            subcommand (str): subcommand name.
             subcommand_args (list[str]): list of subcommand arguments and values.
+            silent (bool): do not print Pynteny header to command line.
         """
         self._subcommand = subcommand
         if "--hmmsearch_args" in subcommand_args:
@@ -39,7 +42,7 @@ class MetaTag:
             subcommand_args[hmm_arg_idx] = " " + subcommand_args[hmm_arg_idx]
         self._subcommand_args = subcommand_args
         parser = argparse.ArgumentParser(
-            description=(self._printLogo()),
+            description=(self._printLogo(silent)),
             usage=("metatag <subcommand> [-h] [args] \n"),
             epilog=(""),
             formatter_class=argparse.RawTextHelpFormatter,
@@ -71,14 +74,14 @@ class MetaTag:
             parser.print_help()
             sys.exit(1)
         args = parser.parse_args(self._subcommand)
-        # args = parser.parse_args()
         input_subcommand = getattr(args, "subcommand")
-        self._call_subcommand(subcommand_name=input_subcommand)
+        self.call_subcommand(subcommand_name=input_subcommand)
 
-    def _printLogo(self):
-        print(
-            (
-                """
+    def _printLogo(self, silent: str = False) -> None:
+        if not silent:
+            print(
+                (
+                    """
                  _     _______          
                 | |   |__   __|         
   _ __ ___   ___| |_ __ _| | __ _  __ _ 
@@ -88,13 +91,13 @@ class MetaTag:
                                    __/ |
                                   |___/ 
 """
-                f"Metagenome function and taxonomy assignment through evolutionary placement, v{__version__}\n"
-                "Semidán Robaina Estévez (srobaina@ull.edu.es), 2022\n"
-                " \n"
+                    f"Metagenome function and taxonomy assignment through evolutionary placement, v{__version__}\n"
+                    "Semidán Robaina Estévez (srobaina@ull.edu.es), 2022\n"
+                    " \n"
+                )
             )
-        )
 
-    def _call_subcommand(self, subcommand_name: str) -> None:
+    def call_subcommand(self, subcommand_name: str) -> None:
         subcommand = getattr(self, subcommand_name)
         subcommand()
 
@@ -142,7 +145,7 @@ class MetaTag:
         """Print pynteny's citation string"""
         citation = (
             "Semidán Robaina Estévez (2022). MetaTag: Metagenome functional and taxonomical annotation through phylogenetic tree placement."
-            f"(Version {__version__}). Zenodo. https://doi.org/10.5281/zenodo.7048685"
+            f"(Version {__version__}). Zenodo."
         )
         print("If you use this software, please cite it as below: ")
         print(citation)

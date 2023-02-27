@@ -95,7 +95,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
         "--max_sizes",
         dest="maxsizes",
         default=None,
-        type=str,
+        type=int,
         nargs="+",
         help=(
             "maximum size of representative set of sequences for each hmm model. "
@@ -175,7 +175,7 @@ def run(args: argparse.ArgumentParser) -> None:
     if args.maxsizes is None:
         args.maxsizes = [None for _ in args.hmms]
     else:
-        args.maxsizes = [int(arg) if arg.isdigit() else None for arg in args.maxsizes]
+        args.maxsizes = [int(arg) if arg is not None else None for arg in args.maxsizes]
     if args.relabel_prefixes is None:
         args.relabel_prefixes = [None for _ in args.hmms]
     if args.outdir is None:
@@ -187,6 +187,7 @@ def run(args: argparse.ArgumentParser) -> None:
     output_pickle_short_ids = os.path.join(
         args.outdir, f"{args.prefix}ref_database_id_dict.pickle"
     )
+    print("args in makedatabase", args.hmms)
     if args.hmmsearch_args is None:
         args.hmmsearch_args = ",".join(["None" for _ in args.hmms])
     hmmsearch_args_list = list(map(lambda x: x.strip(), args.hmmsearch_args.split(",")))

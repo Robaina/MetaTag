@@ -128,7 +128,6 @@ def run_hmmsearch(
 ) -> None:
     """
     Simple CLI wrapper to hmmsearch or hmmscan
-    --cut_nc, --cut_ga
     """
     if n_processes is None:
         n_processes = os.cpu_count() - 1

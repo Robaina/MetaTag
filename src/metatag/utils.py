@@ -7,6 +7,7 @@ Functions and classes for general purposes
 
 from __future__ import annotations
 
+import json
 import os
 import pickle
 import random
@@ -16,6 +17,82 @@ import subprocess
 import tarfile
 from functools import partial
 from multiprocessing import Pool
+from pathlib import Path
+
+
+class ConfigParser:
+    """Handle MetaTag configuration file."""
+
+    def __init__(self, config_file: Path) -> None:
+        self._config_file = Path(config_file)
+        self._config = self.get_config()
+
+    @classmethod
+    def get_default_config(cls):
+        """Initialize ConfigParser with default config file."""
+        return cls(cls.initialize_config_file())
+
+    @staticmethod
+    def initialize_config_file() -> Path:
+        """Initialize empty config file.
+        Returns:
+            Path: path to generated config file.
+        """
+        config_file = Path(__file__).parent / "config.json"
+        if not config_file.exists():
+            config = {
+                "input_database": "",
+                "hmm_directory": "",
+                "max_hmm_reference_size": "",
+                "min_sequence_length": "",
+                "max_sequence_length": "",
+                "output_directory": "",
+                "translate": "",
+                "relabel": "",
+                "remove_duplicates": "",
+                "relabel_prefixes": "",
+                "hmmsearch_args": "",
+                "tree_method": "",
+            }
+            with open(config_file, "w", encoding="UTF-8") as f:
+                json.dump(config, f, indent=4)
+        return config_file
+
+    def get_config_path(self) -> Path:
+        """Show config file path."""
+        return self._config_file
+
+    def get_config(self) -> dict:
+        """Load config file.
+        Returns:
+            dict: dict containing fields and values of config file.
+        """
+        with open(self._config_file, "r", encoding="UTF-8") as file:
+            config = json.loads(file.read())
+        return config
+
+    def write_config(self) -> None:
+        """Write config dict to file."""
+        with open(self._config_file, "w", encoding="UTF-8") as f:
+            json.dump(self._config, f, indent=4)
+
+    def update_config(self, key: str, value: str) -> None:
+        """Update config file
+        Args:
+            key (str): config file key name to be updated.
+            value (str): new value.
+        """
+        self._config[key] = value
+        self.write_config()
+
+    def get_field(self, key: str) -> str:
+        """Get field from config file.
+        Args:
+            key (str): key name to get the value from.
+        Returns:
+            str: key value.
+        """
+        return self._config[key]
 
 
 def handle_exceptions(foo):
