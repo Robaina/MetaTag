@@ -30,6 +30,7 @@ src/notify.py
 data/final_ref_database.fasta
 data/final_ref_database_unique_contigs.fasta
 bacteroidota.sh
+.coverage
 
 # File types
 *.sqlite

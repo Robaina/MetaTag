@@ -34,7 +34,6 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: 3.8
-          # mamba-version: "*"
           channels: conda-forge,bioconda,defaults
           auto-activate-base: false
           activate-environment: tests_traits
@@ -43,6 +42,11 @@ jobs:
       - name: Build & Install metatag
         run: poetry build && pip install dist/metatag*.whl
 
-      - name: Run tests
-        run: bash tests/minimal_test.sh
+      - name: Run tests and compute coverage
+        run: coverage run -m unittest discover tests && coverage xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          version: "v0.1.15"
 
