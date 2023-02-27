@@ -30,12 +30,10 @@ def initialize_label_dict(args) -> dict:
         label_pre = ["" for _ in args.labels]
     else:
         label_pre = args.labelprefixes
-
     label_dict = DictMerger.from_pickle_paths(args.labels).merge()
     prefix_label_dict = DictMerger.from_pickle_paths(args.labels).merge(
         dict_prefixes=label_pre
     )
-
     return label_dict, prefix_label_dict
 
 

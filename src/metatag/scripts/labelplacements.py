@@ -228,17 +228,17 @@ def run(args: argparse.ArgumentParser) -> None:
             f'Filtering placements by maximum distance: "{args.distance_measure}" of {args.max_distance}'
         )
         filtered_jplace = set_default_output_path(args.jplace, tag="_distance_filtered")
-        parser = JplaceParser(args.jplace)
+        jplaceparser = JplaceParser(args.jplace)
         if "pendant" in args.distance_measure.lower():
-            parser.filter_placements_by_max_pendant_length(
+            jplaceparser.filter_placements_by_max_pendant_length(
                 max_pendant_length=args.max_distance, outfile=filtered_jplace
             )
         elif "pendant_distal_ratio" in args.distance_measure.lower():
-            parser.filter_placements_by_max_pendant_to_distal_length_ratio(
+            jplaceparser.filter_placements_by_max_pendant_to_distal_length_ratio(
                 max_pendant_ratio=args.max_distance, outfile=filtered_jplace
             )
         elif "pendant_diameter_ratio" in args.distance_measure.lower():
-            parser.filter_placements_by_max_pendant_to_tree_diameter_ratio(
+            jplaceparser.filter_placements_by_max_pendant_to_tree_diameter_ratio(
                 max_pendant_ratio=args.max_distance, outfile=filtered_jplace
             )
         else:
@@ -248,8 +248,8 @@ def run(args: argparse.ArgumentParser) -> None:
     if args.minimum_lwr is not None:
         logger.info(f"Filtering placements by minimum LWR of: {args.minimum_lwr}")
         filtered_jplace = set_default_output_path(args.jplace, tag="_lwr_filtered")
-        parser = JplaceParser(args.jplace)
-        parser.filter_placements_by_minimum_lwr(
+        jplaceparser = JplaceParser(args.jplace)
+        jplaceparser.filter_placements_by_minimum_lwr(
             minimum_lwr=args.minimum_lwr, outfile=filtered_jplace
         )
         args.jplace = filtered_jplace

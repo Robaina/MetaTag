@@ -74,9 +74,8 @@ class MetaTag:
             parser.print_help()
             sys.exit(1)
         args = parser.parse_args(self._subcommand)
-        # args = parser.parse_args()
         input_subcommand = getattr(args, "subcommand")
-        self._call_subcommand(subcommand_name=input_subcommand)
+        self.call_subcommand(subcommand_name=input_subcommand)
 
     def _printLogo(self, silent: str = False) -> None:
         if not silent:
@@ -98,7 +97,7 @@ class MetaTag:
                 )
             )
 
-    def _call_subcommand(self, subcommand_name: str) -> None:
+    def call_subcommand(self, subcommand_name: str) -> None:
         subcommand = getattr(self, subcommand_name)
         subcommand()
 
@@ -146,7 +145,7 @@ class MetaTag:
         """Print pynteny's citation string"""
         citation = (
             "Semidán Robaina Estévez (2022). MetaTag: Metagenome functional and taxonomical annotation through phylogenetic tree placement."
-            f"(Version {__version__}). Zenodo. https://doi.org/10.5281/zenodo.7048685"
+            f"(Version {__version__}). Zenodo."
         )
         print("If you use this software, please cite it as below: ")
         print(citation)
