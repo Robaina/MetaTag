@@ -5,7 +5,6 @@ WORKDIR /MetaTag
 COPY src src/
 COPY tests tests/
 COPY envs envs/
-COPY data data/
 COPY README.md .
 COPY pyproject.toml .
 COPY LICENSE .
