@@ -44,7 +44,7 @@ def run_seqkit_nodup(
     else:
         dup_str = ""
     cmd_str = f"seqkit rmdup {input_fasta} --quiet -s {dup_str} -o {output_fasta}"
-    terminal_execute(cmd_str)
+    terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def run_fastp(
@@ -196,7 +196,7 @@ def get_percent_identity_from_msa(input_msa: str, output_file: str = None) -> No
     if output_file is None:
         output_file = set_default_output_path(input_msa, tag="_PI", extension=".txt")
     cmd_str = f"esl-alipid {input_msa} > {output_file}"
-    terminal_execute(cmd_str, suppress_shell_output=True)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
 def run_cdhit(
@@ -245,7 +245,7 @@ def run_mafft(
         additional_args = ""
     input_fasta = os.path.abspath(input_fasta)
     cmd_str = f"mafft {thread_str} {additional_args} {input_fasta} > {output_file}"
-    terminal_execute(cmd_str, suppress_shell_output=True)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
 def run_muscle(
@@ -348,7 +348,7 @@ def run_fasttree(
         additional_args = ""
     input_algns = os.path.abspath(input_algns)
     cmd_str = f"fasttree {nt_str} {input_algns} {start_t_str} {additional_args} > {output_file}"
-    terminal_execute(cmd_str, suppress_shell_output=True)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
 def run_iqtree(

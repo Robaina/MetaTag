@@ -756,6 +756,15 @@ def accelerated_greedy_selection(
         repset.append(pq[0][1])
     return repset
 
+def write_results_table(repset_order: list, output_file: Path) -> None:
+    """
+    Write repset results to file
+    """
+    with open(output_file, "w") as f:
+        for seq_id in repset_order:
+            f.write(seq_id)
+            f.write("\n")
+
 
 ###############################################################
 ###############################################################
@@ -782,8 +791,9 @@ if __name__ == "__main__":
     repset_order = accelerated_greedy_selection(
         db, objective, sim, repset_size=args.size
     )  # Call main algorithm
-
-    with open(workdir / "repset.txt", "w") as f:
-        for seq_id in repset_order:
-            f.write(seq_id)
-            f.write("\n")
+    
+    write_results_table(repset_order, workdir / "repset.txt")
+    # with open(workdir / "repset.txt", "w") as f:
+    #     for seq_id in repset_order:
+    #         f.write(seq_id)
+    #         f.write("\n")

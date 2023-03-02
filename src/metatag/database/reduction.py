@@ -46,7 +46,7 @@ def get_representative_set(
             f"python {repset_exe} --seqs {input_seqs} --pi {input_pi} "
             f"--outdir {tempdir} --size {max_size}"
         )
-        terminal_execute(cmd_str, suppress_shell_output=True)
+        terminal_execute(cmd_str, suppress_shell_output=False)
 
         with open(os.path.join(tempdir, "repset.txt")) as repset:
             rep_ids = [rep_id.strip("\n") for rep_id in repset.readlines()]

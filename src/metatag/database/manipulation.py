@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import os
 import warnings
+import tempfile
 from collections import defaultdict
 
 import pandas as pd
@@ -20,7 +21,7 @@ from Bio import AlignIO, SearchIO, SeqIO
 
 import metatag.wrappers as wrappers
 from metatag.database.labelparsers import MARdbLabelParser
-from metatag.utils import set_default_output_path
+from metatag.utils import set_default_output_path, terminal_execute
 
 
 def filter_fasta_by_sequence_length(
@@ -84,15 +85,27 @@ def filter_fasta_by_ids(
     if os.path.exists(input_fasta + ".fxi"):
         os.remove(input_fasta + ".fxi")
     record_ids = set(record_ids)
-    fa = pyfastx.Fasta(input_fasta)
-    with open(output_fasta, "w") as fp:
-        for record_id in record_ids:
-            try:
-                record_obj = fa[record_id]
-                fp.write(record_obj.raw)
-            except Exception:
-                pass
-    os.remove(input_fasta + ".fxi")
+
+
+    # fa = pyfastx.Fasta(input_fasta)
+    # with open(output_fasta, "w") as fp:
+    #     for record_id in record_ids:
+    #         try:
+    #             record_obj = fa[record_id]
+    #             fp.write(record_obj.raw)
+    #         except Exception:
+    #             pass
+    # os.remove(input_fasta + ".fxi")
+
+
+    with tempfile.NamedTemporaryFile(mode="w+t") as tmp_ids:
+        tmp_ids.writelines("\n".join(record_ids))
+        tmp_ids.flush()
+        tmp_ids_path = tmp_ids.name
+        cmd_str = (
+            f"seqkit grep -i -f {tmp_ids_path} {input_fasta} -o {output_fasta}"
+        )
+        terminal_execute(cmd_str, suppress_shell_output=True)
 
 
 def filter_fasta_by_hmm(

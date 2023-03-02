@@ -16,14 +16,6 @@ from metatag.pipelines import QueryLabeller, ReferenceTreeBuilder
 tests_dir = Path(__file__).parent
 
 
-class TestReferenceTreeBuilder(unittest.TestCase):
-    def test_run(self):
-        pass
-
-class TestQueryLabeller(unittest.TestCase):
-    def test_run(self):
-        pass
-
 class TestPipeline(unittest.TestCase):
     def test_pipeline(self):
         with TemporaryDirectory() as tempdir:

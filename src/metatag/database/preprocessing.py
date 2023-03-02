@@ -72,9 +72,10 @@ def merge_fastas(input_fastas_dir: list, output_fasta: str = None) -> None:
     """
     if output_fasta is None:
         output_fasta = os.path.join(input_fastas_dir, "merged.fasta")
+    file = open(output_fasta, "w+")
     cmd_str = f"awk 1 * > {output_fasta}"
     terminal_execute(cmd_str, work_dir=input_fastas_dir, suppress_shell_output=False)
-
+    file.close()
 
 def assert_correct_file_path(file_name: str) -> None:
     """
@@ -91,8 +92,11 @@ def fasta_contains_nucleotide_sequences(fasta_file: str) -> bool:
     """
     Check whether fasta file contains nucleotide sequences
     """
-    seq_1 = next(SeqIO.parse(fasta_file, "fasta"))
-    return is_legit_dn_asequence(seq_1.seq)
+    ffile = open(fasta_file, "r")
+    seq_1 = next(SeqIO.parse(ffile, "fasta"))
+    seq = seq_1.seq
+    ffile.close()
+    return is_legit_dn_asequence(seq)
 
 
 def is_legit_peptide_sequence(record_seq: str) -> bool:

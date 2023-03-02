@@ -224,22 +224,29 @@ def read_from_pickle_file(path_to_file="object.pkl"):
 def terminal_execute(
     command_str: str,
     suppress_shell_output=False,
-    work_dir: str = None,
+    work_dir: Path = None,
     return_output=False,
 ) -> subprocess.STDOUT:
-    """
-    Execute given command in terminal through Python
+    """Execute given command in terminal through Python.
+    Args:
+        command_str (str): terminal command to be executed.
+        suppress_shell_output (bool, optional): suppress shell output. Defaults to False.
+        work_dir (Path, optional): change working directory. Defaults to None.
+        return_output (bool, optional): whether to return execution output. Defaults to False.
+    Returns:
+        subprocess.STDOUT: subprocess output.
     """
     if suppress_shell_output:
-        stdout = subprocess.DEVNULL
+        command_str = f"{command_str} >/dev/null 2>&1"
     else:
-        stdout = None
+        command_str = command_str
+
     output = subprocess.run(
         command_str,
         shell=True,
         cwd=work_dir,
         capture_output=return_output,
-        stdout=stdout,
+        stdout=None
     )
     return output
 

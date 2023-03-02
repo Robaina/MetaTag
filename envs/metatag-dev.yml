@@ -6,6 +6,7 @@ channels:
   - defaults
 dependencies:
   - python >= 3.8
+  - pip
   - biopython
   - fasttree
   - iqtree
@@ -15,18 +16,17 @@ dependencies:
   - cd-hit
   - pandas
   - numpy
-  - pip
   - prodigal
   - seqkit=2.0.0
   - treeshrink=1.3.7
   - epa-ng
   - gappa
-  - poetry
-  - coverage
+  - pyfastx=0.8
+  - scikit-bio
+  - scikit-learn
+  - scipy
   - pip:
-    - pyfastx==0.8.4
-    - scikit-bio==0.5.6
-    - scikit-learn==1.0
-    - scipy==1.7.1
+    - poetry
     - ruff
     - black
+    - coverage

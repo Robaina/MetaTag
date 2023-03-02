@@ -187,7 +187,6 @@ def run(args: argparse.ArgumentParser) -> None:
     output_pickle_short_ids = os.path.join(
         args.outdir, f"{args.prefix}ref_database_id_dict.pickle"
     )
-    print("args in makedatabase", args.hmms)
     if args.hmmsearch_args is None:
         args.hmmsearch_args = ",".join(["None" for _ in args.hmms])
     hmmsearch_args_list = list(map(lambda x: x.strip(), args.hmmsearch_args.split(",")))
