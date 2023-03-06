@@ -7,7 +7,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
-![license](https://img.shields.io/github/license/Robaina/Pynteny)
+![license](https://img.shields.io/github/license/Robaina/MetaTag)
 ![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 
 ---
@@ -36,7 +36,7 @@ git clone https://github.com/Robaina/MetaTag.git
 
 2. CD to project MetaTag and set conda environment if not already set:
 ```bash
-conda env create -n metatag -f envs/metatag.yml
+conda env create -n metatag -f envs/metatag-dev.yml
 ```
 
 3. Build and install MetaTag:
@@ -54,7 +54,7 @@ It should produce a final tree with query sequences placed on it, as well as a b
 
 
 ## :arrows_counterclockwise: Dependencies
-Pynteny would not work without these awesome projects:
+MetaTag would not work without these awesome projects:
 
 - [hmmer](https://github.com/EddyRivasLab/hmmer)
 - [prodigal](https://github.com/hyattpd/Prodigal)

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-open empress tree with placements in browser. 
+open empress tree with placements in browser.
 Only if script runs locally.
 """
 from __future__ import annotations
