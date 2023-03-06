@@ -1,0 +1,31 @@
+site_name: MetaTag
+site_url: https://robaina.github.io/MetaTag
+repo_url: https://github.com/Robaina/MetaTag
+site_author: Semidán Robaina
+nav:
+    - Home: index.md
+    - Subcommands:
+        - Preprocess: subcommands/preprocess.md
+        - Database: subcommands/database.md
+        - Tree: subcommands/tree.md
+        - Place: subcommands/place.md
+        - Assign: subcommands/assign.md
+        - Count: subcommands/count.md
+        - Plot: subcommands/plot.md
+        - Relabel: subcommands/relabel.md
+    - References: 
+         - API references: references/api.md
+theme: readthedocs
+plugins:
+  - mkdocs-jupyter:
+      # ignore: ["examples/example_api_colab.ipynb"]
+  - mkdocstrings
+# Add MathJax support:
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
