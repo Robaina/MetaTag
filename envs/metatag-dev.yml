@@ -1,6 +1,5 @@
 name: metatag-dev
 channels:
-  - smirarab
   - bioconda
   - conda-forge
   - defaults
@@ -18,13 +17,13 @@ dependencies:
   - numpy
   - prodigal
   - seqkit
-  - treeshrink
   - epa-ng
   - gappa
   - pyfastx>=0.8
   - scikit-bio
   - scikit-learn
   - scipy
+  - pynteny
   - pip:
     - poetry
     - ruff
