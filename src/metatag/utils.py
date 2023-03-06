@@ -242,11 +242,7 @@ def terminal_execute(
         command_str = command_str
 
     output = subprocess.run(
-        command_str,
-        shell=True,
-        cwd=work_dir,
-        capture_output=return_output,
-        stdout=None
+        command_str, shell=True, cwd=work_dir, capture_output=return_output, stdout=None
     )
     return output
 

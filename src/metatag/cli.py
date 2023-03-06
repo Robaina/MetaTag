@@ -82,14 +82,14 @@ class MetaTag:
             print(
                 (
                     """
-                 _     _______          
-                | |   |__   __|         
-  _ __ ___   ___| |_ __ _| | __ _  __ _ 
+                 _     _______
+                | |   |__   __|
+  _ __ ___   ___| |_ __ _| | __ _  __ _
  | '_ ` _ \ / _ \ __/ _` | |/ _` |/ _` |
  | | | | | |  __/ || (_| | | (_| | (_| |
  |_| |_| |_|\___|\__\__,_|_|\__,_|\__, |
                                    __/ |
-                                  |___/ 
+                                  |___/
 """
                     f"Metagenome function and taxonomy assignment through evolutionary placement, v{__version__}\n"
                     "Semidán Robaina Estévez (srobaina@ull.edu.es), 2022\n"

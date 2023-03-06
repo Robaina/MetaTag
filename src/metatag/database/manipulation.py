@@ -11,8 +11,8 @@ Tools to create peptide-specific sequence databases
 from __future__ import annotations
 
 import os
-import warnings
 import tempfile
+import warnings
 from collections import defaultdict
 
 import pandas as pd
@@ -86,7 +86,6 @@ def filter_fasta_by_ids(
         os.remove(input_fasta + ".fxi")
     record_ids = set(record_ids)
 
-
     # fa = pyfastx.Fasta(input_fasta)
     # with open(output_fasta, "w") as fp:
     #     for record_id in record_ids:
@@ -97,14 +96,11 @@ def filter_fasta_by_ids(
     #             pass
     # os.remove(input_fasta + ".fxi")
 
-
     with tempfile.NamedTemporaryFile(mode="w+t") as tmp_ids:
         tmp_ids.writelines("\n".join(record_ids))
         tmp_ids.flush()
         tmp_ids_path = tmp_ids.name
-        cmd_str = (
-            f"seqkit grep -i -f {tmp_ids_path} {input_fasta} -o {output_fasta}"
-        )
+        cmd_str = f"seqkit grep -i -f {tmp_ids_path} {input_fasta} -o {output_fasta}"
         terminal_execute(cmd_str, suppress_shell_output=True)
 
 

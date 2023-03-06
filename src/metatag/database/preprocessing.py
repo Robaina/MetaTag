@@ -77,6 +77,7 @@ def merge_fastas(input_fastas_dir: list, output_fasta: str = None) -> None:
     terminal_execute(cmd_str, work_dir=input_fastas_dir, suppress_shell_output=False)
     file.close()
 
+
 def assert_correct_file_path(file_name: str) -> None:
     """
     Remove illegal symbols from file path
