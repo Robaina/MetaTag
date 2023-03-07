@@ -5,26 +5,24 @@ channels:
   - defaults
 dependencies:
   - python=3.10
-  - pip
-  - biopython
-  - fasttree
-  - iqtree
-  - hmmer
+  - pip=23.0.1
+  - biopython=1.81
+  - fasttree=2.1.11
+  - iqtree=2.2.0.3
+  - hmmer=3.3.2
   - muscle=3.8
-  - mafft
-  - cd-hit
-  - pandas
-  - numpy
-  - prodigal
-  - seqkit
-  - epa-ng
-  - gappa
+  - mafft=7.515
+  - cd-hit=4.8.1
+  - pandas=1.5.3
+  - numpy=1.24.2
+  - prodigal=2.6.3
+  - seqkit=2.3.1
+  - epa-ng=0.3.8
+  - gappa=0.8.0
   - pyfastx=0.8.4
-  - scikit-bio
-  - scikit-learn
-  - scipy
+  - matplotlib=3.7.1
   - pip:
-    - poetry
-    - ruff
-    - black
-    - coverage
+    - poetry==1.4.0
+    - ruff==0.0.254
+    - black==23.1.0
+    - coverage==7.2.1
