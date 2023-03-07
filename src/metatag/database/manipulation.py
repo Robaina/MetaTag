@@ -11,13 +11,17 @@ Tools to create peptide-specific sequence databases
 from __future__ import annotations
 
 import os
+import shutil
 import tempfile
 import warnings
+from pathlib import Path
 from collections import defaultdict
 
 import pandas as pd
 import pyfastx
 from Bio import AlignIO, SearchIO, SeqIO
+
+from pynteny.api import Search
 
 import metatag.wrappers as wrappers
 from metatag.database.labelparsers import MARdbLabelParser
@@ -85,17 +89,6 @@ def filter_fasta_by_ids(
     if os.path.exists(input_fasta + ".fxi"):
         os.remove(input_fasta + ".fxi")
     record_ids = set(record_ids)
-
-    # fa = pyfastx.Fasta(input_fasta)
-    # with open(output_fasta, "w") as fp:
-    #     for record_id in record_ids:
-    #         try:
-    #             record_obj = fa[record_id]
-    #             fp.write(record_obj.raw)
-    #         except Exception:
-    #             pass
-    # os.remove(input_fasta + ".fxi")
-
     with tempfile.NamedTemporaryFile(mode="w+t") as tmp_ids:
         tmp_ids.writelines("\n".join(record_ids))
         tmp_ids.flush()
@@ -105,11 +98,12 @@ def filter_fasta_by_ids(
 
 
 def filter_fasta_by_hmm(
-    hmm_model: str,
-    input_fasta: str,
-    output_fasta: str = None,
-    hmmer_output: str = None,
-    method: str = "hmmsearch",
+    input_fasta: Path,
+    hmm_dir: Path,
+    hmm_structure: str,
+    target_hmm: str = None,
+    output_fasta: Path = None,
+    hmmer_output: Path = None,
     additional_args: str = None,
 ) -> None:
     """
@@ -120,31 +114,33 @@ def filter_fasta_by_hmm(
     @Arguments:
     additional_args: additional arguments to hmmsearch or hmmscan
     """
-    hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
+    input_fasta = Path(input_fasta)
+    hmm_dir = Path(hmm_dir)
+    output_fasta = Path(output_fasta)
+    hmmer_output = Path(hmmer_output)
+
     if hmmer_output is None:
         hmmer_output = set_default_output_path(
-            input_fasta, tag=f"_{hmm_name}", extension=".txt"
+            input_fasta, tag=f"_{target_hmm}", extension=".txt"
         )
     if output_fasta is None:
-        output_fasta = set_default_output_path(input_fasta, tag=f"filtered_{hmm_name}")
+        output_fasta = set_default_output_path(input_fasta, tag=f"filtered_{target_hmm}")
 
-    print("Running Hmmer...")
-    wrappers.run_hmmsearch(
-        hmm_model=hmm_model,
-        input_fasta=input_fasta,
-        output_file=hmmer_output,
-        method=method,
-        additional_args=additional_args,
-    )
-    print("Parsing Hmmer output file...")
-    hmmer_hits = parse_hmmsearch_output(hmmer_output)
-    if not hmmer_hits.id.values.tolist():
-        raise ValueError("No records found in database matching provided hmm")
-    print("Filtering Fasta...")
-    filter_fasta_by_ids(
-        input_fasta, record_ids=hmmer_hits.id.values, output_fasta=output_fasta
-    )
-
+    search = Search(
+        data=Path(input_fasta),
+        synteny_struc=hmm_structure,
+        hmm_dir=hmm_dir,
+        hmm_meta=None,
+        outdir=hmmer_output,
+        prefix="",
+        hmmsearch_args=additional_args,
+        gene_ids=False,
+        logfile=None,
+        processes=None,
+        unordered=False,
+        )
+    search.run()
+    shutil.copy(hmmer_output / f"{target_hmm}_hits.fasta")
 
 def convert_fasta_aln_to_phylip(
     input_fasta_aln: str, output_phylip: str = None
@@ -446,100 +442,3 @@ class LinkedHMMfilter:
             hmm_name: linked_hit_labels[linked_hit_labels.full.isin(hits.id)]
             for hmm_name, hits in self._hmm_hits.items()
         }
-
-
-def filter_fasta_by_hmm_structure(
-    hmm_structure: str,
-    target_hmm: str,
-    input_fasta: str,
-    input_hmms: list[str],
-    output_fasta: str = None,
-    output_dir: str = None,
-    hmmer_output_dir: str = None,
-    reuse_hmmer_results: bool = True,
-    method: str = "hmmsearch",
-    additional_args: list[str] = None,
-) -> None:
-    """
-    Generate protein-specific database by filtering sequence database
-    to only contain sequences which satisfy the provided (gene/hmm)
-    structure
-
-    @Arguments:
-    additional_args: additional arguments to hmmsearch or hmmscan. Each
-    element in the list is a string with additional arguments for each
-    input hmm (arranged in the same order), an element can also take a
-    value of None to avoid passing additional arguments for a specific
-    input hmm. A single string may also be passed, in which case the
-    same additional argument is passed to hmmsearch for all input hmms
-    """
-    if output_fasta is None:
-        output_fasta = set_default_output_path(
-            input_fasta, tag=f'filtered_{hmm_structure.replace(" ", "_")}'
-        )
-    if hmmer_output_dir is None:
-        hmmer_output_dir = os.path.join(
-            set_default_output_path(input_fasta, only_dirname=True), "hmmer_outputs"
-        )
-
-    if additional_args is None:
-        additional_args = [None for _ in input_hmms]
-
-    if type(additional_args) == str:
-        additional_args = [additional_args for _ in input_hmms]
-
-    elif type(additional_args) == list:
-        if len(additional_args) == 1:
-            additional_args = [additional_args[0] for _ in input_hmms]
-
-        if (len(additional_args) > 1) and (len(additional_args) < len(input_hmms)):
-            raise ValueError(
-                "Provided additional argument strings are less than the number of input hmms."
-            )
-    else:
-        raise ValueError(
-            "Additional arguments must be: 1) a list[str], 2) a str, or 3) None"
-        )
-    if not os.path.isdir(hmmer_output_dir):
-        os.mkdir(hmmer_output_dir)
-
-    if output_dir is None:
-        output_dir = set_default_output_path(input_fasta, only_dirname=True)
-    else:
-        output_dir = output_dir
-
-    print("Running Hmmer...")
-    hmm_hits = {}
-    for hmm_model, add_args in zip(input_hmms, additional_args):
-        hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
-        hmmer_output = os.path.join(hmmer_output_dir, f"hmmer_output_{hmm_name}.txt")
-
-        if not (reuse_hmmer_results and os.path.isfile(hmmer_output)):
-            wrappers.run_hmmsearch(
-                hmm_model=hmm_model,
-                input_fasta=input_fasta,
-                output_file=hmmer_output,
-                method=method,
-                additional_args=add_args,
-            )
-
-        hmm_hits[hmm_name] = parse_hmmsearch_output(hmmer_output)
-
-    print("Filtering results by HMM structure...")
-    linkedfilter = LinkedHMMfilter(hmm_hits)
-    linked_hit_labels = linkedfilter.filter_hits_by_linked_hmm_structure(hmm_structure)
-
-    if not linked_hit_labels.full.values.tolist():
-        raise ValueError("No records found in database matching provided hmm structure")
-
-    print("Filtering Fasta...")
-    partitioned_hit_labels = linkedfilter.partition_linked_labels_by_hmm(
-        linked_hit_labels
-    )
-    for hmm_name in hmm_hits:
-        if hmm_name in target_hmm:
-            outfasta = output_fasta
-        else:
-            outfasta = os.path.join(output_dir, f"{hmm_name}_hits.fasta")
-        record_ids = partitioned_hit_labels[hmm_name].full.values
-        filter_fasta_by_ids(input_fasta, record_ids=record_ids, output_fasta=outfasta)
