@@ -6,11 +6,14 @@ Obtain FASTA with gene sequences from list of NCBI accession ids
 Dependencies: ncbi-acc-download
 """
 
+import logging
 import os
 
 from Bio import SeqIO
 
 from metatag.utils import terminal_execute
+
+logger = logging.getLogger(__name__)
 
 
 def download_gbk_from_ncbi(entry_ids: list, output_dir: str = None) -> None:
@@ -18,7 +21,7 @@ def download_gbk_from_ncbi(entry_ids: list, output_dir: str = None) -> None:
     Download genbank files from NCBI from given list of entry IDs
     """
     for n, entry_id in enumerate(entry_ids):
-        print(f"Downloading entry: {entry_id} ({n + 1} / {len(entry_ids)})")
+        logger.info(f"Downloading entry: {entry_id} ({n + 1} / {len(entry_ids)})")
         outfasta = os.path.join(output_dir, f"{entry_id}.gbk")
         cmd_str = f"ncbi-acc-download -o {outfasta} {entry_id}"
         terminal_execute(cmd_str)

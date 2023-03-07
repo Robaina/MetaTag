@@ -15,6 +15,9 @@ from pathlib import Path
 import numpy
 import pandas as pd
 
+logger = logging.getLogger(__name__)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--outdir", type=Path, required=True, help="Output directory")
@@ -67,7 +70,7 @@ def get_pident(pi_file):  # , seqs):
     """
     Parse esl-alipid output file
     """
-    print("Building dataframe")
+    logger.info("Building dataframe")
     df = pd.read_csv(pi_file, sep="\s+", skiprows=1, header=None)
     df.columns = [
         "seqname1",
@@ -79,7 +82,7 @@ def get_pident(pi_file):  # , seqs):
         "nmatch",
         "denommatch",
     ]
-    print("Dataframe built")
+    logger.info("Dataframe built")
 
     db = {}
     for i, row in df.iterrows():
@@ -726,7 +729,7 @@ def accelerated_greedy_selection(
     repset_size=float("inf"),
     target_obj_val=float("inf"),
 ):
-    print(f"Repset size: {repset_size}")
+    logger.info(f"Repset size: {repset_size}")
 
     assert diff_approx_ratio <= 1.0
     repset = []
@@ -775,11 +778,11 @@ def write_results_table(repset_order: list, output_file: Path) -> None:
 
 if __name__ == "__main__":
     # db = run_psiblast(workdir, args.seqs)
-    print("Reading PI database...")
+    logger.info("Reading PI database...")
     db = get_pident(
         pi_file=args.pi
     )  # , seqs=args.seqs) # Make db with PI from esl-alipid
-    print("Finished building database...")
+    logger.info("Finished building database...")
     objective = MixtureObjective(
         [summaxacross, sumsumwithin], [args.mixture, 1.0 - args.mixture]
     )

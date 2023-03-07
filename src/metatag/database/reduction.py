@@ -10,6 +10,7 @@ Currently based on:
 2. Repset: https://onlinelibrary.wiley.com/doi/10.1002/prot.25461
 """
 
+import logging
 import os
 import shutil
 import warnings
@@ -23,6 +24,8 @@ from metatag.utils import (
     set_default_output_path,
     terminal_execute,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def get_representative_set(
@@ -104,7 +107,7 @@ def reduce_database_redundancy(
                 input_msa=tempaln, output_file=tempident
             )
 
-            print("Finding representative sequences for reference database...")
+            logger.info("Finding representative sequences for reference database...")
             get_representative_set(
                 input_seqs=tempfasta,
                 input_pi=tempident,

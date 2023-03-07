@@ -10,6 +10,7 @@ Tools to create peptide-specific sequence databases
 
 from __future__ import annotations
 
+import logging
 import os
 import tempfile
 import warnings
@@ -22,6 +23,8 @@ from Bio import AlignIO, SearchIO, SeqIO
 import metatag.wrappers as wrappers
 from metatag.database.labelparsers import MARdbLabelParser
 from metatag.utils import set_default_output_path, terminal_execute
+
+logger = logging.getLogger(__name__)
 
 
 def filter_fasta_by_sequence_length(
@@ -128,7 +131,7 @@ def filter_fasta_by_hmm(
     if output_fasta is None:
         output_fasta = set_default_output_path(input_fasta, tag=f"filtered_{hmm_name}")
 
-    print("Running Hmmer...")
+    logger.info("Running Hmmer...")
     wrappers.run_hmmsearch(
         hmm_model=hmm_model,
         input_fasta=input_fasta,
@@ -136,11 +139,11 @@ def filter_fasta_by_hmm(
         method=method,
         additional_args=additional_args,
     )
-    print("Parsing Hmmer output file...")
+    logger.info("Parsing Hmmer output file...")
     hmmer_hits = parse_hmmsearch_output(hmmer_output)
     if not hmmer_hits.id.values.tolist():
         raise ValueError("No records found in database matching provided hmm")
-    print("Filtering Fasta...")
+    logger.info("Filtering Fasta...")
     filter_fasta_by_ids(
         input_fasta, record_ids=hmmer_hits.id.values, output_fasta=output_fasta
     )
@@ -508,7 +511,7 @@ def filter_fasta_by_hmm_structure(
     else:
         output_dir = output_dir
 
-    print("Running Hmmer...")
+    logger.info("Running Hmmer...")
     hmm_hits = {}
     for hmm_model, add_args in zip(input_hmms, additional_args):
         hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
@@ -525,14 +528,14 @@ def filter_fasta_by_hmm_structure(
 
         hmm_hits[hmm_name] = parse_hmmsearch_output(hmmer_output)
 
-    print("Filtering results by HMM structure...")
+    logger.info("Filtering results by HMM structure...")
     linkedfilter = LinkedHMMfilter(hmm_hits)
     linked_hit_labels = linkedfilter.filter_hits_by_linked_hmm_structure(hmm_structure)
 
     if not linked_hit_labels.full.values.tolist():
         raise ValueError("No records found in database matching provided hmm structure")
 
-    print("Filtering Fasta...")
+    logger.info("Filtering Fasta...")
     partitioned_hit_labels = linkedfilter.partition_linked_labels_by_hmm(
         linked_hit_labels
     )

@@ -17,14 +17,12 @@ from Bio import SeqIO
 
 import metatag.wrappers as wrappers
 from metatag.utils import (
-    handle_exceptions,
     save_to_pickle_file,
     set_default_output_path,
     terminal_execute,
 )
 
 
-@handle_exceptions
 def remove_duplicates_from_fasta(
     input_fasta: str,
     output_fasta: str = None,
@@ -139,7 +137,6 @@ def is_legit_dn_asequence(record_seq: str) -> bool:
     return seq_symbols.issubset(nts)
 
 
-@handle_exceptions
 def assert_correct_sequence_format(
     fasta_file: str,
     output_file: str = None,

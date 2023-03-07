@@ -7,6 +7,7 @@ Tools to quantify and assign labels to placed sequences
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import shutil
@@ -25,6 +26,8 @@ from metatag.database.manipulation import (
 from metatag.phylotree import get_iq_tree_model_from_log_file
 from metatag.taxonomy import TaxonomyAssigner, TaxonomyCounter, Taxopath
 from metatag.utils import TemporaryFilePath, set_default_output_path
+
+logger = logging.getLogger(__name__)
 
 package_dir = Path(__file__).parent
 
@@ -166,7 +169,6 @@ class JplaceParser:
         if outfile is None:
             base, ext = os.path.splitext(self._path_to_jplace)
             outfile = f"{base}_min_lwr_{minimum_lwr}{ext}"
-        # print(f'Filtering placements by minimum LWR: {minimum_lwr}')
         jplace = self.get_json_object()
 
         filtered_placement_objs = []
@@ -193,7 +195,7 @@ class JplaceParser:
             base, ext = os.path.splitext(self._path_to_jplace)
             outfile = f"{base}_max_pendant_diameter_ratio_{max_pendant_ratio}{ext}"
         tree_diameter = self.compute_tree_diameter()
-        print(f"Filtering placements for tree diameter: {tree_diameter}")
+        logger.info(f"Filtering placements for tree diameter: {tree_diameter}")
         jplace = self.get_json_object()
 
         filtered_placement_objs = []
@@ -350,7 +352,7 @@ def place_reads_onto_tree(
 
     if os.path.isfile(tree_model):
         tree_model = get_iq_tree_model_from_log_file(tree_model)
-        print(f"Running EPA-ng with inferred substitution model: {tree_model}")
+        logger.info(f"Running EPA-ng with inferred substitution model: {tree_model}")
 
     ref_ids = get_fasta_record_ids(ref_aln)
     ref_query_msa = os.path.join(

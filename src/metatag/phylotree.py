@@ -8,6 +8,7 @@ query sequence placements onto trees
 
 from __future__ import annotations
 
+import logging
 import os
 import re
 import shutil
@@ -16,6 +17,8 @@ from Bio import Phylo
 
 import metatag.wrappers as wrappers
 from metatag.utils import easy_pattern_matching, set_default_output_path
+
+logger = logging.getLogger(__name__)
 
 
 class PhyloTree:
@@ -151,7 +154,7 @@ def infer_tree(
     """
     if method.lower() in "iqtree":
         if "modeltest" in substitution_model.lower():
-            print("Selecting best subsitution model per modeltest-ng...")
+            logger.info("Selecting best subsitution model per modeltest-ng...")
             wrappers.runModelTest(
                 input_algns=ref_aln, n_processes=None, output_dir=output_dir
             )

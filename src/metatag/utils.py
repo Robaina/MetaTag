@@ -95,21 +95,6 @@ class ConfigParser:
         return self._config[key]
 
 
-def handle_exceptions(foo):
-    """
-    Decorator to handle possible exceptions in
-    given function (foo)
-    """
-
-    def inner_foo(*args, **kwargs):
-        try:
-            foo(*args, **kwargs)
-        except Exception as e:
-            print(f"{foo.__name__} failed with exception: {e}")
-
-    return inner_foo
-
-
 class TemporaryFilePath:
     """
     Custom context manager to create a temporary file
