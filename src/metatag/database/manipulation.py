@@ -90,17 +90,6 @@ def filter_fasta_by_ids(
     if os.path.exists(input_fasta + ".fxi"):
         os.remove(input_fasta + ".fxi")
     record_ids = set(record_ids)
-
-    # fa = pyfastx.Fasta(input_fasta)
-    # with open(output_fasta, "w") as fp:
-    #     for record_id in record_ids:
-    #         try:
-    #             record_obj = fa[record_id]
-    #             fp.write(record_obj.raw)
-    #         except Exception:
-    #             pass
-    # os.remove(input_fasta + ".fxi")
-
     with tempfile.NamedTemporaryFile(mode="w+t") as tmp_ids:
         tmp_ids.writelines("\n".join(record_ids))
         tmp_ids.flush()

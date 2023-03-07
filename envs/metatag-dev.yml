@@ -19,7 +19,7 @@ dependencies:
   - seqkit
   - epa-ng
   - gappa
-  - pyfastx>=0.8
+  - pyfastx=0.8.4
   - scikit-bio
   - scikit-learn
   - scipy
