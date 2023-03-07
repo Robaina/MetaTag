@@ -5,7 +5,9 @@
 Tools to perform multiple sequence alignments
 """
 
+import logging
 import os
+import sys
 
 import metatag.wrappers as wrappers
 from metatag.database.manipulation import (
@@ -14,6 +16,8 @@ from metatag.database.manipulation import (
     convert_stockholm_to_fasta_aln,
 )
 from metatag.utils import TemporaryFilePath, set_default_output_path
+
+logger = logging.getLogger(__name__)
 
 
 def align_peptides(
@@ -44,7 +48,8 @@ def align_peptides(
             additional_args=additional_args,
         )
     else:
-        raise ValueError("Invalid method. Valid methods: muscle or mafft")
+        logger.error("Invalid method. Valid methods: muscle or mafft")
+        sys.exit(1)
 
 
 def align_short_reads_to_reference_msa(
@@ -101,4 +106,5 @@ def align_short_reads_to_reference_msa(
                 input_phylip=temp_aln_path, output_file=output_aln_seqs
             )
     else:
-        raise ValueError("Alignment method not implemented")
+        logger.error("Alignment method not implemented")
+        sys.exit(1)

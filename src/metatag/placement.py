@@ -11,6 +11,7 @@ import logging
 import os
 import re
 import shutil
+import sys
 from io import StringIO
 from pathlib import Path
 
@@ -324,9 +325,10 @@ class TaxAssignParser:
             query_hits.to_csv(path_to_query_list, sep="\t", index=False)
         taxopath_hits = query_hits[taxopath_type].values
         if len(taxopath_hits) == 0:
-            raise ValueError(
+            logger.error(
                 "No placement hits returned for the provided filter parameters"
             )
+            sys.exit(1)
 
         taxlevel_counter = TaxonomyCounter(taxopath_list=taxopath_hits)
         return taxlevel_counter

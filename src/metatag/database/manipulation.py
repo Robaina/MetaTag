@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import logging
 import os
+import sys
 import tempfile
 import warnings
 from collections import defaultdict
@@ -55,7 +56,8 @@ def filter_fasta_by_sequence_length(
             input_fasta, f"_length_{min_length}_{max_tag}"
         )
     if not record_ids:
-        raise ValueError("No records found with given sequence length bounds")
+        logger.error("No records found with given sequence length bounds")
+        sys.exit(1)
     with open(output_fasta, "w") as fp:
         for record_id in record_ids:
             record_obj = fa[record_id]
@@ -142,7 +144,8 @@ def filter_fasta_by_hmm(
     logger.info("Parsing Hmmer output file...")
     hmmer_hits = parse_hmmsearch_output(hmmer_output)
     if not hmmer_hits.id.values.tolist():
-        raise ValueError("No records found in database matching provided hmm")
+        logger.error("No records found in database matching provided hmm")
+        sys.exit(1)
     logger.info("Filtering Fasta...")
     filter_fasta_by_ids(
         input_fasta, record_ids=hmmer_hits.id.values, output_fasta=output_fasta
@@ -205,7 +208,8 @@ def split_reference_from_query_alignments(
             return record_name.lower().startswith(ref_prefix.lower())
 
     else:
-        raise ValueError("Provide either set of ref ids or ref prefix")
+        logger.error("Provide either set of ref ids or ref prefix")
+        sys.exit(1)
     out_ref_msa = set_default_output_path(ref_query_msa, tag="_ref_fraction")
     out_query_msa = set_default_output_path(ref_query_msa, tag="_query_fraction")
 
@@ -412,7 +416,8 @@ class LinkedHMMfilter:
         for hmm, hits in self._hmm_hits.items():
             labels = hits.id.values.tolist()
             if not labels:
-                raise ValueError(f"No records found in database matching HMM: {hmm}")
+                logger.error(f"No records found in database matching HMM: {hmm}")
+                sys.exit(1)
             hit_labels[hmm] = mardblabel.parse_from_list(labels)
 
         for n, linked_pair in enumerate(parsed_struc):
@@ -496,13 +501,15 @@ def filter_fasta_by_hmm_structure(
             additional_args = [additional_args[0] for _ in input_hmms]
 
         if (len(additional_args) > 1) and (len(additional_args) < len(input_hmms)):
-            raise ValueError(
+            logger.error(
                 "Provided additional argument strings are less than the number of input hmms."
             )
+            sys.exit(1)
     else:
-        raise ValueError(
+        logger.error(
             "Additional arguments must be: 1) a list[str], 2) a str, or 3) None"
         )
+        sys.exit(1)
     if not os.path.isdir(hmmer_output_dir):
         os.mkdir(hmmer_output_dir)
 
@@ -533,7 +540,8 @@ def filter_fasta_by_hmm_structure(
     linked_hit_labels = linkedfilter.filter_hits_by_linked_hmm_structure(hmm_structure)
 
     if not linked_hit_labels.full.values.tolist():
-        raise ValueError("No records found in database matching provided hmm structure")
+        logger.error("No records found in database matching provided hmm structure")
+        sys.exit(1)
 
     logger.info("Filtering Fasta...")
     partitioned_hit_labels = linkedfilter.partition_linked_labels_by_hmm(

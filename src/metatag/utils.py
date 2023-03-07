@@ -8,16 +8,20 @@ Functions and classes for general purposes
 from __future__ import annotations
 
 import json
+import logging
 import os
 import pickle
 import random
 import shutil
 import string
 import subprocess
+import sys
 import tarfile
 from functools import partial
 from multiprocessing import Pool
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 
 class ConfigParser:
@@ -271,7 +275,8 @@ def extract_tar_file(tar_file: str, dest_dir: str = None) -> None:
         tar.extractall(path=dest_dir)
         tar.close()
     else:
-        raise ValueError("Input is not a tar file")
+        logger.error("Input is not a tar file")
+        sys.exit(1)
 
 
 def list_tar_dir(tar_dir: str) -> list:

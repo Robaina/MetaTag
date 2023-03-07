@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import logging
 import os
+import sys
 
 from metatag.database.preprocessing import (
     is_fasta,
@@ -211,7 +212,8 @@ def run(args: argparse.ArgumentParser) -> None:
                 f"{ref}\n" for ref in ref_labels.keys() if args.outgroup in ref
             ]
             if not matched_labels:
-                raise ValueError("No matched labels for given outgroup pattern")
+                logger.error("No matched labels for given outgroup pattern")
+                sys.exit(1)
             outgroup_file = set_default_output_path(
                 args.jplace, tag="_outgroup_ids", extension=".txt"
             )
@@ -242,7 +244,8 @@ def run(args: argparse.ArgumentParser) -> None:
                 max_pendant_ratio=args.max_distance, outfile=filtered_jplace
             )
         else:
-            raise ValueError("Distance measure unavailable. Please choose a valid one.")
+            logger.error("Distance measure unavailable. Please choose a valid one.")
+            sys.exit(1)
         args.jplace = filtered_jplace
 
     if args.minimum_lwr is not None:

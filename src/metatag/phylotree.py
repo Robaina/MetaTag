@@ -12,6 +12,7 @@ import logging
 import os
 import re
 import shutil
+import sys
 
 from Bio import Phylo
 
@@ -58,9 +59,10 @@ class PhyloTree:
                     if clade.confidence is not None:
                         clade.confidence *= 100
         else:
-            raise ValueError(
+            logger.error(
                 "Tree does not contain confidence values. Change tree or set bootstrap_threshold to None"
             )
+            sys.exit(1)
 
     def collapse_poor_quality_nodes(self, bootstrap_threshold: float = 95) -> None:
         """
@@ -191,7 +193,8 @@ def infer_tree(
             additional_args=additional_args,
         )
     else:
-        raise ValueError("Wrong method, enter iqtree or fasttree")
+        logger.error("Wrong method, enter iqtree or fasttree")
+        sys.exit(1)
 
 
 def sanity_check_for_iTOL(label: str) -> str:

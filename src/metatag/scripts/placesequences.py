@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import logging
 import os
+import sys
 
 import metatag.wrappers as wrappers
 from metatag.placement import place_reads_onto_tree
@@ -93,7 +94,8 @@ def run(args: argparse.ArgumentParser) -> None:
     if args.outdir is None:
         args.outdir = set_default_output_path(args.aln, only_dirname=True)
     if args.tree_model is None:
-        raise ValueError("Missing tree model.")
+        logger.error("Missing tree model.")
+        sys.exit(1)
     epa_jplace = os.path.join(args.outdir, "epa_result.jplace")
 
     logger.info("Placing reads on tree...")
