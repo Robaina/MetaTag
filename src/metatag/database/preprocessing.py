@@ -9,22 +9,24 @@ Tools to preprocess sequence databases
 3. Relabel fasta records and make dictionary with old labels
 """
 
+import logging
 import os
 import re
+import sys
 
 import pyfastx
 from Bio import SeqIO
 
 import metatag.wrappers as wrappers
 from metatag.utils import (
-    handle_exceptions,
     save_to_pickle_file,
     set_default_output_path,
     terminal_execute,
 )
 
+logger = logging.getLogger(__name__)
 
-@handle_exceptions
+
 def remove_duplicates_from_fasta(
     input_fasta: str,
     output_fasta: str = None,
@@ -39,7 +41,8 @@ def remove_duplicates_from_fasta(
         output_fasta = set_default_output_path(input_fasta, "_noduplicates")
 
     if export_duplicates and method != "seqkit":
-        raise ValueError("export_duplicates is only supported by method: seqkit")
+        logger.error("export_duplicates is only supported by method: seqkit")
+        sys.exit(1)
 
     if "bio" in method:
         seen_seqs, seen_ids = set(), set()
@@ -139,7 +142,6 @@ def is_legit_dn_asequence(record_seq: str) -> bool:
     return seq_symbols.issubset(nts)
 
 
-@handle_exceptions
 def assert_correct_sequence_format(
     fasta_file: str,
     output_file: str = None,

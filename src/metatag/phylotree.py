@@ -8,14 +8,18 @@ query sequence placements onto trees
 
 from __future__ import annotations
 
+import logging
 import os
 import re
 import shutil
+import sys
 
 from Bio import Phylo
 
 import metatag.wrappers as wrappers
 from metatag.utils import easy_pattern_matching, set_default_output_path
+
+logger = logging.getLogger(__name__)
 
 
 class PhyloTree:
@@ -55,9 +59,10 @@ class PhyloTree:
                     if clade.confidence is not None:
                         clade.confidence *= 100
         else:
-            raise ValueError(
+            logger.error(
                 "Tree does not contain confidence values. Change tree or set bootstrap_threshold to None"
             )
+            sys.exit(1)
 
     def collapse_poor_quality_nodes(self, bootstrap_threshold: float = 95) -> None:
         """
@@ -151,7 +156,7 @@ def infer_tree(
     """
     if method.lower() in "iqtree":
         if "modeltest" in substitution_model.lower():
-            print("Selecting best subsitution model per modeltest-ng...")
+            logger.info("Selecting best subsitution model per modeltest-ng...")
             wrappers.runModelTest(
                 input_algns=ref_aln, n_processes=None, output_dir=output_dir
             )
@@ -188,7 +193,8 @@ def infer_tree(
             additional_args=additional_args,
         )
     else:
-        raise ValueError("Wrong method, enter iqtree or fasttree")
+        logger.error("Wrong method, enter iqtree or fasttree")
+        sys.exit(1)
 
 
 def sanity_check_for_iTOL(label: str) -> str:

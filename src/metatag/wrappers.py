@@ -434,6 +434,7 @@ def run_iqtree(
     if not keep_recovery_files:
         remove_auxiliary_output(output_prefix)
 
+
 def run_papara(
     tree_nwk: str,
     msa_phy: str,

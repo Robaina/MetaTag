@@ -8,6 +8,7 @@ Only if script runs locally.
 from __future__ import annotations
 
 import argparse
+import logging
 import os
 
 from metatag.utils import DictMerger, set_default_output_path
@@ -15,6 +16,8 @@ from metatag.visualization import (
     make_feature_metadata_table,
     plot_tree_in_browser,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
@@ -63,7 +66,7 @@ def run(args: argparse.ArgumentParser) -> None:
         args.outdir = set_default_output_path(args.tree, only_dirname=True)
     os.makedirs(args.outdir, exist_ok=True)
 
-    print("* Drawing tree in browser...")
+    logger.info("Drawing tree in browser...")
     if args.labels is not None:
         label_dict = DictMerger.from_pickle_paths(args.labels).merge()
         make_feature_metadata_table(
