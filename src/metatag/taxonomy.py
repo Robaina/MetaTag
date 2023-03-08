@@ -7,7 +7,7 @@ Tools to assign taxonomy to reference and query (placed) sequences
 
 from __future__ import annotations
 
-import os
+from pathlib import Path
 
 import pandas as pd
 
@@ -86,9 +86,9 @@ class TaxonomyAssigner:
     Methods to assign taxonomy to reference sequences
     """
 
-    def __init__(self, taxo_file: str):
+    def __init__(self, taxo_file: Path):
         self._taxodata = (
-            pd.read_csv(os.path.abspath(taxo_file), sep="\t")
+            pd.read_csv(taxo_file, sep="\t")
             .drop_duplicates(subset="genome")
             .set_index("genome")
         )
@@ -160,7 +160,7 @@ class TaxonomyAssigner:
         return clusters_taxopath
 
     def build_gappa_taxonomy_table(
-        self, ref_id_dict: dict, output_file: str = None
+        self, ref_id_dict: dict, output_file: Path = None
     ) -> None:
         """
         Build gappa-compatible taxonomy file as specified here:
@@ -168,7 +168,9 @@ class TaxonomyAssigner:
         Removes references without assigned taxonomy
         """
         if output_file is None:
-            output_file = os.path.join(os.getcwd(), "gappa_taxonomy.tsv")
+            output_file = Path().absolute() / "gappa_taxonomy.tsv"
+        else:
+            output_file = Path(output_file)
 
         with open(output_file, "w") as outfile:
             lines = []
@@ -195,9 +197,9 @@ class TaxonomyCounter:
     def get_counts(
         self,
         taxlevel: str = "family",
-        output_tsv: str = None,
+        output_tsv: Path = None,
         plot_type: str = "bar",
-        output_pdf: str = None,
+        output_pdf: Path = None,
     ) -> pd.DataFrame:
         """
         Compute counts and fraction at specified taxonomy levels
@@ -231,7 +233,7 @@ class TaxonomyCounter:
         self,
         count_data: pd.DataFrame,
         plot_type: str = "bar",
-        output_pdf: str = None,
+        output_pdf: Path = None,
         title: str = None,
     ):
         """
@@ -254,9 +256,9 @@ class TaxonomyCounter:
 
 
 def evaluate_taxonomy_of_reference_database(
-    label_dict_pickle: str = None,
+    label_dict_pickle: Path = None,
     taxlevels: list[str] = None,
-    output_dir: str = None,
+    output_dir: Path = None,
     plot_results: bool = False,
 ) -> None:
     """
@@ -266,8 +268,10 @@ def evaluate_taxonomy_of_reference_database(
         taxlevels = ["class", "order", "family", "genus"]
     if output_dir is None:
         output_dir = set_default_output_path(label_dict_pickle, only_dir_name=True)
+    else:
+        output_dir = Path(output_dir)
 
-    taxonomy = TaxonomyAssigner(taxo_file="./data/merged_taxonomy.tsv")
+    taxonomy = TaxonomyAssigner(taxo_file=Path("./data/merged_taxonomy.tsv"))
     label_dict = read_from_pickle_file(label_dict_pickle)
     taxopaths = [
         taxonomy.assign_taxonomy_to_label(label) for label in label_dict.values()
@@ -276,12 +280,12 @@ def evaluate_taxonomy_of_reference_database(
 
     for taxlevel in taxlevels:
         if plot_results:
-            outpdf = os.path.join(output_dir, f"ref_taxonomy_counts_{taxlevel}.pdf")
+            outpdf = output_dir / f"ref_taxonomy_counts_{taxlevel}.pdf"
         else:
             outpdf = None
         taxcounter.get_counts(
             taxlevel,
-            output_tsv=os.path.join(output_dir, f"ref_taxonomy_counts_{taxlevel}.tsv"),
+            output_tsv=output_dir / f"ref_taxonomy_counts_{taxlevel}.tsv",
             plot_type="bar",
             output_pdf=outpdf,
         )

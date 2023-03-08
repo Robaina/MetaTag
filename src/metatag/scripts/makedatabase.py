@@ -11,8 +11,8 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
 import shutil
+from pathlib import Path
 
 from metatag.database.manipulation import (
     filter_fasta_by_hmm,
@@ -28,7 +28,6 @@ from metatag.utils import (
     DictMerger,
     TemporaryDirectoryPath,
     TemporaryFilePath,
-    full_path_list_dir,
     set_default_output_path,
 )
 
@@ -57,18 +56,18 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     required.add_argument(
         "--hmms",
         dest="hmms",
-        type=str,
+        type=Path,
         nargs="+",
         required=True,
         help="a single or a list of space-separated paths to tigrfam or pfam models",
     )
     required.add_argument(
-        "--in", dest="data", type=str, required=True, help="path to peptide database"
+        "--in", dest="data", type=Path, required=True, help="path to peptide database"
     )
     optional.add_argument(
         "--outdir",
         dest="outdir",
-        type=str,
+        type=Path,
         default=None,
         help="path to output directory",
     )
@@ -180,13 +179,11 @@ def run(args: argparse.ArgumentParser) -> None:
         args.relabel_prefixes = [None for _ in args.hmms]
     if args.outdir is None:
         args.outdir = set_default_output_path(args.data, only_dirname=True)
-    args.outdir = os.path.abspath(args.outdir)
-    if not os.path.exists(args.outdir):
-        os.makedirs(args.outdir)
-    output_fasta = os.path.join(args.outdir, f"{args.prefix}ref_database.faa")
-    output_pickle_short_ids = os.path.join(
-        args.outdir, f"{args.prefix}ref_database_id_dict.pickle"
-    )
+    args.outdir = Path(args.outdir)
+    if not args.outdir.exists():
+        args.outdir.mkdir(exist_ok=True, parents=True)
+    output_fasta = args.outdir / f"{args.prefix}ref_database.faa"
+    output_pickle_short_ids = args.outdir / f"{args.prefix}ref_database_id_dict.pickle"
     if args.hmmsearch_args is None:
         args.hmmsearch_args = ",".join(["None" for _ in args.hmms])
     hmmsearch_args_list = list(map(lambda x: x.strip(), args.hmmsearch_args.split(",")))
@@ -201,13 +198,14 @@ def run(args: argparse.ArgumentParser) -> None:
         for n, (hmm, maxsize, prefix, hmmsearch_args) in enumerate(
             zip(args.hmms, args.maxsizes, args.relabel_prefixes, hmmsearch_args_list)
         ):
-            hmm_name = os.path.basename(hmm)
+            hmm = Path(hmm)
+            hmm_name = hmm.stem
             if prefix is None:
                 prefix = f"ref_{n}_"
             logger.info(
                 f"Processing hmm {hmm_name} with additional arguments: {hmmsearch_args}"
             )
-            hmmer_output = os.path.join(args.outdir, f"hmmer_output_{hmm_name}.txt")
+            hmmer_output = args.outdir / f"hmmer_output_{hmm_name}.txt"
 
             with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2, TemporaryFilePath() as tempfasta3:
                 filter_fasta_by_hmm(
@@ -238,9 +236,7 @@ def run(args: argparse.ArgumentParser) -> None:
 
                 if args.relabel:
                     logger.info("Relabelling records in reference database...")
-                    output_fasta_short = os.path.join(
-                        tempdir2, f"{tempfasta3}_short_ids"
-                    )
+                    output_fasta_short = tempdir2 / f"{tempfasta3}_short_ids"
                     set_temp_record_ids_in_fasta(
                         input_fasta=tempfasta3, output_dir=tempdir2, prefix=prefix
                     )
@@ -262,7 +258,7 @@ def run(args: argparse.ArgumentParser) -> None:
                 shutil.move(tmp_file_path, output_fasta)
 
         pickle_dict_paths = [
-            file for file in full_path_list_dir(tempdir2) if file.endswith(".pickle")
+            file for file in tempdir2.iterdir() if file.endswith(".pickle")
         ]
         if pickle_dict_paths:
             DictMerger.from_pickle_paths(pickle_dict_paths).merge(

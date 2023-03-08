@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 import logging
-import os
+from pathlib import Path
 import re
 import shutil
 import sys
@@ -39,8 +39,8 @@ class JplaceParser:
     https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0031009
     """
 
-    def __init__(self, path_to_jplace: str) -> None:
-        self._path_to_jplace = path_to_jplace
+    def __init__(self, path_to_jplace: Path) -> None:
+        self._path_to_jplace = Path(path_to_jplace)
         self.jplace = self.get_json_object()
         self._tree_obj = next(
             Phylo.parse(StringIO(self.newickfy_tree(self.jplace["tree"])), "newick")
@@ -162,14 +162,15 @@ class JplaceParser:
         return max_distance
 
     def filter_placements_by_minimum_lwr(
-        self, minimum_lwr: float, outfile: str = None
+        self, minimum_lwr: float, output_file: Path = None
     ) -> None:
         """
         Filter placements by minimum LWR (from 0 to 1)
         """
-        if outfile is None:
-            base, ext = os.path.splitext(self._path_to_jplace)
-            outfile = f"{base}_min_lwr_{minimum_lwr}{ext}"
+        if output_file is None:
+            output_file = set_default_output_path(self._path_to_jplace, tag=f"_min_lwr_{minimum_lwr}")
+        else:
+            output_file = Path(output_file)
         jplace = self.get_json_object()
 
         filtered_placement_objs = []
@@ -183,18 +184,21 @@ class JplaceParser:
                 placement_object["p"] = filtered_placements
                 filtered_placement_objs.append(placement_object)
         jplace["placements"] = filtered_placement_objs
-        with open(outfile, "w") as ofile:
+        with open(output_file, "w") as ofile:
             json.dump(jplace, ofile, indent=2)
 
     def filter_placements_by_max_pendant_to_tree_diameter_ratio(
-        self, max_pendant_ratio: float, outfile: str = None
+        self, max_pendant_ratio: float, output_file: Path = None
     ) -> None:
         """
         Filter placements by maximum pendant length
         """
-        if outfile is None:
-            base, ext = os.path.splitext(self._path_to_jplace)
-            outfile = f"{base}_max_pendant_diameter_ratio_{max_pendant_ratio}{ext}"
+        if output_file is None:
+            output_file = set_default_output_path(
+                self._path_to_jplace, tag=f"_max_pendant_diameter_ratio_{max_pendant_ratio}"
+                )
+        else:
+            output_file = Path(output_file)
         tree_diameter = self.compute_tree_diameter()
         logger.info(f"Filtering placements for tree diameter: {tree_diameter}")
         jplace = self.get_json_object()
@@ -211,18 +215,21 @@ class JplaceParser:
                 filtered_placement_objs.append(placement_object)
         jplace["placements"] = filtered_placement_objs
 
-        with open(outfile, "w") as ofile:
+        with open(output_file, "w") as ofile:
             json.dump(jplace, ofile, indent=2)
 
     def filter_placements_by_max_pendant_length(
-        self, max_pendant_length: float, outfile: str = None
+        self, max_pendant_length: float, output_file: Path = None
     ) -> None:
         """
         Filter placements by maximum pendant length
         """
-        if outfile is None:
-            base, ext = os.path.splitext(self._path_to_jplace)
-            outfile = f"{base}_max_pendant_{max_pendant_length}{ext}"
+        if output_file is None:
+            output_file = set_default_output_path(
+                self._path_to_jplace, tag=f"_max_pendant_{max_pendant_length}"
+                )
+        else:
+            output_file = Path(output_file)
         jplace = self.get_json_object()
 
         filtered_placement_objs = []
@@ -237,18 +244,21 @@ class JplaceParser:
                 filtered_placement_objs.append(placement_object)
         jplace["placements"] = filtered_placement_objs
 
-        with open(outfile, "w") as ofile:
+        with open(output_file, "w") as ofile:
             json.dump(jplace, ofile, indent=2)
 
     def filter_placements_by_max_pendant_to_distal_length_ratio(
-        self, max_pendant_ratio: float, outfile: str = None
+        self, max_pendant_ratio: float, output_file: Path = None
     ) -> None:
         """
         Filter placements by maximum pendant length
         """
-        if outfile is None:
-            base, ext = os.path.splitext(self._path_to_jplace)
-            outfile = f"{base}_max_pendant_distal_ratio_{max_pendant_ratio}{ext}"
+        if output_file is None:
+            output_file = set_default_output_path(
+                self._path_to_jplace, tag=f"_max_pendant_distal_ratio_{max_pendant_ratio}"
+                )
+        else:
+            output_file = Path(output_file)
         jplace = self.get_json_object()
 
         filtered_placement_objs = []
@@ -263,7 +273,7 @@ class JplaceParser:
                 filtered_placement_objs.append(placement_object)
         jplace["placements"] = filtered_placement_objs
 
-        with open(outfile, "w") as ofile:
+        with open(output_file, "w") as ofile:
             json.dump(jplace, ofile, indent=2)
 
 
@@ -272,7 +282,7 @@ class TaxAssignParser:
     Parse function and taxonomy placement assignments table
     """
 
-    def __init__(self, tax_assign_path: str):
+    def __init__(self, tax_assign_path: Path):
         self._tax_assign = pd.read_csv(tax_assign_path, sep="\t")
         self._tax_assign = self._tax_assign[self._tax_assign.cluster_id != "DISTANT"]
         self._tax_assign.cluster_score = self._tax_assign.cluster_score.apply(
@@ -294,7 +304,7 @@ class TaxAssignParser:
         cluster_ids: list[str] = None,
         score_threshold: float = None,
         taxopath_type: str = "taxopath",
-        path_to_query_list: str = None,
+        path_to_query_list: Path = None,
     ) -> TaxonomyCounter:
         """
         Count hits within given cluster ids and at specificied taxon level
@@ -305,7 +315,7 @@ class TaxAssignParser:
                          low-quality placements out
         taxopath_type: 'taxopath' to use gappa-assign taxopath or 'cluster_taxopath'
                         to use lowest common taxopath of the reference tree cluster
-        path_to_query_list: str, if not None, then a tsv is exported to defined location
+        path_to_query_list: Path, if not None, then a tsv is exported to defined location
                             containing those queries with correct cluster assignment (
                                 according to defined 'valid' cluster ids or threshold
                             )
@@ -335,12 +345,12 @@ class TaxAssignParser:
 
 
 def place_reads_onto_tree(
-    input_tree: str,
+    input_tree: Path,
     tree_model: str,
-    ref_aln: str,
-    query_seqs: str,
+    ref_aln: Path,
+    query_seqs: Path,
     aln_method: str = "papara",
-    output_dir: str = None,
+    output_dir: Path = None,
 ) -> None:
     """
     Performs short read placement onto phylogenetic tree
@@ -350,19 +360,16 @@ def place_reads_onto_tree(
     if output_dir is None:
         output_dir = set_default_output_path(query_seqs, only_dirname=True)
     else:
-        output_dir = os.path.abspath(output_dir)
+        output_dir = Path(output_dir)
 
-    if os.path.isfile(tree_model):
+    if Path(tree_model).is_file():
         tree_model = get_iq_tree_model_from_log_file(tree_model)
         logger.info(f"Running EPA-ng with inferred substitution model: {tree_model}")
 
     ref_ids = get_fasta_record_ids(ref_aln)
-    ref_query_msa = os.path.join(
-        output_dir,
-        set_default_output_path(query_seqs, extension=".faln", only_filename=True),
-    )
-    aln_ref_frac = os.path.splitext(ref_query_msa)[0] + "_ref_fraction.faln"
-    aln_query_frac = os.path.splitext(ref_query_msa)[0] + "_query_fraction.faln"
+    ref_query_msa = output_dir / set_default_output_path(query_seqs, extension=".faln", only_filename=True)
+    aln_ref_frac = set_default_output_path(ref_query_msa, tag="_ref_fraction", extension=".faln")
+    aln_query_frac = set_default_output_path(ref_query_msa, tag="_query_fraction", extension=".faln")
 
     align_short_reads_to_reference_msa(
         ref_msa=ref_aln,
@@ -388,7 +395,7 @@ def place_reads_onto_tree(
 
 
 def parse_tree_clusters(
-    clusters_tsv: str, cluster_as_key: bool = True, sep="\t"
+    clusters_tsv: Path, cluster_as_key: bool = True
 ) -> dict:
     """
     Parse clusters text file into dictionary
@@ -408,7 +415,7 @@ def parse_tree_clusters(
         return dict(df.values)
 
 
-def parse_tree_cluster_quality_scores(cluster_scores_tsv: str, sep="\t") -> dict:
+def parse_tree_cluster_quality_scores(cluster_scores_tsv: Path) -> dict:
     """
     Parse cluster quality scores file into dictionary
     """
@@ -418,7 +425,7 @@ def parse_tree_cluster_quality_scores(cluster_scores_tsv: str, sep="\t") -> dict
 
 
 def add_clusters_to_tax_table(
-    in_taxtable: str, clusters: dict, out_taxtable: str = None
+    in_taxtable: Path, clusters: dict, out_taxtable: Path = None
 ) -> None:
     """
     Add tree cluster info at the beginning of each taxopath
@@ -426,6 +433,8 @@ def add_clusters_to_tax_table(
     """
     if out_taxtable is None:
         out_taxtable = set_default_output_path(in_taxtable, tag="_clustered")
+    else:
+        out_taxtable = Path(out_taxtable)
     taxtable = pd.read_csv(in_taxtable, sep="\t", header=None, dtype=str)
     for i, row in taxtable.iterrows():
         row[1] = clusters[row[0]] + ";" + row[1]
@@ -433,11 +442,11 @@ def add_clusters_to_tax_table(
 
 
 def parse_gappa_assign_table(
-    input_table: str,
+    input_table: Path,
     has_cluster_id: bool = True,
     cluster_scores: dict = None,
     clusters_taxopath: dict = None,
-    output_file: str = None,
+    output_file: Path = None,
 ) -> None:
     """
     Parse gappa assign per query taxonomy assignment result tsv
@@ -448,6 +457,8 @@ def parse_gappa_assign_table(
     """
     if output_file is None:
         output_file = set_default_output_path(input_table, tag="_parsed")
+    else:
+        output_file = Path(output_file)
     if (has_cluster_id) and (cluster_scores is not None):
         cluster_str = (
             "cluster_id" + "\t" + "cluster_score" + "\t" + "cluster_taxopath" + "\t"
@@ -509,7 +520,7 @@ def parse_gappa_assign_table(
 
 
 def add_query_labels_to_assign_table(
-    input_table: str, query_labels: dict, output_table: str = None
+    input_table: Path, query_labels: dict, output_table: Path = None
 ) -> None:
     """
     Add new column containing actual query labels to query taxonomy/cluster assignment
@@ -524,6 +535,8 @@ def add_query_labels_to_assign_table(
 
     if output_table is None:
         output_table = set_default_output_path(input_table, tag="_relabel")
+    else:
+        output_table = Path(output_table)
     df = pd.read_csv(input_table, sep="\t")
     df.insert(
         1, "query_name", df.query_id.apply(lambda x: relabel_query(x, query_labels))
@@ -533,17 +546,17 @@ def add_query_labels_to_assign_table(
 
 
 def assign_labels_to_placements(
-    jplace: str,
+    jplace: Path,
     ref_labels: dict,
     query_labels: dict = None,
-    output_dir: str = None,
+    output_dir: Path = None,
     output_prefix: str = None,
     only_best_hit: bool = True,
-    ref_clusters_file: str = None,
-    ref_cluster_scores_file: str = None,
+    ref_clusters_file: Path = None,
+    ref_cluster_scores_file: Path = None,
     gappa_additional_args: str = None,
     only_unique_cluster: bool = True,
-    taxo_file: str = None,
+    taxo_file: Path = None,
 ) -> None:
     """
     Assign taxonomy and/or tree cluster IDs to placed query sequences based on
@@ -565,6 +578,8 @@ def assign_labels_to_placements(
     """
     if output_dir is None:
         output_dir = set_default_output_path(jplace, only_dirname=True)
+    else:
+        output_dir = Path(output_dir)
     if output_prefix is None:
         output_prefix = set_default_output_path(jplace, only_filename=True)
 
@@ -586,9 +601,11 @@ def assign_labels_to_placements(
 
     if taxo_file is None:
         taxo_file = package_dir / "data" / "merged_taxonomy.tsv"
+    else:
+        taxo_file = Path(taxo_file)
 
-    gappa_assign_out = os.path.join(output_dir, output_prefix + "per_query.tsv")
-    query_taxo_out = os.path.join(output_dir, output_prefix + "assignments.tsv")
+    gappa_assign_out = output_dir / f"{output_prefix}per_query.tsv"
+    query_taxo_out = output_dir / f"{output_prefix}assignments.tsv"
 
     # Remove references that are not in placement tree
     ref_in_jplace_tree = JplaceParser(jplace).get_reference_sequences()
@@ -627,11 +644,11 @@ def assign_labels_to_placements(
 
         if only_unique_cluster:
             filter_non_unique_placement_assignments(
-                placed_tax_assignments=tempout, outfile=tempout2
+                placed_tax_assignments=tempout, output_file=tempout2
             )
             shutil.move(tempout2, tempout)
 
-        pick_taxopath_with_highest_lwr(placed_tax_assignments=tempout, outfile=tempout3)
+        pick_taxopath_with_highest_lwr(placed_tax_assignments=tempout, output_file=tempout3)
 
         if query_labels is not None:
             add_query_labels_to_assign_table(
@@ -643,7 +660,7 @@ def assign_labels_to_placements(
             shutil.move(tempout3, query_taxo_out)
 
 
-def parse_duplicates_from_seqkit(query_duplicates: str) -> None:
+def parse_duplicates_from_seqkit(query_duplicates: Path) -> None:
     """
     Add a column with the query IDs of duplicated sequences to the taxonomy assignments file.
     @params:
@@ -664,13 +681,15 @@ def parse_duplicates_from_seqkit(query_duplicates: str) -> None:
 
 
 def add_duplicates_to_assignment_table(
-    taxtable: str, query_duplicates: str, output_file: str = None
+    taxtable: Path, query_duplicates: Path, output_file: Path = None
 ) -> None:
     """
     Add duplicated query IDs to cluster and taxonomic assignment table
     """
     if output_file is None:
         output_file = set_default_output_path(taxtable, tag="_duplicates")
+    else:
+        output_file = Path(output_file)
 
     assigns = pd.read_csv(taxtable, sep="\t", index_col=False)
     dup_dict = parse_duplicates_from_seqkit(query_duplicates)
@@ -687,7 +706,7 @@ def add_duplicates_to_assignment_table(
 
 
 def find_queries_placed_in_several_clusters(
-    placed_tax_assignments: str,
+    placed_tax_assignments: Path,
 ) -> tuple[list, pd.DataFrame]:
     """
     Find queries placed in more than one clusterrunGappaAssign
@@ -703,34 +722,38 @@ def find_queries_placed_in_several_clusters(
 
 
 def filter_non_unique_placement_assignments(
-    placed_tax_assignments: str, outfile: str = None
+    placed_tax_assignments: Path, output_file: Path = None
 ) -> None:
     """
     Remove queries that were assigned to more than one cluster from placements assignments table
     """
-    if outfile is None:
-        outfile = set_default_output_path(placed_tax_assignments, tag="_filtered")
+    if output_file is None:
+        output_file = set_default_output_path(placed_tax_assignments, tag="_filtered")
+    else:
+        output_file = Path(output_file)
 
     df = pd.read_csv(placed_tax_assignments, sep="\t")
     queries_in_more_than_one_cluster, _ = find_queries_placed_in_several_clusters(
         placed_tax_assignments
     )
     fdf = df[~df.query_id.isin(queries_in_more_than_one_cluster)].set_index("query_id")
-    fdf.to_csv(outfile, sep="\t")
+    fdf.to_csv(output_file, sep="\t")
 
 
 def pick_taxopath_with_highest_lwr(
-    placed_tax_assignments: str, outfile: str = None
+    placed_tax_assignments: Path, output_file: Path = None
 ) -> None:
     """
     Pick taxopath assigment with higuest LWR for each placed query
     """
-    if outfile is None:
-        outfile = set_default_output_path(
+    if output_file is None:
+        output_file = set_default_output_path(
             placed_tax_assignments, tag="_unique_taxopath"
         )
+    else:
+        output_file = Path(output_file)
 
     df = pd.read_csv(placed_tax_assignments, sep="\t")
     df.groupby("query_id", group_keys=["LWR"]).aggregate("max").to_csv(
-        outfile, sep="\t"
+        output_file, sep="\t"
     )

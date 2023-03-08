@@ -9,10 +9,10 @@ query sequence placements onto trees
 from __future__ import annotations
 
 import logging
-import os
 import re
 import shutil
 import sys
+from pathlib import Path
 
 from Bio import Phylo
 
@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 class PhyloTree:
     def __init__(
         self,
-        tree: str,
+        tree: Path,
         tree_format: str = "newick",
         bootstrap_threshold: float = None,
         name_internal_nodes: bool = True,
@@ -40,7 +40,7 @@ class PhyloTree:
             self.collapse_poor_quality_nodes(bootstrap_threshold)
         if name_internal_nodes:
             self.name_internal_nodes()
-        self._tree_path = tree
+        self._tree_path = Path(tree)
         self._tree_format = tree_format
 
     def _scale_bootstrap_values(self):
@@ -89,7 +89,7 @@ class PhyloTree:
     def get_tree_object(self):
         return self._tree
 
-    def export_tree(self, outfile: str, tree_format: str = "newick") -> None:
+    def export_tree(self, outfile: Path, tree_format: str = "newick") -> None:
         """
         Export tree object to file
         """
@@ -144,16 +144,21 @@ class PhyloTree:
 
 
 def infer_tree(
-    ref_aln: str,
+    ref_aln: Path,
+    output_dir: Path,
     method: str = "iqtree",
     substitution_model: str = "modeltest",
-    output_dir: str = None,
     additional_args: str = None,
 ) -> None:
     """
     Infer tree from reference msa. Best substitution model
     selected by default.
     """
+    ref_aln = Path(ref_aln)
+    if output_dir is None:
+        output_dir = set_default_output_path(ref_aln, only_dirname=True)
+    else:
+        output_dir = Path(output_dir)
     if method.lower() in "iqtree":
         if "modeltest" in substitution_model.lower():
             logger.info("Selecting best subsitution model per modeltest-ng...")
@@ -161,10 +166,10 @@ def infer_tree(
                 input_algns=ref_aln, n_processes=None, output_dir=output_dir
             )
             best_model = get_tree_model_from_modeltest_log(
-                modeltest_log=os.path.join(output_dir, "modeltest_result.log"),
+                modeltest_log=output_dir / "modeltest_result.log",
                 criterion="BIC",
             )
-            modeltest_starting_tree = os.path.join(output_dir, "modeltest_result.tree")
+            modeltest_starting_tree = output_dir / "modeltest_result.tree"
         elif "iqtest" in substitution_model.lower():
             best_model = "TEST"
             modeltest_starting_tree = None
@@ -182,14 +187,14 @@ def infer_tree(
             additional_args=additional_args,
         )
         shutil.move(
-            os.path.join(output_dir, "ref_database.contree"),
-            os.path.join(output_dir, "ref_database.newick"),
+            output_dir / "ref_database.contree",
+            output_dir / "ref_database.newick",
         )
 
     elif method.lower() in "fasttree":
         wrappers.run_fasttree(
             input_algns=ref_aln,
-            output_file=os.path.join(output_dir, "ref_database.newick"),
+            output_file=output_dir / "ref_database.newick",
             additional_args=additional_args,
         )
     else:
@@ -210,7 +215,7 @@ def sanity_check_for_iTOL(label: str) -> str:
 
 
 def relabel_tree(
-    input_newick: str, label_dict: dict, output_file: str = None, iTOL=True
+    input_newick: Path, label_dict: dict, output_file: Path = None, iTOL=True
 ) -> None:
     """
     Relabel tree leaves with labels from
@@ -234,7 +239,7 @@ def relabel_tree(
         file.write(data)
 
 
-def get_iq_tree_model_from_log_file(iqtree_log: str) -> str:
+def get_iq_tree_model_from_log_file(iqtree_log: Path) -> str:
     """
     Parse iqtree log file and return best fit model
 
@@ -253,7 +258,7 @@ def get_iq_tree_model_from_log_file(iqtree_log: str) -> str:
 
 
 def get_tree_model_from_modeltest_log(
-    modeltest_log: str, criterion: str = "BIC"
+    modeltest_log: Path, criterion: str = "BIC"
 ) -> str:
     """
     Parse modeltest-ng log file and return best fit model
@@ -270,7 +275,7 @@ def get_tree_model_from_modeltest_log(
         return model
 
 
-def export_tree_clusters_to_file(clusters: dict, outfile: str) -> None:
+def export_tree_clusters_to_file(clusters: dict, outfile: Path) -> None:
     """
     Write tsv file containing the definition of tree clusters
     """

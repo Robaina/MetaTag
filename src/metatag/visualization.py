@@ -6,8 +6,8 @@ Tools to visualize phylogenetic trees with and
 without short read placement.
 """
 
-import os
 import webbrowser
+from pathlib import Path
 
 import pandas as pd
 
@@ -15,7 +15,7 @@ from metatag.utils import terminal_execute
 
 
 def make_feature_metadata_table(
-    label_dict: dict, output_tsv: str, original_labels: bool = True
+    label_dict: dict, output_tsv: Path, original_labels: bool = True
 ) -> None:
     """
     Construct feature metadata tsv classifiying reference and
@@ -32,7 +32,7 @@ def make_feature_metadata_table(
 
 
 def plot_tree_in_browser(
-    input_tree: str, output_dir: str = None, feature_metadata: str = None
+    input_tree: Path, output_dir: Path = None, feature_metadata: Path = None
 ) -> None:
     """
     Runs empress tree-plot
@@ -40,12 +40,15 @@ def plot_tree_in_browser(
     feature_metadata: path to tsv file containing feature metadata
     empress: https://github.com/biocore/empress
     """
+    input_tree = Path(input_tree)
     if output_dir is None:
-        output_dir = os.path.join(os.path.dirname(input_tree), "empress-plot")
+        output_dir = input_tree.parent / "empress-plot"
+    else:
+        output_dir = Path(output_dir)
     if feature_metadata is not None:
         meta_str = f"-fm {feature_metadata}"
     else:
         meta_str = ""
     cmd_str = f"empress tree-plot -t {input_tree} -o {output_dir} {meta_str}"
-    terminal_execute(cmd_str, suppress_shell_output=False)
-    webbrowser.open_new_tab(os.path.join(output_dir, "empress.html"))
+    terminal_execute(cmd_str, suppress_shell_output=True)
+    webbrowser.open_new_tab(output_dir / "empress.html")

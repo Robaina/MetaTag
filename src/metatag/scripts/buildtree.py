@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
+from pathlib import Path
 
 from metatag.alignment import align_peptides
 from metatag.phylotree import infer_tree
@@ -39,10 +39,10 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     parser._action_groups.append(optional)
 
     required.add_argument(
-        "--in", dest="data", type=str, required=True, help="path to reference database"
+        "--in", dest="data", type=Path, required=True, help="path to reference database"
     )
     optional.add_argument(
-        "--outdir", dest="outdir", type=str, help="path to output directory"
+        "--outdir", dest="outdir", type=Path, help="path to output directory"
     )
     optional.add_argument(
         "--msa_method",
@@ -82,7 +82,9 @@ def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""
     if args.outdir is None:
         args.outdir = set_default_output_path(args.data, only_dirname=True)
-    output_aln = os.path.join(args.outdir, "ref_database.faln")
+    else:
+        args.outdir = Path(args.outdir)
+    output_aln = args.outdir / "ref_database.faln"
 
     logger.info("Aligning reference database...")
     align_peptides(

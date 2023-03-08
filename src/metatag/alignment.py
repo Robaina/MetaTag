@@ -6,8 +6,8 @@ Tools to perform multiple sequence alignments
 """
 
 import logging
-import os
 import sys
+from pathlib import Path
 
 import metatag.wrappers as wrappers
 from metatag.database.manipulation import (
@@ -21,9 +21,9 @@ logger = logging.getLogger(__name__)
 
 
 def align_peptides(
-    input_fasta: str,
+    input_fasta: Path,
     method: str = "muscle",
-    output_file: str = None,
+    output_file: Path = None,
     additional_args: str = None,
 ):
     """
@@ -34,7 +34,7 @@ def align_peptides(
         output_file = set_default_output_path(
             input_fasta, extension=".fasta.aln", only_filename=True
         )
-    input_fasta = os.path.abspath(input_fasta)
+    input_fasta = Path(input_fasta)
     if method.lower() in "muscle":
         wrappers.run_muscle(
             input_fasta=input_fasta,
@@ -53,29 +53,27 @@ def align_peptides(
 
 
 def align_short_reads_to_reference_msa(
-    ref_msa: str,
-    query_seqs: str,
+    ref_msa: Path,
+    query_seqs: Path,
     method: str = "papara",
-    tree_nwk: str = None,
-    output_dir: str = None,
+    tree_nwk: Path = None,
+    output_dir: Path = None,
 ) -> None:
     """
     Align short read query sequences to reference MSA (fasta format).
     Outputs fasta msa alignment between query and reference sequences
     """
-    ref_msa = os.path.abspath(ref_msa)
-    query_seqs = os.path.abspath(query_seqs)
-    tree_nwk = os.path.abspath(tree_nwk)
+    ref_msa = Path(ref_msa)
+    query_seqs = Path(query_seqs)
+    tree_nwk = Path(tree_nwk)
 
     if output_dir is None:
         output_dir = set_default_output_path(ref_msa, only_dirname=True)
-    output_hmm = os.path.join(
-        output_dir,
-        set_default_output_path(ref_msa, extension=".hmm", only_filename=True),
+    output_hmm = output_dir / set_default_output_path(
+        ref_msa, extension=".hmm", only_filename=True
     )
-    output_aln_seqs = os.path.join(
-        output_dir,
-        set_default_output_path(query_seqs, extension=".faln", only_filename=True),
+    output_aln_seqs = output_dir / set_default_output_path(
+        query_seqs, extension=".faln", only_filename=True
     )
 
     if method.lower() in "hmmalign":

@@ -10,8 +10,8 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
 import sys
+from pathlib import Path
 
 from metatag.database.preprocessing import (
     is_fasta,
@@ -50,14 +50,14 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     required.add_argument(
         "--jplace",
         dest="jplace",
-        type=str,
+        type=Path,
         required=True,
         help="path to placements jplace file",
     )
     required.add_argument(
         "--labels",
         dest="labels",
-        type=str,
+        type=Path,
         required=True,
         nargs="+",
         help=(
@@ -68,7 +68,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     optional.add_argument(
         "--query_labels",
         dest="query_labels",
-        type=str,
+        type=Path,
         default=None,
         nargs="+",
         help=(
@@ -79,10 +79,10 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     optional.add_argument(
         "--ref_clusters",
         dest="ref_clusters",
-        type=str,
+        type=Path,
         default=None,
         help=(
-            "tsv file containing cluster assignment to each reference "
+            "path to tsv file containing cluster assignment to each reference "
             'sequence id. Must contain one column named "id" and another '
             '(tab-separated) column named "cluster"'
         ),
@@ -90,10 +90,10 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     optional.add_argument(
         "--ref_cluster_scores",
         dest="ref_cluster_scores",
-        type=str,
+        type=Path,
         default=None,
         help=(
-            "tsv file containing cluster quality scores assigned to each "
+            "path to tsv file containing cluster quality scores assigned to each "
             'cluster in the reference tree. Contains one column named "cluster" '
             'and another (tab-separated) column named "score"'
         ),
@@ -101,7 +101,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     optional.add_argument(
         "--outgroup",
         dest="outgroup",
-        type=str,
+        type=Path,
         default=None,
         help=(
             "path to text file containing IDs of sequences to be considered "
@@ -119,7 +119,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
         help="prefix to be added to output files",
     )
     optional.add_argument(
-        "--outdir", dest="outdir", type=str, help="path to output directory"
+        "--outdir", dest="outdir", type=Path, help="path to output directory"
     )
     optional.add_argument(
         "--max_placement_distance",
@@ -158,14 +158,14 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     optional.add_argument(
         "--duplicated_query_ids",
         dest="duplicated_query_ids",
-        type=str,
+        type=Path,
         default=None,
         help="path to text file containing duplicated query ids as output by seqkit rmdup",
     )
     optional.add_argument(
         "--taxonomy_file",
         dest="taxofile",
-        type=str,
+        type=Path,
         default=None,
         help=(
             "path to tsv containing taxonomy, formated like GTDB taxopaths, for each genome ID in reference database. "
@@ -188,8 +188,10 @@ def run(args: argparse.ArgumentParser) -> None:
     """
     if args.outdir is None:
         args.outdir = set_default_output_path(args.jplace, only_dirname=True)
+    else:
+        args.outdir = Path(args.outdir)
 
-    taxtable = os.path.join(args.outdir, args.prefix + "assignments.tsv")
+    taxtable = args.outdir / f"{args.prefix}assignments.tsv"
     ref_labels = DictMerger.from_pickle_paths(args.labels).merge()
     if args.query_labels is not None:
         query_labels = DictMerger.from_pickle_paths(args.query_labels).merge()
@@ -233,15 +235,15 @@ def run(args: argparse.ArgumentParser) -> None:
         jplaceparser = JplaceParser(args.jplace)
         if "pendant" in args.distance_measure.lower():
             jplaceparser.filter_placements_by_max_pendant_length(
-                max_pendant_length=args.max_distance, outfile=filtered_jplace
+                max_pendant_length=args.max_distance, output_file=filtered_jplace
             )
         elif "pendant_distal_ratio" in args.distance_measure.lower():
             jplaceparser.filter_placements_by_max_pendant_to_distal_length_ratio(
-                max_pendant_ratio=args.max_distance, outfile=filtered_jplace
+                max_pendant_ratio=args.max_distance, output_file=filtered_jplace
             )
         elif "pendant_diameter_ratio" in args.distance_measure.lower():
             jplaceparser.filter_placements_by_max_pendant_to_tree_diameter_ratio(
-                max_pendant_ratio=args.max_distance, outfile=filtered_jplace
+                max_pendant_ratio=args.max_distance, output_file=filtered_jplace
             )
         else:
             logger.error("Distance measure unavailable. Please choose a valid one.")
@@ -253,7 +255,7 @@ def run(args: argparse.ArgumentParser) -> None:
         filtered_jplace = set_default_output_path(args.jplace, tag="_lwr_filtered")
         jplaceparser = JplaceParser(args.jplace)
         jplaceparser.filter_placements_by_minimum_lwr(
-            minimum_lwr=args.minimum_lwr, outfile=filtered_jplace
+            minimum_lwr=args.minimum_lwr, output_file=filtered_jplace
         )
         args.jplace = filtered_jplace
 
@@ -275,7 +277,7 @@ def run(args: argparse.ArgumentParser) -> None:
         add_duplicates_to_assignment_table(taxtable, args.duplicated_query_ids)
 
     if outgroup_file_generated:
-        os.remove(outgroup_file)
+        outgroup_file.unlink()
 
 
 if __name__ == "__main__":

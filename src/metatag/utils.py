@@ -106,22 +106,25 @@ class TemporaryFilePath:
     """
 
     def __init__(
-        self, work_dir: str = None, extension: str = None, create_file: bool = False
+        self, work_dir: Path = None, extension: str = None, create_file: bool = False
     ):
-        self.work_dir = work_dir or ""
+        self.work_dir = Path(work_dir) or ""
         self.extension = extension or ""
         self.create_file = create_file
 
     def __enter__(self):
         temp_id = "".join(random.choice(string.ascii_lowercase) for i in range(10))
-        self.file_path = os.path.join(self.work_dir, f"temp_{temp_id}{self.extension}")
+        temp_file_name = f"temp_{temp_id}{self.extension}"
+        self.file_path = (
+            self.work_dir / temp_file_name if self.work_dir else Path(temp_file_name)
+        )
         if self.create_file:
-            os.mkdir(self.file_path)
+            self.file_path.mkdir(parents=True, exist_ok=True)
         return self.file_path
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if os.path.exists(self.file_path):
-            os.remove(self.file_path)
+        if self.file_path.exists():
+            self.file_path.unlink()
 
 
 class TemporaryDirectoryPath:
@@ -130,83 +133,102 @@ class TemporaryDirectoryPath:
     which is removed when exiting context manager
     """
 
-    def __init__(self, work_dir: str = None):
-        self.work_dir = work_dir or ""
+    def __init__(self, work_dir: Path = None):
+        self.work_dir = Path(work_dir) or ""
 
     def __enter__(self):
         temp_id = "".join(random.choice(string.ascii_lowercase) for i in range(10))
-        self.dir_path = os.path.join(self.work_dir, f"temp_{temp_id}/")
-        os.mkdir(self.dir_path)
+        self.dir_path = (
+            self.work_dir / f"temp_{temp_id}/"
+            if self.work_dir
+            else Path(f"temp_{temp_id}/")
+        )
+        self.dir_path.mkdir(parents=True, exist_ok=True)
         return self.dir_path
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if os.path.exists(self.dir_path):
+        if self.dir_path.exists():
             shutil.rmtree(self.dir_path)
 
 
-def create_temporary_file_path(work_dir: str = None, extension: str = None):
+def create_temporary_file_path(work_dir: Path = None, extension: str = None):
     """
     Converted into custom context manager
     """
     if work_dir is None:
         work_dir = ""
+    else:
+        work_dir = Path(work_dir)
     if extension is None:
         extension = ""
     temp_id = "".join(random.choice(string.ascii_lowercase) for i in range(10))
-    return os.path.join(work_dir, f"temp_{temp_id}{extension}")
+    return work_dir / f"temp_{temp_id}{extension}"
 
 
-def delete_temporary_files(dir_path: str) -> None:
+def delete_temporary_files(dir_path: Path) -> None:
     """
     Remove files from directory
     """
-    for fname in os.listdir(dir_path):
-        os.remove(os.path.join(dir_path, fname))
+    dir_path = Path(dir_path)
+    for fname in dir_path.iterdir():
+        fname.unlink()
 
 
 def set_default_output_path(
-    input_path: str,
+    input_path: Path,
     tag: str = None,
     extension: str = None,
     only_filename: bool = False,
+    only_basename: bool = False,
     only_dirname: bool = False,
-) -> str:
+) -> Path:
+    """Utility function to generate a default path to output file
+    or directory based on an input file name and path.
+    Args:
+        input_path (Path): path to input file.
+        tag (str, optional): text tag to be added to file name. Defaults to None.
+        extension (str, optional): change input file extension with this one. Defaults to None.
+        only_filename (bool, optional): output only default filename. Defaults to False.
+        only_basename (bool, optional): output only default basename (no extension). Defaults to False.
+        only_dirname (bool, optional): output only path to default output directory. Defaults to False.
+    Returns:
+        Path: a path or name to a default output file.
     """
-    Get default path to output file or directory
-    """
-    basename = os.path.basename(input_path)
-    dirname = os.path.abspath(os.path.dirname(input_path))
-    fname, ext = os.path.splitext(basename)
+    input_path = Path(input_path)
+    dirname = input_path.parent
+    fname, ext = input_path.stem, input_path.suffix
     if extension is None:
         extension = ext
     if tag is None:
         tag = ""
     default_file = f"{fname}{tag}{extension}"
+    if only_basename:
+        return Path(fname)
     if only_filename:
-        return default_file
+        return Path(default_file)
     if only_dirname:
-        return os.path.abspath(dirname)
+        return dirname
     else:
-        return os.path.abspath(os.path.join(dirname, default_file))
+        return (dirname / default_file).absolute()
 
 
-def save_to_pickle_file(python_object, path_to_file="object.pkl"):
+def save_to_pickle_file(python_object: object, path_to_file: Path = "object.pkl"):
     """
     Save python object to pickle file
     """
-    out_file = open(path_to_file, "wb")
-    pickle.dump(python_object, out_file)
-    out_file.close()
+    outfile = open(path_to_file, "wb")
+    pickle.dump(python_object, outfile)
+    outfile.close()
 
 
-def read_from_pickle_file(path_to_file="object.pkl"):
+def read_from_pickle_file(path_to_file: Path = "object.pkl"):
     """
     Load python object from pickle file.
     Returns python object.
     """
-    in_file = open(path_to_file, "rb")
-    python_object = pickle.load(in_file)
-    in_file.close()
+    infile = open(path_to_file, "rb")
+    python_object = pickle.load(infile)
+    infile.close()
     return python_object
 
 
@@ -253,24 +275,18 @@ def parallelize_over_input_files(
     p.join()
 
 
-def full_path_list_dir(dir: str) -> list:
-    """
-    Return full path of files in provided directory
-    """
-    return [os.path.join(dir, file) for file in os.listdir(dir)]
-
-
-def extract_tar_file(tar_file: str, dest_dir: str = None) -> None:
+def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:
     """
     Extract tar or tar.gz files to dest_dir
     """
+    tar_file = Path(tar_file)
     if dest_dir is None:
         dest_dir = "."
-    if tar_file.endswith("tar.gz"):
+    if tar_file.as_posix().endswith("tar.gz"):
         tar = tarfile.open(tar_file, "r:gz")
         tar.extractall(path=dest_dir)
         tar.close()
-    elif tar_file.endswith("tar"):
+    elif tar_file.as_posix().endswith("tar"):
         tar = tarfile.open(tar_file, "r:")
         tar.extractall(path=dest_dir)
         tar.close()
@@ -279,7 +295,7 @@ def extract_tar_file(tar_file: str, dest_dir: str = None) -> None:
         sys.exit(1)
 
 
-def list_tar_dir(tar_dir: str) -> list:
+def list_tar_dir(tar_dir: Path) -> list:
     """
     List files within tar or tar.gz directory
     """
@@ -314,17 +330,18 @@ class DictMerger:
         self._dict_list = dicts
 
     @classmethod
-    def from_pickle_paths(cls, dict_paths: list[str]) -> DictMerger:
+    def from_pickle_paths(cls, dict_paths: list[Path]) -> DictMerger:
         """
         Initialize class from list of paths to dictionaries (pickle)
         """
         dict_list = [
-            cls.read_from_pickle_file(dict_path.strip()) for dict_path in dict_paths
+            cls.read_from_pickle_file(dict_path.as_posix().strip())
+            for dict_path in dict_paths
         ]
         return cls(dicts=dict_list)
 
     @staticmethod
-    def read_from_pickle_file(path_to_file="object.pkl"):
+    def read_from_pickle_file(path_to_file: Path = "object.pkl"):
         """
         Load python object from pickle file.
         Returns python object.
@@ -335,7 +352,7 @@ class DictMerger:
         return python_object
 
     def merge(
-        self, dict_prefixes: list[str] = None, save_pickle_path: str = None
+        self, dict_prefixes: list[str] = None, save_pickle_path: Path = None
     ) -> dict:
         """
         Merge dictionaries
