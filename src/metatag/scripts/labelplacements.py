@@ -15,7 +15,6 @@ from pathlib import Path
 
 from metatag.database.preprocessing import (
     is_fasta,
-    is_file,
     write_record_names_to_file,
 )
 from metatag.placement import (
@@ -200,7 +199,8 @@ def run(args: argparse.ArgumentParser) -> None:
     outgroup_file_generated = False
 
     if args.outgroup is not None:
-        if is_file(args.outgroup):
+        args.outgroup = Path(args.outgroup)
+        if args.outgroup.exists():
             if is_fasta(args.outgroup):
                 outgroup_file = set_default_output_path(
                     args.jplace, tag="_outgroup_ids", extension=".txt"
