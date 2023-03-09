@@ -123,8 +123,7 @@ class TemporaryFilePath:
         return self.file_path
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if self.file_path.exists():
-            self.file_path.unlink()
+        self.file_path.unlink(missing_ok=True)
 
 
 class TemporaryDirectoryPath:
@@ -171,7 +170,7 @@ def delete_temporary_files(dir_path: Path) -> None:
     """
     dir_path = Path(dir_path)
     for fname in dir_path.iterdir():
-        fname.unlink()
+        fname.unlink(missing_ok=True)
 
 
 def set_default_output_path(

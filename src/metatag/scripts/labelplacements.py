@@ -277,7 +277,7 @@ def run(args: argparse.ArgumentParser) -> None:
         add_duplicates_to_assignment_table(taxtable, args.duplicated_query_ids)
 
     if outgroup_file_generated:
-        outgroup_file.unlink()
+        outgroup_file.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

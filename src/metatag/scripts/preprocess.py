@@ -188,7 +188,7 @@ def run(args: argparse.ArgumentParser) -> None:
         shutil.move(outfasta_short, outfasta)
 
     if args.data.is_dir():
-        data_path.unlink()
+        data_path.unlink(missing_ok=True)
 
     logger.info("Done!")
 

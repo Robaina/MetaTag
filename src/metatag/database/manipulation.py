@@ -64,7 +64,7 @@ def filter_fasta_by_sequence_length(
             record_obj = fa[record_id]
             fp.write(record_obj.raw)
     del(fa)
-    Path(input_fasta.as_posix() + ".fxi").unlink()
+    Path(input_fasta.as_posix() + ".fxi").unlink(missing_ok=True)
 
 
 def parse_hmmsearch_output(hmmer_output: Path) -> pd.DataFrame:
@@ -93,8 +93,7 @@ def filter_fasta_by_ids(
     else:
         output_fasta = Path(output_fasta)
     index_file = Path(input_fasta.as_posix() + ".fxi")
-    if index_file.exists():
-        index_file.unlink()
+    index_file.unlink(missing_ok=True)
     record_ids = set(record_ids)
     with tempfile.NamedTemporaryFile(mode="w+t") as tmp_ids:
         tmp_ids.writelines("\n".join(record_ids))
