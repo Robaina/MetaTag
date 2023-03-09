@@ -380,7 +380,7 @@ def place_reads_onto_tree(
     )
 
     split_reference_from_query_alignments(
-        ref_query_msa=ref_query_msa, ref_ids=ref_ids, out_dir=output_dir
+        ref_query_msa=ref_query_msa, ref_ids=ref_ids, output_dir=output_dir
     )
 
     wrappers.run_epang(
