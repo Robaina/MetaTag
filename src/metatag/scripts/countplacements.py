@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
+from pathlib import Path
 
 from metatag.placement import TaxAssignParser
 from metatag.utils import set_default_output_path
@@ -39,7 +39,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     required.add_argument(
         "--taxtable",
         dest="taxtable",
-        type=str,
+        type=Path,
         required=True,
         help="path to placements taxonomy table file",
     )
@@ -73,7 +73,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     optional.add_argument(
         "--outdir",
         dest="outdir",
-        type=str,
+        type=Path,
         default=None,
         help="path to output directory",
     )
@@ -106,19 +106,21 @@ def run(args: argparse.ArgumentParser) -> None:
     logger.info("Counting labelled placements...")
     if args.outdir is None:
         args.outdir = set_default_output_path(args.taxtable, only_dirname=True)
+    else:
+        args.outdir = Path(args.outdir).resolve()
     if args.outprefix is None:
         args.outprefix = "placed_"
     if args.export_right_queries:
-        path_to_query_list = os.path.join(
-            args.outdir, f"{args.outprefix}rightly_cassified_queries.tsv"
+        path_to_query_list = (
+            args.outdir / f"{args.outprefix}rightly_cassified_queries.tsv"
         )
     else:
         path_to_query_list = None
 
     taxparser = TaxAssignParser(args.taxtable)
     for taxlevel in args.taxlevels:
-        outfile = os.path.join(args.outdir, f"{args.outprefix}{taxlevel}_counts.tsv")
-        outpdf = os.path.join(args.outdir, f"{args.outprefix}{taxlevel}_counts.pdf")
+        outfile = args.outdir / f"{args.outprefix}{taxlevel}_counts.tsv"
+        outpdf = args.outdir / f"{args.outprefix}{taxlevel}_counts.pdf"
 
         taxlevel_counter = taxparser.count_hits(
             cluster_ids=args.cluster_ids,

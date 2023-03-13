@@ -13,8 +13,8 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
 import shutil
+from pathlib import Path
 
 from metatag.database.preprocessing import (
     assert_correct_sequence_format,
@@ -58,7 +58,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     required.add_argument(
         "--in",
         dest="data",
-        type=str,
+        type=Path,
         required=True,
         help="path to fasta file or directory containing fasta files",
     )
@@ -84,7 +84,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
         help="choose whether duplicated sequences are exported to file (same directory than outfile)",
     )
     optional.add_argument(
-        "--outfile", dest="outfile", type=str, help="path to output fasta file"
+        "--outfile", dest="outfile", type=Path, help="path to output fasta file"
     )
     optional.add_argument(
         "--relabel",
@@ -101,14 +101,6 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
         default=None,
         help="prefix to be added to sequence IDs",
     )
-    optional.add_argument(
-        "--duplicate_method",
-        dest="duplicate_method",
-        type=str,
-        default="seqkit",
-        help="choose method to remove duplicates: seqkit or biopython",
-    )
-
     if arg_list is None:
         return parser.parse_args()
     else:
@@ -121,21 +113,22 @@ def run(args: argparse.ArgumentParser) -> None:
     Args:
         args (argparse.ArgumentParser): _description_
     """
-    if args.idprefix is None:
-        args.idprefix = "label_"
+    args.data = Path(args.data).resolve()
     if args.outfile is None:
         outfasta = set_default_output_path(args.data, tag="_cleaned")
     else:
-        outfasta = os.path.abspath(args.outfile)
-    output_dir = os.path.abspath(os.path.dirname(args.outfile))
+        outfasta = Path(args.outfile).resolve()
+    if args.idprefix is None:
+        args.idprefix = "label_"
+    output_dir = outfasta.parent
 
-    if os.path.isdir(args.data):
+    if args.data.is_dir():
         logger.info("Merging input files...")
-        _, file_ext = os.path.splitext(os.listdir(args.data)[0])
-        data_path = os.path.abspath(os.path.join(output_dir, f"merged_data{file_ext}"))
+        file_ext = next(args.data.iterdir()).suffix
+        data_path = output_dir / f"merged_data{file_ext}"
         merge_fastas(input_fastas_dir=args.data, output_fasta=data_path)
     else:
-        data_path = os.path.abspath(args.data)
+        data_path = args.data
 
     if args.dna:
         is_peptide = False
@@ -154,7 +147,6 @@ def run(args: argparse.ArgumentParser) -> None:
         remove_duplicates_from_fasta(
             input_fasta=data_path,
             output_fasta=tmp_file_path,
-            method=args.duplicate_method,
             export_duplicates=args.export_dup,
             duplicates_file=duplicates_file,
         )
@@ -174,8 +166,8 @@ def run(args: argparse.ArgumentParser) -> None:
                 metagenome=True,
                 additional_args=None,
             )
-            outfaa = os.path.join(tempdir, outprefix + ".faa")
-            outgbk = os.path.join(tempdir, outprefix + ".gbk")
+            outfaa = tempdir / f"{outprefix}.faa"
+            outgbk = tempdir / f"{outprefix}.gbk"
 
             assert_correct_sequence_format(
                 fasta_file=outfaa, output_file=outfasta, is_peptide=True
@@ -189,14 +181,13 @@ def run(args: argparse.ArgumentParser) -> None:
         outfasta_short = set_default_output_path(outfasta, tag="_short_ids")
         set_temp_record_ids_in_fasta(
             input_fasta=outfasta,
-            output_dir=os.path.dirname(args.outfile),
+            output_dir=output_dir,
             prefix=args.idprefix,
         )
         shutil.move(outfasta_short, outfasta)
 
-    # Remove temporary merged fasta
-    if os.path.isdir(args.data):
-        os.remove(data_path)
+    if args.data.is_dir():
+        data_path.unlink(missing_ok=True)
 
     logger.info("Done!")
 

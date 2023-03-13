@@ -11,8 +11,8 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
 import sys
+from pathlib import Path
 
 import metatag.wrappers as wrappers
 from metatag.placement import place_reads_onto_tree
@@ -40,17 +40,17 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     required.add_argument(
         "--aln",
         dest="aln",
-        type=str,
+        type=Path,
         required=True,
         help="path to reference fasta alignment",
     )
     required.add_argument(
-        "--tree", dest="tree", type=str, required=True, help="path to reference tree"
+        "--tree", dest="tree", type=Path, required=True, help="path to reference tree"
     )
     required.add_argument(
         "--query",
         dest="query",
-        type=str,
+        type=Path,
         required=True,
         help=(
             "path to query peptide sequences. \n"
@@ -68,7 +68,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
         ),
     )
     optional.add_argument(
-        "--outdir", dest="outdir", type=str, help="path to output directory"
+        "--outdir", dest="outdir", type=Path, help="path to output directory"
     )
     optional.add_argument(
         "--aln_method",
@@ -93,10 +93,12 @@ def run(args: argparse.ArgumentParser) -> None:
     """
     if args.outdir is None:
         args.outdir = set_default_output_path(args.aln, only_dirname=True)
+    else:
+        args.outdir = Path(args.outdir).resolve()
     if args.tree_model is None:
         logger.error("Missing tree model.")
         sys.exit(1)
-    epa_jplace = os.path.join(args.outdir, "epa_result.jplace")
+    epa_jplace = args.outdir / "epa_result.jplace"
 
     logger.info("Placing reads on tree...")
     place_reads_onto_tree(

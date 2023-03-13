@@ -11,7 +11,6 @@ Currently based on:
 """
 
 import logging
-import os
 import shutil
 import warnings
 from pathlib import Path
@@ -29,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_representative_set(
-    input_seqs: str, input_pi: str, max_size: int = None, outfile: str = None
+    input_seqs: Path, input_pi: Path, max_size: int = None, output_file: Path = None
 ) -> None:
     """
     Runs repset.py to obtain a representative
@@ -37,12 +36,14 @@ def get_representative_set(
     or an ordered list (by 'representativeness') of representative sequences
     if max_size set to None.
     """
-    input_seqs = os.path.abspath(input_seqs)
-    input_pi = os.path.abspath(input_pi)
+    input_seqs = Path(input_seqs).resolve()
+    input_pi = Path(input_pi).resolve()
     repset_exe = Path(__file__).parent.parent / "vendor" / "repset_min.py"
 
-    if outfile is None:
-        outfile = set_default_output_path(input_seqs, tag="_repset")
+    if output_file is None:
+        output_file = set_default_output_path(input_seqs, tag="_repset")
+    else:
+        output_file = Path(output_file).resolve()
 
     with TemporaryDirectoryPath() as tempdir:
         cmd_str = (
@@ -51,20 +52,20 @@ def get_representative_set(
         )
         terminal_execute(cmd_str, suppress_shell_output=False)
 
-        with open(os.path.join(tempdir, "repset.txt")) as repset:
+        with open(Path(tempdir) / "repset.txt") as repset:
             rep_ids = [rep_id.strip("\n") for rep_id in repset.readlines()]
 
     if (max_size is not None) and (max_size < len(rep_ids)):
         rep_ids = rep_ids[:max_size]
 
     filter_fasta_by_ids(
-        input_fasta=input_seqs, record_ids=rep_ids, output_fasta=outfile
+        input_fasta=input_seqs, record_ids=rep_ids, output_fasta=output_file
     )
 
 
 def reduce_database_redundancy(
-    input_fasta: str,
-    output_fasta: str = None,
+    input_fasta: Path,
+    output_fasta: Path = None,
     cdhit: bool = True,
     maxsize: int = None,
     cdhit_args: str = None,
@@ -77,11 +78,13 @@ def reduce_database_redundancy(
     (number of sequences) than selected maxsize.
     If maxsize = None, repset is not run.
     """
-    if (not cdhit) and (maxsize is None):
-        warnings.warn("No reduction algorithm has been selected.")
-
+    input_fasta = Path(input_fasta).resolve()
     if output_fasta is None:
         output_fasta = set_default_output_path(input_fasta, tag="_reduced")
+    else:
+        output_fasta = Path(output_fasta).resolve()
+    if (not cdhit) and (maxsize is None):
+        warnings.warn("No reduction algorithm has been selected.")
 
     with TemporaryFilePath() as tempaln, TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2, TemporaryFilePath() as tempident:
         if cdhit:
@@ -90,7 +93,7 @@ def reduce_database_redundancy(
                 output_fasta=tempfasta,
                 additional_args=cdhit_args,
             )
-            os.remove(tempfasta + ".clstr")
+            Path(tempfasta.as_posix() + ".clstr").unlink(missing_ok=True)
         else:
             shutil.move(input_fasta, tempfasta)
 
@@ -112,7 +115,7 @@ def reduce_database_redundancy(
                 input_seqs=tempfasta,
                 input_pi=tempident,
                 max_size=maxsize,
-                outfile=tempfasta2,
+                output_file=tempfasta2,
             )
             shutil.move(tempfasta2, tempfasta)
 

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
+from pathlib import Path
 
 from metatag.utils import DictMerger, set_default_output_path
 from metatag.visualization import (
@@ -37,12 +37,12 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     parser._action_groups.append(optional)
 
     required.add_argument(
-        "--tree", dest="tree", type=str, required=True, help="path to tree file"
+        "--tree", dest="tree", type=Path, required=True, help="path to tree file"
     )
     optional.add_argument(
         "--labels",
         dest="labels",
-        type=str,
+        type=Path,
         required=False,
         nargs="+",
         help=(
@@ -51,7 +51,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
         ),
     )
     optional.add_argument(
-        "--outdir", dest="outdir", type=str, help="path to output directory"
+        "--outdir", dest="outdir", type=Path, help="path to output directory"
     )
 
     if arg_list is None:
@@ -64,23 +64,25 @@ def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""
     if args.outdir is None:
         args.outdir = set_default_output_path(args.tree, only_dirname=True)
-    os.makedirs(args.outdir, exist_ok=True)
+    else:
+        args.outdir = Path(args.outdir).resolve()
+    args.outdir.mkdir(parents=True, exist_ok=True)
 
     logger.info("Drawing tree in browser...")
     if args.labels is not None:
         label_dict = DictMerger.from_pickle_paths(args.labels).merge()
         make_feature_metadata_table(
             label_dict=label_dict,
-            output_tsv=os.path.join(args.outdir, "empress_metadata.tsv"),
+            output_tsv=args.outdir / "empress_metadata.tsv",
             original_labels=False,
         )
-        feature_metadata = os.path.join(args.outdir, "empress_metadata.tsv")
+        feature_metadata = args.outdir / "empress_metadata.tsv"
     else:
         feature_metadata = None
 
     plot_tree_in_browser(
         input_tree=args.tree,
-        output_dir=os.path.join(args.outdir, "empress-plot"),
+        output_dir=args.outdir / "empress-plot",
         feature_metadata=feature_metadata,
     )
 

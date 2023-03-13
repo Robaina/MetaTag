@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
 from pathlib import Path
 
 from metatag.database.preprocessing import set_original_record_ids_in_fasta
@@ -38,13 +37,15 @@ def initialize_label_dict(args) -> dict:
 
 
 def assign_taxonomy_to_labels(
-    prefix_label_dict: dict, label_dict: dict, taxo_file: str
+    prefix_label_dict: dict, label_dict: dict, taxo_file: Path = None
 ) -> tuple[dict]:
     """
     Assign GTDB taxonomy to tree labels
     """
     if taxo_file is None:
         taxo_file = package_dir / "data" / "merged_taxonomy.tsv"
+    else:
+        taxo_file = Path(taxo_file).resolve()
     taxo_dict, export_label_dict, tree_label_dict = {}, {}, {}
     taxonomy = TaxonomyAssigner(taxo_file=taxo_file)
     for k, label in label_dict.items():
@@ -54,16 +55,15 @@ def assign_taxonomy_to_labels(
 
     for k, label in prefix_label_dict.items():
         tree_label_dict[k] = f"{label}_{taxo_dict[k]}"
-
     return tree_label_dict, export_label_dict
 
 
-def export_taxonomy_table(export_label_dict: dict, outfile: str) -> None:
+def export_taxonomy_table(export_label_dict: dict, output_file: Path) -> None:
     """
     Build and export table containing assigned taxonomy
     """
     lines = ["label\ttaxopath\n"]
-    with open(outfile, "w") as file:
+    with open(output_file, "w") as file:
         for label, taxopath in export_label_dict.items():
             line = label + "\t" + taxopath + "\n"
             lines.append(line)
@@ -89,14 +89,14 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     required.add_argument(
         "--tree",
         dest="tree",
-        type=str,
+        type=Path,
         required=True,
         help="path to tree in newick format",
     )
     required.add_argument(
         "--labels",
         dest="labels",
-        type=str,
+        type=Path,
         required=True,
         nargs="+",
         help=(
@@ -125,16 +125,16 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     optional.add_argument(
         "--aln",
         dest="aln",
-        type=str,
+        type=Path,
         help="path to fasta alignment file to be relabelled",
     )
     optional.add_argument(
-        "--outdir", dest="outdir", type=str, help="path to output directory"
+        "--outdir", dest="outdir", type=Path, help="path to output directory"
     )
     optional.add_argument(
         "--taxonomy_file",
         dest="taxofile",
-        type=str,
+        type=Path,
         default=None,
         help=(
             "path to tsv containing taxonomy, formated like GTDB taxopaths, for each genome ID in reference database. "
@@ -152,21 +152,19 @@ def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""
     if args.outdir is None:
         args.outdir = set_default_output_path(args.tree, only_dirname=True)
+    else:
+        args.outdir = Path(args.outdir).resolve()
 
-    treeout = os.path.join(
-        args.outdir, set_default_output_path(args.tree, tag="_relabel")
-    )
-    taxoout = os.path.join(
-        args.outdir,
-        set_default_output_path(args.tree, tag="_taxonomy", extension=".tsv"),
+    treeout = args.outdir / set_default_output_path(args.tree, tag="_relabel")
+    taxoout = args.outdir / set_default_output_path(
+        args.tree, tag="_taxonomy", extension=".tsv"
     )
     if args.aln is not None:
-        alnout = os.path.join(
-            args.outdir, set_default_output_path(args.aln, tag="_relabel")
-        )
+        alnout = args.outdir / set_default_output_path(args.aln, tag="_relabel")
+    else:
+        alnout = None
 
     logger.info("Relabelling tree...")
-
     label_dict, prefix_label_dict = initialize_label_dict(args)
     if args.taxonomy:
         tree_label_dict, export_label_dict = assign_taxonomy_to_labels(
