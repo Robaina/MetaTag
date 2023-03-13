@@ -710,11 +710,12 @@ def add_duplicates_to_assignment_table(
                 row = row.iloc[0, :]
                 row.query_name = duplicate.strip()
                 duplicated_hits.append(row)
-    assigns = pd.concat(
-        [assigns, pd.concat(duplicated_hits, axis=0, ignore_index=True)],
-        axis=0,
-        ignore_index=True,
-    )
+    if duplicated_hits:
+        assigns = pd.concat(
+            [assigns, pd.concat(duplicated_hits, axis=0, ignore_index=True)],
+            axis=0,
+            ignore_index=True,
+        )
     assigns.to_csv(output_file, sep="\t", index=False)
 
 
