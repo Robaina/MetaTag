@@ -194,7 +194,9 @@ def set_temp_record_ids_in_fasta(
         output_dict = output_dir / dict_file
 
     id_dict = dict()
-    with open(output_fasta, "w", encoding="UTF-8") as outfasta, open(input_fasta, "r", encoding="UTF-8") as ffile:
+    with open(output_fasta, "w", encoding="UTF-8") as outfasta, open(
+        input_fasta, "r", encoding="UTF-8"
+    ) as ffile:
         fasta = pyfastx.Fasta(ffile.name, build_index=False, full_name=True)
         for n, (record_name, record_seq) in enumerate(fasta):
             new_id = f"{prefix_str}{n}"

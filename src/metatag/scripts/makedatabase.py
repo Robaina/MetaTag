@@ -232,7 +232,7 @@ def run(args: argparse.ArgumentParser) -> None:
                     cdhit_args=None,
                     maxsize=maxsize,
                 )
-                
+
                 if args.relabel:
                     logger.info("Relabelling records in reference database...")
                     with tempfile.NamedTemporaryFile() as temp_fasta_short, tempfile.NamedTemporaryFile() as temp_dict_short:
@@ -249,7 +249,6 @@ def run(args: argparse.ArgumentParser) -> None:
 
         merge_fastas(input_fastas_dir=tempdir, output_fasta=output_fasta)
 
-
         if args.noduplicates:
             with tempfile.NamedTemporaryFile() as tmp_file_path:
                 logger.info("Removing duplicates...")
@@ -260,9 +259,7 @@ def run(args: argparse.ArgumentParser) -> None:
                 )
                 shutil.copy(tmp_file_path.name, output_fasta)
 
-        pickle_dict_paths = [
-            file for file in Path(tempdir2).iterdir()
-        ]
+        pickle_dict_paths = [file for file in Path(tempdir2).iterdir()]
         if pickle_dict_paths:
             DictMerger.from_pickle_paths(pickle_dict_paths).merge(
                 save_pickle_path=output_pickle_short_ids

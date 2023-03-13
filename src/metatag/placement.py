@@ -592,9 +592,7 @@ def assign_labels_to_placements(
 
     if ref_clusters_file is not None:
         has_cluster_id = True
-        ref_clusters = parse_tree_clusters(
-            ref_clusters_file, cluster_as_key=False
-        )
+        ref_clusters = parse_tree_clusters(ref_clusters_file, cluster_as_key=False)
         ref_clusters_as_keys = parse_tree_clusters(
             ref_clusters_file, cluster_as_key=True
         )
@@ -699,7 +697,7 @@ def add_duplicates_to_assignment_table(
         output_file = set_default_output_path(taxtable, tag="_duplicates")
     else:
         output_file = Path(output_file).resolve()
-    
+
     duplicated_hits = []
     assigns = pd.read_csv(taxtable, sep="\t", index_col=False)
     dup_dict = parse_duplicates_from_seqkit(query_duplicates)
@@ -716,7 +714,7 @@ def add_duplicates_to_assignment_table(
         [assigns, pd.concat(duplicated_hits, axis=0, ignore_index=True)],
         axis=0,
         ignore_index=True,
-        )
+    )
     assigns.to_csv(output_file, sep="\t", index=False)
 
 
