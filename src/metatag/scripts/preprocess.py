@@ -120,7 +120,7 @@ def run(args: argparse.ArgumentParser) -> None:
         outfasta = Path(args.outfile).resolve()
     if args.idprefix is None:
         args.idprefix = "label_"
-    output_dir = args.outfile.parent
+    output_dir = outfasta.parent
 
     if args.data.is_dir():
         logger.info("Merging input files...")
