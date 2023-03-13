@@ -214,7 +214,7 @@ def set_default_output_path(
     if only_dirname:
         return dirname
     else:
-        return (dirname / default_file).absolute()
+        return (dirname / default_file).resolve()
 
 
 def save_to_pickle_file(python_object: object, path_to_file: Path = "object.pkl"):
@@ -339,6 +339,7 @@ class DictMerger:
         """
         Initialize class from list of paths to dictionaries (pickle)
         """
+        dict_paths = [Path(dict_path).resolve() for dict_path in dict_paths]
         dict_list = [
             cls.read_from_pickle_file(dict_path.as_posix().strip())
             for dict_path in dict_paths

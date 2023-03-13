@@ -181,7 +181,7 @@ def run(args: argparse.ArgumentParser) -> None:
         outfasta_short = set_default_output_path(outfasta, tag="_short_ids")
         set_temp_record_ids_in_fasta(
             input_fasta=outfasta,
-            output_dir=args.outfile.parent,
+            output_dir=output_dir,
             prefix=args.idprefix,
         )
         shutil.move(outfasta_short, outfasta)
