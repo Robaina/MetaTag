@@ -67,7 +67,7 @@ class ReferenceTreeBuilder:
             msa_method (str, optional): choose msa method for reference database: "muscle" or "mafft".
                 Defaults to "muscle".
         """
-        self.input_database = Path(input_database)
+        self.input_database = Path(input_database).resolve()
         self.hmms = hmms
         if maximum_hmm_reference_sizes is None:
             self.max_hmm_reference_sizes = [1000 for _ in hmms]
@@ -85,11 +85,11 @@ class ReferenceTreeBuilder:
         self.msa_method = msa_method
         self.tree_method = tree_method
         self.tree_model = tree_model
-        self.output_directory = Path(output_directory)
+        self.output_directory = Path(output_directory).resolve()
 
         self.out_cleaned_database = Path(
             self.output_directory / f"{self.input_database.stem}_cleaned.faa"
-        )
+        ).resolve()
         self.out_reference_database = self.output_directory / "ref_database.faa"
         self.out_reference_tree = self.output_directory / "ref_database.newick"
         self.out_reference_alignment = self.output_directory / "ref_database.faln"
@@ -187,12 +187,14 @@ class QueryLabeller:
             distance_measure (str, optional): _description_. Defaults to "pendant_diameter_ratio".
             minimum_placement_lwr (float, optional): _description_. Defaults to 0.8.
         """
-        self.input_query = Path(input_query)
-        self.reference_alignment = Path(reference_alignment)
-        self.reference_tree = Path(reference_tree)
-        self.tree_model = Path(tree_model) if Path(tree_model).is_file() else tree_model
-        self.tree_clusters = Path(tree_clusters)
-        self.tree_cluster_scores = Path(tree_cluster_scores)
+        self.input_query = Path(input_query).resolve()
+        self.reference_alignment = Path(reference_alignment).resolve()
+        self.reference_tree = Path(reference_tree).resolve()
+        self.tree_model = (
+            Path(tree_model).resolve() if Path(tree_model).is_file() else tree_model
+        )
+        self.tree_clusters = Path(tree_clusters).resolve()
+        self.tree_cluster_scores = Path(tree_cluster_scores).resolve()
         self.tree_cluster_score_threshold = tree_cluster_score_threshold
         self.alignment_method = alignment_method
         self.reference_labels = reference_labels
@@ -200,12 +202,14 @@ class QueryLabeller:
             self.output_directory = self.input_query.parent / "placement_results"
             self.output_directory.mkdir(exist_ok=False)
         else:
-            self.output_directory = Path(output_directory)
+            self.output_directory = Path(output_directory).resolve()
         self.maximum_placement_distance = maximum_placement_distance
         self.distance_measure = distance_measure
         self.minimum_placement_lwr = minimum_placement_lwr
 
-        self.out_cleaned_query = Path(self.output_directory / "query_cleaned.faa")
+        self.out_cleaned_query = Path(
+            self.output_directory / "query_cleaned.faa"
+        ).resolve()
         self.out_query_labels = self.output_directory / "query_cleaned_id_dict.pickle"
 
         self.place_outdir = self.output_directory / "placements"

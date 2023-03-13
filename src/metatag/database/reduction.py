@@ -11,7 +11,6 @@ Currently based on:
 """
 
 import logging
-import os
 import shutil
 import warnings
 from pathlib import Path
@@ -37,14 +36,14 @@ def get_representative_set(
     or an ordered list (by 'representativeness') of representative sequences
     if max_size set to None.
     """
-    input_seqs = Path(input_seqs)
-    input_pi = Path(input_pi)
+    input_seqs = Path(input_seqs).resolve()
+    input_pi = Path(input_pi).resolve()
     repset_exe = Path(__file__).parent.parent / "vendor" / "repset_min.py"
 
     if output_file is None:
         output_file = set_default_output_path(input_seqs, tag="_repset")
     else:
-        output_file = Path(output_file)
+        output_file = Path(output_file).resolve()
 
     with TemporaryDirectoryPath() as tempdir:
         cmd_str = (
@@ -79,11 +78,11 @@ def reduce_database_redundancy(
     (number of sequences) than selected maxsize.
     If maxsize = None, repset is not run.
     """
-    input_fasta = Path(input_fasta)
+    input_fasta = Path(input_fasta).resolve()
     if output_fasta is None:
         output_fasta = set_default_output_path(input_fasta, tag="_reduced")
     else:
-        output_fasta = Path(output_fasta)
+        output_fasta = Path(output_fasta).resolve()
     if (not cdhit) and (maxsize is None):
         warnings.warn("No reduction algorithm has been selected.")
 
@@ -94,7 +93,7 @@ def reduce_database_redundancy(
                 output_fasta=tempfasta,
                 additional_args=cdhit_args,
             )
-            os.remove(tempfasta + ".clstr")
+            Path(tempfasta.as_posix() + ".clstr").unlink(missing_ok=True)
         else:
             shutil.move(input_fasta, tempfasta)
 

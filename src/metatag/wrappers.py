@@ -34,7 +34,7 @@ def run_seqkit_nodup(
     if output_fasta is None:
         output_fasta = set_default_output_path(input_fasta, tag="_no_duplicates")
     else:
-        output_fasta = Path(output_fasta)       
+        output_fasta = Path(output_fasta).resolve()
     if export_duplicates:
         if duplicates_file is None:
             dup_file = set_default_output_path(
@@ -59,11 +59,11 @@ def run_prodigal(
     """
     Simple CLI wrapper to prodigal
     """
-    input_file = Path(input_file)
+    input_file = Path(input_file).resolve()
     if output_dir is None:
         output_dir = set_default_output_path(input_file, only_dirname=True)
     else:
-        output_dir = Path(output_dir)
+        output_dir = Path(output_dir).resolve()
     if output_prefix is None:
         output_prefix = set_default_output_path(input_file, only_filename=True)
     if metagenome:
@@ -94,12 +94,12 @@ def run_hmmsearch(
     """
     Simple CLI wrapper to hmmsearch or hmmscan
     """
-    hmm_model = Path(hmm_model)
-    input_fasta = Path(input_fasta)
+    hmm_model = Path(hmm_model).resolve()
+    input_fasta = Path(input_fasta).resolve()
     if output_file is None:
         output_file = set_default_output_path(input_fasta, "_hmmer_hits", ".txt")
     else:
-        output_file = Path(output_file)
+        output_file = Path(output_file).resolve()
     if n_processes is None:
         n_processes = os.cpu_count() - 1
     if additional_args is not None:
@@ -120,11 +120,11 @@ def run_hmmbuild(
     Simple CLI wrapper to hmmbuild (build HMM profile from MSA file)
     additional args: see hmmbuild -h
     """
-    input_aln = Path(input_aln)
+    input_aln = Path(input_aln).resolve()
     if output_hmm is None:
         output_hmm = set_default_output_path(input_aln, extension=".hmm")
     else:
-        output_hmm = Path(output_hmm)
+        output_hmm = Path(output_hmm).resolve()
     if additional_args is not None:
         args_str = additional_args
     else:
@@ -144,13 +144,13 @@ def run_hmmalign(
     Simple CLI wrapper to hmmalign
     Align short read query sequences to reference MSA
     """
-    input_hmm = Path(input_hmm)
-    input_aln = Path(input_aln)
-    input_seqs = Path(input_seqs)
+    input_hmm = Path(input_hmm).resolve()
+    input_aln = Path(input_aln).resolve()
+    input_seqs = Path(input_seqs).resolve()
     if output_aln_seqs is None:
         output_aln_seqs = set_default_output_path(input_seqs, "_hmm", extension=".aln")
     else:
-        output_aln_seqs = Path(output_aln_seqs)
+        output_aln_seqs = Path(output_aln_seqs).resolve()
     if additional_args is not None:
         args_str = additional_args
     else:
@@ -166,11 +166,11 @@ def get_percent_identity_from_msa(input_msa: Path, output_file: Path = None) -> 
     """
     Run esl-alipid to compute pairwise PI from a MSA.
     """
-    input_msa = Path(input_msa)
+    input_msa = Path(input_msa).resolve()
     if output_file is None:
         output_file = set_default_output_path(input_msa, tag="_PI", extension=".txt")
     else:
-        output_file = Path(output_file)
+        output_file = Path(output_file).resolve()
     cmd_str = f"esl-alipid {input_msa} > {output_file}"
     terminal_execute(cmd_str, suppress_shell_output=False)
 
@@ -183,11 +183,11 @@ def run_cdhit(
     CD-HIT may be used to remove duplicated sequences (keeps one representative)
     with parameters -c 1 -t 1.
     """
-    input_fasta = Path(input_fasta)
+    input_fasta = Path(input_fasta).resolve()
     if output_fasta is None:
         output_fasta = set_default_output_path(input_fasta, "_cdhit")
     else:
-        output_fasta = Path(output_fasta)
+        output_fasta = Path(output_fasta).resolve()
     if additional_args is None:
         additional_args = ""
     cmd_str = f"cd-hit -i {input_fasta} -o {output_fasta} {additional_args}"
@@ -211,13 +211,13 @@ def run_mafft(
     mafft --localpair --thread n in > out
     mafft --large --globalpair --thread n in > out
     """
-    input_fasta = Path(input_fasta)
+    input_fasta = Path(input_fasta).resolve()
     if output_file is None:
         output_file = set_default_output_path(
             input_fasta, extension=".fasta.aln", only_filename=True
         )
     else:
-        output_file = Path(output_file)
+        output_file = Path(output_file).resolve()
     if parallel:
         thread_str = f"--thread {n_threads}"
     else:
@@ -240,13 +240,13 @@ def run_muscle(
 
     output phylip and fasta.aln
     """
-    input_fasta = Path(input_fasta)
+    input_fasta = Path(input_fasta).resolve()
     if output_file is None:
         output_file = set_default_output_path(
             input_fasta, extension=".fasta.aln", only_filename=True
         )
     else:
-        output_file = Path(output_file)
+        output_file = Path(output_file).resolve()
     if maxiters is None:
         maxiters = 2
     if additional_args is not None:
@@ -257,7 +257,7 @@ def run_muscle(
         f"muscle -in {input_fasta} -out {output_file} "
         f"-maxiters {maxiters} {args_str}"
     )
-    terminal_execute(cmd_str, suppress_shell_output=True)
+    terminal_execute(cmd_str, suppress_shell_output=False)
 
 
 def run_fasttree(
@@ -276,13 +276,13 @@ def run_fasttree(
     additional_args: a string containing additional parameters and
                      parameter values to be passed to fasttree
     """
-    input_algns = Path(input_algns)
+    input_algns = Path(input_algns).resolve()
     if output_file is None:
         output_file = set_default_output_path(
             input_algns, tag="_fasttree", extension=".newick"
         )
     else:
-        output_file = Path(output_file)
+        output_file = Path(output_file).resolve()
     if nucleotides:
         nt_str = "-gtr -nt"
     else:
@@ -314,6 +314,7 @@ def remove_auxiliary_output(output_prefix: str):
     for file_path in files_to_remove:
         file_path.unlink(missing_ok=True)
 
+
 def run_iqtree(
     input_algns: Path,
     output_dir: Path = None,
@@ -340,11 +341,11 @@ def run_iqtree(
     Reducing computational time via model selection:
     http://www.iqtree.org/doc/Command-Reference
     """
-    input_algns = Path(input_algns)
+    input_algns = Path(input_algns).resolve()
     if output_dir is None:
         output_dir = input_algns.parent
     else:
-        output_dir = Path(output_dir)
+        output_dir = Path(output_dir).resolve()
     if output_prefix is None:
         input_file = input_algns.name
         output_prefix = (output_dir / input_file).as_posix()
@@ -398,16 +399,16 @@ def run_papara(
     executable. It looks like it has to be enabled during compilation (but compilation currently not working):
     https://stackoverflow.com/questions/19618926/thread-doesnt-work-with-an-error-enable-multithreading-to-use-stdthread-ope
     """
-    tree_nwk = Path(tree_nwk)
-    msa_phy = Path(msa_phy)
-    query_fasta = Path(query_fasta)
+    tree_nwk = Path(tree_nwk).resolve()
+    msa_phy = Path(msa_phy).resolve()
+    query_fasta = Path(query_fasta).resolve()
 
     if output_aln is None:
         output_aln = set_default_output_path(
             query_fasta, tag="_ref_aln", extension=".phylip"
         )
     else:
-        output_aln = Path(output_aln)
+        output_aln = Path(output_aln).resolve()
     if additional_args is not None:
         args_str = additional_args
     else:
@@ -441,13 +442,13 @@ def run_epang(
     msa fasta and have the same length as the reference msa alignment)
     epa-ng: https://github.com/Pbdas/epa-ng
     """
-    input_tree = Path(input_tree)
-    input_aln_ref = Path(input_aln_ref)
-    input_aln_query = Path(input_aln_query)
+    input_tree = Path(input_tree).resolve()
+    input_aln_ref = Path(input_aln_ref).resolve()
+    input_aln_query = Path(input_aln_query).resolve()
     if output_dir is None:
         output_dir = input_tree.parent
     else:
-        output_dir = Path(output_dir)
+        output_dir = Path(output_dir).resolve()
     if model is None:
         model = "GTR+G"
     if n_threads is None:
@@ -478,7 +479,7 @@ def run_gappa_graft(
     Run gappa examine graft to obtain tree with placements in
     newick format
     """
-    input_jplace = Path(input_jplace)
+    input_jplace = Path(input_jplace).resolve()
     if output_dir is None:
         outdir_str = ""
     else:
@@ -517,12 +518,12 @@ def run_gappa_assign(
 
     Info: https://github.com/lczech/gappa/wiki/Subcommand:-assign
     """
-    jplace = Path(jplace)
-    taxonomy_file = Path(taxonomy_file)
+    jplace = Path(jplace).resolve()
+    taxonomy_file = Path(taxonomy_file).resolve()
     if output_dir is None:
         output_dir = set_default_output_path(jplace, only_dirname=True)
     else:
-        output_dir = Path(output_dir)
+        output_dir = Path(output_dir).resolve()
     if output_prefix is None:
         output_prefix = set_default_output_path(jplace, only_filename=True)
     if only_best_hit:

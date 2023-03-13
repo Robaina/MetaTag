@@ -28,7 +28,7 @@ class ConfigParser:
     """Handle MetaTag configuration file."""
 
     def __init__(self, config_file: Path) -> None:
-        self._config_file = Path(config_file)
+        self._config_file = Path(config_file).resolve()
         self._config = self.get_config()
 
     @classmethod
@@ -108,7 +108,10 @@ class TemporaryFilePath:
     def __init__(
         self, work_dir: Path = None, extension: str = None, create_file: bool = False
     ):
-        self.work_dir = Path(work_dir) or ""
+        if work_dir is not None:
+            self.work_dir = Path(work_dir).resolve()
+        else:
+            self.work_dir = Path().resolve()
         self.extension = extension or ""
         self.create_file = create_file
 
@@ -133,14 +136,17 @@ class TemporaryDirectoryPath:
     """
 
     def __init__(self, work_dir: Path = None):
-        self.work_dir = Path(work_dir) or ""
+        if work_dir is not None:
+            self.work_dir = Path(work_dir).resolve()
+        else:
+            self.work_dir = work_dir
 
     def __enter__(self):
         temp_id = "".join(random.choice(string.ascii_lowercase) for i in range(10))
         self.dir_path = (
             self.work_dir / f"temp_{temp_id}/"
-            if self.work_dir
-            else Path(f"temp_{temp_id}/")
+            if self.work_dir is not None
+            else Path(f"temp_{temp_id}").resolve()
         )
         self.dir_path.mkdir(parents=True, exist_ok=True)
         return self.dir_path
@@ -157,7 +163,7 @@ def create_temporary_file_path(work_dir: Path = None, extension: str = None):
     if work_dir is None:
         work_dir = ""
     else:
-        work_dir = Path(work_dir)
+        work_dir = Path(work_dir).resolve()
     if extension is None:
         extension = ""
     temp_id = "".join(random.choice(string.ascii_lowercase) for i in range(10))
@@ -168,7 +174,7 @@ def delete_temporary_files(dir_path: Path) -> None:
     """
     Remove files from directory
     """
-    dir_path = Path(dir_path)
+    dir_path = Path(dir_path).resolve()
     for fname in dir_path.iterdir():
         fname.unlink(missing_ok=True)
 
@@ -193,7 +199,7 @@ def set_default_output_path(
     Returns:
         Path: a path or name to a default output file.
     """
-    input_path = Path(input_path)
+    input_path = Path(input_path).resolve()
     dirname = input_path.parent
     fname, ext = input_path.stem, input_path.suffix
     if extension is None:
@@ -278,7 +284,7 @@ def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:
     """
     Extract tar or tar.gz files to dest_dir
     """
-    tar_file = Path(tar_file)
+    tar_file = Path(tar_file).resolve()
     if dest_dir is None:
         dest_dir = "."
     if tar_file.as_posix().endswith("tar.gz"):

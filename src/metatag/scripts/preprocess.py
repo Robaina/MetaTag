@@ -13,8 +13,8 @@ from __future__ import annotations
 
 import argparse
 import logging
-from pathlib import Path
 import shutil
+from pathlib import Path
 
 from metatag.database.preprocessing import (
     assert_correct_sequence_format,
@@ -113,18 +113,18 @@ def run(args: argparse.ArgumentParser) -> None:
     Args:
         args (argparse.ArgumentParser): _description_
     """
-    args.data = Path(args.data)
+    args.data = Path(args.data).resolve()
     if args.outfile is None:
         outfasta = set_default_output_path(args.data, tag="_cleaned")
     else:
-        outfasta = Path(args.outfile)
+        outfasta = Path(args.outfile).resolve()
     if args.idprefix is None:
         args.idprefix = "label_"
     output_dir = args.outfile.parent
 
     if args.data.is_dir():
         logger.info("Merging input files...")
-        file_ext = next(args.data.iterdir()).suffix()
+        file_ext = next(args.data.iterdir()).suffix
         data_path = output_dir / f"merged_data{file_ext}"
         merge_fastas(input_fastas_dir=args.data, output_fasta=data_path)
     else:
@@ -147,7 +147,6 @@ def run(args: argparse.ArgumentParser) -> None:
         remove_duplicates_from_fasta(
             input_fasta=data_path,
             output_fasta=tmp_file_path,
-            method=args.duplicate_method,
             export_duplicates=args.export_dup,
             duplicates_file=duplicates_file,
         )

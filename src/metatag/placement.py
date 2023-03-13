@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import json
 import logging
-from pathlib import Path
 import re
 import shutil
 import sys
@@ -40,7 +39,7 @@ class JplaceParser:
     """
 
     def __init__(self, path_to_jplace: Path) -> None:
-        self._path_to_jplace = Path(path_to_jplace)
+        self._path_to_jplace = Path(path_to_jplace).resolve()
         self.jplace = self.get_json_object()
         self._tree_obj = next(
             Phylo.parse(StringIO(self.newickfy_tree(self.jplace["tree"])), "newick")
@@ -168,9 +167,11 @@ class JplaceParser:
         Filter placements by minimum LWR (from 0 to 1)
         """
         if output_file is None:
-            output_file = set_default_output_path(self._path_to_jplace, tag=f"_min_lwr_{minimum_lwr}")
+            output_file = set_default_output_path(
+                self._path_to_jplace, tag=f"_min_lwr_{minimum_lwr}"
+            )
         else:
-            output_file = Path(output_file)
+            output_file = Path(output_file).resolve()
         jplace = self.get_json_object()
 
         filtered_placement_objs = []
@@ -195,10 +196,11 @@ class JplaceParser:
         """
         if output_file is None:
             output_file = set_default_output_path(
-                self._path_to_jplace, tag=f"_max_pendant_diameter_ratio_{max_pendant_ratio}"
-                )
+                self._path_to_jplace,
+                tag=f"_max_pendant_diameter_ratio_{max_pendant_ratio}",
+            )
         else:
-            output_file = Path(output_file)
+            output_file = Path(output_file).resolve()
         tree_diameter = self.compute_tree_diameter()
         logger.info(f"Filtering placements for tree diameter: {tree_diameter}")
         jplace = self.get_json_object()
@@ -227,9 +229,9 @@ class JplaceParser:
         if output_file is None:
             output_file = set_default_output_path(
                 self._path_to_jplace, tag=f"_max_pendant_{max_pendant_length}"
-                )
+            )
         else:
-            output_file = Path(output_file)
+            output_file = Path(output_file).resolve()
         jplace = self.get_json_object()
 
         filtered_placement_objs = []
@@ -255,10 +257,11 @@ class JplaceParser:
         """
         if output_file is None:
             output_file = set_default_output_path(
-                self._path_to_jplace, tag=f"_max_pendant_distal_ratio_{max_pendant_ratio}"
-                )
+                self._path_to_jplace,
+                tag=f"_max_pendant_distal_ratio_{max_pendant_ratio}",
+            )
         else:
-            output_file = Path(output_file)
+            output_file = Path(output_file).resolve()
         jplace = self.get_json_object()
 
         filtered_placement_objs = []
@@ -360,16 +363,22 @@ def place_reads_onto_tree(
     if output_dir is None:
         output_dir = set_default_output_path(query_seqs, only_dirname=True)
     else:
-        output_dir = Path(output_dir)
+        output_dir = Path(output_dir).resolve()
 
     if Path(tree_model).is_file():
         tree_model = get_iq_tree_model_from_log_file(tree_model)
         logger.info(f"Running EPA-ng with inferred substitution model: {tree_model}")
 
     ref_ids = get_fasta_record_ids(ref_aln)
-    ref_query_msa = output_dir / set_default_output_path(query_seqs, extension=".faln", only_filename=True)
-    aln_ref_frac = set_default_output_path(ref_query_msa, tag="_ref_fraction", extension=".faln")
-    aln_query_frac = set_default_output_path(ref_query_msa, tag="_query_fraction", extension=".faln")
+    ref_query_msa = output_dir / set_default_output_path(
+        query_seqs, extension=".faln", only_filename=True
+    )
+    aln_ref_frac = set_default_output_path(
+        ref_query_msa, tag="_ref_fraction", extension=".faln"
+    )
+    aln_query_frac = set_default_output_path(
+        ref_query_msa, tag="_query_fraction", extension=".faln"
+    )
 
     align_short_reads_to_reference_msa(
         ref_msa=ref_aln,
@@ -394,9 +403,7 @@ def place_reads_onto_tree(
     )
 
 
-def parse_tree_clusters(
-    clusters_tsv: Path, cluster_as_key: bool = True
-) -> dict:
+def parse_tree_clusters(clusters_tsv: Path, cluster_as_key: bool = True) -> dict:
     """
     Parse clusters text file into dictionary
     @param
@@ -434,7 +441,7 @@ def add_clusters_to_tax_table(
     if out_taxtable is None:
         out_taxtable = set_default_output_path(in_taxtable, tag="_clustered")
     else:
-        out_taxtable = Path(out_taxtable)
+        out_taxtable = Path(out_taxtable).resolve()
     taxtable = pd.read_csv(in_taxtable, sep="\t", header=None, dtype=str)
     for i, row in taxtable.iterrows():
         row[1] = clusters[row[0]] + ";" + row[1]
@@ -458,7 +465,7 @@ def parse_gappa_assign_table(
     if output_file is None:
         output_file = set_default_output_path(input_table, tag="_parsed")
     else:
-        output_file = Path(output_file)
+        output_file = Path(output_file).resolve()
     if (has_cluster_id) and (cluster_scores is not None):
         cluster_str = (
             "cluster_id" + "\t" + "cluster_score" + "\t" + "cluster_taxopath" + "\t"
@@ -536,7 +543,7 @@ def add_query_labels_to_assign_table(
     if output_table is None:
         output_table = set_default_output_path(input_table, tag="_relabel")
     else:
-        output_table = Path(output_table)
+        output_table = Path(output_table).resolve()
     df = pd.read_csv(input_table, sep="\t")
     df.insert(
         1, "query_name", df.query_id.apply(lambda x: relabel_query(x, query_labels))
@@ -579,17 +586,17 @@ def assign_labels_to_placements(
     if output_dir is None:
         output_dir = set_default_output_path(jplace, only_dirname=True)
     else:
-        output_dir = Path(output_dir)
+        output_dir = Path(output_dir).resolve()
     if output_prefix is None:
         output_prefix = set_default_output_path(jplace, only_filename=True)
 
     if ref_clusters_file is not None:
         has_cluster_id = True
         ref_clusters = parse_tree_clusters(
-            ref_clusters_file, cluster_as_key=False, sep="\t"
+            ref_clusters_file, cluster_as_key=False
         )
         ref_clusters_as_keys = parse_tree_clusters(
-            ref_clusters_file, cluster_as_key=True, sep="\t"
+            ref_clusters_file, cluster_as_key=True
         )
     else:
         has_cluster_id = False
@@ -602,7 +609,7 @@ def assign_labels_to_placements(
     if taxo_file is None:
         taxo_file = package_dir / "data" / "merged_taxonomy.tsv"
     else:
-        taxo_file = Path(taxo_file)
+        taxo_file = Path(taxo_file).resolve()
 
     gappa_assign_out = output_dir / f"{output_prefix}per_query.tsv"
     query_taxo_out = output_dir / f"{output_prefix}assignments.tsv"
@@ -648,7 +655,9 @@ def assign_labels_to_placements(
             )
             shutil.move(tempout2, tempout)
 
-        pick_taxopath_with_highest_lwr(placed_tax_assignments=tempout, output_file=tempout3)
+        pick_taxopath_with_highest_lwr(
+            placed_tax_assignments=tempout, output_file=tempout3
+        )
 
         if query_labels is not None:
             add_query_labels_to_assign_table(
@@ -689,19 +698,25 @@ def add_duplicates_to_assignment_table(
     if output_file is None:
         output_file = set_default_output_path(taxtable, tag="_duplicates")
     else:
-        output_file = Path(output_file)
-
+        output_file = Path(output_file).resolve()
+    
+    duplicated_hits = []
     assigns = pd.read_csv(taxtable, sep="\t", index_col=False)
     dup_dict = parse_duplicates_from_seqkit(query_duplicates)
     for query_name, duplicate_string in dup_dict.items():
         duplicates = duplicate_string.split(",")
-
+        duplicated_hits = []
         for duplicate in duplicates:
             row = assigns[assigns.query_name == query_name].copy()
             if not row.empty:
                 row = row.iloc[0, :]
                 row.query_name = duplicate.strip()
-                assigns = assigns.append(row, ignore_index=True)
+                duplicated_hits.append(row)
+    assigns = pd.concat(
+        [assigns, pd.concat(duplicated_hits, axis=0, ignore_index=True)],
+        axis=0,
+        ignore_index=True,
+        )
     assigns.to_csv(output_file, sep="\t", index=False)
 
 
@@ -730,7 +745,7 @@ def filter_non_unique_placement_assignments(
     if output_file is None:
         output_file = set_default_output_path(placed_tax_assignments, tag="_filtered")
     else:
-        output_file = Path(output_file)
+        output_file = Path(output_file).resolve()
 
     df = pd.read_csv(placed_tax_assignments, sep="\t")
     queries_in_more_than_one_cluster, _ = find_queries_placed_in_several_clusters(
@@ -751,7 +766,7 @@ def pick_taxopath_with_highest_lwr(
             placed_tax_assignments, tag="_unique_taxopath"
         )
     else:
-        output_file = Path(output_file)
+        output_file = Path(output_file).resolve()
 
     df = pd.read_csv(placed_tax_assignments, sep="\t")
     df.groupby("query_id", group_keys=["LWR"]).aggregate("max").to_csv(

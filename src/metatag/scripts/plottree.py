@@ -65,7 +65,7 @@ def run(args: argparse.ArgumentParser) -> None:
     if args.outdir is None:
         args.outdir = set_default_output_path(args.tree, only_dirname=True)
     else:
-        args.outdir = Path(args.outdir)
+        args.outdir = Path(args.outdir).resolve()
     args.outdir.mkdir(parents=True, exist_ok=True)
 
     logger.info("Drawing tree in browser...")

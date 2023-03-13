@@ -168,9 +168,9 @@ class TaxonomyAssigner:
         Removes references without assigned taxonomy
         """
         if output_file is None:
-            output_file = Path().absolute() / "gappa_taxonomy.tsv"
+            output_file = Path().resolve() / "gappa_taxonomy.tsv"
         else:
-            output_file = Path(output_file)
+            output_file = Path(output_file).resolve()
 
         with open(output_file, "w") as outfile:
             lines = []
@@ -269,7 +269,7 @@ def evaluate_taxonomy_of_reference_database(
     if output_dir is None:
         output_dir = set_default_output_path(label_dict_pickle, only_dir_name=True)
     else:
-        output_dir = Path(output_dir)
+        output_dir = Path(output_dir).resolve()
 
     taxonomy = TaxonomyAssigner(taxo_file=Path("./data/merged_taxonomy.tsv"))
     label_dict = read_from_pickle_file(label_dict_pickle)

@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import logging
 import shutil
+import tempfile
 from pathlib import Path
 
 from metatag.database.manipulation import (
@@ -26,8 +27,6 @@ from metatag.database.preprocessing import (
 from metatag.database.reduction import reduce_database_redundancy
 from metatag.utils import (
     DictMerger,
-    TemporaryDirectoryPath,
-    TemporaryFilePath,
     set_default_output_path,
 )
 
@@ -179,7 +178,7 @@ def run(args: argparse.ArgumentParser) -> None:
         args.relabel_prefixes = [None for _ in args.hmms]
     if args.outdir is None:
         args.outdir = set_default_output_path(args.data, only_dirname=True)
-    args.outdir = Path(args.outdir)
+    args.outdir = Path(args.outdir).resolve()
     if not args.outdir.exists():
         args.outdir.mkdir(exist_ok=True, parents=True)
     output_fasta = args.outdir / f"{args.prefix}ref_database.faa"
@@ -194,11 +193,11 @@ def run(args: argparse.ArgumentParser) -> None:
         hmmsearch_args_list = [hmmsearch_args_list[0] for _ in args.hmms]
 
     logger.info("Making peptide-specific reference database...")
-    with TemporaryDirectoryPath() as tempdir1, TemporaryDirectoryPath() as tempdir2:
+    with tempfile.TemporaryDirectory() as tempdir, tempfile.TemporaryDirectory() as tempdir2:
         for n, (hmm, maxsize, prefix, hmmsearch_args) in enumerate(
             zip(args.hmms, args.maxsizes, args.relabel_prefixes, hmmsearch_args_list)
         ):
-            hmm = Path(hmm)
+            hmm = Path(hmm).resolve()
             hmm_name = hmm.stem
             if prefix is None:
                 prefix = f"ref_{n}_"
@@ -207,11 +206,11 @@ def run(args: argparse.ArgumentParser) -> None:
             )
             hmmer_output = args.outdir / f"hmmer_output_{hmm_name}.txt"
 
-            with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2, TemporaryFilePath() as tempfasta3:
+            with tempfile.NamedTemporaryFile() as tempfasta, tempfile.NamedTemporaryFile() as tempfasta2, tempfile.NamedTemporaryFile() as tempfasta3:
                 filter_fasta_by_hmm(
                     hmm_model=hmm,
                     input_fasta=args.data,
-                    output_fasta=tempfasta,
+                    output_fasta=tempfasta.name,
                     hmmer_output=hmmer_output,
                     additional_args=hmmsearch_args,
                 )
@@ -219,46 +218,50 @@ def run(args: argparse.ArgumentParser) -> None:
                 if (args.minseqlength is not None) or (args.maxseqlength is not None):
                     logger.info("Filtering sequences by established length bounds...")
                     filter_fasta_by_sequence_length(
-                        input_fasta=tempfasta,
+                        input_fasta=tempfasta.name,
                         min_length=args.minseqlength,
                         max_length=args.maxseqlength,
-                        output_fasta=tempfasta2,
+                        output_fasta=tempfasta2.name,
                     )
-                    shutil.move(tempfasta2, tempfasta)
+                    shutil.copy(tempfasta2.name, tempfasta.name)
 
                 reduce_database_redundancy(
-                    input_fasta=tempfasta,
-                    output_fasta=tempfasta3,
+                    input_fasta=tempfasta.name,
+                    output_fasta=tempfasta3.name,
                     cdhit=(not args.nocdhit),
                     cdhit_args=None,
                     maxsize=maxsize,
                 )
-
+                
                 if args.relabel:
                     logger.info("Relabelling records in reference database...")
-                    output_fasta_short = tempdir2 / f"{tempfasta3}_short_ids"
-                    set_temp_record_ids_in_fasta(
-                        input_fasta=tempfasta3, output_dir=tempdir2, prefix=prefix
-                    )
-                    shutil.move(output_fasta_short, tempdir1)
+                    with tempfile.NamedTemporaryFile() as temp_fasta_short, tempfile.NamedTemporaryFile() as temp_dict_short:
+                        set_temp_record_ids_in_fasta(
+                            input_fasta=tempfasta3.name,
+                            output_fasta=temp_fasta_short.name,
+                            output_dict=temp_dict_short.name,
+                            prefix=prefix,
+                        )
+                        shutil.copy(temp_fasta_short.name, tempdir)
+                        shutil.copy(temp_dict_short.name, tempdir2)
                 else:
-                    shutil.move(tempfasta3, tempdir1)
+                    shutil.copy(tempfasta3.name, tempdir)
 
-        merge_fastas(input_fastas_dir=tempdir1, output_fasta=output_fasta)
+        merge_fastas(input_fastas_dir=tempdir, output_fasta=output_fasta)
+
 
         if args.noduplicates:
-            with TemporaryFilePath() as tmp_file_path:
+            with tempfile.NamedTemporaryFile() as tmp_file_path:
                 logger.info("Removing duplicates...")
                 remove_duplicates_from_fasta(
                     input_fasta=output_fasta,
-                    output_fasta=tmp_file_path,
-                    method="seqkit",
+                    output_fasta=tmp_file_path.name,
                     export_duplicates=False,
                 )
-                shutil.move(tmp_file_path, output_fasta)
+                shutil.copy(tmp_file_path.name, output_fasta)
 
         pickle_dict_paths = [
-            file for file in tempdir2.iterdir() if file.endswith(".pickle")
+            file for file in Path(tempdir2).iterdir()
         ]
         if pickle_dict_paths:
             DictMerger.from_pickle_paths(pickle_dict_paths).merge(

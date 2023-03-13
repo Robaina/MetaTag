@@ -30,11 +30,13 @@ def align_peptides(
     Perform MSA on reference peptide sequences.
     Outputs in format fasta.aln
     """
+    input_fasta = Path(input_fasta).resolve()
     if output_file is None:
         output_file = set_default_output_path(
             input_fasta, extension=".fasta.aln", only_filename=True
         )
-    input_fasta = Path(input_fasta)
+    else:
+        output_file = Path(output_file).resolve()
     if method.lower() in "muscle":
         wrappers.run_muscle(
             input_fasta=input_fasta,
@@ -63,9 +65,9 @@ def align_short_reads_to_reference_msa(
     Align short read query sequences to reference MSA (fasta format).
     Outputs fasta msa alignment between query and reference sequences
     """
-    ref_msa = Path(ref_msa)
-    query_seqs = Path(query_seqs)
-    tree_nwk = Path(tree_nwk)
+    ref_msa = Path(ref_msa).resolve()
+    query_seqs = Path(query_seqs).resolve()
+    tree_nwk = Path(tree_nwk).resolve()
 
     if output_dir is None:
         output_dir = set_default_output_path(ref_msa, only_dirname=True)

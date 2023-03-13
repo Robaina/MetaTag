@@ -94,7 +94,7 @@ def run(args: argparse.ArgumentParser) -> None:
     if args.outdir is None:
         args.outdir = set_default_output_path(args.aln, only_dirname=True)
     else:
-        args.outdir = Path(args.outdir)
+        args.outdir = Path(args.outdir).resolve()
     if args.tree_model is None:
         logger.error("Missing tree model.")
         sys.exit(1)

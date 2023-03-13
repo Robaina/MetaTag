@@ -188,7 +188,7 @@ def run(args: argparse.ArgumentParser) -> None:
     if args.outdir is None:
         args.outdir = set_default_output_path(args.jplace, only_dirname=True)
     else:
-        args.outdir = Path(args.outdir)
+        args.outdir = Path(args.outdir).resolve()
 
     taxtable = args.outdir / f"{args.prefix}assignments.tsv"
     ref_labels = DictMerger.from_pickle_paths(args.labels).merge()
@@ -199,7 +199,7 @@ def run(args: argparse.ArgumentParser) -> None:
     outgroup_file_generated = False
 
     if args.outgroup is not None:
-        args.outgroup = Path(args.outgroup)
+        args.outgroup = Path(args.outgroup).resolve()
         if args.outgroup.exists():
             if is_fasta(args.outgroup):
                 outgroup_file = set_default_output_path(

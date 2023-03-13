@@ -83,7 +83,7 @@ def run(args: argparse.ArgumentParser) -> None:
     if args.outdir is None:
         args.outdir = set_default_output_path(args.data, only_dirname=True)
     else:
-        args.outdir = Path(args.outdir)
+        args.outdir = Path(args.outdir).resolve()
     output_aln = args.outdir / "ref_database.faln"
 
     logger.info("Aligning reference database...")

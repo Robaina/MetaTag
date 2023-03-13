@@ -40,11 +40,11 @@ def plot_tree_in_browser(
     feature_metadata: path to tsv file containing feature metadata
     empress: https://github.com/biocore/empress
     """
-    input_tree = Path(input_tree)
+    input_tree = Path(input_tree).resolve()
     if output_dir is None:
         output_dir = input_tree.parent / "empress-plot"
     else:
-        output_dir = Path(output_dir)
+        output_dir = Path(output_dir).resolve()
     if feature_metadata is not None:
         meta_str = f"-fm {feature_metadata}"
     else:

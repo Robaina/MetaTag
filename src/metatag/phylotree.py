@@ -40,7 +40,7 @@ class PhyloTree:
             self.collapse_poor_quality_nodes(bootstrap_threshold)
         if name_internal_nodes:
             self.name_internal_nodes()
-        self._tree_path = Path(tree)
+        self._tree_path = Path(tree).resolve()
         self._tree_format = tree_format
 
     def _scale_bootstrap_values(self):
@@ -154,11 +154,11 @@ def infer_tree(
     Infer tree from reference msa. Best substitution model
     selected by default.
     """
-    ref_aln = Path(ref_aln)
+    ref_aln = Path(ref_aln).resolve()
     if output_dir is None:
         output_dir = set_default_output_path(ref_aln, only_dirname=True)
     else:
-        output_dir = Path(output_dir)
+        output_dir = Path(output_dir).resolve()
     if method.lower() in "iqtree":
         if "modeltest" in substitution_model.lower():
             logger.info("Selecting best subsitution model per modeltest-ng...")

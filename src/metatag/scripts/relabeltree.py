@@ -45,7 +45,7 @@ def assign_taxonomy_to_labels(
     if taxo_file is None:
         taxo_file = package_dir / "data" / "merged_taxonomy.tsv"
     else:
-        taxo_file = Path(taxo_file)
+        taxo_file = Path(taxo_file).resolve()
     taxo_dict, export_label_dict, tree_label_dict = {}, {}, {}
     taxonomy = TaxonomyAssigner(taxo_file=taxo_file)
     for k, label in label_dict.items():
@@ -153,10 +153,10 @@ def run(args: argparse.ArgumentParser) -> None:
     if args.outdir is None:
         args.outdir = set_default_output_path(args.tree, only_dirname=True)
     else:
-        args.outdir = Path(args.outdir)
+        args.outdir = Path(args.outdir).resolve()
 
     treeout = args.outdir / set_default_output_path(args.tree, tag="_relabel")
-    taxoout = args.outdirr / set_default_output_path(
+    taxoout = args.outdir / set_default_output_path(
         args.tree, tag="_taxonomy", extension=".tsv"
     )
     if args.aln is not None:
