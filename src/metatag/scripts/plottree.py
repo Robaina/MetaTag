@@ -20,7 +20,7 @@ from metatag.visualization import (
 logger = logging.getLogger(__name__)
 
 
-def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
+def initialize_parser() -> argparse.ArgumentParser:
     """_summary_
 
     Returns:
@@ -53,11 +53,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
     optional.add_argument(
         "--outdir", dest="outdir", type=Path, help="path to output directory"
     )
-
-    if arg_list is None:
-        return parser.parse_args()
-    else:
-        return parser.parse_args(arg_list)
+    return parser
 
 
 def run(args: argparse.ArgumentParser) -> None:
@@ -88,5 +84,5 @@ def run(args: argparse.ArgumentParser) -> None:
 
 
 if __name__ == "__main__":
-    args = initialize_parser()
+    args = initialize_parser().parse_args()
     run(args)
