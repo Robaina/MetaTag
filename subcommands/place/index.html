@@ -50,6 +50,8 @@
                   <li class="toctree-l1"><a class="reference internal" href="../tree/">Tree</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Place</a>
+    <ul class="current">
+    </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../assign/">Assign</a>
                   </li>
@@ -90,7 +92,69 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="description">Description</h1>
+<p>Place query sequences onto reference tree</p>
+<h1 id="epilog">Epilog</h1>
+<p>Semidán Robaina Estévez (srobaina@ull.edu.es), 2021</p>
+<h1 id="usage">Usage:</h1>
+<pre><code class="language-bash">usage: metatag place [-h] [args] 
+
+</code></pre>
+<h1 id="arguments">Arguments</h1>
+<table>
+<thead>
+<tr>
+<th align="left">short</th>
+<th align="left">long</th>
+<th align="left">default</th>
+<th align="left">help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>-h</code></td>
+<td align="left"><code>--help</code></td>
+<td align="left"></td>
+<td align="left">show this help message and exit</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--aln</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to reference fasta alignment</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--tree</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to reference tree</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--query</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to query peptide sequences.  Query sequences should be already preprocessed to handle illegal symbols</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--tree_model</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">provide subsitution model employed to infer tree. Can be: 1) a valid model name or 2) a path to the log file returned by iqtree</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--outdir</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to output directory</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--aln_method</code></td>
+<td align="left"><code>papara</code></td>
+<td align="left">choose method to align query sequences to reference alignment</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div><footer>

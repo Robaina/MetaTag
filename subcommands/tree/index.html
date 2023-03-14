@@ -48,6 +48,8 @@
                   <li class="toctree-l1"><a class="reference internal" href="../database/">Database</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Tree</a>
+    <ul class="current">
+    </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../place/">Place</a>
                   </li>
@@ -90,7 +92,63 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="description">Description</h1>
+<p>MSA on reference database and infer reference tree</p>
+<h1 id="epilog">Epilog</h1>
+<p>Semidán Robaina Estévez (srobaina@ull.edu.es), 2021</p>
+<h1 id="usage">Usage:</h1>
+<pre><code class="language-bash">usage: metatag tree [-h] [args] 
+
+</code></pre>
+<h1 id="arguments">Arguments</h1>
+<table>
+<thead>
+<tr>
+<th align="left">short</th>
+<th align="left">long</th>
+<th align="left">default</th>
+<th align="left">help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>-h</code></td>
+<td align="left"><code>--help</code></td>
+<td align="left"></td>
+<td align="left">show this help message and exit</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--in</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to reference database</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--outdir</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to output directory</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--msa_method</code></td>
+<td align="left"><code>muscle</code></td>
+<td align="left">choose method for msa</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--tree_method</code></td>
+<td align="left"><code>iqtree</code></td>
+<td align="left">choose method for tree inference</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--tree_model</code></td>
+<td align="left"><code>modeltest</code></td>
+<td align="left">choose substitution model for iqtree inference.  Choices=["iqtest", "modeltest", "a valid model name"].  Defaults to optimal per modeltest-ng.</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div><footer>

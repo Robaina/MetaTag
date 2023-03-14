@@ -58,6 +58,8 @@
                   <li class="toctree-l1"><a class="reference internal" href="../plot/">Plot</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Relabel</a>
+    <ul class="current">
+    </ul>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">References</span></p>
@@ -90,7 +92,75 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="description">Description</h1>
+<p>Relabel tree and msa based on input label dictionaries</p>
+<h1 id="epilog">Epilog</h1>
+<p>Semidán Robaina Estévez (srobaina@ull.edu.es), 2021</p>
+<h1 id="usage">Usage:</h1>
+<pre><code class="language-bash">usage: metatag relabel [-h] [args] 
+
+</code></pre>
+<h1 id="arguments">Arguments</h1>
+<table>
+<thead>
+<tr>
+<th align="left">short</th>
+<th align="left">long</th>
+<th align="left">default</th>
+<th align="left">help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>-h</code></td>
+<td align="left"><code>--help</code></td>
+<td align="left"></td>
+<td align="left">show this help message and exit</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--tree</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to tree in newick format</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--labels</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to label dict in pickle format. More than one space-separated path can be input</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--label_prefixes</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">prefix(es) to be added to sequences in each label dict,input in same order as labels.More than one space-separated prefix can be input</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--taxonomy</code></td>
+<td align="left"></td>
+<td align="left">assign GTDB taxonomy to labels containing MMP identifiers</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--aln</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to fasta alignment file to be relabelled</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--outdir</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to output directory</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--taxonomy_file</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to tsv containing taxonomy, formated like GTDB taxopaths, for each genome ID in reference database. Defaults to None, in which case a custom GTDB taxonomy database of marine prokaryotes is used.</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div><footer>

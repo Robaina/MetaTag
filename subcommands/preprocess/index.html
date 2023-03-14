@@ -44,6 +44,8 @@
               <p class="caption"><span class="caption-text">Subcommands</span></p>
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Preprocess</a>
+    <ul class="current">
+    </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../database/">Database</a>
                   </li>
@@ -90,7 +92,75 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="description">Description</h1>
+<p>Database preprocessing: removal of duplicated sequences and of sequences with illegal symbols. To preferentially keep one duplicate sequence over another, place preferred sequences first.</p>
+<h1 id="epilog">Epilog</h1>
+<p>Semidán Robaina Estévez (srobaina@ull.edu.es), 2021</p>
+<h1 id="usage">Usage:</h1>
+<pre><code class="language-bash">usage: metatag preprocess [-h] [args] 
+
+</code></pre>
+<h1 id="arguments">Arguments</h1>
+<table>
+<thead>
+<tr>
+<th align="left">short</th>
+<th align="left">long</th>
+<th align="left">default</th>
+<th align="left">help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>-h</code></td>
+<td align="left"><code>--help</code></td>
+<td align="left"></td>
+<td align="left">show this help message and exit</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--in</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to fasta file or directory containing fasta files</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--dna</code></td>
+<td align="left"></td>
+<td align="left">declare if sequences are nucleotides. Defaults to peptide sequences.</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--translate</code></td>
+<td align="left"></td>
+<td align="left">choose whether nucleotide sequences are translated with prodigal</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--export-duplicates</code></td>
+<td align="left"></td>
+<td align="left">choose whether duplicated sequences are exported to file (same directory than outfile)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--outfile</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to output fasta file</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--relabel</code></td>
+<td align="left"></td>
+<td align="left">relabel record IDs with numeral ids</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--relabel_prefix</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">prefix to be added to sequence IDs</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div><footer>

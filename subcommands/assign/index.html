@@ -52,6 +52,8 @@
                   <li class="toctree-l1"><a class="reference internal" href="../place/">Place</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Assign</a>
+    <ul class="current">
+    </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../count/">Count</a>
                   </li>
@@ -90,7 +92,111 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="description">Description</h1>
+<p>Assgin taxonomy and function to placed query sequences</p>
+<h1 id="epilog">Epilog</h1>
+<p>Semidán Robaina Estévez (srobaina@ull.edu.es), 2021</p>
+<h1 id="usage">Usage:</h1>
+<pre><code class="language-bash">usage: metatag assign [-h] [args] 
+
+</code></pre>
+<h1 id="arguments">Arguments</h1>
+<table>
+<thead>
+<tr>
+<th align="left">short</th>
+<th align="left">long</th>
+<th align="left">default</th>
+<th align="left">help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>-h</code></td>
+<td align="left"><code>--help</code></td>
+<td align="left"></td>
+<td align="left">show this help message and exit</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--jplace</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to placements jplace file</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--labels</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to label dict in pickle format. More than one space-separated path can be input</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--query_labels</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to query label dict in pickle format. More than one space-separated path can be input</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--ref_clusters</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to tsv file containing cluster assignment to each reference sequence id. Must contain one column named "id" and another (tab-separated) column named "cluster"</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--ref_cluster_scores</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to tsv file containing cluster quality scores assigned to each cluster in the reference tree. Contains one column named "cluster" and another (tab-separated) column named "score"</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--outgroup</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to text file containing IDs of sequences to be considered as an outgroup to root the tree. It can also be a fasta file from which sequence names will be extracted. It can also be a string containing a tag to filter record labels by it. The outgroup will be used to recover missing taxonomic infomation by gappa examine assign.</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--prefix</code></td>
+<td align="left"><code>placed_tax_</code></td>
+<td align="left">prefix to be added to output files</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--outdir</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to output directory</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--max_placement_distance</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">Maximum allowed pendant distance to consider a placement as valid. Change distance measure with parameter: "distance_measure" (defaults to pendant length)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--distance_measure</code></td>
+<td align="left"><code>pendant</code></td>
+<td align="left">Choose distance measure to remove placements with distance larger than "max_placement_distance". Choose among: 1. "pendant": corresponding to pendant length of placement 2. "pendant_distal_ratio": ratio between pendant and distal distances 3. "pendant_diameter_ratio": ratio between pendant and tree diameter (largest pairwise distance) ratio. See https://github.com/lczech/gappa/wiki for a description of distal and pendant lengths.</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--min_placement_lwr</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">Minimum allowed placement LWR to consider a placement as valid. Values between 0 and 1.</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--duplicated_query_ids</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to text file containing duplicated query ids as output by seqkit rmdup</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--taxonomy_file</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to tsv containing taxonomy, formated like GTDB taxopaths, for each genome ID in reference database. Defaults to None, in which case a custom GTDB taxonomy database of marine prokaryotes is used.</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div><footer>

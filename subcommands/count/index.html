@@ -54,6 +54,8 @@
                   <li class="toctree-l1"><a class="reference internal" href="../assign/">Assign</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Count</a>
+    <ul class="current">
+    </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../plot/">Plot</a>
                   </li>
@@ -90,7 +92,75 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="description">Description</h1>
+<p>Count placed sequences based on taxon level, function and quality score</p>
+<h1 id="epilog">Epilog</h1>
+<p>Semidán Robaina Estévez (srobaina@ull.edu.es), 2021</p>
+<h1 id="usage">Usage:</h1>
+<pre><code class="language-bash">usage: metatag count [-h] [args] 
+
+</code></pre>
+<h1 id="arguments">Arguments</h1>
+<table>
+<thead>
+<tr>
+<th align="left">short</th>
+<th align="left">long</th>
+<th align="left">default</th>
+<th align="left">help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>-h</code></td>
+<td align="left"><code>--help</code></td>
+<td align="left"></td>
+<td align="left">show this help message and exit</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--taxtable</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to placements taxonomy table file</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--taxlevels</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">specify space-separated tax levels to count hits</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--cluster_ids</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">list of space-separated target cluster ids of the reference tree corresponding to the selected function to filter counts. If not provided, then all clusters in the tree are considered for counting.</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--score_threshold</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">cluster score threshold value to filter placement results</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--outdir</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to output directory</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--prefix</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">prefix to be added to output files</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>--export_right_queries</code></td>
+<td align="left"></td>
+<td align="left">export a tsv file containing queries with cluster assginments that passed provided filters (--score_threshold and/or --cluster_ids)</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div><footer>
