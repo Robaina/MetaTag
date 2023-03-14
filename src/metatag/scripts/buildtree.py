@@ -28,7 +28,7 @@ def initialize_parser() -> argparse.ArgumentParser:
         description="MSA on reference database and infer reference tree",
         usage="metatag tree [-h] [args] \n",
         epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
-        formatter_class=argparse.RawTextHelpFormatter
+        formatter_class=argparse.RawTextHelpFormatter,
     )
 
     optional = parser._action_groups.pop()
@@ -69,7 +69,7 @@ def initialize_parser() -> argparse.ArgumentParser:
         ),
     )
     return parser
-    
+
 
 def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""

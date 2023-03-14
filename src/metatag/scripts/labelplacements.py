@@ -168,7 +168,7 @@ def initialize_parser() -> argparse.ArgumentParser:
         ),
     )
     return parser
-    
+
 
 def run(args: argparse.ArgumentParser) -> None:
     """_summary_

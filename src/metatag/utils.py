@@ -24,7 +24,6 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 
-
 class ConfigParser:
     """Handle MetaTag configuration file."""
 

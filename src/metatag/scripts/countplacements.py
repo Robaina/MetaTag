@@ -92,7 +92,7 @@ def initialize_parser() -> argparse.ArgumentParser:
     )
     return parser
 
-    
+
 def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""
     logger.info("Counting labelled placements...")
