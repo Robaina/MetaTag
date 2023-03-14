@@ -103,42 +103,42 @@ class MetaTag:
 
     def preprocess(self):
         """Call preprocess subcommand."""
-        args = preprocess.initialize_parser(self._subcommand_args)
+        args = preprocess.initialize_parser().parse_args(self._subcommand_args)
         preprocess.run(args)
 
     def database(self):
         """Call database subcommand."""
-        args = makedatabase.initialize_parser(self._subcommand_args)
+        args = makedatabase.initialize_parser().parse_args(self._subcommand_args)
         makedatabase.run(args)
 
     def tree(self):
         """Call tree subcommand."""
-        args = buildtree.initialize_parser(self._subcommand_args)
+        args = buildtree.initialize_parser().parse_args(self._subcommand_args)
         buildtree.run(args)
 
     def place(self):
         """Call place subcommand."""
-        args = placesequences.initialize_parser(self._subcommand_args)
+        args = placesequences.initialize_parser().parse_args(self._subcommand_args)
         placesequences.run(args)
 
     def assign(self):
         """Call place subcommand"""
-        args = labelplacements.initialize_parser(self._subcommand_args)
+        args = labelplacements.initialize_parser().parse_args(self._subcommand_args)
         labelplacements.run(args)
 
     def count(self):
         """Call count subcommand"""
-        args = countplacements.initialize_parser(self._subcommand_args)
+        args = countplacements.initialize_parser().parse_args(self._subcommand_args)
         countplacements.run(args)
 
     def plot(self):
         """Call plot subcommand"""
-        args = plottree.initialize_parser(self._subcommand_args)
+        args = plottree.initialize_parser().parse_args(self._subcommand_args)
         plottree.run(args)
 
     def relabel(self):
         """Call relabel subcommand"""
-        args = relabeltree.initialize_parser(self._subcommand_args)
+        args = relabeltree.initialize_parser().parse_args(self._subcommand_args)
         relabeltree.run(args)
 
     def cite(self):

@@ -33,12 +33,8 @@ from metatag.utils import (
 logger = logging.getLogger(__name__)
 
 
-def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
+def initialize_parser() -> argparse.ArgumentParser:
     """_summary_
-
-    Args:
-        arg_list (list[str], optional): _description_. Defaults to None.
-
     Returns:
         argparse.ArgumentParser: _description_
     """
@@ -161,11 +157,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
             'Defaults to additional arguments string: "--cut_nc". If no additional arguments are needed, provide the value "None"'
         ),
     )
-
-    if arg_list is None:
-        return parser.parse_args()
-    else:
-        return parser.parse_args(arg_list)
+    return parser
 
 
 def run(args: argparse.ArgumentParser) -> None:
@@ -269,5 +261,5 @@ def run(args: argparse.ArgumentParser) -> None:
 
 
 if __name__ == "__main__":
-    args = initialize_parser()
+    args = initialize_parser().parse_args()
     run(args)
