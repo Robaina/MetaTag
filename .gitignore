@@ -20,6 +20,7 @@ notes/
 test_data/
 jamboree/
 dist/
+wiki/*
 # Files
 trimal.html
 src/accesory/run_papara.py

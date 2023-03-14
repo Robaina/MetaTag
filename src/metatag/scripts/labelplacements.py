@@ -27,12 +27,8 @@ from metatag.utils import DictMerger, set_default_output_path
 logger = logging.getLogger(__name__)
 
 
-def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
+def initialize_parser() -> argparse.ArgumentParser:
     """_summary_
-
-    Args:
-        arg_list (list[str], optional): _description_. Defaults to None.
-
     Returns:
         argparse.ArgumentParser: _description_
     """
@@ -171,12 +167,8 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
             "Defaults to None, in which case a custom GTDB taxonomy database of marine prokaryotes is used."
         ),
     )
-
-    if arg_list is None:
-        return parser.parse_args()
-    else:
-        return parser.parse_args(arg_list)
-
+    return parser
+    
 
 def run(args: argparse.ArgumentParser) -> None:
     """_summary_
@@ -281,5 +273,5 @@ def run(args: argparse.ArgumentParser) -> None:
 
 
 if __name__ == "__main__":
-    args = initialize_parser()
+    args = initialize_parser().parse_args()
     run(args)

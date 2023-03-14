@@ -19,12 +19,8 @@ from metatag.utils import set_default_output_path
 logger = logging.getLogger(__name__)
 
 
-def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
+def initialize_parser() -> argparse.ArgumentParser:
     """_summary_
-
-    Args:
-        arg_list (list[str], optional): _description_. Defaults to None.
-
     Returns:
         argparse.ArgumentParser: _description_
     """
@@ -32,6 +28,7 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
         description="MSA on reference database and infer reference tree",
         usage="metatag tree [-h] [args] \n",
         epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2021",
+        formatter_class=argparse.RawTextHelpFormatter
     )
 
     optional = parser._action_groups.pop()
@@ -66,17 +63,13 @@ def initialize_parser(arg_list: list[str] = None) -> argparse.ArgumentParser:
         type=str,
         default="modeltest",
         help=(
-            "choose substitution model for iqtree inference. "
-            'Choices=["iqtest", "modeltest", "a valid model name"]. '
+            "choose substitution model for iqtree inference. \n"
+            'Choices=["iqtest", "modeltest", "a valid model name"]. \n'
             "Defaults to optimal per modeltest-ng."
         ),
     )
-
-    if arg_list is None:
-        return parser.parse_args()
-    else:
-        return parser.parse_args(arg_list)
-
+    return parser
+    
 
 def run(args: argparse.ArgumentParser) -> None:
     """_summary_"""
@@ -107,5 +100,5 @@ def run(args: argparse.ArgumentParser) -> None:
 
 
 if __name__ == "__main__":
-    args = initialize_parser()
+    args = initialize_parser().parse_args()
     run(args)
