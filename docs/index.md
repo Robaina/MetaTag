@@ -12,7 +12,6 @@ These are the available subcommands, run as ```metatag <subcommand> <options>```
 - [count](subcommands/count.md)
 - [plot](subcommands/plot.md)
 - [relabel](subcommands/relabel.md)
-- [cite](subcommands/cite.md)
 
 ## Setup
 
