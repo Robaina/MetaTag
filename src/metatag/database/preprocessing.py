@@ -10,7 +10,6 @@ Tools to preprocess sequence databases
 """
 
 import logging
-import re
 from pathlib import Path
 
 import pyfastx

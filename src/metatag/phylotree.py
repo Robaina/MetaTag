@@ -15,7 +15,6 @@ import sys
 from pathlib import Path
 
 # from Bio import Phylo
-
 import metatag.wrappers as wrappers
 from metatag.utils import easy_pattern_matching, set_default_output_path
 
