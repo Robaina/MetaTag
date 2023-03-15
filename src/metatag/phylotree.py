@@ -14,7 +14,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from Bio import Phylo
+# from Bio import Phylo
 
 import metatag.wrappers as wrappers
 from metatag.utils import easy_pattern_matching, set_default_output_path
@@ -22,125 +22,125 @@ from metatag.utils import easy_pattern_matching, set_default_output_path
 logger = logging.getLogger(__name__)
 
 
-class PhyloTree:
-    def __init__(
-        self,
-        tree: Path,
-        tree_format: str = "newick",
-        bootstrap_threshold: float = None,
-        name_internal_nodes: bool = True,
-    ):
-        """
-        Methods to help defining clusters in phylo trees
-        @params:
-        tree: str containing either the path to the tree file or directly the tree
-        """
-        self._tree = next(Phylo.parse(tree, tree_format))
-        if bootstrap_threshold is not None:
-            self.collapse_poor_quality_nodes(bootstrap_threshold)
-        if name_internal_nodes:
-            self.name_internal_nodes()
-        self._tree_path = Path(tree).resolve()
-        self._tree_format = tree_format
+# class PhyloTree:
+#     def __init__(
+#         self,
+#         tree: Path,
+#         tree_format: str = "newick",
+#         bootstrap_threshold: float = None,
+#         name_internal_nodes: bool = True,
+#     ):
+#         """
+#         Methods to help defining clusters in phylo trees
+#         @params:
+#         tree: str containing either the path to the tree file or directly the tree
+#         """
+#         self._tree = next(Phylo.parse(tree, tree_format))
+#         if bootstrap_threshold is not None:
+#             self.collapse_poor_quality_nodes(bootstrap_threshold)
+#         if name_internal_nodes:
+#             self.name_internal_nodes()
+#         self._tree_path = Path(tree).resolve()
+#         self._tree_format = tree_format
 
-    def _scale_bootstrap_values(self):
-        """
-        Scale bootstrap values to be percentages if necessary.
-        This is to deal with discrepancies between how fasttree and
-        iqtree report bootstrap values (fractions vs percentages)
-        """
-        conf_values = [
-            c.confidence for c in self._tree.find_clades() if c.confidence is not None
-        ]
-        if conf_values:
-            max_value = max(conf_values)
-            if max_value < 2:
-                for clade in self._tree.find_clades():
-                    if clade.confidence is not None:
-                        clade.confidence *= 100
-        else:
-            logger.error(
-                "Tree does not contain confidence values. Change tree or set bootstrap_threshold to None"
-            )
-            sys.exit(1)
+#     def _scale_bootstrap_values(self):
+#         """
+#         Scale bootstrap values to be percentages if necessary.
+#         This is to deal with discrepancies between how fasttree and
+#         iqtree report bootstrap values (fractions vs percentages)
+#         """
+#         conf_values = [
+#             c.confidence for c in self._tree.find_clades() if c.confidence is not None
+#         ]
+#         if conf_values:
+#             max_value = max(conf_values)
+#             if max_value < 2:
+#                 for clade in self._tree.find_clades():
+#                     if clade.confidence is not None:
+#                         clade.confidence *= 100
+#         else:
+#             logger.error(
+#                 "Tree does not contain confidence values. Change tree or set bootstrap_threshold to None"
+#             )
+#             sys.exit(1)
 
-    def collapse_poor_quality_nodes(self, bootstrap_threshold: float = 95) -> None:
-        """
-        Collapse all nodes with a bootstrap value smaller than threshold
-        """
-        self._scale_bootstrap_values()
-        self._tree.collapse_all(
-            lambda c: c.confidence is not None and c.confidence < bootstrap_threshold
-        )
+#     def collapse_poor_quality_nodes(self, bootstrap_threshold: float = 95) -> None:
+#         """
+#         Collapse all nodes with a bootstrap value smaller than threshold
+#         """
+#         self._scale_bootstrap_values()
+#         self._tree.collapse_all(
+#             lambda c: c.confidence is not None and c.confidence < bootstrap_threshold
+#         )
 
-    def name_internal_nodes(self) -> None:
-        """
-        Give unique identifier to internal nodes
-        including bootstrap value in identifier
-        as: IN_n_b, where n is a unique identifying
-        number and b the bootstrap value (or None
-        if not present)
-        """
-        for n, clade in enumerate(self._tree.get_nonterminals()):
-            if clade.name is None:
-                clade.name = f"IN_{n}_{clade.confidence}"
-                clade.confidence = None
+#     def name_internal_nodes(self) -> None:
+#         """
+#         Give unique identifier to internal nodes
+#         including bootstrap value in identifier
+#         as: IN_n_b, where n is a unique identifying
+#         number and b the bootstrap value (or None
+#         if not present)
+#         """
+#         for n, clade in enumerate(self._tree.get_nonterminals()):
+#             if clade.name is None:
+#                 clade.name = f"IN_{n}_{clade.confidence}"
+#                 clade.confidence = None
 
-    def get_tree_object(self):
-        return self._tree
+#     def get_tree_object(self):
+#         return self._tree
 
-    def export_tree(self, outfile: Path, tree_format: str = "newick") -> None:
-        """
-        Export tree object to file
-        """
-        Phylo.write(self._tree, outfile, tree_format)
+#     def export_tree(self, outfile: Path, tree_format: str = "newick") -> None:
+#         """
+#         Export tree object to file
+#         """
+#         Phylo.write(self._tree, outfile, tree_format)
 
-    def get_all_descendants_of_target_node(self, target_name: str) -> list:
-        """
-        Get all leaf names from given target (internal) node name
-        """
-        target = next(self._tree.find_clades(target=target_name))
-        return [n.name for n in target.get_terminals()]
+#     def get_all_descendants_of_target_node(self, target_name: str) -> list:
+#         """
+#         Get all leaf names from given target (internal) node name
+#         """
+#         target = next(self._tree.find_clades(target=target_name))
+#         return [n.name for n in target.get_terminals()]
 
-    def get_closest_common_ancestor(self, target_names: list[str]) -> str:
-        """
-        Get name of closest common ancestor given list of leaf names
-        """
-        clade = self._tree.common_ancestor(target_names)
-        return clade.name
+#     def get_closest_common_ancestor(self, target_names: list[str]) -> str:
+#         """
+#         Get name of closest common ancestor given list of leaf names
+#         """
+#         clade = self._tree.common_ancestor(target_names)
+#         return clade.name
 
-    def get_all_leaf_names(self) -> list[str]:
-        """
-        Get list of all leaves (terminal nodes names)
-        """
-        return [leaf.name for leaf in self._tree.get_terminals()]
+#     def get_all_leaf_names(self) -> list[str]:
+#         """
+#         Get list of all leaves (terminal nodes names)
+#         """
+#         return [leaf.name for leaf in self._tree.get_terminals()]
 
-    def extract_clusters_from_internal_nodes(self) -> dict:
-        """
-        Extract all terminal nodes which are descendants of
-        each internal node in the tree
-        """
-        cluster_dict = {}
-        for clade in self._tree.get_nonterminals():
-            terminal_nodes = clade.get_terminals()
-            cluster_dict[clade.name] = [n.name for n in terminal_nodes]
-        return cluster_dict
+#     def extract_clusters_from_internal_nodes(self) -> dict:
+#         """
+#         Extract all terminal nodes which are descendants of
+#         each internal node in the tree
+#         """
+#         cluster_dict = {}
+#         for clade in self._tree.get_nonterminals():
+#             terminal_nodes = clade.get_terminals()
+#             cluster_dict[clade.name] = [n.name for n in terminal_nodes]
+#         return cluster_dict
 
-    def compute_tree_diameter(self) -> float:
-        """
-        Find maximum (pairwise) distance between two tips
-        (leaves) in the tree
-        """
-        root = self._tree.root
-        max_distance = 0.0
-        tips = self._tree.get_terminals()
-        for tip in tips:
-            self._tree.root_with_outgroup(tip)
-            new_max = max(self._tree.depths().values())
-            if new_max > max_distance:
-                max_distance = new_max
-        self._tree.root_with_outgroup(root)
-        return max_distance
+#     def compute_tree_diameter(self) -> float:
+#         """
+#         Find maximum (pairwise) distance between two tips
+#         (leaves) in the tree
+#         """
+#         root = self._tree.root
+#         max_distance = 0.0
+#         tips = self._tree.get_terminals()
+#         for tip in tips:
+#             self._tree.root_with_outgroup(tip)
+#             new_max = max(self._tree.depths().values())
+#             if new_max > max_distance:
+#                 max_distance = new_max
+#         self._tree.root_with_outgroup(root)
+#         return max_distance
 
 
 def infer_tree(
@@ -275,21 +275,21 @@ def get_tree_model_from_modeltest_log(
         return model
 
 
-def export_tree_clusters_to_file(clusters: dict, outfile: Path) -> None:
-    """
-    Write tsv file containing the definition of tree clusters
-    """
+# def export_tree_clusters_to_file(clusters: dict, outfile: Path) -> None:
+#     """
+#     Write tsv file containing the definition of tree clusters
+#     """
 
-    def get_node_cluster(node_name: str, clusters: dict):
-        for cluster_name, cluster in clusters.items():
-            if node_name in cluster:
-                return cluster_name
+#     def get_node_cluster(node_name: str, clusters: dict):
+#         for cluster_name, cluster in clusters.items():
+#             if node_name in cluster:
+#                 return cluster_name
 
-    with open(outfile, "w") as file:
-        lines = ["id\tcluster\n"]
-        node_names = [nname for cluster in clusters.values() for nname in cluster]
-        for nname in node_names:
-            cluster_name = get_node_cluster(nname, clusters)
-            line = f"{nname}\t{cluster_name}\n"
-            lines.append(line)
-        file.writelines(lines)
+#     with open(outfile, "w") as file:
+#         lines = ["id\tcluster\n"]
+#         node_names = [nname for cluster in clusters.values() for nname in cluster]
+#         for nname in node_names:
+#             cluster_name = get_node_cluster(nname, clusters)
+#             line = f"{nname}\t{cluster_name}\n"
+#             lines.append(line)
+#         file.writelines(lines)

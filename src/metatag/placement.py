@@ -70,17 +70,17 @@ class JplaceParser:
         """
         return self.jplace["placements"]
 
-    def get_tree_str(self, newick=False) -> str:
-        """
-        Return tree string in original or newick format
-        Original format contains branch labels
-        in curly brackets. Newick format removes
-        these labels.
-        """
-        if newick:
-            return self.newickfy_tree(self.jplace["tree"])
-        else:
-            return self.jplace["tree"]
+    # def get_tree_str(self, newick=False) -> str:
+    #     """
+    #     Return tree string in original or newick format
+    #     Original format contains branch labels
+    #     in curly brackets. Newick format removes
+    #     these labels.
+    #     """
+    #     if newick:
+    #         return self.newickfy_tree(self.jplace["tree"])
+    #     else:
+    #         return self.jplace["tree"]
 
     @staticmethod
     def newickfy_tree(tree_str: str) -> str:
@@ -97,52 +97,52 @@ class JplaceParser:
         """
         return [c.name for c in self._tree_obj.get_terminals()]
 
-    def build_branch_dict(self) -> dict:
-        """
-        Build dictionary with edge/branch numbers as keys and
-        reference tree leaves as values
-        """
+    # def build_branch_dict(self) -> dict:
+    #     """
+    #     Build dictionary with edge/branch numbers as keys and
+    #     reference tree leaves as values
+    #     """
 
-        def get_id(s):
-            return int(re.search("\{(\d+)\}", s).group(1))
+    #     def get_id(s):
+    #         return int(re.search("\{(\d+)\}", s).group(1))
 
-        original_tree = self.jplace["tree"]
-        leaves = self._tree_obj.get_terminals()
+    #     original_tree = self.jplace["tree"]
+    #     leaves = self._tree_obj.get_terminals()
 
-        branches = {
-            get_id(original_tree[original_tree.find(leaf.name) :]): leaf.name
-            for leaf in leaves
-        }
-        return branches
+    #     branches = {
+    #         get_id(original_tree[original_tree.find(leaf.name) :]): leaf.name
+    #         for leaf in leaves
+    #     }
+    #     return branches
 
-    def extract_placement_fields(self, pfielddata: list) -> dict:
-        """
-        Get dict with placement field values from list of values
-        """
-        fields = self.jplace["fields"]
-        return {field: pfielddata[i] for i, field in enumerate(fields)}
+    # def extract_placement_fields(self, pfielddata: list) -> dict:
+    #     """
+    #     Get dict with placement field values from list of values
+    #     """
+    #     fields = self.jplace["fields"]
+    #     return {field: pfielddata[i] for i, field in enumerate(fields)}
 
-    def select_best_placement(self, placement_object: dict) -> dict:
-        """
-        Select placement with lowest likelihood
-        """
-        pdata = [
-            self.extract_placement_fields(pfielddata)
-            for pfielddata in placement_object["p"]
-        ]
-        lowest_like_placement = sorted(pdata, key=lambda x: x["likelihood"])[0]
-        return {"p": lowest_like_placement, "n": placement_object["n"]}
+    # def select_best_placement(self, placement_object: dict) -> dict:
+    #     """
+    #     Select placement with lowest likelihood
+    #     """
+    #     pdata = [
+    #         self.extract_placement_fields(pfielddata)
+    #         for pfielddata in placement_object["p"]
+    #     ]
+    #     lowest_like_placement = sorted(pdata, key=lambda x: x["likelihood"])[0]
+    #     return {"p": lowest_like_placement, "n": placement_object["n"]}
 
-    def select_best_placements(self):
-        """
-        Select placement with lowest likelihood for
-        all placement objects in placements
-        """
-        best_placements = [
-            self.select_best_placement(placement)
-            for placement in self.jplace["placements"]
-        ]
-        return best_placements
+    # def select_best_placements(self):
+    #     """
+    #     Select placement with lowest likelihood for
+    #     all placement objects in placements
+    #     """
+    #     best_placements = [
+    #         self.select_best_placement(placement)
+    #         for placement in self.jplace["placements"]
+    #     ]
+    #     return best_placements
 
     def compute_tree_diameter(self) -> float:
         """

@@ -67,16 +67,16 @@ def merge_fastas(input_fastas_dir: Path, output_fasta: Path = None) -> None:
     file.close()
 
 
-def assert_correct_file_path(file: Path) -> None:
-    """
-    Remove illegal symbols from file path
-    """
-    file = Path(file).resolve()
-    upper_lower_digits = re.compile("[^a-zA-Z0-9]")
-    fdir = file.parent
-    fname, ext = file.stem, file.suffix
-    clean_fname = upper_lower_digits.sub("_", fname).replace("__", "_").strip("_")
-    return fdir / f"{clean_fname}{ext}"
+# def assert_correct_file_path(file: Path) -> None:
+#     """
+#     Remove illegal symbols from file path
+#     """
+#     file = Path(file).resolve()
+#     upper_lower_digits = re.compile("[^a-zA-Z0-9]")
+#     fdir = file.parent
+#     fname, ext = file.stem, file.suffix
+#     clean_fname = upper_lower_digits.sub("_", fname).replace("__", "_").strip("_")
+#     return fdir / f"{clean_fname}{ext}"
 
 
 def fasta_contains_nucleotide_sequences(fasta_file: Path) -> bool:
@@ -252,25 +252,25 @@ def write_record_names_to_file(
     terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-def fastq2fasta(
-    input_fastq: Path, output_fasta: Path = None, unzip: bool = True
-) -> None:
-    """
-    Convert Fastq to FASTA format via sed
-    """
-    input_fastq = Path(input_fastq).resolve()
-    if output_fasta is None:
-        output_fasta = set_default_output_path(input_fastq, extension=".fasta")
-    else:
-        output_fasta = Path(output_fasta).resolve()
-    if unzip:
-        input_uncompressed = input_fastq.as_posix().strip(".gz")
-        cmd_str = f"gzip -d {input_fastq} > {input_uncompressed}"
-        terminal_execute(cmd_str, suppress_shell_output=False)
-        input_fastq = input_uncompressed
+# def fastq2fasta(
+#     input_fastq: Path, output_fasta: Path = None, unzip: bool = True
+# ) -> None:
+#     """
+#     Convert Fastq to FASTA format via sed
+#     """
+#     input_fastq = Path(input_fastq).resolve()
+#     if output_fasta is None:
+#         output_fasta = set_default_output_path(input_fastq, extension=".fasta")
+#     else:
+#         output_fasta = Path(output_fasta).resolve()
+#     if unzip:
+#         input_uncompressed = input_fastq.as_posix().strip(".gz")
+#         cmd_str = f"gzip -d {input_fastq} > {input_uncompressed}"
+#         terminal_execute(cmd_str, suppress_shell_output=False)
+#         input_fastq = input_uncompressed
 
-    cmd_str = f"sed -n '1~4s/^@/>/p;2~4p' {input_fastq} > {output_fasta}"
-    terminal_execute(cmd_str, suppress_shell_output=False)
+#     cmd_str = f"sed -n '1~4s/^@/>/p;2~4p' {input_fastq} > {output_fasta}"
+#     terminal_execute(cmd_str, suppress_shell_output=False)
 
 
 def is_fasta(filename: Path):

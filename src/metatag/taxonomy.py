@@ -56,29 +56,29 @@ class Taxopath:
         taxostr = delimiter.join(taxa)
         return cls(taxopath_str=taxostr, delimiter=delimiter)
 
-    @classmethod
-    def get_lowest_common_taxopath(cls, taxopaths: list[str]) -> Taxopath:
-        """
-        compute lowest common taxopath (ancestor) of a list
-        of taxopaths
-        """
-        taxopath_dicts = [cls(taxostr).taxodict for taxostr in taxopaths]
-        common_taxodict = cls().taxodict
-        for taxlevel in cls().taxlevels:
-            taxa = set([taxdict[taxlevel] for taxdict in taxopath_dicts])
-            if len(taxa) > 1:
-                break
-            else:
-                common_taxodict[taxlevel] = list(taxa)[0]
-        return cls.from_dict(common_taxodict)
+    # @classmethod
+    # def get_lowest_common_taxopath(cls, taxopaths: list[str]) -> Taxopath:
+    #     """
+    #     compute lowest common taxopath (ancestor) of a list
+    #     of taxopaths
+    #     """
+    #     taxopath_dicts = [cls(taxostr).taxodict for taxostr in taxopaths]
+    #     common_taxodict = cls().taxodict
+    #     for taxlevel in cls().taxlevels:
+    #         taxa = set([taxdict[taxlevel] for taxdict in taxopath_dicts])
+    #         if len(taxa) > 1:
+    #             break
+    #         else:
+    #             common_taxodict[taxlevel] = list(taxa)[0]
+    #     return cls.from_dict(common_taxodict)
 
-    @property
-    def taxostring(self):
-        return self._taxopath
+    # @property
+    # def taxostring(self):
+    #     return self._taxopath
 
-    @property
-    def taxlevels(self):
-        return self._tax_levels
+    # @property
+    # def taxlevels(self):
+    #     return self._tax_levels
 
 
 class TaxonomyAssigner:
@@ -255,37 +255,37 @@ class TaxonomyCounter:
         return fig
 
 
-def evaluate_taxonomy_of_reference_database(
-    label_dict_pickle: Path = None,
-    taxlevels: list[str] = None,
-    output_dir: Path = None,
-    plot_results: bool = False,
-) -> None:
-    """
-    Assign taxonomy to sequences and evaluate taxonomical representation
-    """
-    if taxlevels is None:
-        taxlevels = ["class", "order", "family", "genus"]
-    if output_dir is None:
-        output_dir = set_default_output_path(label_dict_pickle, only_dir_name=True)
-    else:
-        output_dir = Path(output_dir).resolve()
+# def evaluate_taxonomy_of_reference_database(
+#     label_dict_pickle: Path = None,
+#     taxlevels: list[str] = None,
+#     output_dir: Path = None,
+#     plot_results: bool = False,
+# ) -> None:
+#     """
+#     Assign taxonomy to sequences and evaluate taxonomical representation
+#     """
+#     if taxlevels is None:
+#         taxlevels = ["class", "order", "family", "genus"]
+#     if output_dir is None:
+#         output_dir = set_default_output_path(label_dict_pickle, only_dir_name=True)
+#     else:
+#         output_dir = Path(output_dir).resolve()
 
-    taxonomy = TaxonomyAssigner(taxo_file=Path("./data/merged_taxonomy.tsv"))
-    label_dict = read_from_pickle_file(label_dict_pickle)
-    taxopaths = [
-        taxonomy.assign_taxonomy_to_label(label) for label in label_dict.values()
-    ]
-    taxcounter = TaxonomyCounter(taxopaths)
+#     taxonomy = TaxonomyAssigner(taxo_file=Path("./data/merged_taxonomy.tsv"))
+#     label_dict = read_from_pickle_file(label_dict_pickle)
+#     taxopaths = [
+#         taxonomy.assign_taxonomy_to_label(label) for label in label_dict.values()
+#     ]
+#     taxcounter = TaxonomyCounter(taxopaths)
 
-    for taxlevel in taxlevels:
-        if plot_results:
-            outpdf = output_dir / f"ref_taxonomy_counts_{taxlevel}.pdf"
-        else:
-            outpdf = None
-        taxcounter.get_counts(
-            taxlevel,
-            output_tsv=output_dir / f"ref_taxonomy_counts_{taxlevel}.tsv",
-            plot_type="bar",
-            output_pdf=outpdf,
-        )
+#     for taxlevel in taxlevels:
+#         if plot_results:
+#             outpdf = output_dir / f"ref_taxonomy_counts_{taxlevel}.pdf"
+#         else:
+#             outpdf = None
+#         taxcounter.get_counts(
+#             taxlevel,
+#             output_tsv=output_dir / f"ref_taxonomy_counts_{taxlevel}.tsv",
+#             plot_type="bar",
+#             output_pdf=outpdf,
+#         )

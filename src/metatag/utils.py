@@ -15,8 +15,8 @@ import random
 import shutil
 import string
 import subprocess
-import sys
-import tarfile
+# import sys
+# import tarfile
 from functools import partial
 from multiprocessing import Pool
 from pathlib import Path
@@ -156,27 +156,27 @@ class TemporaryDirectoryPath:
             shutil.rmtree(self.dir_path)
 
 
-def create_temporary_file_path(work_dir: Path = None, extension: str = None):
-    """
-    Converted into custom context manager
-    """
-    if work_dir is None:
-        work_dir = ""
-    else:
-        work_dir = Path(work_dir).resolve()
-    if extension is None:
-        extension = ""
-    temp_id = "".join(random.choice(string.ascii_lowercase) for i in range(10))
-    return work_dir / f"temp_{temp_id}{extension}"
+# def create_temporary_file_path(work_dir: Path = None, extension: str = None):
+#     """
+#     Converted into custom context manager
+#     """
+#     if work_dir is None:
+#         work_dir = ""
+#     else:
+#         work_dir = Path(work_dir).resolve()
+#     if extension is None:
+#         extension = ""
+#     temp_id = "".join(random.choice(string.ascii_lowercase) for i in range(10))
+#     return work_dir / f"temp_{temp_id}{extension}"
 
 
-def delete_temporary_files(dir_path: Path) -> None:
-    """
-    Remove files from directory
-    """
-    dir_path = Path(dir_path).resolve()
-    for fname in dir_path.iterdir():
-        fname.unlink(missing_ok=True)
+# def delete_temporary_files(dir_path: Path) -> None:
+#     """
+#     Remove files from directory
+#     """
+#     dir_path = Path(dir_path).resolve()
+#     for fname in dir_path.iterdir():
+#         fname.unlink(missing_ok=True)
 
 
 def set_default_output_path(
@@ -280,33 +280,33 @@ def parallelize_over_input_files(
     p.join()
 
 
-def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:
-    """
-    Extract tar or tar.gz files to dest_dir
-    """
-    tar_file = Path(tar_file).resolve()
-    if dest_dir is None:
-        dest_dir = "."
-    if tar_file.as_posix().endswith("tar.gz"):
-        tar = tarfile.open(tar_file, "r:gz")
-        tar.extractall(path=dest_dir)
-        tar.close()
-    elif tar_file.as_posix().endswith("tar"):
-        tar = tarfile.open(tar_file, "r:")
-        tar.extractall(path=dest_dir)
-        tar.close()
-    else:
-        logger.error("Input is not a tar file")
-        sys.exit(1)
+# def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:
+#     """
+#     Extract tar or tar.gz files to dest_dir
+#     """
+#     tar_file = Path(tar_file).resolve()
+#     if dest_dir is None:
+#         dest_dir = "."
+#     if tar_file.as_posix().endswith("tar.gz"):
+#         tar = tarfile.open(tar_file, "r:gz")
+#         tar.extractall(path=dest_dir)
+#         tar.close()
+#     elif tar_file.as_posix().endswith("tar"):
+#         tar = tarfile.open(tar_file, "r:")
+#         tar.extractall(path=dest_dir)
+#         tar.close()
+#     else:
+#         logger.error("Input is not a tar file")
+#         sys.exit(1)
 
 
-def list_tar_dir(tar_dir: Path) -> list:
-    """
-    List files within tar or tar.gz directory
-    """
-    with tarfile.open(tar_dir, "r") as tar_obj:
-        files = tar_obj.getnames()
-    return files
+# def list_tar_dir(tar_dir: Path) -> list:
+#     """
+#     List files within tar or tar.gz directory
+#     """
+#     with tarfile.open(tar_dir, "r") as tar_obj:
+#         files = tar_obj.getnames()
+#     return files
 
 
 def easy_pattern_matching(

@@ -40,30 +40,30 @@ class LabelParser:
                 genome_id = ""
         return genome_id
 
-    @staticmethod
-    def parse_meta_info(label: str) -> dict:
-        """
-        Parse meta information from label in canonical format
-        (i.e, contig, gene position, locus, strand)
-        """
-        try:
-            meta = label.split("__")[1]
-            strand = meta.split("_")[-1]
-            locus_pos = tuple([int(pos) for pos in meta.split("_")[-3:-1]])
-            gene_pos = int(meta.split("_")[-4])
-            contig = "_".join(meta.split("_")[:-4])
-        except Exception:
-            contig = None
-            gene_pos = None
-            locus_pos = None
-            strand = None
+    # @staticmethod
+    # def parse_meta_info(label: str) -> dict:
+    #     """
+    #     Parse meta information from label in canonical format
+    #     (i.e, contig, gene position, locus, strand)
+    #     """
+    #     try:
+    #         meta = label.split("__")[1]
+    #         strand = meta.split("_")[-1]
+    #         locus_pos = tuple([int(pos) for pos in meta.split("_")[-3:-1]])
+    #         gene_pos = int(meta.split("_")[-4])
+    #         contig = "_".join(meta.split("_")[:-4])
+    #     except Exception:
+    #         contig = None
+    #         gene_pos = None
+    #         locus_pos = None
+    #         strand = None
 
-        return {
-            "contig": contig,
-            "gene_pos": gene_pos,
-            "locus_pos": locus_pos,
-            "strand": strand,
-        }
+    #     return {
+    #         "contig": contig,
+    #         "gene_pos": gene_pos,
+    #         "locus_pos": locus_pos,
+    #         "strand": strand,
+    #     }
 
 
 class UniprotLabelParser:
