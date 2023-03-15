@@ -3,9 +3,6 @@
 
 """
 Tools to create peptide-specific sequence databases
-
-1. Implement hmmr
-2. Filter fasta files based on query sequences
 """
 
 from __future__ import annotations
@@ -33,8 +30,13 @@ def filter_fasta_by_sequence_length(
     max_length: int = None,
     output_fasta: Path = None,
 ) -> None:
-    """
-    Filter sequences by length in fasta file
+    """Filter sequences by length in fasta file
+
+    Args:
+        input_fasta (Path): path to input FASTA file
+        min_length (int, optional): _description_. Defaults to None.
+        max_length (int, optional): _description_. Defaults to None.
+        output_fasta (Path, optional): _description_. Defaults to None.
     """
     if (min_length is None) and (max_length is None):
         warnings.warn("Missing boundary values for sequence length")
@@ -68,8 +70,10 @@ def filter_fasta_by_sequence_length(
 
 
 def parse_hmmsearch_output(hmmer_output: Path) -> pd.DataFrame:
-    """
-    Parse hmmsearch or hmmscan summary table output file
+    """Parse hmmsearch or hmmscan summary table output file
+    
+    Args
+        hmmer_output (Path): path to hmmsearch or hmmscan summary table output file
     """
     attribs = ["id", "bias", "bitscore", "description"]
     hits = defaultdict(list)
@@ -84,8 +88,12 @@ def parse_hmmsearch_output(hmmer_output: Path) -> pd.DataFrame:
 def filter_fasta_by_ids(
     input_fasta: Path, record_ids: list, output_fasta: Path = None
 ) -> None:
-    """
-    Filter records in fasta file matching provided IDs
+    """Filter records in fasta file matching provided IDs
+
+    Args:
+        input_fasta (Path): path to input FASTA file
+        record_ids (list): list of record IDs to filter FASTA file by
+        output_fasta (Path, optional): path to output file. Defaults to None.
     """
     input_fasta = Path(input_fasta).resolve()
     if output_fasta is None:
@@ -111,13 +119,17 @@ def filter_fasta_by_hmm(
     method: str = "hmmsearch",
     additional_args: str = None,
 ) -> None:
-    """
-    Generate protein-specific database by filtering
-    sequence database to only contain sequences
-    corresponing to protein of interest
+    """Generate protein-specific database by filtering
+       sequence database to only contain sequences
+       corresponing to protein of interest
 
-    @Arguments:
-    additional_args: additional arguments to hmmsearch or hmmscan
+    Args:
+        hmm_model (Path): path to hmm model
+        input_fasta (Path): path to input FASTA file
+        output_fasta (Path, optional): path to output file. Defaults to None.
+        hmmer_output (Path, optional): path to hmmer output directory. Defaults to None.
+        method (str, optional): choose hmmer method: "hmmsearch" or "hmmscan". Defaults to "hmmsearch".
+        additional_args (str, optional): additional arguments to hmmsearch/scan as a string. Defaults to None.
     """
     hmm_model = Path(hmm_model).resolve()
     input_fasta = Path(input_fasta).resolve()
@@ -156,8 +168,11 @@ def filter_fasta_by_hmm(
 def convert_fasta_aln_to_phylip(
     input_fasta_aln: Path, output_phylip: Path = None
 ) -> None:
-    """
-    Convert alignments in Fasta to Phylip.
+    """Convert alignments in Fasta to Phylip.
+
+    Args:
+        input_fasta_aln (Path): path to input alignment file
+        output_phylip (Path, optional): path to output file. Defaults to None.
     """
     input_fasta_aln = Path(input_fasta_aln).resolve()
     if output_phylip is None:
@@ -172,8 +187,11 @@ def convert_fasta_aln_to_phylip(
 
 
 def convert_phylip_to_fasta_aln(input_phylip: Path, output_file: Path = None) -> None:
-    """
-    Convert alignments in Phylip to Fasta format
+    """Convert alignments in Phylip to Fasta format
+
+    Args:
+        input_phylip (Path): path to input alignment file
+        output_file (Path, optional): path to output file. Defaults to None.
     """
     input_phylip = Path(input_phylip).resolve()
     if output_file is None:
@@ -187,8 +205,11 @@ def convert_phylip_to_fasta_aln(input_phylip: Path, output_file: Path = None) ->
 def convert_stockholm_to_fasta_aln(
     input_stockholm: Path, output_fasta: Path = None
 ) -> None:
-    """
-    Convert alignment file in Stockholm format to fasta
+    """Convert alignment file in Stockholm format to fasta
+
+    Args:
+        input_stockholm (Path): path to input alignment file
+        output_fasta (Path, optional): path to output file. Defaults to None.
     """
     input_stockholm = Path(input_stockholm).resolve()
     if output_fasta is None:
@@ -205,8 +226,14 @@ def split_reference_from_query_alignments(
     ref_prefix: str = None,
     output_dir: Path = None,
 ) -> None:
-    """
-    Separate reference sequences from query sequences in msa fasta file
+    """Separate reference sequences from query sequences in msa fasta file
+
+    Args:
+        ref_query_msa (Path): path to input papara/hmmalign alignment file
+        ref_ids (set, optional): IDs of reference sequences. Defaults to None.
+        ref_prefix (str, optional): prefix employed by all reference sequences 
+            (Use instead of ref_ids). Defaults to None.
+        output_dir (Path, optional): path to output directory. Defaults to None.
     """
     ref_query_msa = Path(ref_query_msa).resolve()
     if output_dir is None:
@@ -241,8 +268,13 @@ def split_reference_from_query_alignments(
 
 
 def get_fasta_record_ids(fasta_file: Path) -> set:
-    """
-    Extract record ids from fasta
+    """Extract record ids from fasta
+
+    Args:
+        fasta_file (Path): path to input FASTA file
+
+    Returns:
+        set: set of record IDs in FAStA file
     """
     fasta_file = Path(fasta_file).resolve()
     with open(fasta_file, "r") as ffile:

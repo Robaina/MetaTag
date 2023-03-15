@@ -20,8 +20,10 @@ class LabelParser:
 
     @staticmethod
     def extract_genome_id(label: str) -> str:
-        """
-        Extract genome ID from sequence label
+        """Extract genome ID from sequence label
+
+        Returns:
+            str: Genome ID
         """
         mmp_id = MARdbLabelParser.extract_mmp_id(label)
         taxid = UniprotLabelParser.extract_ncbi_tax_id(label)
@@ -75,8 +77,13 @@ class UniprotLabelParser:
 
     @staticmethod
     def extract_ncbi_tax_id(label: str) -> str:
-        """
-        Extract NCBI taxon id from reference label
+        """Extract NCBI taxon id from reference label
+
+        Args:
+            label (str): Reference label
+
+        Returns:
+            str: NCBI taxon id
         """
         db_entry = re.compile("(OX=)(\d+)")
         try:
@@ -94,8 +101,13 @@ class MARdbLabelParser:
 
     @staticmethod
     def extract_mmp_id(label: str) -> str:
-        """
-        Extract mardb mmp id from reference label
+        """Extract mardb mmp id from reference label
+
+        Args:
+            label (str): Reference label
+
+        Returns:
+            str: MARdb MMP id
         """
         db_entry = re.compile("_MMP\d+")
         try:
@@ -104,8 +116,13 @@ class MARdbLabelParser:
             return ""
 
     def parse(self, label: str) -> dict:
-        """
-        Parse MarDB sequence labels to obtain contig and locus info
+        """Parse MarDB sequence labels to obtain contig and locus info
+
+        Args:
+            label (str): MARdb sequence label
+
+        Returns:
+            dict: dictionary with parsed label info
         """
         parsed_dict = {
             "full": label,
@@ -135,8 +152,13 @@ class MARdbLabelParser:
             pass
         return parsed_dict
 
-    def parse_from_list(self, labels=list) -> pd.DataFrame:
-        """
-        Parse labels in list of labels and return DataFrame
+    def parse_from_list(self, labels: list) -> pd.DataFrame:
+        """Parse labels in list of labels and return DataFrame
+
+        Args:
+            labels (list): list of labels to parse
+
+        Returns:
+            pd.DataFrame: dataframe with parsed labels
         """
         return pd.DataFrame([self.parse(label) for label in labels])
