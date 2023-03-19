@@ -1,4 +1,5 @@
 FROM mcr.microsoft.com/devcontainers/miniconda:0-3
+USER root
 
 WORKDIR /MetaTag
 # Copy repo to docker container
@@ -17,14 +18,14 @@ RUN poetry build && pip install dist/metatag*.whl && rm -r dist && metatag --hel
 
 # WHEN run locally as root, use this:
 # Initialize conda for default user: root
-# RUN conda init
+RUN conda init
 # Activate environment by default
-# RUN echo "conda activate metatag" >> ../root/.bashrc
-# RUN source ../root/.bashrc
+RUN echo "conda activate metatag" >> ../root/.bashrc
+RUN source ../root/.bashrc
 
 # WHEN run in GitHub Action, use this:
 # Initialize conda for default user: vscode
-RUN runuser -l vscode -c 'conda init'
-# Activate pynteny environment by default
-RUN echo "conda activate metatag" >> /home/vscode/.bashrc
-RUN source /home/vscode/.bashrc
+# RUN runuser -l vscode -c 'conda init'
+# # Activate environment by default
+# RUN echo "conda activate metatag" >> /home/vscode/.bashrc
+# RUN source /home/vscode/.bashrc
