@@ -14,6 +14,7 @@ RUN conda env create -n metatag -f envs/metatag.yml
 SHELL ["conda", "run", "-n", "metatag", "/bin/bash", "-c"]
 # Build and install
 RUN poetry build && pip install dist/metatag*.whl && rm -r dist && metatag --help
+RUN conda deactivate
 
 # Initialize conda for default user
 # RUN conda init
