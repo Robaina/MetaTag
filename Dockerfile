@@ -11,12 +11,12 @@ COPY LICENSE .
 
 # Make conda environment and activate
 RUN conda env create -n metatag -f envs/metatag.yml
-SHELL ["conda", "run", "-n", "metatag", "/bin/bash", "-c", "poetry build && pip install dist/metatag*.whl && rm -r dist && metatag --help && conda deactivate"]
+SHELL ["conda", "run", "-n", "metatag", "/bin/bash", "-c"]
 # Build and install
-# RUN poetry build && pip install dist/metatag*.whl && rm -r dist && metatag --help
+RUN poetry build && pip install dist/metatag*.whl && rm -r dist && metatag --help
 
 # Initialize conda for default user
-RUN conda init
+# RUN conda init
 # Activate environment by default
 RUN echo "conda activate metatag" >> ../root/.bashrc
 RUN source ../root/.bashrc
