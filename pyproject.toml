@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "metatag"
-version = "0.0.2"
+version = "0.1.0"
 description = "Metagenome functional and taxonomical annotation through phylogenetic tree placement"
 license = "Apache-2.0"
 authors = [
@@ -29,7 +29,7 @@ packages = [
 ]
 include = ["data/merged_taxonomy.tsv"]
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "3.10"
 [tool.poetry.scripts]
 metatag = "metatag.cli:main"
 
