@@ -16,16 +16,8 @@ SHELL ["conda", "run", "-n", "metatag", "/bin/bash", "-c"]
 # Build and install
 RUN poetry build && pip install dist/metatag*.whl && rm -r dist && metatag --help
 
-# WHEN run locally as root, use this:
 # Initialize conda for default user: root
 RUN conda init
 # Activate environment by default
 RUN echo "conda activate metatag" >> ../root/.bashrc
 RUN source ../root/.bashrc
-
-# WHEN run in GitHub Action, use this:
-# Initialize conda for default user: vscode
-# RUN runuser -l vscode -c 'conda init'
-# # Activate environment by default
-# RUN echo "conda activate metatag" >> /home/vscode/.bashrc
-# RUN source /home/vscode/.bashrc
