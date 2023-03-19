@@ -17,6 +17,8 @@ RUN poetry build && pip install dist/metatag*.whl && rm -r dist && metatag --hel
 
 # Initialize conda for default user
 RUN conda init
+RUN echo $USER
+RUN whoami
 # Activate environment by default
-RUN sudo echo "conda activate metatag" >> ../root/.bashrc
-RUN sudo source ../root/.bashrc
+# RUN echo "conda activate metatag" >> ../root/.bashrc
+# RUN source ../root/.bashrc
