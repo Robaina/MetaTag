@@ -5,6 +5,8 @@ channels:
   - defaults
 dependencies:
   - python=3.10
+  - pip=23.0.1
+  - poetry=1.4.0
   - biopython=1.81
   - fasttree=2.1.11
   - iqtree=2.2.0.3
