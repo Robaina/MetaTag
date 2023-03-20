@@ -26,9 +26,14 @@ def align_peptides(
     output_file: Path = None,
     additional_args: str = None,
 ):
-    """
-    Perform MSA on reference peptide sequences.
-    Outputs in format fasta.aln
+    """Perform MSA on reference peptide sequences.
+       Outputs in format fasta.aln
+
+    Args:
+        input_fasta (Path): path to fasta file containing reference sequences
+        method (str, optional): Choose alignment method: "muscle" or "mafft". Defaults to "muscle".
+        output_file (Path, optional): path to output alignment file. Defaults to None.
+        additional_args (str, optional): additional arguments to aligner. Defaults to None.
     """
     input_fasta = Path(input_fasta).resolve()
     if output_file is None:
@@ -61,9 +66,15 @@ def align_short_reads_to_reference_msa(
     tree_nwk: Path = None,
     output_dir: Path = None,
 ) -> None:
-    """
-    Align short read query sequences to reference MSA (fasta format).
-    Outputs fasta msa alignment between query and reference sequences
+    """Align short read query sequences to reference MSA (fasta format).
+       Outputs fasta msa alignment between query and reference sequences
+
+    Args:
+        ref_msa (Path): path to reference MSA in fasta format
+        query_seqs (Path): path to query sequences in fasta format
+        method (str, optional): choose aligner: "hmmalign" or "papara". Defaults to "papara".
+        tree_nwk (Path, optional): path to reference tree in newick format. Defaults to None.
+        output_dir (Path, optional): path to output directory. Defaults to None.
     """
     ref_msa = Path(ref_msa).resolve()
     query_seqs = Path(query_seqs).resolve()

@@ -149,9 +149,17 @@ def infer_tree(
     substitution_model: str = "modeltest",
     additional_args: str = None,
 ) -> None:
-    """
-    Infer tree from reference msa. Best substitution model
-    selected by default.
+    """Infer tree from reference msa. Best substitution model
+       selected by default.
+
+    Args:
+        ref_aln (Path): path to reference alignment in FASTA format
+        output_dir (Path): path to output directory
+        method (str, optional): choose tree inference method: "iqtree" or "fasttree". Defaults to "iqtree".
+        substitution_model (str, optional): substitution model employed to infer tree or path to iqtree log
+            file containing model. The name of an algorithm to choose best substitution model can also be provided.
+            In that case, choose between "iqtest" or "modeltest". Defaults to "modeltest".
+        additional_args (str, optional): additional arguments to tree algorithm as a string. Defaults to None.
     """
     ref_aln = Path(ref_aln).resolve()
     if output_dir is None:
@@ -202,11 +210,16 @@ def infer_tree(
 
 
 def sanity_check_for_iTOL(label: str) -> str:
-    """
-    Reformat label to comply with iTOL requirements, remove:
+    """Reformat label to comply with iTOL requirements, remove:
     1. white spaces
     2. double underscores
     3. symbols outside english letters and numbers
+
+    Args:
+        label (str): tree label as a string
+
+    Returns:
+        str: reformatted label
     """
     legal_chars = re.compile("[^a-zA-Z0-9]")
     itol_label = legal_chars.sub("_", label).replace("__", "_")
@@ -216,10 +229,15 @@ def sanity_check_for_iTOL(label: str) -> str:
 def relabel_tree(
     input_newick: Path, label_dict: dict, output_file: Path = None, iTOL=True
 ) -> None:
-    """
-    Relabel tree leaves with labels from
+    """Relabel tree leaves with labels from
     provided dictionary. If iTOL is set, then
     labels are checked for iTOL compatibility
+
+    Args:
+        input_newick (Path): path to input tree in newick format
+        label_dict (dict): dictionary with labels to replace. Keys original labels, values new labels.
+        output_file (Path, optional): path to output relabelled tree. Defaults to None.
+        iTOL (bool, optional): whether to check if label complies with iTOL requirements. Defaults to True.
     """
     if output_file is None:
         output_file = set_default_output_path(input_newick, tag="_relabel")
@@ -239,13 +257,18 @@ def relabel_tree(
 
 
 def get_iq_tree_model_from_log_file(iqtree_log: Path) -> str:
-    """
-    Parse iqtree log file and return best fit model
+    """Parse iqtree log file and return best fit model
 
     If model supplied, search model in Command: iqtree ... -m 'model'
     If not, then -m TEST or -m MFP
     If one of those, continue to line:
     Best-fit model: 'model' chosen according to BIC
+
+    Args:
+        iqtree_log (Path): path to iqtree log file
+
+    Returns:
+        str: best substitution model employed by iqtree
     """
     with open(iqtree_log, "r") as log:
         text = log.read()
@@ -259,9 +282,15 @@ def get_iq_tree_model_from_log_file(iqtree_log: Path) -> str:
 def get_tree_model_from_modeltest_log(
     modeltest_log: Path, criterion: str = "BIC"
 ) -> str:
-    """
-    Parse modeltest-ng log file and return best fit model
+    """Parse modeltest-ng log file and return best fit model
     according to selected criterion: BIC, AIC or AICc
+
+    Args:
+        modeltest_log (Path): path to modeltest-ng log file
+        criterion (str, optional): choose best model criterior. Defaults to "BIC".
+
+    Returns:
+        str: best substitution model employed by modeltest-ng
     """
     with open(modeltest_log, "r") as log:
         text = log.read()
