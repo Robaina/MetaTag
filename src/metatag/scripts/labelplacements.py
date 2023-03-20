@@ -225,7 +225,7 @@ def run(args: argparse.ArgumentParser) -> None:
         )
         filtered_jplace = set_default_output_path(args.jplace, tag="_distance_filtered")
         jplaceparser = JplaceParser(args.jplace)
-        if "pendant" in args.distance_measure.lower():
+        if args.distance_measure.lower() == "pendant":
             jplaceparser.filter_placements_by_max_pendant_length(
                 max_pendant_length=args.max_distance, output_file=filtered_jplace
             )

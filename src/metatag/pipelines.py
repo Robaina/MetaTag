@@ -50,18 +50,19 @@ class ReferenceTreeBuilder:
         """Reconstruct reference phylogenetic tree from sequence database and hmms
 
         Args:
-            input_database (Path): _description_
-            hmms (list[Path]): _description_
-            max_hmm_reference_size (list[int], optional): _description_. Defaults to None.
-            min_sequence_length (int, optional): _description_. Defaults to 10.
-            max_sequence_length (int, optional): _description_. Defaults to 1000.
-            output_directory (Path, optional): _description_. Defaults to None.
-            translate (bool, optional): _description_. Defaults to False.
-            relabel (bool, optional): _description_. Defaults to True.
-            remove_duplicates (bool, optional): _description_. Defaults to True.
-            relabel_prefixes (list[str], optional): _description_. Defaults to None.
-            hmmsearch_args (str, optional): _description_. Defaults to None.
-            tree_method (str, optional): _description_. Defaults to "fasttree".
+            input_database (Path): path to input sequence database in FASTA format
+            hmms (list[Path]): list of paths to HMM files
+            max_hmm_reference_size (list[int], optional): list of maximum database size for each HMM. Defaults to None.
+            min_sequence_length (int, optional): minimum length of sequences in final database. Defaults to 10.
+            max_sequence_length (int, optional): maximum length of sequencesin final database. Defaults to 1000.
+            output_directory (Path, optional): path to output directory. Defaults to None.
+            translate (bool, optional): whether to translate input (DNA) sequences. Defaults to False.
+            relabel (bool, optional): whether to relabel records in reference database with provisional short labels. Defaults to True.
+            remove_duplicates (bool, optional): whether to remove duplicated sequences in database. Defaults to True.
+            relabel_prefixes (list[str], optional): list of prefixes to be added to each relabelled record. One for
+                each HMM-derived database. Defaults to None.
+            hmmsearch_args (str, optional): additional arguments to hmmsearch as a string. Defaults to None.
+            tree_method (str, optional): choose tree inference method: "iqtree" or "fasttree". Defaults to "fasttree".
             tree_model (str, optional): choose method to select substitution model: "iqtest", "modeltest",
                 or a valid substitution model name (compatible with EPA-ng). Defaults to "iqtest".
             msa_method (str, optional): choose msa method for reference database: "muscle" or "mafft".
@@ -104,10 +105,10 @@ class ReferenceTreeBuilder:
         preprocess_args = CommandArgs(
             data=self.input_database.as_posix(),
             outfile=self.out_cleaned_database.as_posix(),
-            translate=True,
-            dna=False,
-            export_dup=False,
-            relabel=False,
+            translate=self.translate,
+            dna=(not self.translate),
+            export_dup=self.remove_duplicates,
+            relabel=self.relabel,
             idprefix=None,
             duplicate_method="seqkit",
         )
@@ -171,21 +172,22 @@ class QueryLabeller:
         distance_measure: str = "pendant_diameter_ratio",
         minimum_placement_lwr: float = 0.8,
     ):
-        """_summary_
+        """Place queries onto reference tree and assign function and taxonomy
 
         Args:
-            input_query (Path): _description_
-            reference_alignment (Path): _description_
-            reference_tree (Path): _description_
-            tree_model (str): _description_
-            tree_clusters (Path): _description_
-            tree_cluster_scores (Path): _description_
-            reference_labels (Path, optional): _description_.
-            alignment_method (str, optional): _description_. Defaults to "papara".
-            output_directory (Path, optional): _description_. Defaults to None.
-            maximum_placement_distance (float, optional): _description_. Defaults to 1.0.
-            distance_measure (str, optional): _description_. Defaults to "pendant_diameter_ratio".
-            minimum_placement_lwr (float, optional): _description_. Defaults to 0.8.
+            input_query (Path): path to query fasta file
+            reference_alignment (Path): path to reference alignment in FASTA format
+            reference_tree (Path): path to reference tree in Newick format
+            tree_model (str): substitution model to use for tree inference
+            tree_clusters (Path): path to tsv file containing tree cluster definitions
+            tree_cluster_scores (Path): path to tsv file containing tree cluster scores
+            reference_labels (Path, optional): path to reference labels file in pickle format. Defaults to None.
+            alignment_method (str, optional): choose aligner: "papara" or "hmmalign". Defaults to "papara".
+            output_directory (Path, optional): path to output directory. Defaults to None.
+            maximum_placement_distance (float, optional): maximum distance of placed sequences (distance measure below). Defaults to 1.0.
+            distance_measure (str, optional): choose distance measure for placements: "pendant_diameter_ratio",
+                "pendant_distal_ratio" or "pendant". Defaults to "pendant_diameter_ratio".
+            minimum_placement_lwr (float, optional): cutoff value for the LWR of placements. Defaults to 0.8.
         """
         self.input_query = Path(input_query).resolve()
         self.reference_alignment = Path(reference_alignment).resolve()
