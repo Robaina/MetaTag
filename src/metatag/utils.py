@@ -15,9 +15,6 @@ import random
 import shutil
 import string
 import subprocess
-
-# import sys
-# import tarfile
 from functools import partial
 from multiprocessing import Pool
 from pathlib import Path
@@ -118,9 +115,10 @@ class TemporaryFilePath:
            which is removed when exiting context manager
 
         Args:
-            work_dir (Path, optional): _description_. Defaults to None.
-            extension (str, optional): _description_. Defaults to None.
-            create_file (bool, optional): _description_. Defaults to False.
+            work_dir (Path, optional): path to working directory. Defaults to None.
+            extension (str, optional): file extension. Defaults to None.
+            create_file (bool, optional): whether to create a permanent file.
+                Defaults to False.
         """
         if work_dir is not None:
             self.work_dir = Path(work_dir).resolve()
@@ -154,7 +152,7 @@ class TemporaryDirectoryPath:
            which is removed when exiting context manager
 
         Args:
-            work_dir (Path, optional): _description_. Defaults to None.
+            work_dir (Path, optional): path to working directory. Defaults to None.
         """
         if work_dir is not None:
             self.work_dir = Path(work_dir).resolve()
@@ -174,30 +172,6 @@ class TemporaryDirectoryPath:
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self.dir_path.exists():
             shutil.rmtree(self.dir_path)
-
-
-# def create_temporary_file_path(work_dir: Path = None, extension: str = None):
-#     """
-#     Converted into custom context manager
-#     """
-#     if work_dir is None:
-#         work_dir = ""
-#     else:
-#         work_dir = Path(work_dir).resolve()
-#     if extension is None:
-#         extension = ""
-#     temp_id = "".join(random.choice(string.ascii_lowercase) for i in range(10))
-#     return work_dir / f"temp_{temp_id}{extension}"
-
-
-# def delete_temporary_files(dir_path: Path) -> None:
-#     """
-#     Remove files from directory
-#     """
-#     dir_path = Path(dir_path).resolve()
-#     for fname in dir_path.iterdir():
-#         fname.unlink(missing_ok=True)
-
 
 def set_default_output_path(
     input_path: Path,
@@ -253,10 +227,10 @@ def read_from_pickle_file(path_to_file: Path = "object.pkl"):
     """Load python object from pickle file.
 
     Args:
-        path_to_file (Path, optional): _description_. Defaults to "object.pkl".
+        path_to_file (Path, optional): path to picke file. Defaults to "object.pkl".
 
     Returns:
-        _type_: _description_
+        _type_: Python object.
     """
     infile = open(path_to_file, "rb")
     python_object = pickle.load(infile)
@@ -291,53 +265,23 @@ def terminal_execute(
 
 
 def parallelize_over_input_files(
-    callable, input_list: list, n_processes: int = None, **callable_kwargs
+    callable, input_list: list, processes: int = None, **callable_kwargs
 ) -> None:
     """Parallelize callable over a set of input objects using a pool
     of workers. Inputs in input list are passed to the first argument
     of the callable. Additional callable named arguments may be passed.
 
     Args:
-        callable (_type_): _description_
-        input_list (list): _description_
-        n_processes (int, optional): _description_. Defaults to None.
+        callable (_type_): function to be called.
+        input_list (list): list of input objects to callable.
+        n_processes (int, optional): maximum number of processes. Defaults to None.
     """
-    if n_processes is None:
-        n_processes = os.cpu_count - 1
-    p = Pool(processes=n_processes)
+    if processes is None:
+        processes = os.cpu_count - 1
+    p = Pool(processes=processes)
     p.map(partial(callable, **callable_kwargs), input_list)
     p.close()
     p.join()
-
-
-# def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:
-#     """
-#     Extract tar or tar.gz files to dest_dir
-#     """
-#     tar_file = Path(tar_file).resolve()
-#     if dest_dir is None:
-#         dest_dir = "."
-#     if tar_file.as_posix().endswith("tar.gz"):
-#         tar = tarfile.open(tar_file, "r:gz")
-#         tar.extractall(path=dest_dir)
-#         tar.close()
-#     elif tar_file.as_posix().endswith("tar"):
-#         tar = tarfile.open(tar_file, "r:")
-#         tar.extractall(path=dest_dir)
-#         tar.close()
-#     else:
-#         logger.error("Input is not a tar file")
-#         sys.exit(1)
-
-
-# def list_tar_dir(tar_dir: Path) -> list:
-#     """
-#     List files within tar or tar.gz directory
-#     """
-#     with tarfile.open(tar_dir, "r") as tar_obj:
-#         files = tar_obj.getnames()
-#     return files
-
 
 def easy_pattern_matching(
     text: str, left_pattern: str, right_pattern: str = None
@@ -345,9 +289,9 @@ def easy_pattern_matching(
     """Just straightforward string searchs between two patterns
 
     Args:
-        text (str): _description_
-        left_pattern (str): _description_
-        right_pattern (str, optional): _description_. Defaults to None.
+        text (str): srring to be searched
+        left_pattern (str): left most border pattern
+        right_pattern (str, optional): right most border pattern. Defaults to None.
 
     Returns:
         str: _description_
@@ -376,10 +320,10 @@ class DictMerger:
         """Initialize class from list of paths to dictionaries (pickle)
 
         Args:
-            dict_paths (list[Path]): _description_
+            dict_paths (list[Path]): list of paths to piclke files
 
         Returns:
-            DictMerger: _description_
+            DictMerger: DictMerger instance
         """
         dict_paths = [Path(dict_path).resolve() for dict_path in dict_paths]
         dict_list = [
@@ -393,10 +337,11 @@ class DictMerger:
         """Load python object from pickle file
 
         Args:
-            path_to_file (Path, optional): _description_. Defaults to "object.pkl".
+            path_to_file (Path, optional): path to pickle file.
+                Defaults to "object.pkl".
 
         Returns:
-            _type_: _description_
+            _type_: Python object
         """
         in_file = open(path_to_file, "rb")
         python_object = pickle.load(in_file)
