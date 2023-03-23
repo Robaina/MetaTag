@@ -28,8 +28,13 @@ def run_seqkit_nodup(
     export_duplicates: bool = False,
     duplicates_file: Path = None,
 ):
-    """
-    Simpe CLI wrapper to seqkit rmdup
+    """Simpe CLI wrapper to seqkit rmdup
+
+    Args:
+        input_fasta (Path): _description_
+        output_fasta (Path, optional): _description_. Defaults to None.
+        export_duplicates (bool, optional): _description_. Defaults to False.
+        duplicates_file (Path, optional): _description_. Defaults to None.
     """
     if output_fasta is None:
         output_fasta = set_default_output_path(input_fasta, tag="_no_duplicates")
@@ -56,8 +61,14 @@ def run_prodigal(
     metagenome: bool = False,
     additional_args: str = None,
 ):
-    """
-    Simple CLI wrapper to prodigal
+    """Simple CLI wrapper to prodigal
+
+    Args:
+        input_file (Path): _description_
+        output_prefix (str, optional): _description_. Defaults to None.
+        output_dir (Path, optional): _description_. Defaults to None.
+        metagenome (bool, optional): _description_. Defaults to False.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     input_file = Path(input_file).resolve()
     if output_dir is None:
@@ -91,8 +102,15 @@ def run_hmmsearch(
     n_processes: int = None,
     additional_args: str = None,
 ) -> None:
-    """
-    Simple CLI wrapper to hmmsearch or hmmscan
+    """ Simple CLI wrapper to hmmsearch or hmmscan
+
+    Args:
+        hmm_model (Path): _description_
+        input_fasta (Path): _description_
+        output_file (Path, optional): _description_. Defaults to None.
+        method (str, optional): _description_. Defaults to "hmmsearch".
+        n_processes (int, optional): _description_. Defaults to None.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     hmm_model = Path(hmm_model).resolve()
     input_fasta = Path(input_fasta).resolve()
@@ -116,9 +134,13 @@ def run_hmmsearch(
 def run_hmmbuild(
     input_aln: Path, output_hmm: Path = None, additional_args: str = None
 ) -> None:
-    """
-    Simple CLI wrapper to hmmbuild (build HMM profile from MSA file)
+    """Simple CLI wrapper to hmmbuild (build HMM profile from MSA file)
     additional args: see hmmbuild -h
+
+    Args:
+        input_aln (Path): _description_
+        output_hmm (Path, optional): _description_. Defaults to None.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     input_aln = Path(input_aln).resolve()
     if output_hmm is None:
@@ -140,9 +162,15 @@ def run_hmmalign(
     output_aln_seqs: Path = None,
     additional_args: str = None,
 ) -> None:
-    """
-    Simple CLI wrapper to hmmalign
+    """Simple CLI wrapper to hmmalign
     Align short read query sequences to reference MSA
+
+    Args:
+        input_hmm (Path): _description_
+        input_aln (Path): _description_
+        input_seqs (Path): _description_
+        output_aln_seqs (Path, optional): _description_. Defaults to None.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     input_hmm = Path(input_hmm).resolve()
     input_aln = Path(input_aln).resolve()
@@ -163,8 +191,11 @@ def run_hmmalign(
 
 
 def get_percent_identity_from_msa(input_msa: Path, output_file: Path = None) -> None:
-    """
-    Run esl-alipid to compute pairwise PI from a MSA.
+    """Run esl-alipid to compute pairwise PI from a MSA.
+
+    Args:
+        input_msa (Path): _description_
+        output_file (Path, optional): _description_. Defaults to None.
     """
     input_msa = Path(input_msa).resolve()
     if output_file is None:
@@ -178,10 +209,14 @@ def get_percent_identity_from_msa(input_msa: Path, output_file: Path = None) -> 
 def run_cdhit(
     input_fasta: Path, output_fasta: Path = None, additional_args: str = None
 ) -> None:
-    """
-    Simple CLI wrapper to cd-hit to obtain representative sequences
+    """Simple CLI wrapper to cd-hit to obtain representative sequences
     CD-HIT may be used to remove duplicated sequences (keeps one representative)
     with parameters -c 1 -t 1.
+
+    Args:
+        input_fasta (Path): _description_
+        output_fasta (Path, optional): _description_. Defaults to None.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     input_fasta = Path(input_fasta).resolve()
     if output_fasta is None:
@@ -201,8 +236,7 @@ def run_mafft(
     parallel: bool = True,
     additional_args: str = None,
 ) -> None:
-    """
-    Simple CLI wrapper to mafft (MSA)
+    """Simple CLI wrapper to mafft (MSA)
 
     Manual: https://mafft.cbrc.jp/alignment/software/manual/manual.html
 
@@ -210,6 +244,13 @@ def run_mafft(
     mafft --globalpair --thread n in > out
     mafft --localpair --thread n in > out
     mafft --large --globalpair --thread n in > out
+
+    Args:
+        input_fasta (Path): _description_
+        output_file (Path, optional): _description_. Defaults to None.
+        n_threads (int, optional): _description_. Defaults to -1.
+        parallel (bool, optional): _description_. Defaults to True.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     input_fasta = Path(input_fasta).resolve()
     if output_file is None:
@@ -234,11 +275,16 @@ def run_muscle(
     maxiters: int = None,
     additional_args: str = None,
 ) -> None:
-    """
-    Simple CLI wrapper to muscle (MSA)
+    """Simple CLI wrapper to muscle (MSA)
     muscle: https://www.drive5.com/muscle/manual/output_formats.html
 
     output phylip and fasta.aln
+
+    Args:
+        input_fasta (Path): _description_
+        output_file (Path, optional): _description_. Defaults to None.
+        maxiters (int, optional): _description_. Defaults to None.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     input_fasta = Path(input_fasta).resolve()
     if output_file is None:
@@ -267,14 +313,20 @@ def run_fasttree(
     starting_tree: str = None,
     additional_args: str = None,
 ) -> None:
-    """
-    Simple CLI wrapper to fasttree.
+    """Simple CLI wrapper to fasttree.
     fasttree accepts multiple alignments in fasta or phylip formats
     It seems that fasttree does not allow inputing subsitution model.
     Default substitution model for protein seqs is JTT
 
     additional_args: a string containing additional parameters and
                      parameter values to be passed to fasttree
+
+    Args:
+        input_algns (Path): _description_
+        output_file (Path, optional): _description_. Defaults to None.
+        nucleotides (bool, optional): _description_. Defaults to False.
+        starting_tree (str, optional): _description_. Defaults to None.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     input_algns = Path(input_algns).resolve()
     if output_file is None:
@@ -298,8 +350,10 @@ def run_fasttree(
 
 
 def remove_auxiliary_output(output_prefix: str):
-    """
-    Removes iqtree auxiliary output files
+    """Removes iqtree auxiliary output files
+
+    Args:
+        output_prefix (str): _description_
     """
     exts_to_remove = [
         ".bionj",
@@ -329,8 +383,7 @@ def run_iqtree(
     overwrite_previous_results: bool = True,
     additional_args: str = None,
 ) -> None:
-    """
-    Simple CLI wrapper to iqtree.
+    """Simple CLI wrapper to iqtree.
     iqtree accepts multiple alignments in fasta or phylip formats.
 
     additional_args: a string containing additional parameters and
@@ -340,6 +393,20 @@ def run_iqtree(
 
     Reducing computational time via model selection:
     http://www.iqtree.org/doc/Command-Reference
+
+    Args:
+        input_algns (Path): _description_
+        output_dir (Path, optional): _description_. Defaults to None.
+        output_prefix (str, optional): _description_. Defaults to None.
+        keep_recovery_files (bool, optional): _description_. Defaults to False.
+        nucleotides (bool, optional): _description_. Defaults to False.
+        n_processes (int, optional): _description_. Defaults to None.
+        substitution_model (str, optional): _description_. Defaults to "TEST".
+        starting_tree (Path, optional): _description_. Defaults to None.
+        bootstrap_replicates (int, optional): _description_. Defaults to 1000.
+        max_bootstrap_iterations (int, optional): _description_. Defaults to 1000.
+        overwrite_previous_results (bool, optional): _description_. Defaults to True.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     input_algns = Path(input_algns).resolve()
     if output_dir is None:
@@ -388,8 +455,7 @@ def run_papara(
     output_aln: Path = None,
     additional_args: str = None,
 ) -> None:
-    """
-    Simple CLI wrapper to Papara. Output lignment in fasta format
+    """Simple CLI wrapper to Papara. Output lignment in fasta format
 
     Run Papara to do query alignment to reference MSA and tree (required for EPA-ng)
     Alignment could be done with hmmalign or muscle as well, but these tools don't
@@ -398,6 +464,13 @@ def run_papara(
     There seems to be a problem with enabling multithreading in papara when run as a static
     executable. It looks like it has to be enabled during compilation (but compilation currently not working):
     https://stackoverflow.com/questions/19618926/thread-doesnt-work-with-an-error-enable-multithreading-to-use-stdthread-ope
+
+    Args:
+        tree_nwk (Path): _description_
+        msa_phy (Path): _description_
+        query_fasta (Path): _description_
+        output_aln (Path, optional): _description_. Defaults to None.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     tree_nwk = Path(tree_nwk).resolve()
     msa_phy = Path(msa_phy).resolve()
@@ -433,14 +506,23 @@ def run_epang(
     overwrite_previous_results: bool = True,
     additional_args: str = None,
 ) -> None:
-    """
-    Simple CLI wrapper to EPA-ng
+    """Simple CLI wrapper to EPA-ng
     See epa-ng -h for additional parameters
     input_tree: newick format
     input_aln: fasta format
     input_aln_query: fasta format (sequences must be alignned to reference
     msa fasta and have the same length as the reference msa alignment)
     epa-ng: https://github.com/Pbdas/epa-ng
+
+    Args:
+        input_tree (Path): _description_
+        input_aln_ref (Path): _description_
+        input_aln_query (Path): _description_
+        model (str, optional): _description_. Defaults to None.
+        output_dir (Path, optional): _description_. Defaults to None.
+        n_threads (int, optional): _description_. Defaults to None.
+        overwrite_previous_results (bool, optional): _description_. Defaults to True.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     input_tree = Path(input_tree).resolve()
     input_aln_ref = Path(input_aln_ref).resolve()
@@ -475,9 +557,14 @@ def run_gappa_graft(
     output_prefix: str = None,
     additional_args: str = None,
 ) -> None:
-    """
-    Run gappa examine graft to obtain tree with placements in
+    """Run gappa examine graft to obtain tree with placements in
     newick format
+
+    Args:
+        input_jplace (Path): _description_
+        output_dir (Path, optional): _description_. Defaults to None.
+        output_prefix (str, optional): _description_. Defaults to None.
+        additional_args (str, optional): _description_. Defaults to None.
     """
     input_jplace = Path(input_jplace).resolve()
     if output_dir is None:
@@ -509,14 +596,22 @@ def run_gappa_assign(
     additional_args: str = None,
     delete_output_tree: bool = True,
 ) -> None:
-    """
-    Use gappa examine assign to assign taxonomy to placed query sequences
+    """Use gappa examine assign to assign taxonomy to placed query sequences
     based on taxonomy assigned to tree reference sequences
 
     argument: --resolve-missing-paths alongside --root-outgroup can be
     added to find missing taxonomic info in labels.
 
     Info: https://github.com/lczech/gappa/wiki/Subcommand:-assign
+
+    Args:
+        jplace (Path): _description_
+        taxonomy_file (Path): _description_
+        output_dir (Path, optional): _description_. Defaults to None.
+        output_prefix (str, optional): _description_. Defaults to None.
+        only_best_hit (bool, optional): _description_. Defaults to True.
+        additional_args (str, optional): _description_. Defaults to None.
+        delete_output_tree (bool, optional): _description_. Defaults to True.
     """
     jplace = Path(jplace).resolve()
     taxonomy_file = Path(taxonomy_file).resolve()

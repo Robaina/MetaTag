@@ -29,6 +29,11 @@ class ConfigParser:
     """Handle MetaTag configuration file."""
 
     def __init__(self, config_file: Path) -> None:
+        """Handle MetaTag configuration file."
+
+        Args:
+            config_file (Path): _description_
+        """
         self._config_file = Path(config_file).resolve()
         self._config = self.get_config()
 
@@ -109,6 +114,14 @@ class TemporaryFilePath:
     def __init__(
         self, work_dir: Path = None, extension: str = None, create_file: bool = False
     ):
+        """Custom context manager to create a temporary file
+           which is removed when exiting context manager
+
+        Args:
+            work_dir (Path, optional): _description_. Defaults to None.
+            extension (str, optional): _description_. Defaults to None.
+            create_file (bool, optional): _description_. Defaults to False.
+        """
         if work_dir is not None:
             self.work_dir = Path(work_dir).resolve()
         else:
@@ -137,6 +150,12 @@ class TemporaryDirectoryPath:
     """
 
     def __init__(self, work_dir: Path = None):
+        """Custom context manager to create a temporary directory
+           which is removed when exiting context manager
+
+        Args:
+            work_dir (Path, optional): _description_. Defaults to None.
+        """
         if work_dir is not None:
             self.work_dir = Path(work_dir).resolve()
         else:
@@ -219,8 +238,11 @@ def set_default_output_path(
 
 
 def save_to_pickle_file(python_object: object, path_to_file: Path = "object.pkl"):
-    """
-    Save python object to pickle file
+    """Save python object to pickle file
+
+    Args:
+        python_object (object): _description_
+        path_to_file (Path, optional): _description_. Defaults to "object.pkl".
     """
     outfile = open(path_to_file, "wb")
     pickle.dump(python_object, outfile)
@@ -228,9 +250,13 @@ def save_to_pickle_file(python_object: object, path_to_file: Path = "object.pkl"
 
 
 def read_from_pickle_file(path_to_file: Path = "object.pkl"):
-    """
-    Load python object from pickle file.
-    Returns python object.
+    """Load python object from pickle file.
+
+    Args:
+        path_to_file (Path, optional): _description_. Defaults to "object.pkl".
+
+    Returns:
+        _type_: _description_
     """
     infile = open(path_to_file, "rb")
     python_object = pickle.load(infile)
@@ -267,11 +293,14 @@ def terminal_execute(
 def parallelize_over_input_files(
     callable, input_list: list, n_processes: int = None, **callable_kwargs
 ) -> None:
-    """
-    Parallelize callable over a set of input objects using a pool
+    """Parallelize callable over a set of input objects using a pool
     of workers. Inputs in input list are passed to the first argument
-    of the callable.
-    Additional callable named arguments may be passed.
+    of the callable. Additional callable named arguments may be passed.
+
+    Args:
+        callable (_type_): _description_
+        input_list (list): _description_
+        n_processes (int, optional): _description_. Defaults to None.
     """
     if n_processes is None:
         n_processes = os.cpu_count - 1
@@ -313,8 +342,15 @@ def parallelize_over_input_files(
 def easy_pattern_matching(
     text: str, left_pattern: str, right_pattern: str = None
 ) -> str:
-    """
-    Just straightforward string searchs between two patterns
+    """Just straightforward string searchs between two patterns
+
+    Args:
+        text (str): _description_
+        left_pattern (str): _description_
+        right_pattern (str, optional): _description_. Defaults to None.
+
+    Returns:
+        str: _description_
     """
     idx1 = text.find(left_pattern)
     left_subtext = text[idx1 + len(left_pattern) :]
@@ -330,15 +366,20 @@ class DictMerger:
     def __init__(self, dicts: list[dict]) -> None:
         """
         Toos to merge python dictionaries into a single one
-        @param
-        dicts: list of dictionaries to be merged
+        Args
+            dicts: list of dictionaries to be merged
         """
         self._dict_list = dicts
 
     @classmethod
     def from_pickle_paths(cls, dict_paths: list[Path]) -> DictMerger:
-        """
-        Initialize class from list of paths to dictionaries (pickle)
+        """Initialize class from list of paths to dictionaries (pickle)
+
+        Args:
+            dict_paths (list[Path]): _description_
+
+        Returns:
+            DictMerger: _description_
         """
         dict_paths = [Path(dict_path).resolve() for dict_path in dict_paths]
         dict_list = [
@@ -349,9 +390,13 @@ class DictMerger:
 
     @staticmethod
     def read_from_pickle_file(path_to_file: Path = "object.pkl"):
-        """
-        Load python object from pickle file.
-        Returns python object.
+        """Load python object from pickle file
+
+        Args:
+            path_to_file (Path, optional): _description_. Defaults to "object.pkl".
+
+        Returns:
+            _type_: _description_
         """
         in_file = open(path_to_file, "rb")
         python_object = pickle.load(in_file)
@@ -361,11 +406,15 @@ class DictMerger:
     def merge(
         self, dict_prefixes: list[str] = None, save_pickle_path: Path = None
     ) -> dict:
-        """
-        Merge dictionaries
-        @params
-        dict_prefixes: list of strings containing prefixes to be added to
-                values in each dict (optional)
+        """Merge dictionaries
+
+        Args:
+            dict_prefixes (list[str], optional): list of strings containing prefixes
+            to be added to values in each dict (optional). Defaults to None.
+            save_pickle_path (Path, optional): _description_. Defaults to None.
+
+        Returns:
+            dict: _description_
         """
         if dict_prefixes is None:
             dict_prefixes = ["" for _ in range(len(self._dict_list))]
