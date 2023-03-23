@@ -173,6 +173,7 @@ class TemporaryDirectoryPath:
         if self.dir_path.exists():
             shutil.rmtree(self.dir_path)
 
+
 def set_default_output_path(
     input_path: Path,
     tag: str = None,
@@ -282,6 +283,7 @@ def parallelize_over_input_files(
     p.map(partial(callable, **callable_kwargs), input_list)
     p.close()
     p.join()
+
 
 def easy_pattern_matching(
     text: str, left_pattern: str, right_pattern: str = None

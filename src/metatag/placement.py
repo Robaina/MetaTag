@@ -264,7 +264,7 @@ class TaxAssignParser:
     @property
     def taxlevels(self):
         return Taxopath().taxlevels
-    
+
     def count_hits(
         self,
         cluster_ids: list[str] = None,
@@ -282,7 +282,7 @@ class TaxAssignParser:
             taxopath_type (str, optional): 'taxopath' to use gappa-assign taxopath or
                 'cluster_taxopath' to use lowest common taxopath of the reference tree cluster.
                 Defaults to "taxopath".
-            path_to_query_list (Path, optional): if not None, then a tsv is exported to 
+            path_to_query_list (Path, optional): if not None, then a tsv is exported to
                 defined location containing those queries with correct cluster assignment (
                 according to defined 'valid' cluster ids or threshold). Defaults to None.
 

@@ -71,7 +71,7 @@ def filter_fasta_by_sequence_length(
 
 def parse_hmmsearch_output(hmmer_output: Path) -> pd.DataFrame:
     """Parse hmmsearch or hmmscan summary table output file
-    
+
     Args
         hmmer_output (Path): path to hmmsearch or hmmscan summary table output file
     """
@@ -231,7 +231,7 @@ def split_reference_from_query_alignments(
     Args:
         ref_query_msa (Path): path to input papara/hmmalign alignment file
         ref_ids (set, optional): IDs of reference sequences. Defaults to None.
-        ref_prefix (str, optional): prefix employed by all reference sequences 
+        ref_prefix (str, optional): prefix employed by all reference sequences
             (Use instead of ref_ids). Defaults to None.
         output_dir (Path, optional): path to output directory. Defaults to None.
     """

@@ -102,7 +102,7 @@ def run_hmmsearch(
     n_processes: int = None,
     additional_args: str = None,
 ) -> None:
-    """ Simple CLI wrapper to hmmsearch or hmmscan
+    """Simple CLI wrapper to hmmsearch or hmmscan
 
     Args:
         hmm_model (Path): _description_

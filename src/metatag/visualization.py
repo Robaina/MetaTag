@@ -47,7 +47,7 @@ def plot_tree_in_browser(
     Args:
         input_tree (Path): path to tree in newick format
         output_dir (Path, optional): path to output directory. Defaults to None.
-        feature_metadata (Path, optional): path to fieature metadata 
+        feature_metadata (Path, optional): path to fieature metadata
             table as output by make_feature_metadata_table. Defaults to None.
     """
     input_tree = Path(input_tree).resolve()
