@@ -19,7 +19,6 @@ tests_dir = Path(__file__).parent
 class TestPipeline(unittest.TestCase):
     def test_pipeline(self):
         with TemporaryDirectory() as tempdir:
-
             tree_builder = ReferenceTreeBuilder(
                 input_database=tests_dir / "test_data" / "database",
                 hmms=[

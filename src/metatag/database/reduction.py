@@ -114,7 +114,7 @@ def reduce_database_redundancy(
             wrappers.run_mafft(
                 input_fasta=tempfasta,
                 output_file=tempaln,
-                n_threads=-1,
+                processes=-1,
                 parallel=True,
                 additional_args="--retree 1 --maxiterate 0",
             )

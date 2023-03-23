@@ -371,7 +371,7 @@ def place_reads_onto_tree(
         input_aln_query=aln_query_frac,
         model=tree_model,
         output_dir=output_dir,
-        n_threads=None,
+        processes=None,
         additional_args=None,
     )
 
