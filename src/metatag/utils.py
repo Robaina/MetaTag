@@ -16,6 +16,7 @@ import random
 import shutil
 import string
 import subprocess
+import sys
 from functools import partial
 from multiprocessing import Pool
 from pathlib import Path
@@ -37,7 +38,7 @@ def init_logger(args: ArgumentParser) -> logging.Logger:
     logging.basicConfig(
         format="%(asctime)s | %(levelname)s: %(message)s",
         handlers=[logging.FileHandler(args.logfile), logging.StreamHandler(sys.stdout)],
-        level=logging.NOTSET,
+        level=logging.INFO,
     )
     logger = logging.getLogger(__name__)
     return logger
