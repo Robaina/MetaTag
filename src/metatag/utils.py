@@ -7,6 +7,7 @@ Functions and classes for general purposes
 
 from __future__ import annotations
 
+from argparse import ArgumentParser
 import json
 import logging
 import os
@@ -20,6 +21,26 @@ from multiprocessing import Pool
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
+
+
+def init_logger(args: ArgumentParser) -> logging.Logger:
+    """Initialize logger object
+    Args:
+        args (Union[CommandArgs, ArgumentParser]): arguments object
+    Returns:
+        logging.Logger: initialized logger object
+    """
+    if args.logfile is None:
+        args.logfile = Path(os.devnull)
+    elif not Path(args.logfile.parent).exists():
+        Path(args.logfile.parent).mkdir(parents=True)
+    logging.basicConfig(
+        format="%(asctime)s | %(levelname)s: %(message)s",
+        handlers=[logging.FileHandler(args.logfile), logging.StreamHandler(sys.stdout)],
+        level=logging.NOTSET,
+    )
+    logger = logging.getLogger(__name__)
+    return logger
 
 
 class ConfigParser:

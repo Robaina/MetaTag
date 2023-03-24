@@ -28,9 +28,8 @@ from metatag.database.reduction import reduce_database_redundancy
 from metatag.utils import (
     DictMerger,
     set_default_output_path,
+    init_logger,
 )
-
-logger = logging.getLogger(__name__)
 
 
 def initialize_parser() -> argparse.ArgumentParser:
@@ -157,11 +156,26 @@ def initialize_parser() -> argparse.ArgumentParser:
             'Defaults to additional arguments string: "--cut_nc". If no additional arguments are needed, provide the value "None"'
         ),
     )
+    optional.add_argument(
+        "-l",
+        "--log",
+        dest="logfile",
+        type=Path,
+        default=None,
+        metavar="",
+        required=False,
+        help="path to log file. Log not written by default.",
+    )
     return parser
 
 
 def run(args: argparse.ArgumentParser) -> None:
-    """_summary_"""
+    """_summary_
+
+    Args:
+        args (argparse.ArgumentParser): _description_
+    """
+    logger = init_logger(args)
     if args.maxsizes is None:
         args.maxsizes = [None for _ in args.hmms]
     else:
@@ -256,8 +270,8 @@ def run(args: argparse.ArgumentParser) -> None:
             DictMerger.from_pickle_paths(pickle_dict_paths).merge(
                 save_pickle_path=output_pickle_short_ids
             )
-
     logger.info("Done!")
+    logging.shutdown()
 
 
 if __name__ == "__main__":

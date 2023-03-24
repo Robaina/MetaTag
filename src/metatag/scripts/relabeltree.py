@@ -14,11 +14,10 @@ from pathlib import Path
 from metatag.database.preprocessing import set_original_record_ids_in_fasta
 from metatag.phylotree import relabel_tree
 from metatag.taxonomy import TaxonomyAssigner
-from metatag.utils import DictMerger, set_default_output_path
+from metatag.utils import DictMerger, set_default_output_path, init_logger  
 
 package_dir = Path(__file__).parent.parent
 
-logger = logging.getLogger(__name__)
 
 
 def initialize_label_dict(args) -> dict:
@@ -141,11 +140,26 @@ def initialize_parser() -> argparse.ArgumentParser:
             "Defaults to None, in which case a custom GTDB taxonomy database of marine prokaryotes is used."
         ),
     )
+    optional.add_argument(
+        "-l",
+        "--log",
+        dest="logfile",
+        type=Path,
+        default=None,
+        metavar="",
+        required=False,
+        help="path to log file. Log not written by default.",
+    )
     return parser
 
 
 def run(args: argparse.ArgumentParser) -> None:
-    """_summary_"""
+    """_summary_
+
+    Args:
+        args (argparse.ArgumentParser): _description_
+    """
+    logger = init_logger(args)
     if args.outdir is None:
         args.outdir = set_default_output_path(args.tree, only_dirname=True)
     else:
@@ -178,6 +192,8 @@ def run(args: argparse.ArgumentParser) -> None:
         set_original_record_ids_in_fasta(
             input_fasta=args.aln, label_dict=label_dict, output_fasta=alnout
         )
+    logger.info("Done!")
+    logging.shutdown()
 
 
 if __name__ == "__main__":

@@ -11,13 +11,12 @@ import argparse
 import logging
 from pathlib import Path
 
-from metatag.utils import DictMerger, set_default_output_path
+from metatag.utils import DictMerger, set_default_output_path, init_logger
 from metatag.visualization import (
     make_feature_metadata_table,
     plot_tree_in_browser,
 )
 
-logger = logging.getLogger(__name__)
 
 
 def initialize_parser() -> argparse.ArgumentParser:
@@ -57,7 +56,12 @@ def initialize_parser() -> argparse.ArgumentParser:
 
 
 def run(args: argparse.ArgumentParser) -> None:
-    """_summary_"""
+    """_summary_
+
+    Args:
+        args (argparse.ArgumentParser): _description_
+    """
+    logger = init_logger(args)
     if args.outdir is None:
         args.outdir = set_default_output_path(args.tree, only_dirname=True)
     else:
@@ -81,7 +85,8 @@ def run(args: argparse.ArgumentParser) -> None:
         output_dir=args.outdir / "empress-plot",
         feature_metadata=feature_metadata,
     )
-
+    logger.info("Done!")
+    logging.shutdown()
 
 if __name__ == "__main__":
     args = initialize_parser().parse_args()

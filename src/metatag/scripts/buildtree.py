@@ -14,9 +14,7 @@ from pathlib import Path
 
 from metatag.alignment import align_peptides
 from metatag.phylotree import infer_tree
-from metatag.utils import set_default_output_path
-
-logger = logging.getLogger(__name__)
+from metatag.utils import set_default_output_path, init_logger
 
 
 def initialize_parser() -> argparse.ArgumentParser:
@@ -68,11 +66,26 @@ def initialize_parser() -> argparse.ArgumentParser:
             "Defaults to optimal per modeltest-ng."
         ),
     )
+    optional.add_argument(
+        "-l",
+        "--log",
+        dest="logfile",
+        type=Path,
+        default=None,
+        metavar="",
+        required=False,
+        help="path to log file. Log not written by default.",
+    )
     return parser
 
 
 def run(args: argparse.ArgumentParser) -> None:
-    """_summary_"""
+    """_summary_
+
+    Args:
+        args (argparse.ArgumentParser): _description_
+    """
+    logger = init_logger(args)
     if args.outdir is None:
         args.outdir = set_default_output_path(args.data, only_dirname=True)
     else:
@@ -95,8 +108,8 @@ def run(args: argparse.ArgumentParser) -> None:
         output_dir=args.outdir,
         additional_args="",
     )
-
     logger.info("Done!")
+    logging.shutdown()
 
 
 if __name__ == "__main__":
