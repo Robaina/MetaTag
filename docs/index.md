@@ -51,6 +51,8 @@ MetaTag is designed to run on Linux machines. However, it can be installed withi
 
 ## General usage
 
+MetaTag can be used either as command line tool or as a Python package.
+
 
 ## Getting started and Examples
 
