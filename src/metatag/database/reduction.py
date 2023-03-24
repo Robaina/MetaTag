@@ -30,11 +30,17 @@ logger = logging.getLogger(__name__)
 def get_representative_set(
     input_seqs: Path, input_pi: Path, max_size: int = None, output_file: Path = None
 ) -> None:
-    """
-    Runs repset.py to obtain a representative
-    set of size equal to max_size (or smaller if less sequences than max_size)
-    or an ordered list (by 'representativeness') of representative sequences
-    if max_size set to None.
+    """Runs repset.py to obtain a representative
+       set of size equal to max_size (or smaller if less sequences than max_size)
+       or an ordered list (by 'representativeness') of representative sequences
+       if max_size set to None.
+
+    Args:
+        input_seqs (Path): path to input FASTA file containing sequences
+        input_pi (Path): path to input file containing pairwise identity
+        max_size (int, optional): maximum number of sequences in reduced database.
+            Defaults to None.
+        output_file (Path, optional): path to output file. Defaults to None.
     """
     input_seqs = Path(input_seqs).resolve()
     input_pi = Path(input_pi).resolve()
@@ -70,13 +76,20 @@ def reduce_database_redundancy(
     maxsize: int = None,
     cdhit_args: str = None,
 ) -> None:
-    """
-    Reduce redundancy of peptide datatabase.
-    Runs cd-hit, if selected, additional arguments to cdhit
-    may be passed as a string (cdhit_args).
-    Runs repset to obtain a final database size no larger
-    (number of sequences) than selected maxsize.
-    If maxsize = None, repset is not run.
+    """Reduce redundancy of peptide datatabase.
+       Runs cd-hit, if selected, additional arguments to cdhit
+       may be passed as a string (cdhit_args).
+       Runs repset to obtain a final database size no larger
+       (number of sequences) than selected maxsize.
+       If maxsize = None, repset is not run.
+
+    Args:
+        input_fasta (Path): path to input FASTA file.
+        output_fasta (Path, optional): path to output, reduced fasta.
+            Defaults to None.
+        cdhit (bool, optional): whether to use CD-HIT alongside repset. Defaults to True.
+        maxsize (int, optional): maximum number of sequences in final database. Defaults to None.
+        cdhit_args (str, optional): additional arguments to CD-HIT. Defaults to None.
     """
     input_fasta = Path(input_fasta).resolve()
     if output_fasta is None:
@@ -101,7 +114,7 @@ def reduce_database_redundancy(
             wrappers.run_mafft(
                 input_fasta=tempfasta,
                 output_file=tempaln,
-                n_threads=-1,
+                processes=-1,
                 parallel=True,
                 additional_args="--retree 1 --maxiterate 0",
             )

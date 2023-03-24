@@ -20,6 +20,12 @@ class Taxopath:
     """
 
     def __init__(self, taxopath_str: str = None, delimiter: str = ";"):
+        """_summary_
+
+        Args:
+            taxopath_str (str, optional): taxopath as a string. Defaults to None.
+            delimiter (str, optional): taxa delimiter in taxopath. Defaults to ";".
+        """
         self._taxopath = taxopath_str
         self._delimiter = delimiter
         self._tax_levels = [
@@ -43,8 +49,15 @@ class Taxopath:
 
     @classmethod
     def from_dict(cls, taxodict: dict, delimiter: str = ";") -> Taxopath:
-        """
-        Instantiate Taxopath object from dict
+        """Instantiate Taxopath object from dict
+
+        Args:
+            taxodict (dict): dict of taxonomic levels and taxa
+            delimiter (str, optional): delimiter to separate taxon levels.
+                Defaults to ";".
+
+        Returns:
+            Taxopath: Taxopath object
         """
         taxa = []
         for taxon in taxodict.values():
@@ -54,30 +67,6 @@ class Taxopath:
                 taxa.append(taxon)
         taxostr = delimiter.join(taxa)
         return cls(taxopath_str=taxostr, delimiter=delimiter)
-
-    # @classmethod
-    # def get_lowest_common_taxopath(cls, taxopaths: list[str]) -> Taxopath:
-    #     """
-    #     compute lowest common taxopath (ancestor) of a list
-    #     of taxopaths
-    #     """
-    #     taxopath_dicts = [cls(taxostr).taxodict for taxostr in taxopaths]
-    #     common_taxodict = cls().taxodict
-    #     for taxlevel in cls().taxlevels:
-    #         taxa = set([taxdict[taxlevel] for taxdict in taxopath_dicts])
-    #         if len(taxa) > 1:
-    #             break
-    #         else:
-    #             common_taxodict[taxlevel] = list(taxa)[0]
-    #     return cls.from_dict(common_taxodict)
-
-    # @property
-    # def taxostring(self):
-    #     return self._taxopath
-
-    # @property
-    # def taxlevels(self):
-    #     return self._tax_levels
 
 
 class TaxonomyAssigner:
@@ -91,11 +80,18 @@ class TaxonomyAssigner:
             .drop_duplicates(subset="genome")
             .set_index("genome")
         )
+        """Methods to assign taxonomy to reference sequences
+        """
 
     @staticmethod
     def lowest_common_taxonomy(taxopaths: list[str]) -> str:
-        """
-        Find lowest common taxonomy among set of taxopaths
+        """Find lowest common taxonomy among set of taxopaths
+
+        Args:
+            taxopaths (list[str]): list of taxopath strings
+
+        Returns:
+            str: lowest common taxopaht
         """
         data = pd.DataFrame([t.split(";") for t in taxopaths])
         taxlevels = ["d__", "p__", "c__", "o__", "f__", "g__", "s__"]
@@ -113,8 +109,13 @@ class TaxonomyAssigner:
         return genome_id
 
     def assign_taxonomy_to_label(self, label: str) -> str:
-        """
-        Assign GTDB taxonomy to label based on genome ID
+        """Assign GTDB taxonomy to label based on genome ID
+
+        Args:
+            label (str): reference label containing genome ID
+
+        Returns:
+            str: GTDB taxonomy as a string taxopath
         """
         genome_id = self._extract_genome_id_from_label(label)
         if genome_id in self._taxodata.index:
@@ -123,9 +124,14 @@ class TaxonomyAssigner:
             return "No_taxonomy_found"
 
     def assign_lowest_common_taxonomy_to_labels(self, labels: list[str]) -> str:
-        """
-        Assing taxonomy to set of labels and find lowest common taxonomy
+        """Assing taxonomy to set of labels and find lowest common taxonomy
         among them
+
+        Args:
+            labels (list[str]): list of reference labels containing genome IDs
+
+        Returns:
+            str: lowest common GTDB taxonomy
         """
         taxopaths = [
             taxopath
@@ -143,10 +149,19 @@ class TaxonomyAssigner:
     def assign_lowest_common_taxonomy_to_clusters(
         self, clusters: dict, label_dict: dict = None
     ) -> dict:
-        """
-        Find lowest possible common taxonomy to reference labels in clusters
+        """Find lowest possible common taxonomy to reference labels in clusters
         If reference labels do not contain genome IDs, a dictionary, label_dict,
         of reference labels and genome ids (or labels with genome ids) must be passed
+
+        Args:
+            clusters (dict): dictionary with keys as cluster IDs and values as lists
+                of reference labels in each cluster
+            label_dict (dict, optional): dictionary with keys as short IDs and values
+                as reference (full) labels. Defaults to None.
+
+        Returns:
+            dict: dictionary with keys as cluster IDs and values as lowest common
+                taxopath for each cluster
         """
         clusters_taxopath = {}
         for cluster_id, cluster in clusters.items():
@@ -161,10 +176,14 @@ class TaxonomyAssigner:
     def build_gappa_taxonomy_table(
         self, ref_id_dict: dict, output_file: Path = None
     ) -> None:
-        """
-        Build gappa-compatible taxonomy file as specified here:
+        """Build gappa-compatible taxonomy file as specified here:
         https://github.com/lczech/gappa/wiki/Subcommand:-assign
         Removes references without assigned taxonomy
+
+        Args:
+            ref_id_dict (dict): dictionary with keys as reference IDs and values as
+                reference labels
+            output_file (Path, optional): path to output file. Defaults to None.
         """
         if output_file is None:
             output_file = Path().resolve() / "gappa_taxonomy.tsv"
@@ -200,8 +219,18 @@ class TaxonomyCounter:
         plot_type: str = "bar",
         output_pdf: Path = None,
     ) -> pd.DataFrame:
-        """
-        Compute counts and fraction at specified taxonomy levels
+        """Compute counts and fraction at specified taxonomy levels
+
+        Args:
+            taxlevel (str, optional): tanoxomy level to perform counts at.
+                Defaults to "family".
+            output_tsv (Path, optional): path to output file. Defaults to None.
+            plot_type (str, optional): choose either "bar" or "pie". Defaults to "bar".
+            output_pdf (Path, optional): path to output pdf with figures.
+                Defaults to None.
+
+        Returns:
+            pd.DataFrame: dataframe with counts and fraction at specified taxlevel
         """
         counts = self._taxohits[taxlevel].value_counts(normalize=False)
         # Merge counts from "Unspecified" and empty tax level, e.g., "f__"
@@ -235,9 +264,20 @@ class TaxonomyCounter:
         output_pdf: Path = None,
         title: str = None,
     ):
-        """
-        Make (and optionally export) barplot ('bar') or pieplot ('pie')
+        """Make (and optionally export) barplot ('bar') or pieplot ('pie')
         figure depicting counting results at specified taxonomic level
+
+        Args:
+            count_data (pd.DataFrame): dataframe with counts and fraction
+                at specified taxonomy level as returned by get_counts()
+            plot_type (str, optional): choose between "bar" and "pie".
+                Defaults to "bar".
+            output_pdf (Path, optional): path to output pdf containing figure.
+                Defaults to None.
+            title (str, optional): figure title. Defaults to None.
+
+        Returns:
+            _type_: _description_
         """
         if title is None:
             title = ""
@@ -252,39 +292,3 @@ class TaxonomyCounter:
         if output_pdf is not None:
             fig.savefig(output_pdf, format="pdf")
         return fig
-
-
-# def evaluate_taxonomy_of_reference_database(
-#     label_dict_pickle: Path = None,
-#     taxlevels: list[str] = None,
-#     output_dir: Path = None,
-#     plot_results: bool = False,
-# ) -> None:
-#     """
-#     Assign taxonomy to sequences and evaluate taxonomical representation
-#     """
-#     if taxlevels is None:
-#         taxlevels = ["class", "order", "family", "genus"]
-#     if output_dir is None:
-#         output_dir = set_default_output_path(label_dict_pickle, only_dir_name=True)
-#     else:
-#         output_dir = Path(output_dir).resolve()
-
-#     taxonomy = TaxonomyAssigner(taxo_file=Path("./data/merged_taxonomy.tsv"))
-#     label_dict = read_from_pickle_file(label_dict_pickle)
-#     taxopaths = [
-#         taxonomy.assign_taxonomy_to_label(label) for label in label_dict.values()
-#     ]
-#     taxcounter = TaxonomyCounter(taxopaths)
-
-#     for taxlevel in taxlevels:
-#         if plot_results:
-#             outpdf = output_dir / f"ref_taxonomy_counts_{taxlevel}.pdf"
-#         else:
-#             outpdf = None
-#         taxcounter.get_counts(
-#             taxlevel,
-#             output_tsv=output_dir / f"ref_taxonomy_counts_{taxlevel}.tsv",
-#             plot_type="bar",
-#             output_pdf=outpdf,
-#         )

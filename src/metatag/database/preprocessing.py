@@ -3,10 +3,6 @@
 
 """
 Tools to preprocess sequence databases
-
-1. Remove illegal characters from peptide sequences
-2. Remove illegal symbols from file paths
-3. Relabel fasta records and make dictionary with old labels
 """
 
 import logging
@@ -31,8 +27,14 @@ def remove_duplicates_from_fasta(
     export_duplicates: bool = False,
     duplicates_file: Path = None,
 ) -> None:
-    """
-    Removes duplicate entries (either by sequence or ID) from fasta.
+    """Removes duplicate entries (either by sequence or ID) from fasta.
+
+    Args:
+        input_fasta (Path): path to input FASTA file
+        output_fasta (Path, optional): path to output file. Defaults to None.
+        export_duplicates (bool, optional): whether to export a file cotnainig
+            duplicated sequences. Defaults to False.
+        duplicates_file (Path, optional): path to duplicates output file. Defaults to None.
     """
     if output_fasta is None:
         output_fasta = set_default_output_path(input_fasta, "_noduplicates")
@@ -52,8 +54,11 @@ def remove_duplicates_from_fasta(
 
 
 def merge_fastas(input_fastas_dir: Path, output_fasta: Path = None) -> None:
-    """
-    Merge input fasta files into a single fasta
+    """Merge input fasta files into a single fasta
+
+    Args:
+        input_fastas_dir (Path): path to input FASTA file
+        output_fasta (Path, optional): path to output file. Defaults to None.
     """
     input_fastas_dir = Path(input_fastas_dir).resolve()
     if output_fasta is None:
@@ -66,21 +71,14 @@ def merge_fastas(input_fastas_dir: Path, output_fasta: Path = None) -> None:
     file.close()
 
 
-# def assert_correct_file_path(file: Path) -> None:
-#     """
-#     Remove illegal symbols from file path
-#     """
-#     file = Path(file).resolve()
-#     upper_lower_digits = re.compile("[^a-zA-Z0-9]")
-#     fdir = file.parent
-#     fname, ext = file.stem, file.suffix
-#     clean_fname = upper_lower_digits.sub("_", fname).replace("__", "_").strip("_")
-#     return fdir / f"{clean_fname}{ext}"
-
-
 def fasta_contains_nucleotide_sequences(fasta_file: Path) -> bool:
-    """
-    Check whether fasta file contains nucleotide sequences
+    """Check whether fasta file contains nucleotide sequences
+
+    Args:
+        fasta_file (Path): path to input FASTA file
+
+    Returns:
+        bool: whehter FASTa contains nucleotide sequences
     """
     ffile = open(fasta_file, "r")
     seq_1 = next(SeqIO.parse(ffile, "fasta"))
@@ -90,8 +88,13 @@ def fasta_contains_nucleotide_sequences(fasta_file: Path) -> bool:
 
 
 def is_legit_peptide_sequence(record_seq: str) -> bool:
-    """
-    Assert that peptide sequence only contains valid symbols
+    """Assert that peptide sequence only contains valid symbols
+
+    Args:
+        record_seq (str): record sequence as a string
+
+    Returns:
+        bool: whether sequence correpsonds to a peptide
     """
     aas = {
         "A",
@@ -120,8 +123,13 @@ def is_legit_peptide_sequence(record_seq: str) -> bool:
 
 
 def is_legit_dna_sequence(record_seq: str) -> bool:
-    """
-    Assert that DNA sequence only contains valid symbols
+    """Assert that DNA sequence only contains valid symbols
+
+    Args:
+        record_seq (str): record squence as a string
+
+    Returns:
+        bool: whether sequence corresponds to DNA
     """
     nts = {"A", "G", "T", "C"}
     seq_symbols = {s.upper() for s in record_seq}
@@ -133,8 +141,13 @@ def assert_correct_sequence_format(
     output_file: Path = None,
     is_peptide: bool = True,
 ) -> None:
-    """
-    Filter out (DNA or peptide) sequences containing illegal characters
+    """Filter out (DNA or peptide) sequences containing illegal characters
+
+    Args:
+        fasta_file (Path): path to input FASTA file
+        output_file (Path, optional): path to output file. Defaults to None.
+        is_peptide (bool, optional): whether FASTA contains peptide sequences.
+            Defaults to True.
     """
     fasta_file = Path(fasta_file).resolve()
     dirname = fasta_file.parent
@@ -168,8 +181,15 @@ def set_temp_record_ids_in_fasta(
     output_fasta: Path = None,
     output_dict: Path = None,
 ) -> None:
-    """
-    Change record ids for numbers and store then in a dictionary
+    """Change record ids for numbers and store then in a dictionary
+
+    Args:
+        input_fasta (Path): path to input FASTA file
+        output_dir (Path, optional): path to output directory. Defaults to None.
+        prefix (str, optional): prefix to record names in output FASTA.
+             Defaults to None.
+        output_fasta (Path, optional): _description_. Defaults to None.
+        output_dict (Path, optional): _description_. Defaults to None.
     """
     input_fasta = Path(input_fasta).resolve()
     if output_dir is None:
@@ -206,9 +226,14 @@ def set_temp_record_ids_in_fasta(
 
 def set_original_record_ids_in_fasta(
     input_fasta: Path, label_dict: dict = None, output_fasta: Path = None
-):
-    """
-    Relabel temporary record ID by original IDs
+) -> None:
+    """Relabel temporary record ID by original IDs
+
+    Args:
+        input_fasta (Path): path to input FASTA file
+        label_dict (dict, optional): dictionary containing labels to short IDs
+            Defaults to None.
+        output_fasta (Path, optional): path to output file. Defaults to None.
     """
     input_fasta = Path(input_fasta).resolve()
     if output_fasta is None:
@@ -231,12 +256,14 @@ def set_original_record_ids_in_fasta(
 def write_record_names_to_file(
     input_fasta: Path, filter_by_tag: str = None, output_file: Path = None
 ):
-    """
-    Write a txt file containing a list of record IDs in fasta
-    @params:
-    filter_by_tag: set to str containing a pattern to match
-    in record labels. In this case, only matched record labels
-    are returned.
+    """Write a txt file containing a list of record IDs in fasta
+
+    Args:
+        input_fasta (Path): path to input FASTA file
+        filter_by_tag (str, optional): set to str containing a pattern to match
+            in record labels. In this case, only matched record labels
+            are returned. Defaults to None.
+        output_file (Path, optional): path to output file. Defaults to None.
     """
     input_fasta = Path(input_fasta).resolve()
     if output_file is None:
@@ -251,28 +278,15 @@ def write_record_names_to_file(
     terminal_execute(cmd_str, suppress_shell_output=False)
 
 
-# def fastq2fasta(
-#     input_fastq: Path, output_fasta: Path = None, unzip: bool = True
-# ) -> None:
-#     """
-#     Convert Fastq to FASTA format via sed
-#     """
-#     input_fastq = Path(input_fastq).resolve()
-#     if output_fasta is None:
-#         output_fasta = set_default_output_path(input_fastq, extension=".fasta")
-#     else:
-#         output_fasta = Path(output_fasta).resolve()
-#     if unzip:
-#         input_uncompressed = input_fastq.as_posix().strip(".gz")
-#         cmd_str = f"gzip -d {input_fastq} > {input_uncompressed}"
-#         terminal_execute(cmd_str, suppress_shell_output=False)
-#         input_fastq = input_uncompressed
+def is_fasta(filename: Path) -> bool:
+    """Check whether file is of type FASTA
 
-#     cmd_str = f"sed -n '1~4s/^@/>/p;2~4p' {input_fastq} > {output_fasta}"
-#     terminal_execute(cmd_str, suppress_shell_output=False)
+    Args:
+        filename (Path): path to input file
 
-
-def is_fasta(filename: Path):
+    Returns:
+        bool: answer
+    """
     filename = Path(filename).resolve()
     if filename.exists():
         with open(filename, "r") as handle:

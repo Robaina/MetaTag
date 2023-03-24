@@ -17,10 +17,15 @@ from metatag.utils import terminal_execute
 def make_feature_metadata_table(
     label_dict: dict, output_tsv: Path, original_labels: bool = True
 ) -> None:
-    """
-    Construct feature metadata tsv classifiying reference and
+    """Construct feature metadata tsv classifiying reference and
     query sequences for empress
     https://github.com/biocore/empress/issues/548
+
+    Args:
+        label_dict (dict): dictionary of sequence short IDs and labels
+        output_tsv (Path): path to output tsv file
+        original_labels (bool, optional): whether to include original
+            long labels in tree. Defaults to True.
     """
     feature_dict = {
         seq_name if original_labels else seq_id: "ref" if "ref_" in seq_id else "query"
@@ -34,11 +39,16 @@ def make_feature_metadata_table(
 def plot_tree_in_browser(
     input_tree: Path, output_dir: Path = None, feature_metadata: Path = None
 ) -> None:
-    """
-    Runs empress tree-plot
+    """Runs empress tree-plot
     input_tree: tree in newick format
     feature_metadata: path to tsv file containing feature metadata
     empress: https://github.com/biocore/empress
+
+    Args:
+        input_tree (Path): path to tree in newick format
+        output_dir (Path, optional): path to output directory. Defaults to None.
+        feature_metadata (Path, optional): path to fieature metadata
+            table as output by make_feature_metadata_table. Defaults to None.
     """
     input_tree = Path(input_tree).resolve()
     if output_dir is None:

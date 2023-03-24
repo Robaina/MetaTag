@@ -70,79 +70,24 @@ class JplaceParser:
         """
         return self.jplace["placements"]
 
-    # def get_tree_str(self, newick=False) -> str:
-    #     """
-    #     Return tree string in original or newick format
-    #     Original format contains branch labels
-    #     in curly brackets. Newick format removes
-    #     these labels.
-    #     """
-    #     if newick:
-    #         return self.newickfy_tree(self.jplace["tree"])
-    #     else:
-    #         return self.jplace["tree"]
-
     @staticmethod
     def newickfy_tree(tree_str: str) -> str:
-        """
-        Remove branch IDs from jplace tree string
+        """Remove branch IDs from jplace tree string
+
+        Args:
+            tree_str (str): jplace tree string
+
+        Returns:
+            str: newick tree string
         """
         subs_tree = re.sub("\{(\d+)\}", "", tree_str)
         return subs_tree
-        # return next(Phylo.parse(StringIO(subs_tree), 'newick'))
 
     def get_reference_sequences(self) -> list:
         """
         Get list of reference sequences in the placement tree
         """
         return [c.name for c in self._tree_obj.get_terminals()]
-
-    # def build_branch_dict(self) -> dict:
-    #     """
-    #     Build dictionary with edge/branch numbers as keys and
-    #     reference tree leaves as values
-    #     """
-
-    #     def get_id(s):
-    #         return int(re.search("\{(\d+)\}", s).group(1))
-
-    #     original_tree = self.jplace["tree"]
-    #     leaves = self._tree_obj.get_terminals()
-
-    #     branches = {
-    #         get_id(original_tree[original_tree.find(leaf.name) :]): leaf.name
-    #         for leaf in leaves
-    #     }
-    #     return branches
-
-    # def extract_placement_fields(self, pfielddata: list) -> dict:
-    #     """
-    #     Get dict with placement field values from list of values
-    #     """
-    #     fields = self.jplace["fields"]
-    #     return {field: pfielddata[i] for i, field in enumerate(fields)}
-
-    # def select_best_placement(self, placement_object: dict) -> dict:
-    #     """
-    #     Select placement with lowest likelihood
-    #     """
-    #     pdata = [
-    #         self.extract_placement_fields(pfielddata)
-    #         for pfielddata in placement_object["p"]
-    #     ]
-    #     lowest_like_placement = sorted(pdata, key=lambda x: x["likelihood"])[0]
-    #     return {"p": lowest_like_placement, "n": placement_object["n"]}
-
-    # def select_best_placements(self):
-    #     """
-    #     Select placement with lowest likelihood for
-    #     all placement objects in placements
-    #     """
-    #     best_placements = [
-    #         self.select_best_placement(placement)
-    #         for placement in self.jplace["placements"]
-    #     ]
-    #     return best_placements
 
     def compute_tree_diameter(self) -> float:
         """
@@ -163,8 +108,11 @@ class JplaceParser:
     def filter_placements_by_minimum_lwr(
         self, minimum_lwr: float, output_file: Path = None
     ) -> None:
-        """
-        Filter placements by minimum LWR (from 0 to 1)
+        """Filter placements by minimum LWR
+
+        Args:
+            minimum_lwr (float): LWR threshold (between 0 and 1)
+            output_file (Path, optional): path to output file. Defaults to None.
         """
         if output_file is None:
             output_file = set_default_output_path(
@@ -191,8 +139,11 @@ class JplaceParser:
     def filter_placements_by_max_pendant_to_tree_diameter_ratio(
         self, max_pendant_ratio: float, output_file: Path = None
     ) -> None:
-        """
-        Filter placements by maximum pendant length
+        """Filter placements by maximum pendant length
+
+        Args:
+            max_pendant_ratio (float): cutoff value for pendant  to tree diameter ratio
+            output_file (Path, optional): path to output file. Defaults to None.
         """
         if output_file is None:
             output_file = set_default_output_path(
@@ -223,8 +174,11 @@ class JplaceParser:
     def filter_placements_by_max_pendant_length(
         self, max_pendant_length: float, output_file: Path = None
     ) -> None:
-        """
-        Filter placements by maximum pendant length
+        """Filter placements by maximum pendant length
+
+        Args:
+            max_pendant_length (float): cutoff value for pendant length of placements
+            output_file (Path, optional): path to output file. Defaults to None.
         """
         if output_file is None:
             output_file = set_default_output_path(
@@ -252,8 +206,12 @@ class JplaceParser:
     def filter_placements_by_max_pendant_to_distal_length_ratio(
         self, max_pendant_ratio: float, output_file: Path = None
     ) -> None:
-        """
-        Filter placements by maximum pendant length
+        """Filter placements by maximum pendant length
+
+        Args:
+            max_pendant_ratio (float): cutoff value for the pendant to
+                distal length ratio of placements
+            output_file (Path, optional): path to output file. Defaults to None.
         """
         if output_file is None:
             output_file = set_default_output_path(
@@ -286,6 +244,11 @@ class TaxAssignParser:
     """
 
     def __init__(self, tax_assign_path: Path):
+        """Parse function and taxonomy placement assignments table
+
+        Args:
+            tax_assign_path (Path): path to tsv file containing taxonomic assignments
+        """
         self._tax_assign = pd.read_csv(tax_assign_path, sep="\t")
         self._tax_assign = self._tax_assign[self._tax_assign.cluster_id != "DISTANT"]
         self._tax_assign.cluster_score = self._tax_assign.cluster_score.apply(
@@ -309,19 +272,22 @@ class TaxAssignParser:
         taxopath_type: str = "taxopath",
         path_to_query_list: Path = None,
     ) -> TaxonomyCounter:
-        """
-        Count hits within given cluster ids and at specificied taxon level
-        @Params:
-        normalize=True, then results are reported as fractions of total
-        cluster_ids: IDs of tree clusters to be included in the counting of placements
-        score_threshold: global placement score threshold to filter
-                         low-quality placements out
-        taxopath_type: 'taxopath' to use gappa-assign taxopath or 'cluster_taxopath'
-                        to use lowest common taxopath of the reference tree cluster
-        path_to_query_list: Path, if not None, then a tsv is exported to defined location
-                            containing those queries with correct cluster assignment (
-                                according to defined 'valid' cluster ids or threshold
-                            )
+        """Count hits within given cluster ids and at specificied taxon level
+
+        Args:
+            cluster_ids (list[str], optional): IDs of tree clusters to be included
+                in the counting of placements. Defaults to None.
+            score_threshold (float, optional): global placement score threshold to filter
+                low-quality placements out. Defaults to None.
+            taxopath_type (str, optional): 'taxopath' to use gappa-assign taxopath or
+                'cluster_taxopath' to use lowest common taxopath of the reference tree cluster.
+                Defaults to "taxopath".
+            path_to_query_list (Path, optional): if not None, then a tsv is exported to
+                defined location containing those queries with correct cluster assignment (
+                according to defined 'valid' cluster ids or threshold). Defaults to None.
+
+        Returns:
+            TaxonomyCounter: _description_
         """
         if cluster_ids is None:
             cluster_ids = self._tax_assign.cluster_id.unique()
@@ -355,10 +321,17 @@ def place_reads_onto_tree(
     aln_method: str = "papara",
     output_dir: Path = None,
 ) -> None:
-    """
-    Performs short read placement onto phylogenetic tree
+    """Performs short read placement onto phylogenetic tree
     tree_model: str, either the model name or path to log output by iqtree
     workflow example: https://github.com/Pbdas/epa-ng/wiki/Full-Stack-Example
+
+    Args:
+        input_tree (Path): path to input tree
+        tree_model (str): substitution model used for tree inference
+        ref_aln (Path): path to reference alignment
+        query_seqs (Path): path to query sequences
+        aln_method (str, optional): choose either "papara" or "hmmalign". Defaults to "papara".
+        output_dir (Path, optional): path to output directory. Defaults to None.
     """
     if output_dir is None:
         output_dir = set_default_output_path(query_seqs, only_dirname=True)
@@ -398,18 +371,22 @@ def place_reads_onto_tree(
         input_aln_query=aln_query_frac,
         model=tree_model,
         output_dir=output_dir,
-        n_threads=None,
+        processes=None,
         additional_args=None,
     )
 
 
 def parse_tree_clusters(clusters_tsv: Path, cluster_as_key: bool = True) -> dict:
-    """
-    Parse clusters text file into dictionary
-    @param
-    clusters_as_key: if True then dict keys are cluster IDs and values
-    are lists of reference IDs. If False, dict keys are reference IDs and
-    values the cluster to which they belong.
+    """Parse clusters text file into dictionary
+
+    Args:
+        clusters_tsv (Path): path to tsv containing tree cluster definitions
+        cluster_as_key (bool, optional): if True then dict keys are cluster IDs and values
+        are lists of reference IDs. If False, dict keys are reference IDs and
+        values the cluster to which they belong.. Defaults to True.
+
+    Returns:
+        dict: _description_
     """
     df = pd.read_csv(clusters_tsv, sep="\t", dtype=str)
     if cluster_as_key:
@@ -423,8 +400,13 @@ def parse_tree_clusters(clusters_tsv: Path, cluster_as_key: bool = True) -> dict
 
 
 def parse_tree_cluster_quality_scores(cluster_scores_tsv: Path) -> dict:
-    """
-    Parse cluster quality scores file into dictionary
+    """Parse cluster quality scores file into dictionary
+
+    Args:
+        cluster_scores_tsv (Path): path to tsv containing cluster scores
+
+    Returns:
+        dict: dict with keys equal to cluster IDs and values to scores
     """
     df = pd.read_csv(cluster_scores_tsv, sep="\t")
     df["cluster"] = df["cluster"].astype(str)
@@ -434,9 +416,14 @@ def parse_tree_cluster_quality_scores(cluster_scores_tsv: Path) -> dict:
 def add_clusters_to_tax_table(
     in_taxtable: Path, clusters: dict, out_taxtable: Path = None
 ) -> None:
-    """
-    Add tree cluster info at the beginning of each taxopath
+    """Add tree cluster info at the beginning of each taxopath
     according to clusters defined in dictionary 'clusters'
+
+    Args:
+        in_taxtable (Path): path to taxonomy table
+        clusters (dict): dictionary with keys equal to cluster IDs
+            and values to lists of cluster members
+        out_taxtable (Path, optional): path to output taxonomy table. Defaults to None.
     """
     if out_taxtable is None:
         out_taxtable = set_default_output_path(in_taxtable, tag="_clustered")
@@ -455,12 +442,17 @@ def parse_gappa_assign_table(
     clusters_taxopath: dict = None,
     output_file: Path = None,
 ) -> None:
-    """
-    Parse gappa assign per query taxonomy assignment result tsv
-    has_cluster_id: set to True if results table includes reference
-                    cluster info in the first element of taxopath
-    cluster_scores: dictionary with values set to cluster quality
-                    scores. It is only used if has_cluster_id = True.
+    """Parse gappa assign per query taxonomy assignment result tsv
+
+    Args:
+        input_table (Path): path to gappa assign per query taxonomy assignment result tsv
+        has_cluster_id (bool, optional): set to True if results table includes reference
+            cluster info in the first element of taxopath. Defaults to True.
+        cluster_scores (dict, optional): dictionary with values set to cluster quality
+            scores. It is only used if has_cluster_id = True. Defaults to None.
+        clusters_taxopath (dict, optional): dict with keys equal to cluster IDs and values
+            corresponding to the lowest common taxopath for the cluster. Defaults to None.
+        output_file (Path, optional): path to output file. Defaults to None.
     """
     if output_file is None:
         output_file = set_default_output_path(input_table, tag="_parsed")
@@ -529,9 +521,14 @@ def parse_gappa_assign_table(
 def add_query_labels_to_assign_table(
     input_table: Path, query_labels: dict, output_table: Path = None
 ) -> None:
-    """
-    Add new column containing actual query labels to query taxonomy/cluster assignment
-    table
+    """Add new column containing actual query labels to query taxonomy/cluster
+    assignment table
+
+    Args:
+        input_table (Path): path to query taxonomy/cluster assignment table
+        query_labels (dict): dictionary with keys equal to query short IDs
+            and values to query labels
+        output_table (Path, optional): path to output table. Defaults to None.
     """
 
     def relabel_query(query_id: str, query_labels: dict) -> str:
@@ -565,23 +562,29 @@ def assign_labels_to_placements(
     only_unique_cluster: bool = True,
     taxo_file: Path = None,
 ) -> None:
-    """
-    Assign taxonomy and/or tree cluster IDs to placed query sequences based on
-    taxonomy assigned to tree reference sequences using
-    gappa examine assign.
-    @parameter
-    ref_labels: dictionary containing short IDs as keys and long labels as values
-                for reference sequences
-    query_labels: dictionary containing short IDs as keys and long labels as values
-                  for query sequences
-    only_best_hit: only report taxonomy with largest LWR
-                   per query
-    ref_clusters: dict (optionally) add tree cluster to the
-                  beginning of the taxopath so query sequences
-                  can also be classified according to tree
-                  cluster (e.g., assigned function)
-    only_unique_cluster: if True, keep only queries with multiple placement locations
-                         if they were assigned to the same cluster.
+    """Assign taxonomy and/or tree cluster IDs to placed query sequences based on
+    taxonomy assigned to tree reference sequences using gappa examine assign.
+
+    Args:
+        jplace (Path): path to jplace file
+        ref_labels (dict): dictionary containing short IDs as keys and long
+            labels as values for reference sequences
+        query_labels (dict, optional): dictionary containing short IDs as keys
+            and long labels as values for query sequences. Defaults to None.
+        output_dir (Path, optional): path to output directory. Defaults to None.
+        output_prefix (str, optional): prefix to output files. Defaults to None.
+        only_best_hit (bool, optional): only report taxonomy with largest LWR
+            per query. Defaults to True.
+        ref_clusters_file (Path, optional): path to tsv containing reference
+            cluster definitions. Defaults to None.
+        ref_cluster_scores_file (Path, optional): path to tsv containing cluster
+            scores. Defaults to None.
+        gappa_additional_args (str, optional): additional arguments to gappa.
+            Defaults to None.
+        only_unique_cluster (bool, optional): if True, keep only queries with
+            multiple placement locations if they were assigned to the same
+            cluster. Defaults to True.
+        taxo_file (Path, optional): path to taxonomy database. Defaults to None.
     """
     if output_dir is None:
         output_dir = set_default_output_path(jplace, only_dirname=True)
@@ -668,11 +671,13 @@ def assign_labels_to_placements(
 
 
 def parse_duplicates_from_seqkit(query_duplicates: Path) -> None:
-    """
-    Add a column with the query IDs of duplicated sequences to the taxonomy assignments file.
-    @params:
-    taxtable: tsv with query taxonomic and cluster assignments as output by labelplacements.py
-    query_duplicates: text file containing query duplicate IDs as output by seqkit rmdup
+    """Add a column with the query IDs of duplicated sequences to the taxonomy assignments file.
+
+    Args:
+        query_duplicates (Path): path to query duplicates file as output by seqkit rmdup
+
+    Returns:
+        _type_: _description_
     """
     df = pd.read_csv(query_duplicates, sep="\t", header=None)
     dup_labels = {
@@ -690,8 +695,12 @@ def parse_duplicates_from_seqkit(query_duplicates: Path) -> None:
 def add_duplicates_to_assignment_table(
     taxtable: Path, query_duplicates: Path, output_file: Path = None
 ) -> None:
-    """
-    Add duplicated query IDs to cluster and taxonomic assignment table
+    """Add duplicated query IDs to cluster and taxonomic assignment table
+
+    Args:
+        taxtable (Path): path to cluster and taxonomic assignment table
+        query_duplicates (Path): path to query duplicates file as output by seqkit rmdup
+        output_file (Path, optional): path to output file. Defaults to None.
     """
     if output_file is None:
         output_file = set_default_output_path(taxtable, tag="_duplicates")
@@ -722,8 +731,14 @@ def add_duplicates_to_assignment_table(
 def find_queries_placed_in_several_clusters(
     placed_tax_assignments: Path,
 ) -> tuple[list, pd.DataFrame]:
-    """
-    Find queries placed in more than one clusterrunGappaAssign
+    """Find queries placed in more than one clusterrunGappaAssign
+
+    Args:
+        placed_tax_assignments (Path): path to placed taxonomic assignments table
+
+    Returns:
+        tuple[list, pd.DataFrame]: list of query IDs placed in more than
+            one cluster and dataframe with unique cluster assignments per query
     """
     df = pd.read_csv(placed_tax_assignments, sep="\t", dtype=str)
     dfu = df.groupby("query_id")["cluster_id"].agg(["unique"])
@@ -738,8 +753,12 @@ def find_queries_placed_in_several_clusters(
 def filter_non_unique_placement_assignments(
     placed_tax_assignments: Path, output_file: Path = None
 ) -> None:
-    """
-    Remove queries that were assigned to more than one cluster from placements assignments table
+    """Remove queries that were assigned to more than one cluster from
+       placements assignments table
+
+    Args:
+        placed_tax_assignments (Path): path to placed taxonomic assignments table
+        output_file (Path, optional): path to output file. Defaults to None.
     """
     if output_file is None:
         output_file = set_default_output_path(placed_tax_assignments, tag="_filtered")
@@ -757,8 +776,11 @@ def filter_non_unique_placement_assignments(
 def pick_taxopath_with_highest_lwr(
     placed_tax_assignments: Path, output_file: Path = None
 ) -> None:
-    """
-    Pick taxopath assigment with higuest LWR for each placed query
+    """Pick taxopath assigment with higuest LWR for each placed query
+
+    Args:
+        placed_tax_assignments (Path): path to placed taxonomic assignments table
+        output_file (Path, optional): path to output file. Defaults to None.
     """
     if output_file is None:
         output_file = set_default_output_path(
