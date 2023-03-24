@@ -14,7 +14,7 @@ from pathlib import Path
 
 from metatag.alignment import align_peptides
 from metatag.phylotree import infer_tree
-from metatag.utils import set_default_output_path, init_logger
+from metatag.utils import init_logger, set_default_output_path
 
 
 def initialize_parser() -> argparse.ArgumentParser:

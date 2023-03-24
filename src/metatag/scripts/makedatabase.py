@@ -27,8 +27,8 @@ from metatag.database.preprocessing import (
 from metatag.database.reduction import reduce_database_redundancy
 from metatag.utils import (
     DictMerger,
-    set_default_output_path,
     init_logger,
+    set_default_output_path,
 )
 
 

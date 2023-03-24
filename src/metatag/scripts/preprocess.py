@@ -26,8 +26,8 @@ from metatag.database.preprocessing import (
 from metatag.utils import (
     TemporaryDirectoryPath,
     TemporaryFilePath,
+    init_logger,
     set_default_output_path,
-    init_logger
 )
 from metatag.wrappers import run_prodigal
 

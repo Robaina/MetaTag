@@ -16,8 +16,7 @@ from pathlib import Path
 
 import metatag.wrappers as wrappers
 from metatag.placement import place_reads_onto_tree
-from metatag.utils import set_default_output_path, init_logger
-
+from metatag.utils import init_logger, set_default_output_path
 
 
 def initialize_parser() -> argparse.ArgumentParser:

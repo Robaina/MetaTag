@@ -22,8 +22,7 @@ from metatag.placement import (
     add_duplicates_to_assignment_table,
     assign_labels_to_placements,
 )
-from metatag.utils import DictMerger, set_default_output_path, init_logger
-
+from metatag.utils import DictMerger, init_logger, set_default_output_path
 
 
 def initialize_parser() -> argparse.ArgumentParser:

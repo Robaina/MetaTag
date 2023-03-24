@@ -11,12 +11,11 @@ import argparse
 import logging
 from pathlib import Path
 
-from metatag.utils import DictMerger, set_default_output_path, init_logger
+from metatag.utils import DictMerger, init_logger, set_default_output_path
 from metatag.visualization import (
     make_feature_metadata_table,
     plot_tree_in_browser,
 )
-
 
 
 def initialize_parser() -> argparse.ArgumentParser:
@@ -87,6 +86,7 @@ def run(args: argparse.ArgumentParser) -> None:
     )
     logger.info("Done!")
     logging.shutdown()
+
 
 if __name__ == "__main__":
     args = initialize_parser().parse_args()

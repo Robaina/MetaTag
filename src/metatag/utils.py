@@ -7,7 +7,6 @@ Functions and classes for general purposes
 
 from __future__ import annotations
 
-from argparse import ArgumentParser
 import json
 import logging
 import os
@@ -17,6 +16,7 @@ import shutil
 import string
 import subprocess
 import sys
+from argparse import ArgumentParser
 from functools import partial
 from multiprocessing import Pool
 from pathlib import Path

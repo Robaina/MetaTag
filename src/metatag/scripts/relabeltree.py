@@ -14,10 +14,9 @@ from pathlib import Path
 from metatag.database.preprocessing import set_original_record_ids_in_fasta
 from metatag.phylotree import relabel_tree
 from metatag.taxonomy import TaxonomyAssigner
-from metatag.utils import DictMerger, set_default_output_path, init_logger  
+from metatag.utils import DictMerger, init_logger, set_default_output_path
 
 package_dir = Path(__file__).parent.parent
-
 
 
 def initialize_label_dict(args) -> dict:

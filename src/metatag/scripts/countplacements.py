@@ -12,8 +12,7 @@ import logging
 from pathlib import Path
 
 from metatag.placement import TaxAssignParser
-from metatag.utils import set_default_output_path, init_logger
-
+from metatag.utils import init_logger, set_default_output_path
 
 
 def initialize_parser() -> argparse.ArgumentParser:
