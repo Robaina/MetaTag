@@ -147,7 +147,6 @@ def run(args: argparse.ArgumentParser) -> None:
         assert_correct_sequence_format(
             fasta_file=tmp_file_path, output_file=outfasta, is_peptide=is_peptide
         )
-
     if args.translate and not is_peptide:
         outprefix = set_default_output_path(outfasta, only_filename=True)
         logger.info("Translating nucleotide sequences...")
