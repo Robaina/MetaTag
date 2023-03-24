@@ -20,28 +20,14 @@ from argparse import ArgumentParser
 from functools import partial
 from multiprocessing import Pool
 from pathlib import Path
+from typing import Union
 
-logger = logging.getLogger(__name__)
 
+class CommandArgs:
+    """Base class to hold command line arguments."""
 
-def init_logger(args: ArgumentParser) -> logging.Logger:
-    """Initialize logger object
-    Args:
-        args (Union[CommandArgs, ArgumentParser]): arguments object
-    Returns:
-        logging.Logger: initialized logger object
-    """
-    if args.logfile is None:
-        args.logfile = Path(os.devnull)
-    elif not Path(args.logfile.parent).exists():
-        Path(args.logfile.parent).mkdir(parents=True)
-    logging.basicConfig(
-        format="%(asctime)s | %(levelname)s: %(message)s",
-        handlers=[logging.FileHandler(args.logfile), logging.StreamHandler(sys.stdout)],
-        level=logging.INFO,
-    )
-    logger = logging.getLogger(__name__)
-    return logger
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
 
 
 class ConfigParser:
@@ -122,6 +108,26 @@ class ConfigParser:
             str: key value.
         """
         return self._config[key]
+
+
+def init_logger(args: Union[CommandArgs, ArgumentParser]) -> logging.Logger:
+    """Initialize logger object
+    Args:
+        args (Union[CommandArgs, ArgumentParser]): arguments object
+    Returns:
+        logging.Logger: initialized logger object
+    """
+    if args.logfile is None:
+        args.logfile = Path(os.devnull)
+    elif not Path(args.logfile.parent).exists():
+        Path(args.logfile.parent).mkdir(parents=True)
+    logging.basicConfig(
+        format="%(asctime)s | %(levelname)s: %(message)s",
+        handlers=[logging.FileHandler(args.logfile), logging.StreamHandler(sys.stdout)],
+        level=logging.INFO,
+    )
+    logger = logging.getLogger(__name__)
+    return logger
 
 
 class TemporaryFilePath:

@@ -18,13 +18,7 @@ from metatag.scripts import (
     preprocess,
     relabeltree,
 )
-
-
-class CommandArgs:
-    """Base class to hold command line arguments."""
-
-    def __init__(self, **kwargs):
-        self.__dict__.update(kwargs)
+from metatag.utils import CommandArgs
 
 
 class ReferenceTreeBuilder:
@@ -46,6 +40,7 @@ class ReferenceTreeBuilder:
         tree_method: str = "fasttree",
         tree_model: str = "iqtest",
         msa_method: str = "muscle",
+        logfile: Path = None,
     ):
         """Reconstruct reference phylogenetic tree from sequence database and hmms
 
@@ -67,6 +62,7 @@ class ReferenceTreeBuilder:
                 or a valid substitution model name (compatible with EPA-ng). Defaults to "iqtest".
             msa_method (str, optional): choose msa method for reference database: "muscle" or "mafft".
                 Defaults to "muscle".
+            logfile (Path, optional): path to logfile. Defaults to None.
         """
         self.input_database = Path(input_database).resolve()
         self.hmms = hmms
@@ -87,7 +83,6 @@ class ReferenceTreeBuilder:
         self.tree_method = tree_method
         self.tree_model = tree_model
         self.output_directory = Path(output_directory).resolve()
-
         self.out_cleaned_database = Path(
             self.output_directory / f"{self.input_database.stem}_cleaned.faa"
         ).resolve()
@@ -98,6 +93,7 @@ class ReferenceTreeBuilder:
             self.output_directory / "ref_database_id_dict.pickle"
         )
         self.out_tree_model = None
+        self.logfile = logfile
 
     def run(self) -> None:
         """Run pipeline to build reference tree."""
@@ -111,6 +107,7 @@ class ReferenceTreeBuilder:
             relabel=False,
             idprefix=None,
             duplicate_method="seqkit",
+            logfile=self.logfile,
         )
         preprocess.run(preprocess_args)
 
@@ -127,6 +124,7 @@ class ReferenceTreeBuilder:
             minseqlength=self.minimum_sequence_length,
             maxseqlength=self.maximum_sequence_length,
             hmmsearch_args=self.hmmsearch_args,
+            logfile=self.logfile,
         )
         makedatabase.run(database_args)
 
@@ -136,6 +134,7 @@ class ReferenceTreeBuilder:
             msa_method=self.msa_method,
             tree_model=self.tree_model,
             tree_method=self.tree_method,
+            logfile=self.logfile,
         )
         buildtree.run(tree_args)
 
@@ -147,6 +146,7 @@ class ReferenceTreeBuilder:
             aln=None,
             outdir=None,
             taxofile=None,
+            logfile=self.logfile,
         )
         relabeltree.run(relabel_args)
 
@@ -171,6 +171,7 @@ class QueryLabeller:
         maximum_placement_distance: float = 1.0,
         distance_measure: str = "pendant_diameter_ratio",
         minimum_placement_lwr: float = 0.8,
+        logfile: Path = None,
     ):
         """Place queries onto reference tree and assign function and taxonomy
 
@@ -188,6 +189,7 @@ class QueryLabeller:
             distance_measure (str, optional): choose distance measure for placements: "pendant_diameter_ratio",
                 "pendant_distal_ratio" or "pendant". Defaults to "pendant_diameter_ratio".
             minimum_placement_lwr (float, optional): cutoff value for the LWR of placements. Defaults to 0.8.
+            logfile (Path, optional): path to logfile. Defaults to None.
         """
         self.input_query = Path(input_query).resolve()
         self.reference_alignment = Path(reference_alignment).resolve()
@@ -245,6 +247,7 @@ class QueryLabeller:
 
         self.out_placements_tree = self.place_outdir / "epa_result.newick"
         self.out_taxtable = self.assign_outdir / "placed_tax_assignments.tsv"
+        self.logfile = logfile
 
     def run(self) -> None:
         """Run pipeline to annotate query sequences through evolutionary placement."""
@@ -257,6 +260,7 @@ class QueryLabeller:
             idprefix="query_",
             export_dup=True,
             duplicate_method="seqkit",
+            logfile=self.logfile,
         )
         preprocess.run(preprocess_args)
 
@@ -267,6 +271,7 @@ class QueryLabeller:
             outdir=self.place_outdir.as_posix(),
             aln_method=self.alignment_method,
             tree_model=self.tree_model,
+            logfile=self.logfile,
         )
         placesequences.run(place_args)
 
@@ -284,6 +289,7 @@ class QueryLabeller:
             minimum_lwr=self.minimum_placement_lwr,
             duplicated_query_ids=None,
             taxofile=None,
+            logfile=self.logfile,
         )
         labelplacements.run(assign_args)
 
@@ -295,6 +301,7 @@ class QueryLabeller:
             outdir=self.count_outdir.as_posix(),
             outprefix=None,
             export_right_queries=True,
+            logfile=self.logfile,
         )
         countplacements.run(count_args)
 
@@ -306,5 +313,6 @@ class QueryLabeller:
             aln=None,
             outdir=None,
             taxofile=None,
+            logfile=self.logfile,
         )
         relabeltree.run(relabel_args)
