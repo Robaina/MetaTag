@@ -7,6 +7,7 @@ Functions and classes for general purposes
 
 from __future__ import annotations
 
+import atexit
 import json
 import logging
 import os
@@ -16,7 +17,6 @@ import shutil
 import string
 import subprocess
 import sys
-import atexit
 from argparse import ArgumentParser
 from functools import partial
 from multiprocessing import Pool
