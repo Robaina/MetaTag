@@ -16,6 +16,7 @@ import shutil
 import string
 import subprocess
 import sys
+import atexit
 from argparse import ArgumentParser
 from functools import partial
 from multiprocessing import Pool
@@ -110,6 +111,12 @@ class ConfigParser:
         return self._config[key]
 
 
+class ClosingFileHandler(logging.FileHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        atexit.register(self.close)
+
+
 def init_logger(args: Union[CommandArgs, ArgumentParser]) -> logging.Logger:
     """Initialize logger object
     Args:
@@ -123,7 +130,7 @@ def init_logger(args: Union[CommandArgs, ArgumentParser]) -> logging.Logger:
         Path(args.logfile.parent).mkdir(parents=True)
     logging.basicConfig(
         format="%(asctime)s | %(levelname)s: %(message)s",
-        handlers=[logging.FileHandler(args.logfile), logging.StreamHandler(sys.stdout)],
+        handlers=[ClosingFileHandler(args.logfile), logging.StreamHandler(sys.stdout)],
         level=logging.INFO,
     )
     logger = logging.getLogger(__name__)
