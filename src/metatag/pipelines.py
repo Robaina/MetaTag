@@ -82,38 +82,68 @@ class ReferenceTreeBuilder:
         self.msa_method = msa_method
         self.tree_method = tree_method
         self.tree_model = tree_model
-        self.output_directory = Path(output_directory).resolve()
-        self.out_cleaned_database = Path(
-            self.output_directory / f"{self.input_database.stem}_cleaned.faa"
+        self._output_directory = Path(output_directory).resolve()
+        self._out_cleaned_database = Path(
+            self._output_directory / f"{self.input_database.stem}_cleaned.faa"
         ).resolve()
-        self.out_reference_database = self.output_directory / "ref_database.faa"
-        self.out_reference_tree = self.output_directory / "ref_database.newick"
-        self.out_reference_alignment = self.output_directory / "ref_database.faln"
+        self._out_reference_database = self._output_directory / "ref_database.faa"
+        self._out_reference_tree = self._output_directory / "ref_database.newick"
+        self._out_reference_alignment = self._output_directory / "ref_database.faln"
         self.out_reference_labels = (
-            self.output_directory / "ref_database_id_dict.pickle"
+            self._output_directory / "ref_database_id_dict.pickle"
         )
         self.out_tree_model = None
-        self.logfile = logfile
+        self._logfile = logfile
+
+    @property
+    def output_directory(self) -> Path:
+        """Get output directory."""
+        return self._output_directory
+    
+    @property
+    def cleaned_database(self) -> Path:
+        """Get path to cleaned database."""
+        return self._out_cleaned_database
+    
+    @property
+    def reference_database(self) -> Path:
+        """Get path to reference database."""
+        return self._out_reference_database
+    
+    @property
+    def reference_tree(self) -> Path:
+        """Get path to reference tree."""
+        return self._out_reference_tree
+    
+    @property
+    def reference_alignment(self) -> Path:
+        """Get path to reference alignment."""
+        return self._out_reference_alignment
+    
+    @property
+    def logfile(self) -> Path:
+        """Get path to log file."""
+        return self._logfile
 
     def run(self) -> None:
         """Run pipeline to build reference tree."""
 
         preprocess_args = CommandArgs(
             data=self.input_database.as_posix(),
-            outfile=self.out_cleaned_database.as_posix(),
+            outfile=self._out_cleaned_database.as_posix(),
             translate=self.translate,
             dna=self.translate,
             export_dup=self.remove_duplicates,
             relabel=False,
             idprefix=None,
             duplicate_method="seqkit",
-            logfile=self.logfile,
+            logfile=self._logfile,
         )
         preprocess.run(preprocess_args)
 
         database_args = CommandArgs(
-            data=self.out_cleaned_database.as_posix(),
-            outdir=self.output_directory.as_posix(),
+            data=self._out_cleaned_database.as_posix(),
+            outdir=self._output_directory.as_posix(),
             hmms=self.hmms,
             prefix="",
             relabel=self.relabel,
@@ -124,29 +154,29 @@ class ReferenceTreeBuilder:
             minseqlength=self.minimum_sequence_length,
             maxseqlength=self.maximum_sequence_length,
             hmmsearch_args=self.hmmsearch_args,
-            logfile=self.logfile,
+            logfile=self._logfile,
         )
         makedatabase.run(database_args)
 
         tree_args = CommandArgs(
-            data=self.out_reference_database.as_posix(),
-            outdir=self.output_directory.as_posix(),
+            data=self._out_reference_database.as_posix(),
+            outdir=self._output_directory.as_posix(),
             msa_method=self.msa_method,
             tree_model=self.tree_model,
             tree_method=self.tree_method,
-            logfile=self.logfile,
+            logfile=self._logfile,
         )
         buildtree.run(tree_args)
 
         relabel_args = CommandArgs(
-            tree=self.out_reference_tree.as_posix(),
+            tree=self._out_reference_tree.as_posix(),
             labels=[self.out_reference_labels.as_posix()],
             labelprefixes=None,
             taxonomy=True,
             aln=None,
             outdir=None,
             taxofile=None,
-            logfile=self.logfile,
+            logfile=self._logfile,
         )
         relabeltree.run(relabel_args)
 
@@ -216,38 +246,73 @@ class QueryLabeller:
         ).resolve()
         self.out_query_labels = self.output_directory / "query_cleaned_id_dict.pickle"
 
-        self.place_outdir = self.output_directory / "placements"
-        self.place_outdir.mkdir(parents=True, exist_ok=True)
+        self._place_outdir = self.output_directory / "placements"
+        self._place_outdir.mkdir(parents=True, exist_ok=True)
 
-        self.assign_outdir = self.output_directory / "assignments"
-        self.assign_outdir.mkdir(parents=True, exist_ok=True)
+        self._assign_outdir = self.output_directory / "assignments"
+        self._assign_outdir.mkdir(parents=True, exist_ok=True)
 
-        self.count_outdir = self.output_directory / "counts"
-        self.count_outdir.mkdir(parents=True, exist_ok=True)
+        self._count_outdir = self.output_directory / "counts"
+        self._count_outdir.mkdir(parents=True, exist_ok=True)
 
-        self.jplace = self.filtered_jplace = self.place_outdir / "epa_result.jplace"
+        self._jplace = self._filtered_jplace = self._place_outdir / "epa_result.jplace"
         if (self.maximum_placement_distance is None) and (
             self.minimum_placement_lwr is None
         ):
-            self.filtered_jplace = self.place_outdir / "epa_result.jplace"
+            self._filtered_jplace = self._place_outdir / "epa_result.jplace"
         elif (self.maximum_placement_distance is None) and (
             self.minimum_placement_lwr is not None
         ):
-            self.filtered_jplace = self.place_outdir / "epa_result_lwr_filtered.jplace"
+            self._filtered_jplace = self._place_outdir / "epa_result_lwr_filtered.jplace"
         elif (self.maximum_placement_distance is not None) and (
             self.minimum_placement_lwr is None
         ):
-            self.filtered_jplace = (
-                self.place_outdir / "epa_result_distance_filtered.jplace"
+            self._filtered_jplace = (
+                self._place_outdir / "epa_result_distance_filtered.jplace"
             )
         else:
-            self.filtered_jplace = (
-                self.place_outdir / "epa_result_distance_filtered_lwr_filtered.jplace"
+            self._filtered_jplace = (
+                self._place_outdir / "epa_result_distance_filtered_lwr_filtered.jplace"
             )
 
-        self.out_placements_tree = self.place_outdir / "epa_result.newick"
-        self.out_taxtable = self.assign_outdir / "placed_tax_assignments.tsv"
-        self.logfile = logfile
+        self._out_placements_tree = self._place_outdir / "epa_result.newick"
+        self._out_taxtable = self._assign_outdir / "placed_tax_assignments.tsv"
+        self._logfile = logfile
+
+    @property
+    def place_directory(self) -> Path:
+        """Path to directory with placement results."""
+        return self._place_outdir
+    
+    @property
+    def assign_directory(self) -> Path:
+        """Path to directory with assignment results."""
+        return self._assign_outdir
+    
+    @property
+    def count_directory(self) -> Path:
+        """Path to directory with count results."""
+        return self._count_outdir
+
+    @property
+    def jplace(self) -> Path:
+        """Path to output file with placements in jplace format."""
+        return self._filtered_jplace
+    
+    @property
+    def placements_tree(self) -> Path:
+        """Path to output file with placements in Newick format."""
+        return self._out_placements_tree
+    
+    @property
+    def taxtable(self) -> Path:
+        """Path to output file with taxonomic assignments."""
+        return self._out_taxtable
+    
+    @property
+    def logfile(self) -> Path:
+        """Path to logfile."""
+        return self._logfile
 
     def run(self) -> None:
         """Run pipeline to annotate query sequences through evolutionary placement."""
@@ -260,7 +325,7 @@ class QueryLabeller:
             idprefix="query_",
             export_dup=True,
             duplicate_method="seqkit",
-            logfile=self.logfile,
+            logfile=self._logfile,
         )
         preprocess.run(preprocess_args)
 
@@ -268,51 +333,51 @@ class QueryLabeller:
             aln=self.reference_alignment.as_posix(),
             tree=self.reference_tree.as_posix(),
             query=self.out_cleaned_query.as_posix(),
-            outdir=self.place_outdir.as_posix(),
+            outdir=self._place_outdir.as_posix(),
             aln_method=self.alignment_method,
             tree_model=self.tree_model,
-            logfile=self.logfile,
+            logfile=self._logfile,
         )
         placesequences.run(place_args)
 
         assign_args = CommandArgs(
-            jplace=self.jplace.as_posix(),
+            jplace=self._jplace.as_posix(),
             labels=self.reference_labels,
             query_labels=[self.out_query_labels.as_posix()],
             ref_clusters=self.tree_clusters.as_posix(),
             ref_cluster_scores=self.tree_cluster_scores.as_posix(),
             outgroup=None,
             prefix="placed_tax_",
-            outdir=self.assign_outdir.as_posix(),
+            outdir=self._assign_outdir.as_posix(),
             max_distance=self.maximum_placement_distance,
             distance_measure=self.distance_measure,
             minimum_lwr=self.minimum_placement_lwr,
             duplicated_query_ids=None,
             taxofile=None,
-            logfile=self.logfile,
+            logfile=self._logfile,
         )
         labelplacements.run(assign_args)
 
         count_args = CommandArgs(
-            taxtable=self.out_taxtable,
+            taxtable=self._out_taxtable,
             taxlevels=["genus", "family", "order", "class", "phylum"],
             cluster_ids=None,
             score_threshold=self.tree_cluster_score_threshold,
-            outdir=self.count_outdir.as_posix(),
+            outdir=self._count_outdir.as_posix(),
             outprefix=None,
             export_right_queries=True,
-            logfile=self.logfile,
+            logfile=self._logfile,
         )
         countplacements.run(count_args)
 
         relabel_args = CommandArgs(
-            tree=self.out_placements_tree.as_posix(),
+            tree=self._out_placements_tree.as_posix(),
             labels=self.reference_labels + [self.out_query_labels.as_posix()],
             labelprefixes=["ref_", "query_"],
             taxonomy=True,
             aln=None,
             outdir=None,
             taxofile=None,
-            logfile=self.logfile,
+            logfile=self._logfile,
         )
         relabeltree.run(relabel_args)

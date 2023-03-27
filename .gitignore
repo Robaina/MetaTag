@@ -21,6 +21,8 @@ test_data/
 jamboree/
 dist/
 wiki/*
+docs/examples/example_api/results/*
+docs/examples/example_api/tree_plot/*
 # Files
 trimal.html
 src/accesory/run_papara.py

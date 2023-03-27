@@ -141,15 +141,15 @@ class MetaTag:
         args = relabeltree.initialize_parser().parse_args(self._subcommand_args)
         relabeltree.run(args)
 
-    def cite(self):
-        """Print pynteny's citation string"""
+    @staticmethod
+    def cite():
+        """Print MetaTag's citation string"""
         citation = (
             "Semidán Robaina Estévez (2022). MetaTag: Metagenome functional and taxonomical annotation through phylogenetic tree placement."
             f"(Version {__version__}). Zenodo."
         )
         print("If you use this software, please cite it as below: ")
         print(citation)
-        return citation
 
 
 def main():

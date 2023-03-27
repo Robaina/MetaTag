@@ -38,8 +38,8 @@ class TestPipeline(unittest.TestCase):
             tree_builder.run()
             labeller = QueryLabeller(
                 input_query=tests_dir / "test_data" / "query.faa",
-                reference_alignment=tree_builder.out_reference_alignment,
-                reference_tree=tree_builder.out_reference_tree,
+                reference_alignment=tree_builder._out_reference_alignment,
+                reference_tree=tree_builder._out_reference_tree,
                 reference_labels=[
                     (Path(tempdir) / "ref_database_id_dict.pickle").as_posix()
                 ],
