@@ -99,27 +99,27 @@ class ReferenceTreeBuilder:
     def output_directory(self) -> Path:
         """Get output directory."""
         return self._output_directory
-    
+
     @property
     def cleaned_database(self) -> Path:
         """Get path to cleaned database."""
         return self._out_cleaned_database
-    
+
     @property
     def reference_database(self) -> Path:
         """Get path to reference database."""
         return self._out_reference_database
-    
+
     @property
     def reference_tree(self) -> Path:
         """Get path to reference tree."""
         return self._out_reference_tree
-    
+
     @property
     def reference_alignment(self) -> Path:
         """Get path to reference alignment."""
         return self._out_reference_alignment
-    
+
     @property
     def logfile(self) -> Path:
         """Get path to log file."""
@@ -263,7 +263,9 @@ class QueryLabeller:
         elif (self.maximum_placement_distance is None) and (
             self.minimum_placement_lwr is not None
         ):
-            self._filtered_jplace = self._place_outdir / "epa_result_lwr_filtered.jplace"
+            self._filtered_jplace = (
+                self._place_outdir / "epa_result_lwr_filtered.jplace"
+            )
         elif (self.maximum_placement_distance is not None) and (
             self.minimum_placement_lwr is None
         ):
@@ -283,12 +285,12 @@ class QueryLabeller:
     def place_directory(self) -> Path:
         """Path to directory with placement results."""
         return self._place_outdir
-    
+
     @property
     def assign_directory(self) -> Path:
         """Path to directory with assignment results."""
         return self._assign_outdir
-    
+
     @property
     def count_directory(self) -> Path:
         """Path to directory with count results."""
@@ -298,17 +300,17 @@ class QueryLabeller:
     def jplace(self) -> Path:
         """Path to output file with placements in jplace format."""
         return self._filtered_jplace
-    
+
     @property
     def placements_tree(self) -> Path:
         """Path to output file with placements in Newick format."""
         return self._out_placements_tree
-    
+
     @property
     def taxtable(self) -> Path:
         """Path to output file with taxonomic assignments."""
         return self._out_taxtable
-    
+
     @property
     def logfile(self) -> Path:
         """Path to logfile."""
