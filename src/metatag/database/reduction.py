@@ -116,7 +116,7 @@ def reduce_database_redundancy(
                 output_file=tempaln,
                 processes=-1,
                 parallel=True,
-                additional_args="--retree 1 --maxiterate 0",
+                additional_args="--retree 1 --maxiterate 0 --quiet",
             )
 
             wrappers.get_percent_identity_from_msa(

@@ -786,7 +786,6 @@ if __name__ == "__main__":
     objective = MixtureObjective(
         [summaxacross, sumsumwithin], [args.mixture, 1.0 - args.mixture]
     )
-    logger.info("-----------------------")
     logger.info(
         "Starting mixture of summaxacross and sumsumwithin with weight %s...",
         args.mixture,
