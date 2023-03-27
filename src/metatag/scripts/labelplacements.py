@@ -22,9 +22,7 @@ from metatag.placement import (
     add_duplicates_to_assignment_table,
     assign_labels_to_placements,
 )
-from metatag.utils import DictMerger, set_default_output_path
-
-logger = logging.getLogger(__name__)
+from metatag.utils import DictMerger, init_logger, set_default_output_path
 
 
 def initialize_parser() -> argparse.ArgumentParser:
@@ -167,16 +165,26 @@ def initialize_parser() -> argparse.ArgumentParser:
             "Defaults to None, in which case a custom GTDB taxonomy database of marine prokaryotes is used."
         ),
     )
+    optional.add_argument(
+        "-l",
+        "--log",
+        dest="logfile",
+        type=Path,
+        default=None,
+        metavar="",
+        required=False,
+        help="path to log file. Log not written by default.",
+    )
     return parser
 
 
 def run(args: argparse.ArgumentParser) -> None:
     """_summary_
 
-    Raises:
-        ValueError: _description_
-        ValueError: _description_
+    Args:
+        args (argparse.ArgumentParser): _description_
     """
+    logger = init_logger(args)
     if args.outdir is None:
         args.outdir = set_default_output_path(args.jplace, only_dirname=True)
     else:
@@ -270,6 +278,8 @@ def run(args: argparse.ArgumentParser) -> None:
 
     if outgroup_file_generated:
         outgroup_file.unlink(missing_ok=True)
+    logger.info("Done!")
+    logging.shutdown()
 
 
 if __name__ == "__main__":

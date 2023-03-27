@@ -12,9 +12,7 @@ import logging
 from pathlib import Path
 
 from metatag.placement import TaxAssignParser
-from metatag.utils import set_default_output_path
-
-logger = logging.getLogger(__name__)
+from metatag.utils import init_logger, set_default_output_path
 
 
 def initialize_parser() -> argparse.ArgumentParser:
@@ -90,11 +88,26 @@ def initialize_parser() -> argparse.ArgumentParser:
             "that passed provided filters (--score_threshold and/or --cluster_ids)"
         ),
     )
+    optional.add_argument(
+        "-l",
+        "--log",
+        dest="logfile",
+        type=Path,
+        default=None,
+        metavar="",
+        required=False,
+        help="path to log file. Log not written by default.",
+    )
     return parser
 
 
 def run(args: argparse.ArgumentParser) -> None:
-    """_summary_"""
+    """_summary_
+
+    Args:
+        args (argparse.ArgumentParser): _description_
+    """
+    logger = init_logger(args)
     logger.info("Counting labelled placements...")
     if args.outdir is None:
         args.outdir = set_default_output_path(args.taxtable, only_dirname=True)
@@ -125,6 +138,7 @@ def run(args: argparse.ArgumentParser) -> None:
             taxlevel=taxlevel, output_tsv=outfile, plot_type="bar", output_pdf=outpdf
         )
     logger.info("Done!")
+    logging.shutdown()
 
 
 if __name__ == "__main__":

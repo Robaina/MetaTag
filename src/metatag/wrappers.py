@@ -246,6 +246,7 @@ def run_mafft(
     output_file: Path = None,
     processes: int = -1,
     parallel: bool = True,
+    quiet: bool = True,
     additional_args: str = None,
 ) -> None:
     """Simple CLI wrapper to mafft (MSA)
@@ -278,6 +279,8 @@ def run_mafft(
         thread_str = ""
     if additional_args is None:
         additional_args = ""
+    if quiet:
+        additional_args += " --quiet"
     cmd_str = f"mafft {thread_str} {additional_args} {input_fasta} > {output_file}"
     terminal_execute(cmd_str, suppress_shell_output=False)
 
@@ -286,6 +289,7 @@ def run_muscle(
     input_fasta: Path,
     output_file: Path = None,
     maxiters: int = None,
+    quiet: bool = True,
     additional_args: str = None,
 ) -> None:
     """Simple CLI wrapper to muscle (MSA)
@@ -312,6 +316,8 @@ def run_muscle(
         args_str = additional_args
     else:
         args_str = ""
+    if quiet:
+        args_str += " -quiet"
     cmd_str = (
         f"muscle -in {input_fasta} -out {output_file} "
         f"-maxiters {maxiters} {args_str}"
@@ -324,6 +330,7 @@ def run_fasttree(
     output_file: Path = None,
     nucleotides: bool = False,
     starting_tree: Path = None,
+    quiet: bool = True,
     additional_args: str = None,
 ) -> None:
     """Simple CLI wrapper to fasttree.
@@ -357,7 +364,9 @@ def run_fasttree(
         start_t_str = ""
     if additional_args is None:
         additional_args = ""
-    cmd_str = f"fasttree {nt_str} {input_algns} {start_t_str} {additional_args} > {output_file}"
+    if quiet:
+        additional_args += " -quiet"
+    cmd_str = f"fasttree {additional_args} {nt_str} {input_algns} {start_t_str} > {output_file}"
     terminal_execute(cmd_str, suppress_shell_output=False)
 
 
@@ -393,6 +402,7 @@ def run_iqtree(
     bootstrap_replicates: int = 1000,
     max_bootstrap_iterations: int = 1000,
     overwrite_previous_results: bool = True,
+    quiet: bool = True,
     additional_args: str = None,
 ) -> None:
     """Simple CLI wrapper to iqtree.
@@ -456,6 +466,8 @@ def run_iqtree(
         overwrite_str = ""
     if additional_args is None:
         additional_args = ""
+    if quiet:
+        additional_args += " --quiet"
 
     cmd_str = (
         f"iqtree -s {input_algns} -st {seq_type} -nt {processes} "

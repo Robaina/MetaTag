@@ -26,11 +26,10 @@ from metatag.database.preprocessing import (
 from metatag.utils import (
     TemporaryDirectoryPath,
     TemporaryFilePath,
+    init_logger,
     set_default_output_path,
 )
 from metatag.wrappers import run_prodigal
-
-logger = logging.getLogger(__name__)
 
 
 def initialize_parser() -> argparse.ArgumentParser:
@@ -97,6 +96,16 @@ def initialize_parser() -> argparse.ArgumentParser:
         default=None,
         help="prefix to be added to sequence IDs",
     )
+    optional.add_argument(
+        "-l",
+        "--log",
+        dest="logfile",
+        type=Path,
+        default=None,
+        metavar="",
+        required=False,
+        help="path to log file. Log not written by default.",
+    )
     return parser
 
 
@@ -106,6 +115,7 @@ def run(args: argparse.ArgumentParser) -> None:
     Args:
         args (argparse.ArgumentParser): _description_
     """
+    logger = init_logger(args)
     args.data = Path(args.data).resolve()
     if args.outfile is None:
         outfasta = set_default_output_path(args.data, tag="_cleaned")
@@ -182,6 +192,7 @@ def run(args: argparse.ArgumentParser) -> None:
         data_path.unlink(missing_ok=True)
 
     logger.info("Done!")
+    logging.shutdown()
 
 
 if __name__ == "__main__":

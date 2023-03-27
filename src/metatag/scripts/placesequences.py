@@ -16,9 +16,7 @@ from pathlib import Path
 
 import metatag.wrappers as wrappers
 from metatag.placement import place_reads_onto_tree
-from metatag.utils import set_default_output_path
-
-logger = logging.getLogger(__name__)
+from metatag.utils import init_logger, set_default_output_path
 
 
 def initialize_parser() -> argparse.ArgumentParser:
@@ -78,6 +76,16 @@ def initialize_parser() -> argparse.ArgumentParser:
         choices=["papara", "hmmalign"],
         help="choose method to align query sequences to reference alignment",
     )
+    optional.add_argument(
+        "-l",
+        "--log",
+        dest="logfile",
+        type=Path,
+        default=None,
+        metavar="",
+        required=False,
+        help="path to log file. Log not written by default.",
+    )
     return parser
 
 
@@ -87,6 +95,7 @@ def run(args: argparse.ArgumentParser) -> None:
     Raises:
         ValueError: _description_
     """
+    logger = init_logger(args)
     if args.outdir is None:
         args.outdir = set_default_output_path(args.aln, only_dirname=True)
     else:
@@ -113,8 +122,8 @@ def run(args: argparse.ArgumentParser) -> None:
         output_prefix=None,
         additional_args="--fully-resolve",
     )
-
     logger.info("Done!")
+    logging.shutdown()
 
 
 if __name__ == "__main__":
