@@ -196,6 +196,7 @@ class QueryProcessor:
         minimum_sequence_length: int = 30,
         maximum_sequence_length: int = None,
         output_directory: Path = None,
+        hmmsearch_args: str = None,
         logfile: Path = None,
     ):
         """Preprocess query sequences
@@ -210,6 +211,7 @@ class QueryProcessor:
         """
         self.input_query = Path(input_query).resolve()
         self.hmm = Path(hmm).resolve()
+        self.hmmsearch_args = hmmsearch_args
         self.minimum_sequence_length = minimum_sequence_length
         self.maximum_sequence_length = maximum_sequence_length
         if output_directory is None:
