@@ -22,15 +22,16 @@ from metatag.utils import CommandArgs
 
 
 class ReferenceTreeBuilder:
-    """_summary_"""
-
+    """
+    Reconstruct reference phylogenetic tree from sequence database and hmms
+    """
     def __init__(
         self,
         input_database: Path,
         hmms: list[Path],
         maximum_hmm_reference_sizes: list[int] = None,
-        minimum_sequence_length: int = 10,
-        maximum_sequence_length: int = 1000,
+        minimum_sequence_length: int = 30,
+        maximum_sequence_length: int = None,
         output_directory: Path = None,
         translate: bool = False,
         relabel: bool = True,
@@ -181,11 +182,93 @@ class ReferenceTreeBuilder:
         relabeltree.run(relabel_args)
 
 
+class QueryProcessor:
+    """
+    Preprocess query sequences: remove duplicates, translate
+    and relabel if needed, prefilter sequences by HMM.
+    """
+    def __init__(
+        self,
+        input_query: Path,
+        hmm: Path,
+        minimum_sequence_length: int = 30,
+        maximum_sequence_length: int = None,
+        output_directory: Path = None,
+        logfile: Path = None,
+        ):
+        """Preprocess query sequences
+
+        Args:
+            input_query (Path): path to query sequences
+            hmm (Path): path to HMM to prefilter query sequences
+            minimum_sequence_length (int, optional): minimum length for sequences to be kept. Defaults to 30.
+            maximum_sequence_length (int, optional): maximum length for sequences to be kept. Defaults to None.
+            output_directory (Path, optional): path to output directory. Defaults to None.
+            logfile (Path, optional): path to logfile. Defaults to None.
+        """
+        self.input_query = Path(input_query).resolve()
+        self.hmm = Path(hmm).resolve()
+        self.minimum_sequence_length = minimum_sequence_length
+        self.maximum_sequence_length = maximum_sequence_length
+        if output_directory is None:
+            self._output_directory = self.input_query.parent
+        else:
+            self._output_directory = Path(output_directory).resolve()
+        self._logfile = logfile
+        self._out_filtered_query = None
+
+    @property
+    def filtered_query(self) -> Path:
+        """Get path to filtered query."""
+        return self._out_filtered_query
+    
+    @property
+    def output_directory(self) -> Path:
+        """Get output directory."""
+        return self._output_directory
+    
+    @property
+    def logfile(self) -> Path:
+        """Get path to log file."""
+        return self._logfile
+
+    def run(self) -> None:
+        """Run pipeline to preprocess query sequences"""
+        preprocess_args = CommandArgs(
+            data=self.input_query.as_posix(),
+            outfile=self._out_filtered_query.as_posix(),
+            translate=False,
+            dna=False,
+            export_dup=False,
+            relabel=False,
+            idprefix=None,
+            duplicate_method="seqkit",
+            logfile=self._logfile,
+        )
+        preprocess.run(preprocess_args)
+
+        database_args = CommandArgs(
+            data=self._out_filtered_query.as_posix(),
+            outdir=self._output_directory.as_posix(),
+            hmms=[self.hmm],
+            prefix="",
+            relabel=False,
+            nocdhit=True,
+            noduplicates=False,
+            relabel_prefixes=None,
+            maxsizes=[None],
+            minseqlength=self.minimum_sequence_length,
+            maxseqlength=self.maximum_sequence_length,
+            hmmsearch_args=self.hmmsearch_args,
+            logfile=self._logfile,
+        )
+        makedatabase.run(database_args)
+        
+
 class QueryLabeller:
     """
     Place queries onto reference tree and assign function and taxonomy
     """
-
     def __init__(
         self,
         input_query: Path,
