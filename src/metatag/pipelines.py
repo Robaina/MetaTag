@@ -25,6 +25,7 @@ class ReferenceTreeBuilder:
     """
     Reconstruct reference phylogenetic tree from sequence database and hmms
     """
+
     def __init__(
         self,
         input_database: Path,
@@ -187,6 +188,7 @@ class QueryProcessor:
     Preprocess query sequences: remove duplicates, translate
     and relabel if needed, prefilter sequences by HMM.
     """
+
     def __init__(
         self,
         input_query: Path,
@@ -195,7 +197,7 @@ class QueryProcessor:
         maximum_sequence_length: int = None,
         output_directory: Path = None,
         logfile: Path = None,
-        ):
+    ):
         """Preprocess query sequences
 
         Args:
@@ -221,12 +223,12 @@ class QueryProcessor:
     def filtered_query(self) -> Path:
         """Get path to filtered query."""
         return self._out_filtered_query
-    
+
     @property
     def output_directory(self) -> Path:
         """Get output directory."""
         return self._output_directory
-    
+
     @property
     def logfile(self) -> Path:
         """Get path to log file."""
@@ -263,12 +265,13 @@ class QueryProcessor:
             logfile=self._logfile,
         )
         makedatabase.run(database_args)
-        
+
 
 class QueryLabeller:
     """
     Place queries onto reference tree and assign function and taxonomy
     """
+
     def __init__(
         self,
         input_query: Path,
