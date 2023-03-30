@@ -222,9 +222,13 @@ def run(args: argparse.ArgumentParser) -> None:
             )
             hmmer_output = args.outdir / f"hmmer_output_{hmm_name}.txt"
 
-            with tempfile.NamedTemporaryFile(delete=False) as tempfasta, \
-                tempfile.NamedTemporaryFile(delete=False) as tempfasta2, \
-                    tempfile.NamedTemporaryFile(delete=False) as tempfasta3:
+            with tempfile.NamedTemporaryFile(
+                delete=False
+            ) as tempfasta, tempfile.NamedTemporaryFile(
+                delete=False
+            ) as tempfasta2, tempfile.NamedTemporaryFile(
+                delete=False
+            ) as tempfasta3:
                 filter_fasta_by_hmm(
                     hmm_model=hmm,
                     input_fasta=args.data,

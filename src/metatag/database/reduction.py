@@ -12,7 +12,6 @@ Currently based on:
 
 import logging
 import shutil
-import warnings
 from pathlib import Path
 
 import metatag.wrappers as wrappers

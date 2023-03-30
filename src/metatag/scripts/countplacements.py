@@ -134,7 +134,7 @@ def run(args: argparse.ArgumentParser) -> None:
             path_to_query_list=path_to_query_list,
         )
 
-        counts, fig = taxlevel_counter.get_counts(
+        taxlevel_counter.get_counts(
             taxlevel=taxlevel, output_tsv=outfile, plot_type="bar", output_pdf=outpdf
         )
     logger.info("Done!")

@@ -111,7 +111,7 @@ class ReferenceTreeBuilder:
     def reference_database(self) -> Path:
         """Get path to reference database."""
         return self._out_reference_database
-    
+
     @property
     def reference_labels(self) -> Path:
         """Get path to reference labels."""
@@ -223,7 +223,7 @@ class QueryProcessor:
             logfile (Path, optional): path to logfile. Defaults to None.
         """
         self.input_query = Path(input_query).resolve()
-        if hmm is not None: 
+        if hmm is not None:
             self.hmm = Path(hmm).resolve()
         else:
             self.hmm = None
@@ -239,7 +239,10 @@ class QueryProcessor:
         else:
             self._output_directory = Path(output_directory).resolve()
         self._logfile = logfile
-        self._out_filtered_query = self._output_directory / f"{self.input_query.stem}_filtered{self.input_query.suffix}"
+        self._out_filtered_query = (
+            self._output_directory
+            / f"{self.input_query.stem}_filtered{self.input_query.suffix}"
+        )
 
     @property
     def filtered_query(self) -> Path:
@@ -269,7 +272,7 @@ class QueryProcessor:
             logfile=self._logfile,
         )
         preprocess.run(preprocess_args)
-        
+
         if self.hmm is not None:
             database_args = CommandArgs(
                 data=self._out_filtered_query,
@@ -302,8 +305,8 @@ class QueryLabeller:
         reference_tree: Path,
         reference_labels: Path,
         tree_model: str,
-        tree_clusters: Path,
-        tree_cluster_scores: Path,
+        tree_clusters: Path = None,
+        tree_cluster_scores: Path = None,
         tree_cluster_score_threshold: float = None,
         alignment_method: str = "papara",
         output_directory: Path = None,
@@ -320,16 +323,25 @@ class QueryLabeller:
             reference_alignment (Path): path to reference alignment in FASTA format
             reference_tree (Path): path to reference tree in Newick format
             tree_model (str): substitution model to use for tree inference
-            tree_clusters (Path): path to tsv file containing tree cluster definitions
-            tree_cluster_scores (Path): path to tsv file containing tree cluster scores
-            reference_labels (Path, optional): path to reference labels file in pickle format. Defaults to None.
-            alignment_method (str, optional): choose aligner: "papara" or "hmmalign". Defaults to "papara".
-            output_directory (Path, optional): path to output directory. Defaults to None.
-            maximum_placement_distance (float, optional): maximum distance of placed sequences (distance measure below). Defaults to 1.0.
-            distance_measure (str, optional): choose distance measure for placements: "pendant_diameter_ratio",
+            tree_clusters (Path, optional): path to tsv file containing tree cluster
+                definitions. Defaults to None.
+            tree_cluster_scores (Path, optional): path to tsv file containing tree
+                cluster scores. Defaults to None.
+            reference_labels (Path, optional): path to reference labels file in pickle
+                format. Defaults to None.
+            alignment_method (str, optional): choose aligner: "papara" or "hmmalign".
+                Defaults to "papara".
+            output_directory (Path, optional): path to output directory.
+                Defaults to None.
+            maximum_placement_distance (float, optional): maximum distance of placed
+                sequences (distance measure below). Defaults to 1.0.
+            distance_measure (str, optional): choose distance measure for placements:
+                "pendant_diameter_ratio",
                 "pendant_distal_ratio" or "pendant". Defaults to "pendant_diameter_ratio".
-            minimum_placement_lwr (float, optional): cutoff value for the LWR of placements. Defaults to 0.8.
-            skip_preprocessing (bool, optional): skip preprocessing of query sequences. Defaults to False.
+            minimum_placement_lwr (float, optional): cutoff value for the LWR of
+                placements. Defaults to 0.8.
+            skip_preprocessing (bool, optional): skip preprocessing of query sequences.
+                Defaults to False.
             logfile (Path, optional): path to logfile. Defaults to None.
         """
         self.input_query = Path(input_query).resolve()
@@ -338,8 +350,14 @@ class QueryLabeller:
         self.tree_model = (
             Path(tree_model).resolve() if Path(tree_model).is_file() else tree_model
         )
-        self.tree_clusters = Path(tree_clusters).resolve()
-        self.tree_cluster_scores = Path(tree_cluster_scores).resolve()
+        if tree_clusters is not None:
+            self.tree_clusters = Path(tree_clusters).resolve()
+        else:
+            self.tree_clusters = None
+        if tree_cluster_scores is not None:
+            self.tree_cluster_scores = Path(tree_cluster_scores).resolve()
+        else:
+            self.tree_cluster_scores = None
         self.tree_cluster_score_threshold = tree_cluster_score_threshold
         self.alignment_method = alignment_method
         self.reference_labels = reference_labels
