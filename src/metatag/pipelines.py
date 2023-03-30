@@ -111,6 +111,11 @@ class ReferenceTreeBuilder:
     def reference_database(self) -> Path:
         """Get path to reference database."""
         return self._out_reference_database
+    
+    @property
+    def reference_labels(self) -> Path:
+        """Get path to reference labels."""
+        return self.out_reference_labels
 
     @property
     def reference_tree(self) -> Path:
@@ -131,21 +136,21 @@ class ReferenceTreeBuilder:
         """Run pipeline to build reference tree."""
 
         preprocess_args = CommandArgs(
-            data=self.input_database.as_posix(),
-            outfile=self._out_cleaned_database.as_posix(),
+            data=self.input_database,
+            outfile=self._out_cleaned_database,
             translate=self.translate,
             dna=self.translate,
             export_dup=self.remove_duplicates,
             relabel=False,
             idprefix=None,
-            duplicate_method="seqkit",
             logfile=self._logfile,
         )
         preprocess.run(preprocess_args)
 
         database_args = CommandArgs(
-            data=self._out_cleaned_database.as_posix(),
-            outdir=self._output_directory.as_posix(),
+            data=self._out_cleaned_database,
+            outdir=self._output_directory,
+            outfile=None,
             hmms=self.hmms,
             prefix="",
             relabel=self.relabel,
@@ -161,8 +166,8 @@ class ReferenceTreeBuilder:
         makedatabase.run(database_args)
 
         tree_args = CommandArgs(
-            data=self._out_reference_database.as_posix(),
-            outdir=self._output_directory.as_posix(),
+            data=self._out_reference_database,
+            outdir=self._output_directory,
             msa_method=self.msa_method,
             tree_model=self.tree_model,
             tree_method=self.tree_method,
@@ -171,8 +176,8 @@ class ReferenceTreeBuilder:
         buildtree.run(tree_args)
 
         relabel_args = CommandArgs(
-            tree=self._out_reference_tree.as_posix(),
-            labels=[self.out_reference_labels.as_posix()],
+            tree=self._out_reference_tree,
+            labels=[self.out_reference_labels],
             labelprefixes=None,
             taxonomy=True,
             aln=None,
@@ -192,9 +197,13 @@ class QueryProcessor:
     def __init__(
         self,
         input_query: Path,
-        hmm: Path,
+        hmm: Path = None,
         minimum_sequence_length: int = 30,
         maximum_sequence_length: int = None,
+        idprefix: str = "query_",
+        relabel: bool = False,
+        translate: bool = False,
+        export_dup: bool = False,
         output_directory: Path = None,
         hmmsearch_args: str = None,
         logfile: Path = None,
@@ -203,23 +212,34 @@ class QueryProcessor:
 
         Args:
             input_query (Path): path to query sequences
-            hmm (Path): path to HMM to prefilter query sequences
+            hmm (Path, optional): path to HMM to prefilter query sequences. Defaults to None.
             minimum_sequence_length (int, optional): minimum length for sequences to be kept. Defaults to 30.
             maximum_sequence_length (int, optional): maximum length for sequences to be kept. Defaults to None.
+            idprefix (str, optional): prefix for sequence IDs. Defaults to "query_".
+            relabel (bool, optional): relabel sequences to short IDs. Defaults to False.
+            translate (bool, optional): translate DNA sequences to peptide. Defaults to False.
+            export_dup (bool, optional): export duplicated sequences. Defaults to False.
             output_directory (Path, optional): path to output directory. Defaults to None.
             logfile (Path, optional): path to logfile. Defaults to None.
         """
         self.input_query = Path(input_query).resolve()
-        self.hmm = Path(hmm).resolve()
+        if hmm is not None: 
+            self.hmm = Path(hmm).resolve()
+        else:
+            self.hmm = None
         self.hmmsearch_args = hmmsearch_args
         self.minimum_sequence_length = minimum_sequence_length
         self.maximum_sequence_length = maximum_sequence_length
+        self.idprefix = idprefix
+        self.relabel = relabel
+        self.translate = translate
+        self.export_dup = export_dup
         if output_directory is None:
             self._output_directory = self.input_query.parent
         else:
             self._output_directory = Path(output_directory).resolve()
         self._logfile = logfile
-        self._out_filtered_query = None
+        self._out_filtered_query = self._output_directory / f"{self.input_query.stem}_filtered{self.input_query.suffix}"
 
     @property
     def filtered_query(self) -> Path:
@@ -239,34 +259,35 @@ class QueryProcessor:
     def run(self) -> None:
         """Run pipeline to preprocess query sequences"""
         preprocess_args = CommandArgs(
-            data=self.input_query.as_posix(),
-            outfile=self._out_filtered_query.as_posix(),
-            translate=False,
+            data=self.input_query,
+            outfile=self._out_filtered_query,
+            translate=self.translate,
             dna=False,
-            export_dup=False,
-            relabel=False,
-            idprefix=None,
-            duplicate_method="seqkit",
+            export_dup=self.export_dup,
+            relabel=self.relabel,
+            idprefix=self.idprefix,
             logfile=self._logfile,
         )
         preprocess.run(preprocess_args)
-
-        database_args = CommandArgs(
-            data=self._out_filtered_query.as_posix(),
-            outdir=self._output_directory.as_posix(),
-            hmms=[self.hmm],
-            prefix="",
-            relabel=False,
-            nocdhit=True,
-            noduplicates=False,
-            relabel_prefixes=None,
-            maxsizes=[None],
-            minseqlength=self.minimum_sequence_length,
-            maxseqlength=self.maximum_sequence_length,
-            hmmsearch_args=self.hmmsearch_args,
-            logfile=self._logfile,
-        )
-        makedatabase.run(database_args)
+        
+        if self.hmm is not None:
+            database_args = CommandArgs(
+                data=self._out_filtered_query,
+                outdir=self._output_directory,
+                outfile=self._out_filtered_query,
+                hmms=[self.hmm],
+                prefix="",
+                relabel=False,
+                nocdhit=True,
+                noduplicates=False,
+                relabel_prefixes=None,
+                maxsizes=[None],
+                minseqlength=self.minimum_sequence_length,
+                maxseqlength=self.maximum_sequence_length,
+                hmmsearch_args=self.hmmsearch_args,
+                logfile=self._logfile,
+            )
+            makedatabase.run(database_args)
 
 
 class QueryLabeller:
@@ -289,6 +310,7 @@ class QueryLabeller:
         maximum_placement_distance: float = 1.0,
         distance_measure: str = "pendant_diameter_ratio",
         minimum_placement_lwr: float = 0.8,
+        skip_preprocessing: bool = False,
         logfile: Path = None,
     ):
         """Place queries onto reference tree and assign function and taxonomy
@@ -307,6 +329,7 @@ class QueryLabeller:
             distance_measure (str, optional): choose distance measure for placements: "pendant_diameter_ratio",
                 "pendant_distal_ratio" or "pendant". Defaults to "pendant_diameter_ratio".
             minimum_placement_lwr (float, optional): cutoff value for the LWR of placements. Defaults to 0.8.
+            skip_preprocessing (bool, optional): skip preprocessing of query sequences. Defaults to False.
             logfile (Path, optional): path to logfile. Defaults to None.
         """
         self.input_query = Path(input_query).resolve()
@@ -328,10 +351,13 @@ class QueryLabeller:
         self.maximum_placement_distance = maximum_placement_distance
         self.distance_measure = distance_measure
         self.minimum_placement_lwr = minimum_placement_lwr
-
-        self.out_cleaned_query = Path(
-            self.output_directory / "query_cleaned.faa"
-        ).resolve()
+        self.skip_preprocessing = skip_preprocessing
+        if not self.skip_preprocessing:
+            self.out_cleaned_query = Path(
+                self.output_directory / "query_cleaned.faa"
+            ).resolve()
+        else:
+            self.out_cleaned_query = self.input_query
         self.out_query_labels = self.output_directory / "query_cleaned_id_dict.pickle"
 
         self._place_outdir = self.output_directory / "placements"
@@ -406,24 +432,24 @@ class QueryLabeller:
 
     def run(self) -> None:
         """Run pipeline to annotate query sequences through evolutionary placement."""
-        preprocess_args = CommandArgs(
-            data=self.input_query.as_posix(),
-            outfile=self.out_cleaned_query.as_posix(),
-            translate=True,
-            dna=False,
-            relabel=True,
-            idprefix="query_",
-            export_dup=True,
-            duplicate_method="seqkit",
-            logfile=self._logfile,
-        )
-        preprocess.run(preprocess_args)
+        if not self.skip_preprocessing:
+            preprocess_args = CommandArgs(
+                data=self.input_query,
+                outfile=self.out_cleaned_query,
+                translate=True,
+                dna=False,
+                relabel=True,
+                idprefix="query_",
+                export_dup=True,
+                logfile=self._logfile,
+            )
+            preprocess.run(preprocess_args)
 
         place_args = CommandArgs(
-            aln=self.reference_alignment.as_posix(),
-            tree=self.reference_tree.as_posix(),
-            query=self.out_cleaned_query.as_posix(),
-            outdir=self._place_outdir.as_posix(),
+            aln=self.reference_alignment,
+            tree=self.reference_tree,
+            query=self.out_cleaned_query,
+            outdir=self._place_outdir,
             aln_method=self.alignment_method,
             tree_model=self.tree_model,
             logfile=self._logfile,
@@ -431,14 +457,14 @@ class QueryLabeller:
         placesequences.run(place_args)
 
         assign_args = CommandArgs(
-            jplace=self._jplace.as_posix(),
+            jplace=self._jplace,
             labels=self.reference_labels,
-            query_labels=[self.out_query_labels.as_posix()],
-            ref_clusters=self.tree_clusters.as_posix(),
-            ref_cluster_scores=self.tree_cluster_scores.as_posix(),
+            query_labels=[self.out_query_labels],
+            ref_clusters=self.tree_clusters,
+            ref_cluster_scores=self.tree_cluster_scores,
             outgroup=None,
             prefix="placed_tax_",
-            outdir=self._assign_outdir.as_posix(),
+            outdir=self._assign_outdir,
             max_distance=self.maximum_placement_distance,
             distance_measure=self.distance_measure,
             minimum_lwr=self.minimum_placement_lwr,
@@ -453,7 +479,7 @@ class QueryLabeller:
             taxlevels=["genus", "family", "order", "class", "phylum"],
             cluster_ids=None,
             score_threshold=self.tree_cluster_score_threshold,
-            outdir=self._count_outdir.as_posix(),
+            outdir=self._count_outdir,
             outprefix=None,
             export_right_queries=True,
             logfile=self._logfile,
@@ -461,8 +487,8 @@ class QueryLabeller:
         countplacements.run(count_args)
 
         relabel_args = CommandArgs(
-            tree=self._out_placements_tree.as_posix(),
-            labels=self.reference_labels + [self.out_query_labels.as_posix()],
+            tree=self._out_placements_tree,
+            labels=self.reference_labels + [self.out_query_labels],
             labelprefixes=["ref_", "query_"],
             taxonomy=True,
             aln=None,
