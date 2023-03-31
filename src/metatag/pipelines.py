@@ -197,7 +197,7 @@ class QueryProcessor:
     def __init__(
         self,
         input_query: Path,
-        hmm: Path = None,
+        hmms: list[Path] = None,
         minimum_sequence_length: int = 30,
         maximum_sequence_length: int = None,
         idprefix: str = "query_",
@@ -212,7 +212,7 @@ class QueryProcessor:
 
         Args:
             input_query (Path): path to query sequences
-            hmm (Path, optional): path to HMM to prefilter query sequences. Defaults to None.
+            hmms (list[Path], optional): list of paths to HMMs to prefilter query sequences. Defaults to None.
             minimum_sequence_length (int, optional): minimum length for sequences to be kept. Defaults to 30.
             maximum_sequence_length (int, optional): maximum length for sequences to be kept. Defaults to None.
             idprefix (str, optional): prefix for sequence IDs. Defaults to "query_".
@@ -223,10 +223,10 @@ class QueryProcessor:
             logfile (Path, optional): path to logfile. Defaults to None.
         """
         self.input_query = Path(input_query).resolve()
-        if hmm is not None:
-            self.hmm = Path(hmm).resolve()
+        if hmms is not None:
+            self.hmms = [Path(hmm).resolve() for hmm in hmms]
         else:
-            self.hmm = None
+            self.hmms = None
         self.hmmsearch_args = hmmsearch_args
         self.minimum_sequence_length = minimum_sequence_length
         self.maximum_sequence_length = maximum_sequence_length
@@ -273,18 +273,18 @@ class QueryProcessor:
         )
         preprocess.run(preprocess_args)
 
-        if self.hmm is not None:
+        if self.hmms is not None:
             database_args = CommandArgs(
                 data=self._out_filtered_query,
                 outdir=self._output_directory,
                 outfile=self._out_filtered_query,
-                hmms=[self.hmm],
+                hmms=self.hmms,
                 prefix="",
                 relabel=False,
                 nocdhit=True,
                 noduplicates=False,
                 relabel_prefixes=None,
-                maxsizes=[None],
+                maxsizes=None,
                 minseqlength=self.minimum_sequence_length,
                 maxseqlength=self.maximum_sequence_length,
                 hmmsearch_args=self.hmmsearch_args,
@@ -313,7 +313,6 @@ class QueryLabeller:
         maximum_placement_distance: float = 1.0,
         distance_measure: str = "pendant_diameter_ratio",
         minimum_placement_lwr: float = 0.8,
-        skip_preprocessing: bool = False,
         logfile: Path = None,
     ):
         """Place queries onto reference tree and assign function and taxonomy
@@ -340,8 +339,6 @@ class QueryLabeller:
                 "pendant_distal_ratio" or "pendant". Defaults to "pendant_diameter_ratio".
             minimum_placement_lwr (float, optional): cutoff value for the LWR of
                 placements. Defaults to 0.8.
-            skip_preprocessing (bool, optional): skip preprocessing of query sequences.
-                Defaults to False.
             logfile (Path, optional): path to logfile. Defaults to None.
         """
         self.input_query = Path(input_query).resolve()
@@ -369,15 +366,10 @@ class QueryLabeller:
         self.maximum_placement_distance = maximum_placement_distance
         self.distance_measure = distance_measure
         self.minimum_placement_lwr = minimum_placement_lwr
-        self.skip_preprocessing = skip_preprocessing
-        if not self.skip_preprocessing:
-            self.out_cleaned_query = Path(
-                self.output_directory / "query_cleaned.faa"
-            ).resolve()
-        else:
-            self.out_cleaned_query = self.input_query
+        self.out_cleaned_query = Path(
+            self.output_directory / "query_cleaned.faa"
+        ).resolve()
         self.out_query_labels = self.output_directory / "query_cleaned_id_dict.pickle"
-
         self._place_outdir = self.output_directory / "placements"
         self._place_outdir.mkdir(parents=True, exist_ok=True)
 
@@ -450,18 +442,17 @@ class QueryLabeller:
 
     def run(self) -> None:
         """Run pipeline to annotate query sequences through evolutionary placement."""
-        if not self.skip_preprocessing:
-            preprocess_args = CommandArgs(
-                data=self.input_query,
-                outfile=self.out_cleaned_query,
-                translate=True,
-                dna=False,
-                relabel=True,
-                idprefix="query_",
-                export_dup=True,
-                logfile=self._logfile,
-            )
-            preprocess.run(preprocess_args)
+        preprocess_args = CommandArgs(
+            data=self.input_query,
+            outfile=self.out_cleaned_query,
+            translate=True,
+            dna=False,
+            relabel=True,
+            idprefix="query_",
+            export_dup=True,
+            logfile=self._logfile,
+        )
+        preprocess.run(preprocess_args)
 
         place_args = CommandArgs(
             aln=self.reference_alignment,
