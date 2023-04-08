@@ -108,7 +108,7 @@ class TaxonomyAssigner:
         return ";".join(lowest_tax)
 
     def _extract_genome_id_from_label(self, label: str) -> str:
-        genome_id = LabelParser.extract_genome_id(label)
+        genome_id = LabelParser(label).extract_genome_id()
         return genome_id
 
     def assign_taxonomy_to_label(self, label: str) -> str:

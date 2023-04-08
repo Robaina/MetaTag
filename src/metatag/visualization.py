@@ -22,8 +22,10 @@ def make_feature_metadata_table(
     https://github.com/biocore/empress/issues/548
 
     Args:
-        label_dict (dict): dictionary of sequence short IDs and labels
-        output_tsv (Path): path to output tsv file
+        label_dict (dict): dictionary of sequence short IDs and labels.
+            Reference sequences should be prefixed with "ref_", and
+            query sequences should be prefixed with "query_".
+        output_tsv (Path): path to output tsv file with metadata table.
         original_labels (bool, optional): whether to include original
             long labels in tree. Defaults to True.
     """

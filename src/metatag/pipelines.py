@@ -7,6 +7,7 @@ Pre-set pipelines to infer trees and place and label env sequences
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 
 from metatag.scripts import (
@@ -20,6 +21,7 @@ from metatag.scripts import (
 )
 from metatag.utils import CommandArgs
 
+logger = logging.getLogger(__name__)
 
 class ReferenceTreeBuilder:
     """
@@ -42,6 +44,7 @@ class ReferenceTreeBuilder:
         tree_method: str = "fasttree",
         tree_model: str = "iqtest",
         msa_method: str = "muscle",
+        skip_preprocess: bool = False,
         logfile: Path = None,
     ):
         """Reconstruct reference phylogenetic tree from sequence database and hmms
@@ -64,6 +67,7 @@ class ReferenceTreeBuilder:
                 or a valid substitution model name (compatible with EPA-ng). Defaults to "iqtest".
             msa_method (str, optional): choose msa method for reference database: "muscle" or "mafft".
                 Defaults to "muscle".
+            skip_preprocess (bool, optional): whether to skip preprocessing step. Defaults to False.
             logfile (Path, optional): path to logfile. Defaults to None.
         """
         self.input_database = Path(input_database).resolve()
@@ -95,6 +99,7 @@ class ReferenceTreeBuilder:
             self._output_directory / "ref_database_id_dict.pickle"
         )
         self.out_tree_model = None
+        self.skip_preprocess = skip_preprocess
         self._logfile = logfile
 
     @property
@@ -134,18 +139,20 @@ class ReferenceTreeBuilder:
 
     def run(self) -> None:
         """Run pipeline to build reference tree."""
-
-        preprocess_args = CommandArgs(
-            data=self.input_database,
-            outfile=self._out_cleaned_database,
-            translate=self.translate,
-            dna=self.translate,
-            export_dup=self.remove_duplicates,
-            relabel=False,
-            idprefix=None,
-            logfile=self._logfile,
-        )
-        preprocess.run(preprocess_args)
+        if not self.skip_preprocess:
+            preprocess_args = CommandArgs(
+                data=self.input_database,
+                outfile=self._out_cleaned_database,
+                translate=self.translate,
+                dna=self.translate,
+                export_dup=self.remove_duplicates,
+                relabel=False,
+                idprefix=None,
+                logfile=self._logfile,
+            )
+            preprocess.run(preprocess_args)
+        if not self._out_cleaned_database.exists():
+            logger.error("Please, first run preprocess step by setting 'skip_preprocess=False'.")
 
         database_args = CommandArgs(
             data=self._out_cleaned_database,
@@ -434,6 +441,11 @@ class QueryLabeller:
     def taxtable(self) -> Path:
         """Path to output file with taxonomic assignments."""
         return self._out_taxtable
+    
+    @property
+    def query_labels(self) -> Path:
+        """Path to output file with query labels."""
+        return self.out_query_labels
 
     @property
     def logfile(self) -> Path:
