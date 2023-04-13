@@ -8,8 +8,6 @@ Tools to parse sequence labels from different databases
 import re
 import warnings
 
-import pandas as pd
-
 
 class LabelParser:
     def __init__(self, label: str) -> None:
@@ -38,7 +36,7 @@ class LabelParser:
         else:
             genome_id = self.extract_oceanmicrobiome_id()
         return genome_id
-    
+
     def extract_mmp_id(self) -> str:
         """Extract MMP ID from sequence label
 
@@ -50,7 +48,7 @@ class LabelParser:
             return re.search(db_entry, self._label).group(0).strip("_")
         except Exception:
             return ""
-        
+
     def extract_taxid(self) -> str:
         """Extract NCBI taxon ID from sequence label
 
@@ -62,7 +60,7 @@ class LabelParser:
             return f"taxid_{re.search(db_entry, self._label).group(2)}"
         except Exception:
             return ""
-        
+
     def extract_oceanmicrobiome_id(self) -> str:
         """Extract OceanMicrobiome ID from sequence label
 

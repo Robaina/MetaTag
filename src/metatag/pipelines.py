@@ -23,6 +23,7 @@ from metatag.utils import CommandArgs
 
 logger = logging.getLogger(__name__)
 
+
 class ReferenceTreeBuilder:
     """
     Reconstruct reference phylogenetic tree from sequence database and hmms
@@ -152,7 +153,9 @@ class ReferenceTreeBuilder:
             )
             preprocess.run(preprocess_args)
         if not self._out_cleaned_database.exists():
-            logger.error("Please, first run preprocess step by setting 'skip_preprocess=False'.")
+            logger.error(
+                "Please, first run preprocess step by setting 'skip_preprocess=False'."
+            )
 
         database_args = CommandArgs(
             data=self._out_cleaned_database,
@@ -441,7 +444,7 @@ class QueryLabeller:
     def taxtable(self) -> Path:
         """Path to output file with taxonomic assignments."""
         return self._out_taxtable
-    
+
     @property
     def query_labels(self) -> Path:
         """Path to output file with query labels."""
