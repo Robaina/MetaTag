@@ -12,7 +12,6 @@ Currently based on:
 
 import logging
 import shutil
-import warnings
 from pathlib import Path
 
 import metatag.wrappers as wrappers
@@ -97,7 +96,7 @@ def reduce_database_redundancy(
     else:
         output_fasta = Path(output_fasta).resolve()
     if (not cdhit) and (maxsize is None):
-        warnings.warn("No reduction algorithm has been selected.")
+        logger.info("No reduction algorithm has been selected.")
 
     with TemporaryFilePath() as tempaln, TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2, TemporaryFilePath() as tempident:
         if cdhit:

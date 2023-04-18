@@ -9,9 +9,12 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import matplotlib
 import pandas as pd
 
 from metatag.database.labelparsers import LabelParser
+
+matplotlib.use("Agg")  # do not display figs in Jupyter
 
 
 class Taxopath:
@@ -105,7 +108,7 @@ class TaxonomyAssigner:
         return ";".join(lowest_tax)
 
     def _extract_genome_id_from_label(self, label: str) -> str:
-        genome_id = LabelParser.extract_genome_id(label)
+        genome_id = LabelParser(label).extract_genome_id()
         return genome_id
 
     def assign_taxonomy_to_label(self, label: str) -> str:
@@ -218,7 +221,7 @@ class TaxonomyCounter:
         output_tsv: Path = None,
         plot_type: str = "bar",
         output_pdf: Path = None,
-    ) -> pd.DataFrame:
+    ) -> None:
         """Compute counts and fraction at specified taxonomy levels
 
         Args:
@@ -243,27 +246,25 @@ class TaxonomyCounter:
             counts = counts.drop(labels=empty_tax_level)
 
         counts.index.name = taxlevel
-        # Add fraction
         df = counts.to_frame(name="counts")
         df["fraction"] = df.counts.apply(lambda x: x / df.counts.sum())
         if output_tsv is not None:
             df.to_csv(output_tsv, sep="\t")
-        # Make figure
-        fig = self.plot_counts(
-            df,
-            plot_type=plot_type,
-            output_pdf=output_pdf,
-            title=f"Taxonomy at level: {taxlevel}",
-        )
-        return df, fig
+        if output_pdf is not None:
+            self.plot_counts(
+                df,
+                plot_type=plot_type,
+                output_pdf=output_pdf,
+                title=f"Taxonomy at level: {taxlevel}",
+            )
 
     def plot_counts(
         self,
         count_data: pd.DataFrame,
+        output_pdf: Path,
         plot_type: str = "bar",
-        output_pdf: Path = None,
         title: str = None,
-    ):
+    ) -> None:
         """Make (and optionally export) barplot ('bar') or pieplot ('pie')
         figure depicting counting results at specified taxonomic level
 
@@ -275,20 +276,14 @@ class TaxonomyCounter:
             output_pdf (Path, optional): path to output pdf containing figure.
                 Defaults to None.
             title (str, optional): figure title. Defaults to None.
-
-        Returns:
-            _type_: _description_
         """
         if title is None:
             title = ""
         if plot_type == "pie":
-            fig = count_data.counts.plot.pie(
+            count_data.counts.plot.pie(
                 figsize=(15, 15), title=title, rotatelabels=True
-            ).get_figure()
+            ).get_figure().savefig(output_pdf, format="pdf")
         else:
-            fig = count_data.counts.plot.bar(
+            count_data.counts.plot.bar(
                 figsize=(15, 15), title=title, rot=90
-            ).get_figure()
-        if output_pdf is not None:
-            fig.savefig(output_pdf, format="pdf")
-        return fig
+            ).get_figure().savefig(output_pdf, format="pdf")

@@ -53,6 +53,10 @@ conda activate metatag
 ```
 It should produce a final tree with query sequences placed on it, as well as a bunch of intermediary files without any errors.
 
+## :rocket: Usage
+There are two main ways to use MetaTag: through the command line interface (CLI) or through the Python API. You can find an example of the API usage in the following Notebook:
+
+* [MetaTag API example](examples/example_api.ipynb)
 
 ## :arrows_counterclockwise: Dependencies
 MetaTag would not work without these awesome projects:
@@ -65,8 +69,13 @@ MetaTag would not work without these awesome projects:
 - [epa-ng](https://github.com/Pbdas/epa-ng)
 - [gappa](https://github.com/lczech/gappa)
 - [empress](https://github.com/biocore/empress)
-- [muscle](https://github.com/biocore/empress)
-- [mafft](https://github.com/biocore/empress)
+- [muscle](https://github.com/rcedgar/muscle)
+- [mafft](https://github.com/GSLBiotech/mafft)
+- [iqtree](https://github.com/Cibiv/IQ-TREE)
+- [fasttree](https://github.com/PavelTorgashov/FastTree)
+- [cd-hit](https://github.com/weizhongli/cdhit)
+- [repset](https://onlinelibrary.wiley.com/doi/10.1002/prot.25461)
+- [seqkit](https://github.com/shenwei356/seqkit)
 - [numpy](https://github.com/numpy/numpy)
 - [pandas](https://github.com/pandas-dev/pandas)
 - [psutil](https://github.com/giampaolo/psutil)

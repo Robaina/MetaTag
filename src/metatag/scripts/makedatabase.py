@@ -66,6 +66,13 @@ def initialize_parser() -> argparse.ArgumentParser:
         help="path to output directory",
     )
     optional.add_argument(
+        "--outfile",
+        dest="outfile",
+        type=Path,
+        default=None,
+        help="path to output file containing reference database",
+    )
+    optional.add_argument(
         "--prefix",
         dest="prefix",
         type=str,
@@ -187,7 +194,10 @@ def run(args: argparse.ArgumentParser) -> None:
     args.outdir = Path(args.outdir).resolve()
     if not args.outdir.exists():
         args.outdir.mkdir(exist_ok=True, parents=True)
-    output_fasta = args.outdir / f"{args.prefix}ref_database.faa"
+    if args.outfile is None:
+        output_fasta = args.outdir / f"{args.prefix}ref_database.faa"
+    else:
+        output_fasta = Path(args.outfile).resolve()
     output_pickle_short_ids = args.outdir / f"{args.prefix}ref_database_id_dict.pickle"
     if args.hmmsearch_args is None:
         args.hmmsearch_args = ",".join(["None" for _ in args.hmms])
@@ -212,7 +222,13 @@ def run(args: argparse.ArgumentParser) -> None:
             )
             hmmer_output = args.outdir / f"hmmer_output_{hmm_name}.txt"
 
-            with tempfile.NamedTemporaryFile() as tempfasta, tempfile.NamedTemporaryFile() as tempfasta2, tempfile.NamedTemporaryFile() as tempfasta3:
+            with tempfile.NamedTemporaryFile(
+                delete=False
+            ) as tempfasta, tempfile.NamedTemporaryFile(
+                delete=False
+            ) as tempfasta2, tempfile.NamedTemporaryFile(
+                delete=False
+            ) as tempfasta3:
                 filter_fasta_by_hmm(
                     hmm_model=hmm,
                     input_fasta=args.data,
@@ -270,6 +286,13 @@ def run(args: argparse.ArgumentParser) -> None:
             DictMerger.from_pickle_paths(pickle_dict_paths).merge(
                 save_pickle_path=output_pickle_short_ids
             )
+        try:
+            Path(tempfasta.name).unlink()
+            Path(tempfasta2.name).unlink()
+            Path(tempfasta3.name).unlink()
+        except OSError as e:
+            logger.warning(f"Could not delete temporary files: {e}")
+
     logger.info("Done!")
     logging.shutdown()
 

@@ -22,8 +22,10 @@ def make_feature_metadata_table(
     https://github.com/biocore/empress/issues/548
 
     Args:
-        label_dict (dict): dictionary of sequence short IDs and labels
-        output_tsv (Path): path to output tsv file
+        label_dict (dict): dictionary of sequence short IDs and labels.
+            Reference sequences should be prefixed with "ref_", and
+            query sequences should be prefixed with "query_".
+        output_tsv (Path): path to output tsv file with metadata table.
         original_labels (bool, optional): whether to include original
             long labels in tree. Defaults to True.
     """
@@ -36,19 +38,17 @@ def make_feature_metadata_table(
     df.to_csv(output_tsv, sep="\t")
 
 
-def plot_tree_in_browser(
+def make_tree_html(
     input_tree: Path, output_dir: Path = None, feature_metadata: Path = None
 ) -> None:
     """Runs empress tree-plot
-    input_tree: tree in newick format
-    feature_metadata: path to tsv file containing feature metadata
-    empress: https://github.com/biocore/empress
+    empress:  https://github.com/biocore/empress
 
     Args:
-        input_tree (Path): path to tree in newick format
-        output_dir (Path, optional): path to output directory. Defaults to None.
-        feature_metadata (Path, optional): path to fieature metadata
-            table as output by make_feature_metadata_table. Defaults to None.
+    input_tree (Path): path to tree in newick format
+    output_dir (Path, optional): path to output directory. Defaults to None.
+    feature_metadata (Path, optional): path to fieature metadata
+        table as output by make_feature_metadata_table. Defaults to None.
     """
     input_tree = Path(input_tree).resolve()
     if output_dir is None:
@@ -59,6 +59,21 @@ def plot_tree_in_browser(
         meta_str = f"-fm {feature_metadata}"
     else:
         meta_str = ""
-    cmd_str = f"empress tree-plot -t {input_tree} -o {output_dir} {meta_str}"
-    terminal_execute(cmd_str, suppress_shell_output=True)
-    webbrowser.open_new_tab(output_dir / "empress.html")
+    cmd_str = f"empress tree-plot -t {input_tree} {meta_str} -o {output_dir}"
+    terminal_execute(cmd_str, suppress_shell_output=False)
+
+
+def plot_tree_in_browser(
+    input_tree: Path, output_dir: Path = None, feature_metadata: Path = None
+) -> None:
+    """Runs empress tree-plot and opens generated html in browser
+    empress: https://github.com/biocore/empress
+
+    Args:
+        input_tree (Path): path to tree in newick format
+        output_dir (Path, optional): path to output directory. Defaults to None.
+        feature_metadata (Path, optional): path to fieature metadata
+            table as output by make_feature_metadata_table. Defaults to None.
+    """
+    make_tree_html(input_tree, output_dir, feature_metadata)
+    webbrowser.open_new_tab((output_dir / "empress.html").as_posix())

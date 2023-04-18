@@ -156,7 +156,7 @@ def filter_fasta_by_hmm(
     )
     logger.info("Parsing Hmmer output file...")
     hmmer_hits = parse_hmmsearch_output(hmmer_output)
-    if not hmmer_hits.id.values.tolist():
+    if (hmmer_hits.empty) or (not hmmer_hits.id.values.tolist()):
         logger.error("No records found in database matching provided hmm")
         sys.exit(1)
     logger.info("Filtering Fasta...")

@@ -8,25 +8,24 @@ Tools to parse sequence labels from different databases
 import re
 import warnings
 
-import pandas as pd
-
 
 class LabelParser:
-    def __init__(self) -> None:
-        """
-        Parse labels to extract genome ID and metadata
-        """
-        return None
+    def __init__(self, label: str) -> None:
+        """Parse labels to extract genome ID and metadata
 
-    @staticmethod
-    def extract_genome_id(label: str) -> str:
+        Args:
+            label (str): label to be parsed
+        """
+        self._label = label
+
+    def extract_genome_id(self) -> str:
         """Extract genome ID from sequence label
 
         Returns:
             str: Genome ID
         """
-        mmp_id = MARdbLabelParser.extract_mmp_id(label)
-        taxid = UniprotLabelParser.extract_ncbi_tax_id(label)
+        mmp_id = self.extract_mmp_id()
+        taxid = self.extract_taxid()
         if mmp_id and taxid:
             warnings.warn("Label contains conflicting genome IDs")
             return ""
@@ -35,130 +34,37 @@ class LabelParser:
         elif taxid:
             genome_id = taxid
         else:
-            genome_id_split = label.split("__")
-            if len(genome_id_split) > 1:
-                genome_id = genome_id_split[0]
-            else:
-                genome_id = ""
+            genome_id = self.extract_oceanmicrobiome_id()
         return genome_id
 
-    # @staticmethod
-    # def parse_meta_info(label: str) -> dict:
-    #     """
-    #     Parse meta information from label in canonical format
-    #     (i.e, contig, gene position, locus, strand)
-    #     """
-    #     try:
-    #         meta = label.split("__")[1]
-    #         strand = meta.split("_")[-1]
-    #         locus_pos = tuple([int(pos) for pos in meta.split("_")[-3:-1]])
-    #         gene_pos = int(meta.split("_")[-4])
-    #         contig = "_".join(meta.split("_")[:-4])
-    #     except Exception:
-    #         contig = None
-    #         gene_pos = None
-    #         locus_pos = None
-    #         strand = None
-
-    #     return {
-    #         "contig": contig,
-    #         "gene_pos": gene_pos,
-    #         "locus_pos": locus_pos,
-    #         "strand": strand,
-    #     }
-
-
-class UniprotLabelParser:
-    def __init__(self) -> None:
-        """
-        Parse UniProt entry label to extract coded info
-        """
-        return None
-
-    @staticmethod
-    def extract_ncbi_tax_id(label: str) -> str:
-        """Extract NCBI taxon id from reference label
-
-        Args:
-            label (str): Reference label
+    def extract_mmp_id(self) -> str:
+        """Extract MMP ID from sequence label
 
         Returns:
-            str: NCBI taxon id
-        """
-        db_entry = re.compile("(OX=)(\d+)")
-        try:
-            return f"taxid_{re.search(db_entry, label).group(2)}"
-        except Exception:
-            return ""
-
-
-class MARdbLabelParser:
-    def __init__(self) -> None:
-        """
-        Parse MARdb entry label to extract coded info
-        """
-        return None
-
-    @staticmethod
-    def extract_mmp_id(label: str) -> str:
-        """Extract mardb mmp id from reference label
-
-        Args:
-            label (str): Reference label
-
-        Returns:
-            str: MARdb MMP id
+            str: MMP ID
         """
         db_entry = re.compile("_MMP\d+")
         try:
-            return re.search(db_entry, label).group(0).strip("_")
+            return re.search(db_entry, self._label).group(0).strip("_")
         except Exception:
             return ""
 
-    def parse(self, label: str) -> dict:
-        """Parse MarDB sequence labels to obtain contig and locus info
-
-        Args:
-            label (str): MARdb sequence label
+    def extract_taxid(self) -> str:
+        """Extract NCBI taxon ID from sequence label
 
         Returns:
-            dict: dictionary with parsed label info
+            str: NCBI taxon ID
         """
-        parsed_dict = {
-            "full": label,
-            "species": "",
-            "mmp_id": "",
-            "contig": "",
-            "gene_pos": None,
-            "locus_pos": None,
-            "strand": "",
-        }
+        db_entry = re.compile("(OX=)(\d+)")
         try:
-            entry = label.split("__")[0]
-            mmp_id = self.extract_mmp_id(label)
-            species = entry.strip(mmp_id).strip("_")
-            meta = label.split("__")[1]
-            strand = meta.split("_")[-1]
-            locus_pos = tuple([int(pos) for pos in meta.split("_")[-3:-1]])
-            gene_pos = int(meta.split("_")[-4])
-            contig = "_".join(meta.split("_")[:-4])
-            parsed_dict["species"] = species
-            parsed_dict["mmp_id"] = mmp_id
-            parsed_dict["contig"] = contig
-            parsed_dict["gene_pos"] = gene_pos
-            parsed_dict["locus_pos"] = locus_pos
-            parsed_dict["strand"] = strand
+            return f"taxid_{re.search(db_entry, self._label).group(2)}"
         except Exception:
-            pass
-        return parsed_dict
+            return ""
 
-    def parse_from_list(self, labels: list) -> pd.DataFrame:
-        """Parse labels in list of labels and return DataFrame
-
-        Args:
-            labels (list): list of labels to parse
+    def extract_oceanmicrobiome_id(self) -> str:
+        """Extract OceanMicrobiome ID from sequence label
 
         Returns:
-            pd.DataFrame: dataframe with parsed labels
+            str: OceanMicrobiome ID
         """
-        return pd.DataFrame([self.parse(label) for label in labels])
+        return "_".join(self._label.split("_")[:4])

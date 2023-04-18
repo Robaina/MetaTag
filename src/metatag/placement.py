@@ -251,9 +251,12 @@ class TaxAssignParser:
         """
         self._tax_assign = pd.read_csv(tax_assign_path, sep="\t")
         self._tax_assign = self._tax_assign[self._tax_assign.cluster_id != "DISTANT"]
-        self._tax_assign.cluster_score = self._tax_assign.cluster_score.apply(
-            lambda x: float(x)
-        )
+        if "cluster_score" in self._tax_assign.columns:
+            self._tax_assign.cluster_score = self._tax_assign.cluster_score.apply(
+                lambda x: float(x)
+            )
+        else:
+            self._tax_assign["cluster_score"] = 1.0
         self._tax_assign.cluster_taxopath = self._tax_assign.cluster_taxopath.apply(
             lambda x: "Unspecified" if pd.isna(x) else x
         )
@@ -414,15 +417,16 @@ def parse_tree_cluster_quality_scores(cluster_scores_tsv: Path) -> dict:
 
 
 def add_clusters_to_tax_table(
-    in_taxtable: Path, clusters: dict, out_taxtable: Path = None
+    in_taxtable: Path, clusters: dict = None, out_taxtable: Path = None
 ) -> None:
     """Add tree cluster info at the beginning of each taxopath
     according to clusters defined in dictionary 'clusters'
 
     Args:
         in_taxtable (Path): path to taxonomy table
-        clusters (dict): dictionary with keys equal to cluster IDs
-            and values to lists of cluster members
+        clusters (dict, optionall): dictionary with keys equal to cluster IDs
+            and values to lists of cluster members. If None, then all sequences
+            are assumed to belong to the same cluster. Defaults to None.
         out_taxtable (Path, optional): path to output taxonomy table. Defaults to None.
     """
     if out_taxtable is None:
@@ -431,7 +435,7 @@ def add_clusters_to_tax_table(
         out_taxtable = Path(out_taxtable).resolve()
     taxtable = pd.read_csv(in_taxtable, sep="\t", header=None, dtype=str)
     for i, row in taxtable.iterrows():
-        row[1] = clusters[row[0]] + ";" + row[1]
+        row[1] = clusters[row[0]] if clusters is not None else "C0" + ";" + row[1]
     taxtable.to_csv(out_taxtable, sep="\t", index=False, header=None)
 
 
@@ -477,7 +481,9 @@ def parse_gappa_assign_table(
             if has_cluster_id:
                 elems = row.taxopath.split(";")
                 cluster_id = elems[0]
-                if cluster_id in clusters_taxopath.keys():
+                if (clusters_taxopath is not None) and (
+                    cluster_id in clusters_taxopath.keys()
+                ):
                     cluster_taxopath = clusters_taxopath[cluster_id]
                 else:
                     cluster_taxopath = ""
@@ -594,13 +600,14 @@ def assign_labels_to_placements(
         output_prefix = set_default_output_path(jplace, only_filename=True)
 
     if ref_clusters_file is not None:
-        has_cluster_id = True
+        defined_clusters = True
         ref_clusters = parse_tree_clusters(ref_clusters_file, cluster_as_key=False)
         ref_clusters_as_keys = parse_tree_clusters(
             ref_clusters_file, cluster_as_key=True
         )
     else:
-        has_cluster_id = False
+        defined_clusters = False
+        ref_clusters = None
 
     if ref_cluster_scores_file is not None:
         ref_cluster_scores = parse_tree_cluster_quality_scores(ref_cluster_scores_file)
@@ -622,11 +629,10 @@ def assign_labels_to_placements(
     with TemporaryFilePath() as temptax:
         taxonomy = TaxonomyAssigner(taxo_file=taxo_file)
         taxonomy.build_gappa_taxonomy_table(ref_labels, output_file=temptax)
-
-        if has_cluster_id:
-            add_clusters_to_tax_table(
-                in_taxtable=temptax, clusters=ref_clusters, out_taxtable=temptax
-            )
+        add_clusters_to_tax_table(
+            in_taxtable=temptax, clusters=ref_clusters, out_taxtable=temptax
+        )
+        if defined_clusters:
             clusters_taxopath = taxonomy.assign_lowest_common_taxonomy_to_clusters(
                 clusters=ref_clusters_as_keys, label_dict=ref_labels
             )
@@ -644,13 +650,13 @@ def assign_labels_to_placements(
     with TemporaryFilePath() as tempout, TemporaryFilePath() as tempout2, TemporaryFilePath() as tempout3:
         parse_gappa_assign_table(
             input_table=gappa_assign_out,
-            has_cluster_id=has_cluster_id,
+            has_cluster_id=True,
             cluster_scores=ref_cluster_scores,
             output_file=tempout,
             clusters_taxopath=clusters_taxopath,
         )
 
-        if only_unique_cluster:
+        if only_unique_cluster and defined_clusters:
             filter_non_unique_placement_assignments(
                 placed_tax_assignments=tempout, output_file=tempout2
             )
@@ -731,7 +737,7 @@ def add_duplicates_to_assignment_table(
 def find_queries_placed_in_several_clusters(
     placed_tax_assignments: Path,
 ) -> tuple[list, pd.DataFrame]:
-    """Find queries placed in more than one clusterrunGappaAssign
+    """Find queries placed in more than one cluster
 
     Args:
         placed_tax_assignments (Path): path to placed taxonomic assignments table

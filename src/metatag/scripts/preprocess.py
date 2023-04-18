@@ -135,7 +135,7 @@ def run(args: argparse.ArgumentParser) -> None:
 
     if args.dna:
         is_peptide = False
-    if not args.dna:
+    else:
         if fasta_contains_nucleotide_sequences(data_path):
             logger.info("Inferred data contain nucleotide sequences")
             is_peptide = False
