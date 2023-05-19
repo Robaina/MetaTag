@@ -65,7 +65,7 @@ It should produce a final tree with query sequences placed on it, as well as a b
 ## :rocket: Usage
 There are two main ways to use MetaTag: through the command line interface (CLI) or through the Python API. You can find an example of the API usage in the following Notebook:
 
-* [MetaTag API example](examples/example_api.ipynb)
+* [MetaTag API example](docs/examples/example_api.ipynb)
 
 ## :arrows_counterclockwise: Dependencies
 MetaTag would not work without these awesome projects:
