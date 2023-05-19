@@ -13,7 +13,7 @@
 
 ---
 ## :bulb: What is MetaTag?
-This repository contains tools to assign taxonomy and function annotations to short reads through pylogenetic tree evolutionary placement
+This repository contains tools to assign taxonomy and function annotations to short reads through pylogenetic tree evolutionary placement.
 
 ## :wrench: Setup
 The easiest way to use MetaTag is through the provided [docker](https://www.docker.com/) container. To use it, pull the image:
@@ -51,6 +51,13 @@ To check that everything is working properly, you can run a test what will perfo
 conda activate metatag
 (metatag) bash tests/run_test.sh
 ```
+
+or through Python's unittest module:
+```bash
+conda activate metatag
+(metatag) python -m unittest tests/test_pipeline.py
+```
+
 It should produce a final tree with query sequences placed on it, as well as a bunch of intermediary files without any errors.
 
 ## :rocket: Usage
