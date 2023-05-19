@@ -11,6 +11,8 @@
 ![license](https://img.shields.io/github/license/Robaina/MetaTag)
 ![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 
+[![DOI](https://zenodo.org/badge/379663963.svg)](https://zenodo.org/badge/latestdoi/379663963)
+
 ---
 ## :bulb: What is MetaTag?
 This repository contains tools to assign taxonomy and function annotations to short reads through pylogenetic tree evolutionary placement.
