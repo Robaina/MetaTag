@@ -1,21 +1,25 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 authors:
-  - family-names: "Robaina Estévez"
+  - 
+    family-names: "Robaina Estévez"
     given-names: "Semidán"
     orcid: "https://orcid.org/0000-0003-0781-1677"
     affiliation: "Department of Microbiology. University of La Laguna. Spain"
     email: "srobaina@ull.edu.es"
-  - family-names: "Fernández González"
+  - 
+    family-names: "Fernández González"
     given-names: "Nuria"
     orcid: "https://orcid.org/0000-0002-7468-9643"
     affiliation: "Microbiome Analysis Laboratory. CNB-CSIC. Spain."
     email: "nfernandez@cnb.csic.es"
-  - family-names: "González Hernández"
+  - 
+    family-names: "González Hernández"
     given-names: "José Manuel"
     orcid: "https://orcid.org/0000-0002-9926-3323"
     affiliation: "Department of Microbiology. University of La Laguna. Spain"
     email: "jmglezh@ull.edu.es"
+
 title: Robaina/MetaTag: "metaTag: functional and taxonomical annotation of metagenomes through phylogenetic tree placement"
 version: v0.1.1
 doi: 10.5281/zenodo.7949949
