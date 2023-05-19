@@ -2,62 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://robaina.github.io/MetaTag/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/MetaTag/subcommands/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/MetaTag/examples/example_api/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/MetaTag/references/api/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/MetaTag/subcommands/assign/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/MetaTag/subcommands/count/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/MetaTag/subcommands/database/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/MetaTag/subcommands/place/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/MetaTag/subcommands/plot/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/MetaTag/subcommands/preprocess/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/MetaTag/subcommands/relabel/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/MetaTag/subcommands/tree/</loc>
-         <lastmod>2023-04-18</lastmod>
+         <lastmod>2023-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
