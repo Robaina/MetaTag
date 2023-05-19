@@ -94,3 +94,13 @@ Thanks!
 ## :octocat: Contributing
 
 Contributions are always welcome! If you don't know where to start, you may find an interesting [issue to work in here](https://github.com/Robaina/MetaTag/issues). Please, read our [contribution guidelines](CONTRIBUTING.md) first.
+
+## :black_nib: Citation
+
+If you use MetaTag in your research, please cite it as follows:
+
+> Robaina Estévez, S., Fernández González, N., & González Hernández, J. M. (2023). metaTag: functional and taxonomical annotation of metagenomes through phylogenetic tree placement (Version v0.1.1) [Computer software]. https://doi.org/10.5281/zenodo.7949949
+
+## :page_facing_up: License
+
+This project is licensed under the terms of the [Apache 2.0 license](LICENSE.md).
