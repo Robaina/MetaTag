@@ -145,8 +145,9 @@ class MetaTag:
     def cite():
         """Print MetaTag's citation string"""
         citation = (
-            "Semidán Robaina Estévez (2022). MetaTag: Metagenome functional and taxonomical annotation through phylogenetic tree placement."
-            f"(Version {__version__}). Zenodo."
+            "Robaina Estévez, S., Fernández González, N., & González Hernández, J. M. (2023). "
+            "metaTag: functional and taxonomical annotation of metagenomes through phylogenetic tree placement "
+            f"(Version {__version__}) [Computer software]. https://doi.org/10.5281/zenodo.7949949"
         )
         print("If you use this software, please cite it as below: ")
         print(citation)
